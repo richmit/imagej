@@ -3,6 +3,9 @@
 
 // Invert an image.  The new greyscale image is created in a new window, and the original image is untouched.
 
+// This is a supper silly example as invert is built into ImageJ -- the [I] keybinding.  Still, I like having this one because it creates a new image holding
+// the inverse.
+
 function main() {
   if (Packages.ij.WindowManager.getWindowCount() <= 0) {
     Packages.ij.IJ.showMessage("ERROR(Invert_Image.js): No images are open!");
