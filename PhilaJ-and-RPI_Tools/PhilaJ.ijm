@@ -724,7 +724,7 @@ function roiManagerCleanup() {
         }
       }
     }
-    // TODO: Look for pfHole ROIs without matching pfLine ROIs
+    // Delete pfHole ROIs without matching pfLine ROIs
     pfHoleROIs = roiManagerMatchingNames("pfHole[0-9][0-9][0-9][0-9](_.+)?");
     if (pfHoleROIs.length > 0) {
       for(i=0; i<pfHoleROIs.length; i++) {
@@ -3845,7 +3845,7 @@ function centeringReport() {
 
   plu = getImageScaleUnits("WARN");
 
-  roiManagerActivateOrCreate("design", "Identify Design Edges", "Select the design edges", false, roiNameToMultiPattern("design"));
+  roiManagerActivateOrCreate("design", "Identify Design Edges", "Select the design edges", true, roiNameToMultiPattern("design"));
   designROIname = Roi.getName;
 
   Roi.getBounds(designX, designY, designWidth, designHeight);
@@ -3858,7 +3858,7 @@ function centeringReport() {
   expectedPaperROInamePattern = "(^" + expectedPaperROIname + "(-.+)?$)";
 
   run("Select None");
-  roiManagerActivateOrCreate(expectedPaperROIname, "Identify Paper Edges", "Select the paper boundary", true, expectedPaperROInamePattern);
+  roiManagerActivateOrCreate(expectedPaperROIname, "Identify Paper Edges", "Select the paper boundary", false, expectedPaperROInamePattern);
   paperROIname = Roi.getName;
 
   if (selectionType != 0)
