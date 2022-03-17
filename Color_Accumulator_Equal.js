@@ -8,20 +8,21 @@
 function main() {
 
   if (Packages.ij.WindowManager.getWindowCount() <= 0) {
-    Packages.ij.IJ.showMessage("ERROR(Color_Accumulator.js): No images are open!");
+    Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_Equal.js): No images are open!");
     return false;
   }
 
   var srcImg = Packages.ij.IJ.getImage();
   var roi    = srcImg.getRoi();
   if ( !(roi)) {        
-	Packages.ij.IJ.showMessage("ERROR(Color_Accumulator.js): No ROI!");
+	Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_Equal.js): No ROI!");
     return false;
   } 
 
   roiPoints = roi.getContainedPoints();
+  print("INFO(Color_Accumulator_Equal.js): Pixels in region:" + roiPoints.length);
   if (roiPoints.length <= 0) {
-	Packages.ij.IJ.showMessage("ERROR(Color_Accumulator.js): Empty ROI!");
+	Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_Equal.js): Empty ROI!");
     return false;
   }
 
@@ -33,7 +34,8 @@ function main() {
   var colorSet  = new java.util.HashSet();
 
   for (var i=0; i<roiPoints.length; i++)
-    colorSet.add(srcPix[roiPoints[i].x + srcWidth * roiPoints[i].y]);
+    colorSet.add(srcPix[roiPoints[i].x + srcWidth * roiPoints[i].y] & 0xFFFFFF);
+  print("INFO(Color_Accumulator_Equal.js): Colors in region:" + colorSet.size());
 
   if (accImg) {
     var accPro    = accImg.getProcessor();
@@ -41,7 +43,7 @@ function main() {
     var accWidth  = accPro.getWidth(); 
     var accHeight = accPro.getHeight();
     if ((accWidth != srcWidth) || (accHeight != srcHeight)) {
-	  Packages.ij.IJ.showMessage("ERROR(Color_Accumulator.js): Active image and Accumulator sizes differ!");
+	  Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_Equal.js): Active image and Accumulator sizes differ!");
       return false;
     }
   } else {
@@ -53,7 +55,7 @@ function main() {
 
   accPro.snapshot();
   for (var i=0; i <accPix.length; i++)
-    if (colorSet.contains(srcPix[i]))
+    if (colorSet.contains(srcPix[i] & 0xFFFFFF))
       accPix[i] = srcPix[i];
 
   if (accImg) {
@@ -69,4 +71,4 @@ function main() {
 
 var startSecond = Date.now();
 mainResult = main();
-print("INFO(Color_Accumulator.js): Complete! (" + ((Date.now()-startSecond)/1000.0) + " sec)");
+print("INFO(Color_Accumulator_Equal.js): Complete! (" + ((Date.now()-startSecond)/1000.0) + " sec)");
