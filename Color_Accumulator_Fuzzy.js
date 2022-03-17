@@ -2,7 +2,10 @@
 // THING=IJSCRIPT INSTALL_DIR=MJR OWNER=MJR
 
 // Copies pixels from a source image to an "ColorAccumulator" image that are "near" the average pixel color in the current ROI.
+// Two colors, $X$ & $Y$, are near if $\vert X_i - Y_i \vert \le W$ for all channels $i$ and a box width of $W$.
 // Requires an RGB image.
+// TODO: Add code for greyscale images
+// TODO: Add distance metric in other color spaces -- HSV
 
 function main() {
   if (Packages.ij.WindowManager.getWindowCount() <= 0) {
@@ -32,6 +35,16 @@ function main() {
   var srcPix    = srcPro.getPixels();
   var srcWidth  = srcPro.getWidth(); 
   var srcHeight = srcPro.getHeight();
+
+
+  var gd2 = new Packages.ij.gui.GenericDialog("Color Accumulator Fuzzy");
+  gd2.addNumericField("Cube Width: ", 20, 0, 5, "");
+  gd2.showDialog();
+
+  if (gd2.wasCanceled())
+    return;
+
+  var cubeSize = Math.round(gd2.getNextNumber());
 
   var rAvg = 0.0;
   var gAvg = 0.0;
@@ -70,7 +83,9 @@ function main() {
   accPro.snapshot();
   for (var i = 0; i < accPix.length; i++) {
     var rgbv = srcPix[i];
-    if ((Math.abs(((rgbv >> 16) & 0xff) - rAvg) + Math.abs(((rgbv >>  8) & 0xff) - gAvg) + Math.abs(((rgbv >>  0) & 0xff) - bAvg)) < 20)
+    if ((Math.abs(((rgbv >> 16) & 0xff) - rAvg) <= cubeSize) &&
+        (Math.abs(((rgbv >>  8) & 0xff) - gAvg) <= cubeSize) &&
+        (Math.abs(((rgbv >>  0) & 0xff) - bAvg) <= cubeSize))
       accPix[i] = srcPix[i];
   }
 
