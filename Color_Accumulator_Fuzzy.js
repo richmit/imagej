@@ -36,7 +36,6 @@ function main() {
   var srcWidth  = srcPro.getWidth(); 
   var srcHeight = srcPro.getHeight();
 
-
   var gd2 = new Packages.ij.gui.GenericDialog("Color Accumulator Fuzzy");
   gd2.addNumericField("Cube Width: ", 20, 0, 5, "");
   gd2.showDialog();
@@ -45,6 +44,11 @@ function main() {
     return;
 
   var cubeSize = Math.round(gd2.getNextNumber());
+
+  if (cubeSize <= 0) {
+	Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_Fuzzy.js): Cube Width must be greater than zero!");
+    return;
+  } 
 
   var rAvg = 0.0;
   var gAvg = 0.0;
