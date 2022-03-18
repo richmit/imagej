@@ -1,15 +1,21 @@
 // -*- Mode:javascript; Coding:us-ascii-unix; fill-column:158 -*-
 // THING=IJSCRIPT INSTALL_DIR=MJR OWNER=MJR
 
-// Adds pixels $P$ from a source image to a "ColorAccumulator" image if there exists a pixel $T$ in the ROI $R$, such that $P_i \in [T_i-E, T_i+E]$ for all
-// image channels $i$ and where E is the "cube size".  That is to say, we copy all pixels that have a color "close" to one of the colors in the current ROI.
-// In this context, "close" is means all channels are within plus or minus one cube size of each other..
 //
-// If cube size is zero, then this routine copies all pixels from the soruce image to the destimation image that match one of the colors in the ROI.
-// 
-// Most useful for images with a small number of distinct colors. Works for 8-bit grayscale, 16-bit grayscale, and 24-bit RGB images.
+// Supported Image Types:
+//   - 8-bit grayscale
+//   - 16-bit grayscale
+//   - 24-bit RGB images
+// Description:
+//   Adds pixels $P$ from a source image to a "ColorAccumulator" image if there exists a pixel $T$ in the ROI $R$, such that $P_i \in [T_i-E, T_i+E]$ for all
+//   image channels $i$ and where E is the "cube size".  That is to say, we copy all pixels that have a color "close" to one of the colors in the current ROI. In
+//   this context, "close" is means all channels are within plus or minus one cube size of each other..
 //
-// TODO: Add distance metric in other color spaces -- HSV
+//   If cube size is zero, then this routine copies all pixels from the soruce image to the destimation image that match one of the colors in the ROI.
+// TODO:
+//  - Add distance metric in other color spaces -- HSV
+//  - Add support for 32-bit images... Or not...
+//
 
 function main() {
 
@@ -31,7 +37,7 @@ function main() {
     return false;
   }
 
-  var roi    = srcImg.getRoi();
+  var roi = srcImg.getRoi();
   if ( !(roi)) {        
 	Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_EqCube.js): No ROI!");
     return false;
@@ -57,7 +63,6 @@ function main() {
   var srcPix    = srcPro.getPixels();
   var srcWidth  = srcPro.getWidth(); 
   var srcHeight = srcPro.getHeight();
-  var accImg    = Packages.ij.WindowManager.getImage("ColorAccumulator");
   var colorSet  = new java.util.HashSet();
 
   for (var i=0; i<roiPoints.length; i++)
@@ -73,7 +78,7 @@ function main() {
  	    var ctrB = (orgC >>  0) & 0xff;	
         var minR = Math.max(ctrR - cubeSize, 0);
         var minG = Math.max(ctrG - cubeSize, 0);
-        var minB = Math.max(ctrB - cubeSize, 0);
+        var minB = Math.max(ctrB - cubeSize, 0); 
         var maxR = Math.min(ctrR + cubeSize, 255);
         var maxG = Math.min(ctrG + cubeSize, 255);
         var maxB = Math.min(ctrB + cubeSize, 255);
@@ -100,34 +105,43 @@ function main() {
     print("INFO(Color_Accumulator_EqCube.js): Cube size < 1.  Cube disabled.");
   }
 
-  if (accImg) {
-    var accPro    = accImg.getProcessor();
-    var accPix    = accPro.getPixels();
-    var accWidth  = accPro.getWidth(); 
-    var accHeight = accPro.getHeight();
-    if ((accWidth != srcWidth) || (accHeight != srcHeight)) {
-	  Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_EqCube.js): Active image and Accumulator sizes differ!");
-      return false;
-    }
-  } else {
-    var accPro = srcPro.duplicate();
-    var accPix = accPro.getPixels();
-    for (var i=0; i<accPix.length; i++)
-      accPix[i] = 0;
+  var accImg = Packages.ij.WindowManager.getImage("ColorAccumulator");
+
+  if ( !(accImg)) {
+    Packages.ij.IJ.run(srcImg, "Color Accumulator Empty", "");
+    accImg = Packages.ij.WindowManager.getImage("ColorAccumulator");
+  }
+
+  if ( !(accImg)) {
+	Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_EqCube.js): Could not create ColorAccumulator image!");
+    return false;
+  }
+
+  var accPro    = accImg.getProcessor();
+  var accPix    = accPro.getPixels();
+  var accWidth  = accPro.getWidth(); 
+  var accHeight = accPro.getHeight();
+  if ((accWidth != srcWidth) || (accHeight != srcHeight)) {
+	Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_EqCube.js): Active image and Accumulator sizes differ!");
+    return false;
   }
 
   accPro.snapshot();
+  var numPxFound   = 0;
+  var numPxChanged = 0;
   for (var i=0; i <accPix.length; i++)
-    if (colorSet.contains(srcPix[i] & dataMask))
-      accPix[i] = srcPix[i];
+    if (colorSet.contains(srcPix[i] & dataMask)) {
+      if (accPix[i] != srcPix[i]) {
+        accPix[i] = srcPix[i];
+        numPxChanged++;
+      }
+      numPxFound++;
+    }
+  print("INFO(Color_Accumulator_EqCube.js): Pixels Matching: " + numPxFound);
+  print("INFO(Color_Accumulator_EqCube.js): Pixels Changed: " + numPxChanged);
 
-  if (accImg) {
-    accImg.updateAndRepaintWindow();
-    Packages.ij.WindowManager.getWindow("ColorAccumulator").toFront();
-  } else {
-    accImg = new Packages.ij.ImagePlus("ColorAccumulator", accPro);
-    accImg.show();
-  }
+  accImg.updateAndRepaintWindow();
+  Packages.ij.WindowManager.getWindow("ColorAccumulator").toFront();
 
   return true;
 }
@@ -135,3 +149,7 @@ function main() {
 var startSecond = Date.now();
 mainResult = main();
 print("INFO(Color_Accumulator_EqCube.js): Complete! (" + ((Date.now()-startSecond)/1000.0) + " sec)");
+
+
+
+

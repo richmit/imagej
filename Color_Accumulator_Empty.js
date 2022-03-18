@@ -1,11 +1,15 @@
 // -*- Mode:javascript; Coding:us-ascii-unix; fill-column:158 -*-
 // THING=IJSCRIPT INSTALL_DIR=MJR OWNER=MJR
 
-// This script simply creates a new ColorAccumulator image of the same type and size as the current slice.
 //
-// Useful to initialize a sequence of ColorAccumulator operations if you want to start with an accumulator with a specific background color for example.
+// Supported Image Types:
+//   - 8-bit grayscale
+//   - 16-bit grayscale
+//   - 32-bit grayscale
+//   - 24-bit RGB images
+// Description:
+//   Create a new ColorAccumulator image of the same type and size as the current slice.  
 //
-// Supports 8-bit integer grey, 16-bit integer grey, 32-bit float grey, & 24-bit RGB
 
 function main() {
 
@@ -65,6 +69,8 @@ function main() {
 
   accImg = new Packages.ij.ImagePlus("ColorAccumulator", accPro);
   accImg.show();
+
+  accImg.setProp("Background_Color", bgColor.toString());
 
   return true;
 }

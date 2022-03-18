@@ -1,11 +1,15 @@
 // -*- Mode:javascript; Coding:us-ascii-unix; fill-column:158 -*-
 // THING=IJSCRIPT INSTALL_DIR=MJR OWNER=MJR
 
-// Copies pixels from a source image to an "ColorAccumulator" image that are "near" the average pixel color in the current ROI.
-// Two colors, $X$ & $Y$, are near if $\vert X_i - Y_i \vert \le W$ for all channels $i$ and a box width of $W$.
-// Requires an RGB image.
-// TODO: Add code for greyscale images
-// TODO: Add distance metric in other color spaces -- HSV
+//
+// Supported Image Types:
+//   - 24-bit RGB images
+// Description:
+//   Copies pixels from a source image to an "ColorAccumulator" image that are "near" the average pixel color in the current ROI.
+//   Two colors, $X$ & $Y$, are near if $\vert X_i - Y_i \vert \le W$ for all channels $i$ and a box width of $W$.
+// TODO:
+//   - Add code for greyscale images
+//   - Add distance metric in other color spaces -- HSV
 
 function main() {
   if (Packages.ij.WindowManager.getWindowCount() <= 0) {
@@ -26,6 +30,7 @@ function main() {
   }
 
   var roiPoints = roi.getContainedPoints();
+  print("INFO(Color_Accumulator_ROI.js): Pixels in region:" + roiPoints.length);
   if (roiPoints.length <= 0) {
 	Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_Fuzzy.js): Empty ROI!");
     return;
@@ -63,38 +68,46 @@ function main() {
   gAvg /= roiPoints.length;
   bAvg /= roiPoints.length;	
 
+
   var accImg = Packages.ij.WindowManager.getImage("ColorAccumulator");
 
-  if (accImg) {
-    var newAccP   = false;
-    var accPro    = accImg.getProcessor();
-    var accPix    = accPro.getPixels();
-    var accWidth  = accPro.getWidth(); 
-    var accHeight = accPro.getHeight();
-    if ((accWidth != srcWidth) || (accHeight != srcHeight)) {
-	  Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_Fuzzy.js): Active image and Accumulator sizes differ!");
-      return;
-    }
-  } else {
-    var newAccP = true;
-    var accPro  = srcPro.duplicate();
-    var accPix  = accPro.getPixels();
-    accImg = new Packages.ij.ImagePlus("ColorAccumulator", accPro);
-    for (i = 0; i < accPix.length; i++)
-      accPix[i] = 0;
+  if ( !(accImg)) {
+    Packages.ij.IJ.run(srcImg, "Color Accumulator Empty", "");
+    accImg = Packages.ij.WindowManager.getImage("ColorAccumulator");
+  }
+
+  if ( !(accImg)) {
+	Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_Fuzzy.js): Could not create ColorAccumulator image!");
+    return false;
+  }
+
+  var accPro    = accImg.getProcessor();
+  var accPix    = accPro.getPixels();
+  var accWidth  = accPro.getWidth(); 
+  var accHeight = accPro.getHeight();
+  if ((accWidth != srcWidth) || (accHeight != srcHeight)) {
+	Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_Fuzzy.js): Active image and Accumulator sizes differ!");
+    return;
   }
 
   accPro.snapshot();
+  var numPxFound   = 0;
+  var numPxChanged = 0;
   for (var i = 0; i < accPix.length; i++) {
     var rgbv = srcPix[i];
     if ((Math.abs(((rgbv >> 16) & 0xff) - rAvg) <= cubeSize) &&
         (Math.abs(((rgbv >>  8) & 0xff) - gAvg) <= cubeSize) &&
-        (Math.abs(((rgbv >>  0) & 0xff) - bAvg) <= cubeSize))
-      accPix[i] = srcPix[i];
+        (Math.abs(((rgbv >>  0) & 0xff) - bAvg) <= cubeSize)) {
+      if (accPix[i] != srcPix[i]) {
+        accPix[i] = srcPix[i];
+        numPxChanged++;
+      }
+      numPxFound++;
+    }
   }
+  print("INFO(Color_Accumulator_Fuzzy.js): Pixels Matching: " + numPxFound);
+  print("INFO(Color_Accumulator_Fuzzy.js): Pixels Changed: " + numPxChanged);
 
-  if (newAccP) 
-    accImg.show();
   accImg.updateAndRepaintWindow();
   Packages.ij.WindowManager.getWindow("ColorAccumulator").toFront();
 }

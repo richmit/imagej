@@ -1,7 +1,15 @@
 // -*- Mode:javascript; Coding:us-ascii-unix; fill-column:158 -*-
 // THING=IJSCRIPT INSTALL_DIR=MJR OWNER=MJR
 
-// Adds pixels inside an ROI from a source image to an "ColorAccumulator" image.
+//
+// Supported Image Types:
+//   - 8-bit grayscale
+//   - 16-bit grayscale
+//   - 32-bit grayscale
+//   - 24-bit RGB images
+// Description:
+//   Adds pixels inside an ROI from a source image to an "ColorAccumulator" image.
+//
 
 function main() {
 
@@ -18,6 +26,7 @@ function main() {
   } 
 
   roiPoints = roi.getContainedPoints();
+  print("INFO(Color_Accumulator_ROI.js): Pixels in region:" + roiPoints.length);
   if (roiPoints.length <= 0) {
 	Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_ROI.js): Empty ROI!");
     return false;
@@ -27,38 +36,45 @@ function main() {
   var srcPix    = srcProc.getPixels();
   var srcWidth  = srcProc.getWidth(); 
   var srcHeight = srcProc.getHeight();
-  var accImg    = Packages.ij.WindowManager.getImage("ColorAccumulator");
 
-  if (accImg) {
-    var newAccP   = false;
-    var accPro    = accImg.getProcessor();
-    var accPix    = accPro.getPixels();
-    var accWidth  = accPro.getWidth(); 
-    var accHeight = accPro.getHeight();
-    if ((accWidth != srcWidth) || (accHeight != srcHeight)) {
-	  Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_Fuzzy.js): Active image and Accumulator sizes differ!");
-      return;
-    }
-  } else {
-    var newAccP = true;
-    var accPro  = srcPro.duplicate();X
-    var accPix  = accPro.getPixels();
-    accImg = new Packages.ij.ImagePlus("ColorAccumulator", accPro);
-    for (i = 0; i < accPix.length; i++)
-      accPix[i] = 0;
+  var accImg = Packages.ij.WindowManager.getImage("ColorAccumulator");
+
+  if ( !(accImg)) {
+    Packages.ij.IJ.run(srcImg, "Color Accumulator Empty", "");
+    accImg = Packages.ij.WindowManager.getImage("ColorAccumulator");
+  }
+
+  if ( !(accImg)) {
+	Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_ROI.js): Could not create ColorAccumulator image!");
+    return false;
+  }
+
+  var newAccP   = false;
+  var accPro    = accImg.getProcessor();
+  var accPix    = accPro.getPixels();
+  var accWidth  = accPro.getWidth(); 
+  var accHeight = accPro.getHeight();
+  if ((accWidth != srcWidth) || (accHeight != srcHeight)) {
+	Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_ROI.js): Active image and Accumulator sizes differ!");
+    return;
   }
 
   accPro.snapshot();
-  for (var i=0; i<roiPoints.length; i++)
-    accPix[roiPoints[i].x + srcWidth * roiPoints[i].y] = srcPix[roiPoints[i].x + srcWidth * roiPoints[i].y];
-
-  if (accImg) {
-    accImg.updateAndRepaintWindow();
-    Packages.ij.WindowManager.getWindow("ColorAccumulator").toFront();
-  } else {
-    accImg = new Packages.ij.ImagePlus("ColorAccumulator", accPro);
-    accImg.show();
+  var numPxFound   = 0;
+  var numPxChanged = 0;
+  for (var i=0; i<roiPoints.length; i++) {
+    pIdx = roiPoints[i].x + srcWidth * roiPoints[i].y;
+    if (accPix[pIdx] != srcPix[pIdx]) {
+      accPix[pIdx] = srcPix[pIdx];
+      numPxChanged++;
+    }
+    numPxFound++;
   }
+  print("INFO(Color_Accumulator_ROI.js): Pixels Matching: " + numPxFound);
+  print("INFO(Color_Accumulator_ROI.js): Pixels Changed: " + numPxChanged);
+
+  accImg.updateAndRepaintWindow();
+  Packages.ij.WindowManager.getWindow("ColorAccumulator").toFront();
 
   return true;
 }
