@@ -1,8 +1,16 @@
 // -*- Mode:javascript; Coding:us-ascii-unix; fill-column:158 -*-
 // THING=IJSCRIPT INSTALL_DIR=MJR OWNER=MJR
 
-// Create a new mask image the same size as the current image, but with zero pixel values where the original had the specified color and 255 pixel values
-// everyplace else.  This is a good way to transform a "color accumulator" image into a mask.
+//
+// Supported Image Types:
+//   - 8-bit grayscale
+//   - 16-bit grayscale
+//   - 32-bit grayscale
+//   - 24-bit RGB images
+// Description:
+//   Create a new mask image the same size as the current image, with zero pixel values where the source had the given color and 255 pixel values elsewhere.
+//   Automatically prepopulates color dialog via the image "Background_Color" property making conversions of "color accumulators" easy.
+//
 
 function main() {
   if (Packages.ij.WindowManager.getWindowCount() <= 0) {
@@ -11,19 +19,33 @@ function main() {
   }
 
   var srcImg = Packages.ij.IJ.getImage();
+  var srcBGC = srcImg.getProp("Background_Color");
+
+  if (srcBGC && (java.lang.String.class == srcBGC.class)) {
+    if (srcImg.getBitDepth() != 32) {
+      srcBGC = parseInt(srcBGC);
+    } else {
+      srcBGC = parseFloat(srcBGC);
+    }
+    if (isNaN(srcBGC)) {
+      srcBGC = 0;
+    }
+  } else {
+    srcBGC = 0;
+  }
 
   var dialogObj = new Packages.ij.gui.GenericDialog("Mask From Color");
   if (srcImg.getBitDepth() == 8) {
-    dialogObj.addNumericField("Pixel Value:",        0, 0,  6, "");
-  } else if (srcImg.getBitDepth() == 16) {              
-    dialogObj.addNumericField("Pixel Value:",        0, 0, 10, "");
-  } else if (srcImg.getBitDepth() == 32) {           
-    dialogObj.addNumericField("Pixel Value:",        0, 5, 15, "");
-    dialogObj.addNumericField("Pixel Fuzz:",    0.0001, 5, 15, "");
+    dialogObj.addNumericField("Pixel Value:",                    srcBGC, 0,  6, "");
+  } else if (srcImg.getBitDepth() == 16) {                               
+    dialogObj.addNumericField("Pixel Value:",                    srcBGC, 0, 10, "");
+  } else if (srcImg.getBitDepth() == 32) {                            
+    dialogObj.addNumericField("Pixel Value:",                    srcBGC, 5, 15, "");
+    dialogObj.addNumericField("Pixel Fuzz:",                     0.0001, 5, 15, "");
   } else if (srcImg.getBitDepth() == 24) {
-    dialogObj.addNumericField("R Pixel Value:",      0, 0,  6, "");
-    dialogObj.addNumericField("G Pixel Value:",      0, 0,  6, "");
-    dialogObj.addNumericField("B Pixel Value:",      0, 0,  6, "");
+    dialogObj.addNumericField("R Pixel Value:", ((srcBGC >> 16) & 0xFF), 0,  6, "");
+    dialogObj.addNumericField("G Pixel Value:", ((srcBGC >>  8) & 0xFF), 0,  6, "");
+    dialogObj.addNumericField("B Pixel Value:", ((srcBGC >>  0) & 0xFF), 0,  6, "");
   } else {
     Packages.ij.IJ.showMessage("ERROR(Mask_From_Color.js): Unsupported image type!");
     return false;
