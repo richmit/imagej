@@ -19,7 +19,7 @@ function main() {
   }
 
   var srcImg = Packages.ij.IJ.getImage();
-  var srcBGC = srcImg.getProp("Background_Color");
+  var srcBGC = srcImg.getProp("MJR_Background_Color");
 
   if (srcBGC && (java.lang.String.class == srcBGC.class)) {
     if (srcImg.getBitDepth() != 32) {

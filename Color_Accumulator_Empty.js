@@ -70,7 +70,8 @@ function main() {
   accImg = new Packages.ij.ImagePlus("ColorAccumulator", accPro);
   accImg.show();
 
-  accImg.setProp("Background_Color", bgColor.toString());
+  accImg.setProp("MJR_Background_Color", bgColor.toString());
+  accImg.setProp("MJR_ColorAccumulator", "T");
 
   return true;
 }
