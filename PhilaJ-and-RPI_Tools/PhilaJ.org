@@ -1359,7 +1359,6 @@ ROIs play a central role in PhilaJ (and in ImageJ in general).  PhilaJ has adopt
    - =pmark_<SFX>=        
    - =overprint[BB/HL]_<SID/SFX>=  
 
-
 * RPI Tools
 :PROPERTIES:
 :CUSTOM_ID: rpi-tools
@@ -1448,10 +1447,6 @@ file:RPI_Tools-dialog-loadOld.gif
 
 #+ATTR_HTML: :align center :width 400px
 file:RPI_Tools-dialog-setscale.gif
-
-
-
-LINK TO: RPI_tools.LCM
 
 
 * EOF
