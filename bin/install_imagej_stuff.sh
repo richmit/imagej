@@ -9,6 +9,7 @@ DO_BUILD='N'
 DO_RUN_IMAGEJ='N'
 DO_TOOLSETS='N'
 DO_IJSCRIPTS='N'
+DO_IJLIBS='N'
 WORKING_PATH='.'
 WORKING_PATH_O='N'
 while test -n "$1"; do
@@ -34,11 +35,16 @@ while test -n "$1"; do
     CARG=${CARG/s/}
     DO_IJSCRIPTS='Y';     
   fi
+  if [[ "$CARG" == -*l* ]]; then
+    CARG=${CARG/s/}
+    DO_IJLIBS='Y';     
+  fi
   if [[ "$CARG" == -*a* ]]; then
     CARG=${CARG/a/}
     DO_BUILD='Y'; 
     DO_TOOLSETS='Y';     
     DO_IJSCRIPTS='Y';     
+    DO_IJLIBS='Y';     
   fi
   if [[ "$CARG" != -* ]]; then
     WORKING_PATH=${CARG/%\/*/}
@@ -51,7 +57,8 @@ while test -n "$1"; do
     echo "    -b      Build ImageJ toolsets               "
     echo "    -t      Install ImageJ toolsets             "
     echo "    -s      Install ImageJ scripts              "
-    echo "    -a      Equivlent to -bst                   "
+    echo "    -l      Install ImageJ libraries            "
+    echo "    -a      Equivlent to -bstl                  "
     echo "    -r      Run ImageJ after we install stuff   "
     exit;
   fi
@@ -63,6 +70,7 @@ if [ "$DEBUG" == 'Y' ]; then
   echo "DEBUG: DO_RUN_IMAGEJ     $DO_RUN_IMAGEJ "        
   echo "DEBUG: DO_TOOLSETS       $DO_TOOLSETS   "      
   echo "DEBUG: DO_IJSCRIPTS      $DO_IJSCRIPTS  "       
+  echo "DEBUG: DO_IJLIBS         $DO_IJLIBS     "       
   echo "DEBUG: WORKING_PATH      $WORKING_PATH  "       
 fi
 
@@ -100,11 +108,28 @@ for sf in $(find "$WORKING_PATH" -maxdepth 1 -type f -a \( -iname '*.js' -o -ina
   fi
 done
 
+IJLIBS_EXISTP='N'
+IJLIBS_FILES=""
+for sf in $(find "$WORKING_PATH" -maxdepth 1 -type f -a \( -iname '*.js' \) -a ! -name '* *'); do
+  if [ -e "$sf" ]; then
+    SCR_SUB_PATH=`head -n 2 $sf | grep THING=IJLIB`
+    SCR_SUB_PATH=${SCR_SUB_PATH/*INSTALL_DIR=/}
+    SCR_SUB_PATH=${SCR_SUB_PATH/ */}
+    if [ -n "$SCR_SUB_PATH" ]; then
+      IJLIBS_FILES="$IJLIBS_FILES $sf"
+      IJLIBS_IPATH="$IJLIBS_IPATH $SCR_SUB_PATH"
+      IJLIBS_EXISTP='Y'
+    fi
+  fi
+done
+
 if [ "$DEBUG" == 'Y' ]; then
   echo "DEBUG: TOOLSETS_FILES    $TOOLSETS_FILES"
   echo "DEBUG: IJSCRIPTS_FILES   $IJSCRIPTS_FILES"
+  echo "DEBUG: IJLIBS_FILES      $IJLIBS_FILES"
   echo "DEBUG: TOOLSETS_EXISTP   $TOOLSETS_EXISTP"
   echo "DEBUG: IJSCRIPTS_EXISTP  $IJSCRIPTS_EXISTP"
+  echo "DEBUG: IJLIBS_EXISTP     $IJLIBS_EXISTP"
 fi
 
 if [ "$TOOLSETS_EXISTP" == 'Y' ]; then
@@ -167,6 +192,56 @@ fi
 if [ "$DEBUG" == 'Y' ]; then
   echo "DEBUG: IJSCRIPT_PATH     $IJSCRIPT_PATH"
 fi
+
+IJLIB_PATH="$IMAGEJ_PATH/plugins/MJR_LIB"
+if [ "$IJLIBS_EXISTP" == 'Y' ]; then
+  if [ ! -d "$IJLIB_PATH" ]; then
+    if [ "$DO_IJLIBS" == 'Y' ]; then
+      mkdir "$IJLIB_PATH"
+    fi
+  fi
+  if [ ! -d "$IJLIB_PATH" ]; then
+    if [ "$DO_IJLIBS" == 'Y' ]; then
+      echo 'ERROR: ImageJ Path Set, but scripts directory not found!'
+      exit
+    else
+      echo 'WARNING: ImageJ Path Set, but scripts directory not found!'
+    fi
+  fi
+fi
+
+if [ "$DEBUG" == 'Y' ]; then
+  echo "DEBUG: IJLIB_PATH        $IJLIB_PATH"
+fi
+
+for sf in $IJLIBS_FILES; do
+  if [ -e "$sf" ]; then
+    LIB_TO_INSTALL=$(basename $sf)
+    SCR_SUB_PATH=`head -n 2 $sf | grep THING=IJLIB`
+    SCR_SUB_PATH=${SCR_SUB_PATH/*INSTALL_DIR=/}
+    SCR_SUB_PATH=${SCR_SUB_PATH/ */}
+
+    if [ "$DEBUG" == 'Y' ]; then
+      echo "DEBUG: sf                $sf"
+      echo "DEBUG: LIB_TO_INSTALL    $LIB_TO_INSTALL"
+      echo "DEBUG: SCR_SUB_PATH      $SCR_SUB_PATH"
+    fi
+
+    if [ ! -e "${IJLIB_PATH}/${SCR_SUB_PATH}" ]; then
+      if [ "$DO_IJLIBS" == 'Y' ]; then
+        echo "INFO:  Making directory: ${IJLIB_PATH}/${SCR_SUB_PATH}"
+        mkdir -p "${IJLIB_PATH}/${SCR_SUB_PATH}"
+      fi
+    fi
+
+    if [ "$DO_IJLIBS" == 'Y' ]; then
+      echo "INFO:  INSTALLING        $sf to ${IJLIB_PATH}/${SCR_SUB_PATH}/${LIB_TO_INSTALL}"
+      cp "$sf" "${IJLIB_PATH}/${SCR_SUB_PATH}/${LIB_TO_INSTALL}"
+    else
+      echo "INFO:  NOT INSTALLING    $sf to ${IJLIB_PATH}/${SCR_SUB_PATH}/${LIB_TO_INSTALL}"
+    fi
+  fi
+done
 
 for sf in $IJSCRIPTS_FILES; do
   if [ -e "$sf" ]; then

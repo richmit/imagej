@@ -6,6 +6,12 @@ for pp in ~/winHome/PF/Fiji.app ~/Fiji.app; do
   fi
 done
 
+IJLIB_PATH="$IMAGEJ_PATH/plugins/MJR_LIB"
+if [ -d "$IJLIB_PATH" ]; then
+  rm -rf "$IJLIB_PATH"
+  echo "INFO:  RM -RF            $IJLIB_PATH"
+fi
+
 if [ -d "$IMAGEJ_PATH" ]; then
   IJSCRIPT_PATH="$IMAGEJ_PATH/plugins/Scripts"
   if [ -d "$IJSCRIPT_PATH" ]; then
@@ -19,7 +25,6 @@ if [ -d "$IMAGEJ_PATH" ]; then
         echo "INFO:  RMDIR             $d"
       fi
     done
-
 
   else
     echo "INFO: Could not find script path"
