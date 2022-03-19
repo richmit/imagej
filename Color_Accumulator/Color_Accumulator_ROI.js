@@ -9,7 +9,7 @@
 //   - 24-bit RGB images
 // Description:
 //   - Adds pixels inside an ROI from a source image to an "ColorAccumulator" image.
-//   - If run aginst the ColorAccumulator image, then it will fill the ROI with the ColorAccumulator fill color
+//   - If run against the ColorAccumulator image, then it will fill the ROI with the ColorAccumulator fill color
 //
 
 function main() {

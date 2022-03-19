@@ -10,8 +10,8 @@
 //   - Adds pixels $P$ from a source image to a "ColorAccumulator" image if there exists a pixel $T$ in the ROI $R$, such that $P_i \in [T_i-E, T_i+E]$ for all
 //     image channels $i$ and where E is the "cube size".  That is to say, we copy all pixels that have a color "close" to one of the colors in the current ROI. In
 //     this context, "close" is means all channels are within plus or minus one cube size of each other..
-//     If cube size is zero, then this routine copies all pixels from the soruce image to the destimation image that match one of the colors in the ROI.
-//   - If run aginst the ColorAccumulator image, then it will set matching pixels to the ColorAccumulator fill color
+//     If cube size is zero, then this routine copies all pixels from the source image to the destination image that match one of the colors in the ROI.
+//   - If run against the ColorAccumulator image, then it will set matching pixels to the ColorAccumulator fill color
 // TODO:
 //  - Add distance metric in other color spaces -- HSV
 //  - Add support for 32-bit images... Or not...
@@ -50,14 +50,14 @@ function main() {
     return false;
   }
 
-  var gd2 = new Packages.ij.gui.GenericDialog("Color Accumulator EqCube");
-  gd2.addNumericField("Cube Width: ",   1, 0, 5, "");
-  gd2.showDialog();
+  var dialogObj = new Packages.ij.gui.GenericDialog("Color Accumulator EqCube");
+  dialogObj.addNumericField("Cube Width: ",   1, 0, 5, "");
+  dialogObj.showDialog();
 
-  if (gd2.wasCanceled())
+  if (dialogObj.wasCanceled())
     return;
 
-  var cubeSize = Math.round(gd2.getNextNumber());
+  var cubeSize = Math.round(dialogObj.getNextNumber());
 
   var srcPro    = srcImg.getProcessor();
   var srcPix    = srcPro.getPixels();

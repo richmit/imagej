@@ -7,7 +7,7 @@
 // Description:
 //   - Copies pixels from a source image to an "ColorAccumulator" image that are "near" the average pixel color in the current ROI.
 //     Two colors, $X$ & $Y$, are near if $\vert X_i - Y_i \vert \le W$ for all channels $i$ and a box width of $W$.
-//   - If run aginst the ColorAccumulator image, then it will set close pixels to the ColorAccumulator fill color
+//   - If run against the ColorAccumulator image, then it will set close pixels to the ColorAccumulator fill color
 // TODO:
 //   - Add code for greyscale images
 //   - Add distance metric in other color spaces -- HSV
