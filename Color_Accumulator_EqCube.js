@@ -7,11 +7,11 @@
 //   - 16-bit grayscale
 //   - 24-bit RGB images
 // Description:
-//   Adds pixels $P$ from a source image to a "ColorAccumulator" image if there exists a pixel $T$ in the ROI $R$, such that $P_i \in [T_i-E, T_i+E]$ for all
-//   image channels $i$ and where E is the "cube size".  That is to say, we copy all pixels that have a color "close" to one of the colors in the current ROI. In
-//   this context, "close" is means all channels are within plus or minus one cube size of each other..
-//
-//   If cube size is zero, then this routine copies all pixels from the soruce image to the destimation image that match one of the colors in the ROI.
+//   - Adds pixels $P$ from a source image to a "ColorAccumulator" image if there exists a pixel $T$ in the ROI $R$, such that $P_i \in [T_i-E, T_i+E]$ for all
+//     image channels $i$ and where E is the "cube size".  That is to say, we copy all pixels that have a color "close" to one of the colors in the current ROI. In
+//     this context, "close" is means all channels are within plus or minus one cube size of each other..
+//     If cube size is zero, then this routine copies all pixels from the soruce image to the destimation image that match one of the colors in the ROI.
+//   - If run aginst the ColorAccumulator image, then it will set matching pixels to the ColorAccumulator fill color
 // TODO:
 //  - Add distance metric in other color spaces -- HSV
 //  - Add support for 32-bit images... Or not...
@@ -105,44 +105,74 @@ function main() {
     print("INFO(Color_Accumulator_EqCube.js): Cube size < 1.  Cube disabled.");
   }
 
-  var accImg = Packages.ij.WindowManager.getImage("ColorAccumulator");
+  var srcTitle = srcImg.getTitle();
+  var srcCAP   = srcImg.getProp("MJR_ColorAccumulator");
 
-  if ( !(accImg)) {
-    Packages.ij.IJ.run(srcImg, "Color Accumulator Empty", "");
-    accImg = Packages.ij.WindowManager.getImage("ColorAccumulator");
-  }
+  if (srcTitle == "ColorAccumulator") { // Working directly on ColorAccumulator -- UnAccumulator mode
 
-  if ( !(accImg)) {
-	Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_EqCube.js): Could not create ColorAccumulator image!");
-    return false;
-  }
+    var srcBGC = srcImg.getProp("MJR_Background_Color");
 
-  var accPro    = accImg.getProcessor();
-  var accPix    = accPro.getPixels();
-  var accWidth  = accPro.getWidth(); 
-  var accHeight = accPro.getHeight();
-  if ((accWidth != srcWidth) || (accHeight != srcHeight)) {
-	Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_EqCube.js): Active image and Accumulator sizes differ!");
-    return false;
-  }
-
-  accPro.snapshot();
-  var numPxFound   = 0;
-  var numPxChanged = 0;
-  for (var i=0; i <accPix.length; i++)
-    if (colorSet.contains(srcPix[i] & dataMask)) {
-      if (accPix[i] != srcPix[i]) {
-        accPix[i] = srcPix[i];
-        numPxChanged++;
+    if (srcBGC && (java.lang.String.class == srcBGC.class)) {
+      if (srcImg.getBitDepth() != 32) {
+        srcBGC = parseInt(srcBGC);
+      } else {
+        srcBGC = parseFloat(srcBGC);
       }
-      numPxFound++;
+      if (isNaN(srcBGC)) {
+        srcBGC = 0;
+      }
+    } else {
+      srcBGC = 0;
     }
-  print("INFO(Color_Accumulator_EqCube.js): Pixels Matching: " + numPxFound);
-  print("INFO(Color_Accumulator_EqCube.js): Pixels Changed: " + numPxChanged);
 
-  accImg.updateAndRepaintWindow();
-  Packages.ij.WindowManager.getWindow("ColorAccumulator").toFront();
+    srcPro.snapshot();
+    for (var i=0; i <srcPix.length; i++)
+      if (colorSet.contains(srcPix[i] & dataMask))
+        srcPix[i] = srcBGC;
 
+    srcImg.updateAndRepaintWindow();
+    Packages.ij.WindowManager.getWindow("ColorAccumulator").toFront();
+
+  } else { // Working on source image -- Accumulator mode
+
+    var accImg = Packages.ij.WindowManager.getImage("ColorAccumulator");
+
+    if ( !(accImg)) {
+      Packages.ij.IJ.run(srcImg, "Color Accumulator Empty", "");
+      accImg = Packages.ij.WindowManager.getImage("ColorAccumulator");
+    }
+
+    if ( !(accImg)) {
+	  Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_EqCube.js): Could not create ColorAccumulator image!");
+      return false;
+    }
+
+    var accPro    = accImg.getProcessor();
+    var accPix    = accPro.getPixels();
+    var accWidth  = accPro.getWidth(); 
+    var accHeight = accPro.getHeight();
+    if ((accWidth != srcWidth) || (accHeight != srcHeight)) {
+	  Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_EqCube.js): Active image and Accumulator sizes differ!");
+      return false;
+    }
+
+    accPro.snapshot();
+    var numPxFound   = 0;
+    var numPxChanged = 0;
+    for (var i=0; i <accPix.length; i++)
+      if (colorSet.contains(srcPix[i] & dataMask)) {
+        if (accPix[i] != srcPix[i]) {
+          accPix[i] = srcPix[i];
+          numPxChanged++;
+        }
+        numPxFound++;
+      }
+    print("INFO(Color_Accumulator_EqCube.js): Pixels Matching: " + numPxFound);
+    print("INFO(Color_Accumulator_EqCube.js): Pixels Changed: " + numPxChanged);
+
+    accImg.updateAndRepaintWindow();
+    Packages.ij.WindowManager.getWindow("ColorAccumulator").toFront();
+  }
   return true;
 }
 

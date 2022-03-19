@@ -25,6 +25,15 @@ function main() {
   }
 
   var srcImg = Packages.ij.IJ.getImage();
+
+  var srcTitle = srcImg.getTitle();
+  var srcCAP   = srcImg.getProp("MJR_ColorAccumulator");
+
+  if (srcTitle == "ColorAccumulator") { // Working directly on ColorAccumulator
+    Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_ColorThreshold.js): Can't operate on ColorAccumulator image directly!");
+    return false;
+  } 
+
   var mskPro = srcImg.getProperty("Mask");
   if (mskPro == null) {
     Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_ColorThreshold.js): Image has no mask!");
