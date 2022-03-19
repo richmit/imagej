@@ -2,20 +2,7 @@
 // THING=IJSCRIPT INSTALL_DIR=MJR OWNER=MJR
 
 //
-// Supported Image Types:
-//   - 24-bit RGB images
-// Description:
-//   This script grabs the mask property from image, and copies all the masked pixels to a ColorAccumulator image.  
-//   
-//   What is a mask proprietary? The colorthreshold tool adds a mask proprietary to an image.  The mask is indicated by the pixels painted the "Threshold
-//   Color" when the "Filtered" button in the colorthreshold dialog is pressed.  Note that the mask property exists even when it is not being displayed --
-//   i.e. when one hits the "Original" button in the colorthreshold dialog.  Note also that the mask property is dynamically updated as one manipulates the
-//   values in the colorthreshold dialog box so you can use this script iteratively without closing the colorthreshold dialog.
-//   
-//   Examples: 
-//      1) A used postage stamp has two postmarks of different colors.  We can select each postmark using colorthreshold, and add the pixels to the accumulator.
-//      2) We have red, blue, & green bacteria on a slide.  The red & blue are the same species.  We can use colorthreshold to select the red ones, and add them
-//         to the accumulator.  Then we can add the blue ones.  Now we we have isolated both the red & blue bacteria.
+// See: https://richmit.github.io/imagej/Color_Accumulator.html#TOOL-ColorAccumulatorColorThreshold
 //
 
 function main() {

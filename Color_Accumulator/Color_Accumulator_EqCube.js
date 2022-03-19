@@ -2,19 +2,7 @@
 // THING=IJSCRIPT INSTALL_DIR=MJR OWNER=MJR
 
 //
-// Supported Image Types:
-//   - 8-bit grayscale
-//   - 16-bit grayscale
-//   - 24-bit RGB images
-// Description:
-//   - Adds pixels $P$ from a source image to a "ColorAccumulator" image if there exists a pixel $T$ in the ROI $R$, such that $P_i \in [T_i-E, T_i+E]$ for all
-//     image channels $i$ and where E is the "cube size".  That is to say, we copy all pixels that have a color "close" to one of the colors in the current ROI. In
-//     this context, "close" is means all channels are within plus or minus one cube size of each other..
-//     If cube size is zero, then this routine copies all pixels from the source image to the destination image that match one of the colors in the ROI.
-//   - If run against the ColorAccumulator image, then it will set matching pixels to the ColorAccumulator fill color
-// TODO:
-//  - Add distance metric in other color spaces -- HSV
-//  - Add support for 32-bit images... Or not...
+// See: https://richmit.github.io/imagej/Color_Accumulator.html#TOOL-ColorAccumulatorEqCube
 //
 
 function main() {

@@ -2,13 +2,7 @@
 // THING=IJSCRIPT INSTALL_DIR=MJR OWNER=MJR
 
 //
-// Supported Image Types:
-//   - 8-bit grayscale
-//   - 16-bit grayscale
-//   - 32-bit grayscale
-//   - 24-bit RGB images
-// Description:
-//   Create a new ColorAccumulator image of the same type and size as the current slice.  
+// See: https://richmit.github.io/imagej/Color_Accumulator.html#TOOL-ColorAccumulatorEmpty
 //
 
 function main() {

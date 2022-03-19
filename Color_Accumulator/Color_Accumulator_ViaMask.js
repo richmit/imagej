@@ -2,14 +2,7 @@
 // THING=IJSCRIPT INSTALL_DIR=MJR OWNER=MJR
 
 //
-// Supported Image Types:
-//   - 8-bit grayscale
-//   - 16-bit grayscale
-//   - 32-bit grayscale
-//   - 24-bit RGB images
-// Description:
-//   - Adds pixels from a source image to a "ColorAccumulator" image based on a third mask image
-//   - Operates the same way when run against the ColorAccumulator image
+// See: https://richmit.github.io/imagej/Color_Accumulator.html#TOOL-ColorAccumulatorViaMask
 //
 
 function main() {
@@ -36,7 +29,7 @@ function main() {
   var mskHeight = mskImg.getHeight();
 
   if ((mskWidth != srcWidth) || (mskHeight != srcHeight)) {
-    Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_ColorThreshold.js): Mask & Source have diffrent sizes!");
+    Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_ViaMask.js): Mask & Source have diffrent sizes!");
     return false;
   } 
 
@@ -48,7 +41,7 @@ function main() {
   }
 
   if ( !(accImg)) {
-	Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_ColorThreshold.js): Could not create ColorAccumulator image!");
+	Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_ViaMask.js): Could not create ColorAccumulator image!");
     return false;
   }
 
@@ -56,7 +49,7 @@ function main() {
   var accWidth  = accImg.getWidth(); 
   var accHeight = accImg.getHeight();
   if ((mskWidth != accWidth) || (mskHeight != accHeight)) {
-    Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_ColorThreshold.js): Accumulator & Source have diffrent sizes!");
+    Packages.ij.IJ.showMessage("ERROR(Color_Accumulator_ViaMask.js): Accumulator & Source have diffrent sizes!");
     return false;
   } 
 

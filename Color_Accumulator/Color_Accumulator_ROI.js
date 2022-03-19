@@ -2,14 +2,7 @@
 // THING=IJSCRIPT INSTALL_DIR=MJR OWNER=MJR
 
 //
-// Supported Image Types:
-//   - 8-bit grayscale
-//   - 16-bit grayscale
-//   - 32-bit grayscale
-//   - 24-bit RGB images
-// Description:
-//   - Adds pixels inside an ROI from a source image to an "ColorAccumulator" image.
-//   - If run against the ColorAccumulator image, then it will fill the ROI with the ColorAccumulator fill color
+// See: https://richmit.github.io/imagej/Color_Accumulator.html#TOOL-ColorAccumulatorROI
 //
 
 function main() {
