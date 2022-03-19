@@ -33,10 +33,10 @@ function main() {
     return false;
   }
 
-  var srcProc   = srcImg.getProcessor();
-  var srcPix    = srcProc.getPixels();
-  var srcWidth  = srcProc.getWidth(); 
-  var srcHeight = srcProc.getHeight();
+  var srcPro    = srcImg.getProcessor();
+  var srcPix    = srcPro.getPixels();
+  var srcWidth  = srcPro.getWidth(); 
+  var srcHeight = srcPro.getHeight();
 
   var srcTitle = srcImg.getTitle();
   var srcCAP   = srcImg.getProp("MJR_ColorAccumulator");
