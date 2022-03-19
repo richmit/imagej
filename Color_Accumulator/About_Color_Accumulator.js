@@ -6,6 +6,123 @@
 //
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Is the iamge a Color Accumulator?
+function isImageCA(anImg) {
+  var daTitle = anImg.getTitle();
+  var daCAP   = anImg.getProp("MJR_ColorAccumulator");
+  return (daTitle == "ColorAccumulator");  // Consider using daCAP.
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Take a couple imagePlus or imageProcessor objects, and reutnr true if images are same size.
+function areImagesSameSize(i1, i2) {
+  return ((i1.getWidth() == i2.getWidth()) && (i1.getHeight() == i2.getHeight()));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function createAccumulatorImageIfNeeded() {
+  if ( !(Packages.ij.WindowManager.getImage("ColorAccumulator")))
+    colorAccumulatorEmpty();
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function getImageBackgroundColor(anImg) {
+  var srcBGC = anImg.getProp("MJR_Background_Color");
+  if (srcBGC && (java.lang.String.class == srcBGC.class)) {
+    if (anImg.getBitDepth() != 32) {
+      srcBGC = parseInt(srcBGC);
+    } else {
+      srcBGC = parseFloat(srcBGC);
+    }
+    if (isNaN(srcBGC)) {
+      srcBGC = 0;
+    }
+  } else {
+    srcBGC = 0;
+  }
+  return srcBGC;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function maskFromColor() {
+  if (Packages.ij.WindowManager.getWindowCount() <= 0) {
+    Packages.ij.IJ.showMessage("ERROR(Mask From Color): No images are open!");
+    return false;
+  }
+
+  var srcImg = Packages.ij.IJ.getImage();
+  var srcBGC = getImageBackgroundColor(srcImg);
+
+  var dialogObj = new Packages.ij.gui.GenericDialog("Mask From Color");
+  if (srcImg.getBitDepth() == 8) {
+    dialogObj.addNumericField("Pixel Value:",                    srcBGC, 0,  6, "");
+  } else if (srcImg.getBitDepth() == 16) {                               
+    dialogObj.addNumericField("Pixel Value:",                    srcBGC, 0, 10, "");
+  } else if (srcImg.getBitDepth() == 32) {                            
+    dialogObj.addNumericField("Pixel Value:",                    srcBGC, 5, 15, "");
+    dialogObj.addNumericField("Pixel Fuzz:",                     0.0001, 5, 15, "");
+  } else if (srcImg.getBitDepth() == 24) {
+    dialogObj.addNumericField("R Pixel Value:", ((srcBGC >> 16) & 0xFF), 0,  6, "");
+    dialogObj.addNumericField("G Pixel Value:", ((srcBGC >>  8) & 0xFF), 0,  6, "");
+    dialogObj.addNumericField("B Pixel Value:", ((srcBGC >>  0) & 0xFF), 0,  6, "");
+  } else {
+    Packages.ij.IJ.showMessage("ERROR(Mask From Color): Unsupported image type!");
+    return false;
+  }
+  dialogObj.showDialog(); 
+  if (dialogObj.wasCanceled())
+    return false;
+
+  if (srcImg.getBitDepth() == 8) {
+    var javaByteType = Java.type("java.lang.Byte");
+    var pixSearchValue = new javaByteType(Math.floor(dialogObj.getNextNumber()));
+  } else if (srcImg.getBitDepth() == 16) {
+    var pixSearchValue = Math.floor(dialogObj.getNextNumber());
+  } else if (srcImg.getBitDepth() == 32) {
+    var pixSearchValue = dialogObj.getNextNumber();
+    var pixSearchFuzz  = dialogObj.getNextNumber();
+  } else if (srcImg.getBitDepth() == 24) {
+ 	var pixSearchValueR = Math.max(0, Math.min(255, Math.floor(dialogObj.getNextNumber())));
+  	var pixSearchValueG = Math.max(0, Math.min(255, Math.floor(dialogObj.getNextNumber())));
+  	var pixSearchValueB = Math.max(0, Math.min(255, Math.floor(dialogObj.getNextNumber())));
+ 	var pixSearchValue = (pixSearchValueR << 16) | (pixSearchValueG << 8) | pixSearchValueB;
+  }
+
+  var srcPro = srcImg.getProcessor();
+  var srcPix = srcPro.getPixels();
+  var bnbImg = Packages.ij.IJ.createImage("BNB", "8-bit", srcPro.getWidth(), srcPro.getHeight(), 1);
+  var bnbPro = bnbImg.getProcessor();
+  var bnbPix = bnbPro.getPixels();
+
+  if ((srcImg.getBitDepth() == 8) || (srcImg.getBitDepth() == 16)) { // int
+    for (var idxPix = 0; idxPix < srcPix.length; idxPix++) {
+      if (srcPix[idxPix] == pixSearchValue) 
+        bnbPix[idxPix] = 255;
+      else 
+        bnbPix[idxPix] = 0;
+    }
+  } else if (srcImg.getBitDepth() == 24) { // rgb
+    for (var idxPix = 0; idxPix < srcPix.length; idxPix++) {
+      if ((srcPix[idxPix] & 0xffffff) == pixSearchValue)
+        bnbPix[idxPix] = 255;
+      else 
+        bnbPix[idxPix] = 0;
+    }
+  } else { // float
+    for (var idxPix = 0; idxPix < srcPix.length; idxPix++) {
+      if ( Math.abs(srcPix[idxPix]-pixSearchValue) < pixSearchFuzz) 
+        bnbPix[idxPix] = 255;
+      else 
+        bnbPix[idxPix] = 0;
+    }
+  }
+  bnbImg.resetDisplayRange();
+  bnbImg.show();
+
+  return true;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function colorAccumulatorColorThreshold() {
   if (Packages.ij.WindowManager.getWindowCount() <= 0) {
     Packages.ij.IJ.showMessage("ERROR(Color Accumulator ColorThreshold): No images are open!");
@@ -14,10 +131,7 @@ function colorAccumulatorColorThreshold() {
 
   var srcImg = Packages.ij.IJ.getImage();
 
-  var srcTitle = srcImg.getTitle();
-  var srcCAP   = srcImg.getProp("MJR_ColorAccumulator");
-
-  if (srcTitle == "ColorAccumulator") { // Working directly on ColorAccumulator
+  if(isImageCA(srcImg)) { // Working directly on ColorAccumulator
     Packages.ij.IJ.showMessage("ERROR(Color Accumulator ColorThreshold): Can't operate on ColorAccumulator image directly!");
     return false;
   } 
@@ -35,31 +149,20 @@ function colorAccumulatorColorThreshold() {
 
   var srcPro = srcImg.getProcessor();
 
-  var mskWidth  = mskPro.getWidth(); 
-  var mskHeight = mskPro.getHeight();
-  var srcWidth  = srcImg.getWidth(); 
-  var srcHeight = srcImg.getHeight();
-  if ((mskWidth != srcWidth) || (mskHeight != srcHeight)) {
+  if ( !(areImagesSameSize(mskPro, srcImg))) {
     Packages.ij.IJ.showMessage("ERROR(Color Accumulator ColorThreshold): Source & Mask have diffrent sizes!");
     return false;
   } 
 
+  createAccumulatorImageIfNeeded();
   var accImg = Packages.ij.WindowManager.getImage("ColorAccumulator");
-
-  if ( !(accImg)) {
-    Packages.ij.IJ.run(srcImg, "Color Accumulator Empty", "");
-    accImg = Packages.ij.WindowManager.getImage("ColorAccumulator");
-  }
-
   if ( !(accImg)) {
 	Packages.ij.IJ.showMessage("ERROR(Color Accumulator ColorThreshold): Could not create ColorAccumulator image!");
     return false;
   }
 
   var accPro    = accImg.getProcessor();
-  var accWidth  = accImg.getWidth(); 
-  var accHeight = accImg.getHeight();
-  if ((mskWidth != accWidth) || (mskHeight != accHeight)) {
+  if ( !(areImagesSameSize(accImg, srcImg))) {
     Packages.ij.IJ.showMessage("ERROR(Color Accumulator ColorThreshold): Accumulator & Source have diffrent sizes!");
     return false;
   } 
@@ -105,35 +208,24 @@ function colorAccumulatorViaMask() {
   var mskImg    = dialogObj.getNextImage();
 
   var srcPro    = srcImg.getProcessor();
-  var srcWidth  = srcImg.getWidth(); 
-  var srcHeight = srcImg.getHeight();
-
   var mskPro    = mskImg.getProcessor();
-  var mskWidth  = mskImg.getWidth(); 
-  var mskHeight = mskImg.getHeight();
 
-  if ((mskWidth != srcWidth) || (mskHeight != srcHeight)) {
+  if ( !(areImagesSameSize(mskImg, srcImg))) {
     Packages.ij.IJ.showMessage("ERROR(Color Accumulator ViaMask): Mask & Source have diffrent sizes!");
     return false;
   } 
 
+  createAccumulatorImageIfNeeded();
   var accImg = Packages.ij.WindowManager.getImage("ColorAccumulator");
-
-  if ( !(accImg)) {
-    Packages.ij.IJ.run(srcImg, "Color Accumulator Empty", "");
-    accImg = Packages.ij.WindowManager.getImage("ColorAccumulator");
-  }
-
   if ( !(accImg)) {
 	Packages.ij.IJ.showMessage("ERROR(Color Accumulator ViaMask): Could not create ColorAccumulator image!");
     return false;
   }
 
   var accPro    = accImg.getProcessor();
-  var accWidth  = accImg.getWidth(); 
-  var accHeight = accImg.getHeight();
-  if ((mskWidth != accWidth) || (mskHeight != accHeight)) {
-    Packages.ij.IJ.showMessage("ERROR(Color Accumulator ViaMask): Accumulator & Source have diffrent sizes!");
+
+  if ( !(areImagesSameSize(mskImg, accImg))) {
+    Packages.ij.IJ.showMessage("ERROR(Color Accumulator ViaMask): Mask & Accumulator have diffrent sizes!");
     return false;
   } 
 
@@ -186,27 +278,9 @@ function colorAccumulatorROI() {
   var srcPro    = srcImg.getProcessor();
   var srcPix    = srcPro.getPixels();
   var srcWidth  = srcPro.getWidth(); 
-  var srcHeight = srcPro.getHeight();
 
-  var srcTitle = srcImg.getTitle();
-  var srcCAP   = srcImg.getProp("MJR_ColorAccumulator");
-
-  if (srcTitle == "ColorAccumulator") { // Working directly on ColorAccumulator -- UnAccumulator mode
-
-    var srcBGC = srcImg.getProp("MJR_Background_Color");
-
-    if (srcBGC && (java.lang.String.class == srcBGC.class)) {
-      if (srcImg.getBitDepth() != 32) {
-        srcBGC = parseInt(srcBGC);
-      } else {
-        srcBGC = parseFloat(srcBGC);
-      }
-      if (isNaN(srcBGC)) {
-        srcBGC = 0;
-      }
-    } else {
-      srcBGC = 0;
-    }
+  if(isImageCA(srcImg)) { // Working directly on ColorAccumulator -- UnAccumulator mode
+    var srcBGC = getImageBackgroundColor(srcImg);
 
     srcPro.snapshot();
     for (var i=0; i<roiPoints.length; i++) {
@@ -219,13 +293,8 @@ function colorAccumulatorROI() {
 
   } else { // Working on source image -- Accumulator mode
 
+    createAccumulatorImageIfNeeded();
     var accImg = Packages.ij.WindowManager.getImage("ColorAccumulator");
-
-    if ( !(accImg)) {
-      Packages.ij.IJ.run(srcImg, "Color Accumulator Empty", "");
-      accImg = Packages.ij.WindowManager.getImage("ColorAccumulator");
-    }
-
     if ( !(accImg)) {
 	  Packages.ij.IJ.showMessage("ERROR(Color Accumulator ROI): Could not create ColorAccumulator image!");
       return false;
@@ -234,9 +303,8 @@ function colorAccumulatorROI() {
     var newAccP   = false;
     var accPro    = accImg.getProcessor();
     var accPix    = accPro.getPixels();
-    var accWidth  = accPro.getWidth(); 
-    var accHeight = accPro.getHeight();
-    if ((accWidth != srcWidth) || (accHeight != srcHeight)) {
+
+    if ( !(areImagesSameSize(accImg, srcImg))) {
 	  Packages.ij.IJ.showMessage("ERROR(Color Accumulator ROI): Active image and Accumulator sizes differ!");
       return;
     }
@@ -290,7 +358,6 @@ function colorAccumulatorFuzzy() {
   var srcPro    = srcImg.getProcessor();
   var srcPix    = srcPro.getPixels();
   var srcWidth  = srcPro.getWidth(); 
-  var srcHeight = srcPro.getHeight();
 
   var dialogObj = new Packages.ij.gui.GenericDialog("Color Accumulator Fuzzy");
   dialogObj.addNumericField("Cube Width: ", 20, 0, 5, "");
@@ -319,25 +386,8 @@ function colorAccumulatorFuzzy() {
   gAvg /= roiPoints.length;
   bAvg /= roiPoints.length;	
 
-  var srcTitle = srcImg.getTitle();
-  var srcCAP   = srcImg.getProp("MJR_ColorAccumulator");
-
-  if (srcTitle == "ColorAccumulator") { // Working directly on ColorAccumulator -- UnAccumulator mode
-
-    var srcBGC = srcImg.getProp("MJR_Background_Color");
-
-    if (srcBGC && (java.lang.String.class == srcBGC.class)) {
-      if (srcImg.getBitDepth() != 32) {
-        srcBGC = parseInt(srcBGC);
-      } else {
-        srcBGC = parseFloat(srcBGC);
-      }
-      if (isNaN(srcBGC)) {
-        srcBGC = 0;
-      }
-    } else {
-      srcBGC = 0;
-    }
+  if(isImageCA(srcImg)) { // Working directly on ColorAccumulator -- UnAccumulator mode
+    var srcBGC = getImageBackgroundColor(srcImg);
 
     srcPro.snapshot();
     for (var i = 0; i < srcPix.length; i++) {
@@ -354,13 +404,8 @@ function colorAccumulatorFuzzy() {
 
   } else { // Working on source image -- Accumulator mode
 
+    createAccumulatorImageIfNeeded();
     var accImg = Packages.ij.WindowManager.getImage("ColorAccumulator");
-
-    if ( !(accImg)) {
-      Packages.ij.IJ.run(srcImg, "Color Accumulator Empty", "");
-      accImg = Packages.ij.WindowManager.getImage("ColorAccumulator");
-    }
-
     if ( !(accImg)) {
 	  Packages.ij.IJ.showMessage("ERROR(Color Accumulator Fuzzy): Could not create ColorAccumulator image!");
       return false;
@@ -368,10 +413,8 @@ function colorAccumulatorFuzzy() {
 
     var accPro    = accImg.getProcessor();
     var accPix    = accPro.getPixels();
-    var accWidth  = accPro.getWidth(); 
-    var accHeight = accPro.getHeight();
-    if ((accWidth != srcWidth) || (accHeight != srcHeight)) {
-	  Packages.ij.IJ.showMessage("ERROR(Color Accumulator Fuzzy): Active image and Accumulator sizes differ!");
+    if ( !(areImagesSameSize(srcImg, accImg))) {
+	  Packages.ij.IJ.showMessage("ERROR(Color Accumulator Fuzzy): Source image and Accumulator sizes differ!");
       return false;
     }
 
@@ -445,7 +488,6 @@ function colorAccumulatorEqCube() {
   var srcPro    = srcImg.getProcessor();
   var srcPix    = srcPro.getPixels();
   var srcWidth  = srcPro.getWidth(); 
-  var srcHeight = srcPro.getHeight();
   var colorSet  = new java.util.HashSet();
 
   for (var i=0; i<roiPoints.length; i++)
@@ -488,25 +530,8 @@ function colorAccumulatorEqCube() {
     print("INFO(Color Accumulator EqCube): Cube size < 1.  Cube disabled.");
   }
 
-  var srcTitle = srcImg.getTitle();
-  var srcCAP   = srcImg.getProp("MJR_ColorAccumulator");
-
-  if (srcTitle == "ColorAccumulator") { // Working directly on ColorAccumulator -- UnAccumulator mode
-
-    var srcBGC = srcImg.getProp("MJR_Background_Color");
-
-    if (srcBGC && (java.lang.String.class == srcBGC.class)) {
-      if (srcImg.getBitDepth() != 32) {
-        srcBGC = parseInt(srcBGC);
-      } else {
-        srcBGC = parseFloat(srcBGC);
-      }
-      if (isNaN(srcBGC)) {
-        srcBGC = 0;
-      }
-    } else {
-      srcBGC = 0;
-    }
+  if(isImageCA(srcImg)) { // Working directly on ColorAccumulator -- UnAccumulator mode
+    var srcBGC = getImageBackgroundColor(srcImg);
 
     srcPro.snapshot();
     for (var i=0; i <srcPix.length; i++)
@@ -518,13 +543,8 @@ function colorAccumulatorEqCube() {
 
   } else { // Working on source image -- Accumulator mode
 
+    createAccumulatorImageIfNeeded();
     var accImg = Packages.ij.WindowManager.getImage("ColorAccumulator");
-
-    if ( !(accImg)) {
-      Packages.ij.IJ.run(srcImg, "Color Accumulator Empty", "");
-      accImg = Packages.ij.WindowManager.getImage("ColorAccumulator");
-    }
-
     if ( !(accImg)) {
 	  Packages.ij.IJ.showMessage("ERROR(Color Accumulator EqCube): Could not create ColorAccumulator image!");
       return false;
@@ -532,10 +552,8 @@ function colorAccumulatorEqCube() {
 
     var accPro    = accImg.getProcessor();
     var accPix    = accPro.getPixels();
-    var accWidth  = accPro.getWidth(); 
-    var accHeight = accPro.getHeight();
-    if ((accWidth != srcWidth) || (accHeight != srcHeight)) {
-	  Packages.ij.IJ.showMessage("ERROR(Color Accumulator EqCube): Active image and Accumulator sizes differ!");
+    if ( !(areImagesSameSize(accImg, srcImg))) {
+	  Packages.ij.IJ.showMessage("ERROR(Color Accumulator EqCube): Source image and Accumulator sizes differ!");
       return false;
     }
 
@@ -600,14 +618,14 @@ function colorAccumulatorEmpty() {
     var bgColor = dialogObj.getNextNumber();
   } else if (srcImg.getBitDepth() == 24) {
     switch(dialogObj.getNextChoice()) {
-      case "White"   : var bgColor = 0xFFFFFF; break;
-      case "Black"   : var bgColor = 0x000000; break;
-      case "Red"     : var bgColor = 0xFF0000; break;
-      case "Green"   : var bgColor = 0x00FF00; break;
-      case "Blue"    : var bgColor = 0x0000FF; break;
-      case "Yellow"  : var bgColor = 0xFFFF00; break;
-      case "Cyan"    : var bgColor = 0x00FFFF; break;
-      case "Magenta" : var bgColor = 0xFF00FF; break;
+    case "White"   : var bgColor = 0xFFFFFF; break;
+    case "Black"   : var bgColor = 0x000000; break;
+    case "Red"     : var bgColor = 0xFF0000; break;
+    case "Green"   : var bgColor = 0x00FF00; break;
+    case "Blue"    : var bgColor = 0x0000FF; break;
+    case "Yellow"  : var bgColor = 0xFFFF00; break;
+    case "Cyan"    : var bgColor = 0x00FFFF; break;
+    case "Magenta" : var bgColor = 0xFF00FF; break;
     }
   } 
 
