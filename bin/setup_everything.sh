@@ -11,4 +11,4 @@ if [ -n "$1" ]; then
   IARG='-ar'
 fi
 
-./bin/install_imagej_stuff.sh $IARG
+./bin/install_imagej_stuff.sh $IARG Color_Accumulator/
