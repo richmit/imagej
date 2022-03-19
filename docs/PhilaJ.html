@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-03-19 Sat 13:13 -->
+<!-- 2022-03-19 Sat 13:30 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=1024, initial-scale=1" />
 <title>PhilaJ: Philatelic Tools For ImageJ</title>
@@ -252,12 +252,12 @@
 
 <tr>
 <td class="org-right"><b>Updated:</b></td>
-<td class="org-left"><i>2022-03-19 13:13:49</i></td>
+<td class="org-left"><i>2022-03-19 13:18:12</i></td>
 </tr>
 
 <tr>
 <td class="org-right"><b>Generated:</b></td>
-<td class="org-left"><i>2022-03-19 13:13:51</i></td>
+<td class="org-left"><i>2022-03-19 13:30:43</i></td>
 </tr>
 </tbody>
 </table>
@@ -269,65 +269,65 @@ Copyright 2022 Mitch Richling. All rights reserved.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgca7b6b2">1. Introduction</a></li>
-<li><a href="#orgad257d5">2. Some PhilaJ Features</a>
+<li><a href="#orge6fb9b0">1. Introduction</a></li>
+<li><a href="#org83948a3">2. Some PhilaJ Features</a>
 <ul>
-<li><a href="#org31dcc8f">2.1. Future Features</a></li>
+<li><a href="#org341fa45">2.1. Future Features</a></li>
 </ul>
 </li>
-<li><a href="#orga209f9f">3. Learning ImageJ</a>
+<li><a href="#orgf475c8d">3. Learning ImageJ</a>
 <ul>
-<li><a href="#orgdeeafb0">3.1. ImageJ is not Photoshop!</a></li>
-<li><a href="#orgeacf000">3.2. ImageJ &amp; ROIs</a></li>
-<li><a href="#org9af8823">3.3. Overlays</a></li>
-<li><a href="#org6bf2cdd">3.4. Learning how to use ImageJ</a></li>
+<li><a href="#org646444f">3.1. ImageJ is not Photoshop!</a></li>
+<li><a href="#org9ca2b00">3.2. ImageJ &amp; ROIs</a></li>
+<li><a href="#orge08a5fc">3.3. Overlays</a></li>
+<li><a href="#org532d24a">3.4. Learning how to use ImageJ</a></li>
 </ul>
 </li>
-<li><a href="#orgc690e6b">4. Using PhilaJ</a>
+<li><a href="#orgd02e558">4. Using PhilaJ</a>
 <ul>
-<li><a href="#org058dca5">4.1. Activate PhilaJ</a></li>
+<li><a href="#org879fef2">4.1. Activate PhilaJ</a></li>
 <li><a href="#keybindings">4.2. Keyboard short-cuts</a></li>
 <li><a href="#tool-set-buttons">4.3. Tool-set Buttons</a>
 <ul>
-<li><a href="#orgc1f4869">4.3.1. Overlay Menu (images &amp; annotations drawn over the stamp image in a nondestructive way)</a></li>
+<li><a href="#org501d8d8">4.3.1. Overlay Menu (images &amp; annotations drawn over the stamp image in a nondestructive way)</a></li>
 <li><a href="#tool-set-buttons-interact">4.3.2. Overlay Interaction tool</a></li>
-<li><a href="#org06b7627">4.3.3. Image Scale Menu (so we can measure things like distances &amp; perforations)</a></li>
-<li><a href="#orge11a596">4.3.4. Acquiring &amp; Saving Images &amp; Data Menu</a></li>
-<li><a href="#org21fb851">4.3.5. Everything Else Menu</a></li>
+<li><a href="#org3ef455c">4.3.3. Image Scale Menu (so we can measure things like distances &amp; perforations)</a></li>
+<li><a href="#org3faa1b0">4.3.4. Acquiring &amp; Saving Images &amp; Data Menu</a></li>
+<li><a href="#org44628a8">4.3.5. Everything Else Menu</a></li>
 </ul>
 </li>
-<li><a href="#org3b147e1">4.4. PhilaJ Tools</a>
+<li><a href="#orge2e53b8">4.4. PhilaJ Tools</a>
 <ul>
-<li><a href="#overlay-measure">4.4.1. Overlay/ROI Measure</a></li>
-<li><a href="#phil-rotate">4.4.2. Image Rotation</a></li>
-<li><a href="#sub-image">4.4.3. Making Images From Selections</a></li>
-<li><a href="#centering-measurements">4.4.4. Measuring Design &amp; Margins</a>
+<li><a href="#dynamic-perf-gauge">4.4.1. Dynamic perforation gauge</a></li>
+<li><a href="#reuse-dynamic-perf-roi">4.4.2. Reusing Dynamic Perforation Gauge ROIs</a></li>
+<li><a href="#static-perf-gauge">4.4.3. Static perforation gauges</a></li>
+<li><a href="#custom-spec-gauge">4.4.4. User Installable Customized Specialist Gauges</a></li>
+<li><a href="#centering-measurements">4.4.5. Measuring Design &amp; Margins</a>
 <ul>
-<li><a href="#org56d61f2">4.4.4.1. Centering Metrics</a></li>
-<li><a href="#org2e99f44">4.4.4.2. ROI Details</a></li>
+<li><a href="#org46967db">4.4.5.1. Centering Metrics</a></li>
+<li><a href="#org3ae74e2">4.4.5.2. ROI Details</a></li>
 </ul>
 </li>
-<li><a href="#measure-offset">4.4.5. Measuring ROI Offsets</a></li>
-<li><a href="#load-save-magic">4.4.6. PhilaJ Image Load &amp; Save</a></li>
-<li><a href="#roi-sidecars">4.4.7. ROI Sidecars</a></li>
-<li><a href="#note-sidecars">4.4.8. Note Sidecars</a></li>
-<li><a href="#set-scale-convert">4.4.9. Convert image scale units to mm</a></li>
-<li><a href="#scale-image-scale">4.4.10. Image Resize To Scale</a></li>
-<li><a href="#scale-roi">4.4.11. Scale ROIs</a></li>
-<li><a href="#scale-alt">4.4.12. Alternate interfaces to the ImageJ set scale command</a></li>
-<li><a href="#set-scale-dpi">4.4.13. Set scale via DPI</a></li>
-<li><a href="#set-scale-filename">4.4.14. Set scale from DPI file name</a></li>
-<li><a href="#grill-tool">4.4.15. Grill Tool</a></li>
-<li><a href="#coord-tool">4.4.16. Coordinate Tool</a></li>
-<li><a href="#pos-finder">4.4.17. Position Finder</a></li>
-<li><a href="#static-perf-gauge">4.4.18. Static perforation gauges</a></li>
-<li><a href="#custom-spec-gauge">4.4.19. User Installable Customized Specialist Gauges</a></li>
-<li><a href="#dynamic-perf-gauge">4.4.20. Dynamic perforation gauge</a></li>
-<li><a href="#reuse-dynamic-perf-roi">4.4.21. Reusing Dynamic Perforation Gauge ROIs</a></li>
-<li><a href="#measure-edges">4.4.22. Measuring Edges</a></li>
-<li><a href="#phil-data">4.4.23. Philatelic Data</a></li>
-<li><a href="#phil-units">4.4.24. Philatelic Unit Conversions</a></li>
-<li><a href="#sheet-tools">4.4.25. Working With Multiples &amp; Sheets</a></li>
+<li><a href="#coord-tool">4.4.6. Coordinate Tool</a></li>
+<li><a href="#pos-finder">4.4.7. Position Finder</a></li>
+<li><a href="#measure-edges">4.4.8. Measuring Edges</a></li>
+<li><a href="#grill-tool">4.4.9. Grill Tool</a></li>
+<li><a href="#sheet-tools">4.4.10. Working With Multiples &amp; Sheets</a></li>
+<li><a href="#phil-rotate">4.4.11. Image Rotation</a></li>
+<li><a href="#sub-image">4.4.12. Making Images From Selections</a></li>
+<li><a href="#overlay-measure">4.4.13. Overlay/ROI Measure</a></li>
+<li><a href="#measure-offset">4.4.14. Measuring ROI Offsets</a></li>
+<li><a href="#load-save-magic">4.4.15. PhilaJ Image Load &amp; Save</a></li>
+<li><a href="#roi-sidecars">4.4.16. ROI Sidecars</a></li>
+<li><a href="#note-sidecars">4.4.17. Note Sidecars</a></li>
+<li><a href="#set-scale-convert">4.4.18. Convert image scale units to mm</a></li>
+<li><a href="#scale-image-scale">4.4.19. Image Resize To Scale</a></li>
+<li><a href="#scale-roi">4.4.20. Scale ROIs</a></li>
+<li><a href="#scale-alt">4.4.21. Alternate interfaces to the ImageJ set scale command</a></li>
+<li><a href="#set-scale-dpi">4.4.22. Set scale via DPI</a></li>
+<li><a href="#set-scale-filename">4.4.23. Set scale from DPI file name</a></li>
+<li><a href="#phil-data">4.4.24. Philatelic Data</a></li>
+<li><a href="#phil-units">4.4.25. Philatelic Unit Conversions</a></li>
 <li><a href="#scale-report">4.4.26. Scale Report</a></li>
 <li><a href="#bulk-processing">4.4.27. Bulk Processing Images</a></li>
 <li><a href="#cleaning-up-windows-n-files">4.4.28. Cleanup Windows and Files</a></li>
@@ -336,17 +336,17 @@ Copyright 2022 Mitch Richling. All rights reserved.
 </ul>
 </li>
 <li><a href="#capture-and-scale">4.5. Capturing and adjusting properly scaled images</a></li>
-<li><a href="#orgc0d88d3">4.6. Known issues with the built in specialist gauges and presets</a></li>
-<li><a href="#orgfc7100a">4.7. A Note About The Thirkell Position Finder</a></li>
-<li><a href="#org7c7d238">4.8. ROIs</a>
+<li><a href="#org3b518d3">4.6. Known issues with the built in specialist gauges and presets</a></li>
+<li><a href="#org57e431e">4.7. A Note About The Thirkell Position Finder</a></li>
+<li><a href="#org233316e">4.8. ROIs</a>
 <ul>
-<li><a href="#org88e76d8">4.8.1. Named ROIs</a>
+<li><a href="#orgab4aab0">4.8.1. Named ROIs</a>
 <ul>
-<li><a href="#orgfbb3e18">4.8.1.1. Notation</a></li>
+<li><a href="#org211181b">4.8.1.1. Notation</a></li>
 <li><a href="#roi-name-components">4.8.1.2. About ROI Name Components</a></li>
-<li><a href="#org744c253">4.8.1.3. Some Component Recommendations</a></li>
+<li><a href="#org3bf0aba">4.8.1.3. Some Component Recommendations</a></li>
 <li><a href="#bb-hr-roi">4.8.1.4. About "<code>HR</code>" &amp; "<code>BB</code>" ROIs</a></li>
-<li><a href="#orgd63ea41">4.8.1.5. How ROIs are Used</a></li>
+<li><a href="#org3c43e17">4.8.1.5. How ROIs are Used</a></li>
 </ul>
 </li>
 </ul>
@@ -355,8 +355,8 @@ Copyright 2022 Mitch Richling. All rights reserved.
 </li>
 <li><a href="#rpi-tools">5. RPI Tools</a>
 <ul>
-<li><a href="#orgfcc1b1b">5.1. Activate RPI-Tools</a></li>
-<li><a href="#org4645fc0">5.2. Button Functions</a>
+<li><a href="#org26043a0">5.1. Activate RPI-Tools</a></li>
+<li><a href="#orgf5531f2">5.2. Button Functions</a>
 <ul>
 <li><a href="#rpi-capture">5.2.1. Capture Image From RPI Microscope Camera</a></li>
 <li><a href="#rpi-settings">5.2.2. Configure RPI Microscope Camera</a></li>
@@ -367,13 +367,13 @@ Copyright 2022 Mitch Richling. All rights reserved.
 </ul>
 </li>
 <li><a href="#scale-rpi">6. Set Scale for Stereo Microscope Photograph</a></li>
-<li><a href="#org2a40663">7. EOF</a></li>
+<li><a href="#orgd404402">7. EOF</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgca7b6b2" class="outline-2">
-<h2 id="orgca7b6b2"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-orge6fb9b0" class="outline-2">
+<h2 id="orge6fb9b0"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 PhilaJ is software to assist with philatelic image analysis. It is built on top of the popular scientific image analysis package
@@ -382,8 +382,8 @@ PhilaJ is software to assist with philatelic image analysis. It is built on top 
 </div>
 </div>
 
-<div id="outline-container-orgad257d5" class="outline-2">
-<h2 id="orgad257d5"><span class="section-number-2">2</span> Some PhilaJ Features</h2>
+<div id="outline-container-org83948a3" class="outline-2">
+<h2 id="org83948a3"><span class="section-number-2">2</span> Some PhilaJ Features</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 While ImageJ is perfectly capable of philatelic image analysis out of the box, PhilaJ assists philatelist by automating and simplifying many typical
@@ -432,8 +432,8 @@ hit a key, and the image is rotated to make the line horizontal.</li>
 </ul>
 </div>
 
-<div id="outline-container-org31dcc8f" class="outline-3">
-<h3 id="org31dcc8f"><span class="section-number-3">2.1</span> Future Features</h3>
+<div id="outline-container-org341fa45" class="outline-3">
+<h3 id="org341fa45"><span class="section-number-3">2.1</span> Future Features</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Some of the features listed here are very difficult to implement &#x2013; complex enough they might not even be possible.  Others are easy things I simply need to
@@ -509,16 +509,16 @@ have tried to sort the list from highest priority to lowest:
 </div>
 </div>
 
-<div id="outline-container-orga209f9f" class="outline-2">
-<h2 id="orga209f9f"><span class="section-number-2">3</span> Learning ImageJ</h2>
+<div id="outline-container-orgf475c8d" class="outline-2">
+<h2 id="orgf475c8d"><span class="section-number-2">3</span> Learning ImageJ</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Because many people wishing to use PhilaJ are not already ImageJ users, this section provides some ImageJ background information and some links to learn more.
 </p>
 </div>
 
-<div id="outline-container-orgdeeafb0" class="outline-3">
-<h3 id="orgdeeafb0"><span class="section-number-3">3.1</span> ImageJ is not Photoshop!</h3>
+<div id="outline-container-org646444f" class="outline-3">
+<h3 id="org646444f"><span class="section-number-3">3.1</span> ImageJ is not Photoshop!</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 ImageJ is not hard to use.  In many ways it is less complex than Photoshop or GIMP.  That said, sometimes ImageJ newcomers stumble because ImageJ looks a lot
@@ -545,8 +545,8 @@ screwdriver vs hammer.
 </div>
 </div>
 
-<div id="outline-container-orgeacf000" class="outline-3">
-<h3 id="orgeacf000"><span class="section-number-3">3.2</span> ImageJ &amp; ROIs</h3>
+<div id="outline-container-org9ca2b00" class="outline-3">
+<h3 id="org9ca2b00"><span class="section-number-3">3.2</span> ImageJ &amp; ROIs</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 The "drawing" tools on the ImageJ toolbar are not drawing tools in that they do not draw anything (i.e. they do not manipulate the image in any way).  Instead
@@ -566,8 +566,8 @@ Once again.  ImageJ is all about measuring things.  Distances, sizes, colors, et
 </div>
 </div>
 
-<div id="outline-container-org9af8823" class="outline-3">
-<h3 id="org9af8823"><span class="section-number-3">3.3</span> Overlays</h3>
+<div id="outline-container-orge08a5fc" class="outline-3">
+<h3 id="orge08a5fc"><span class="section-number-3">3.3</span> Overlays</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 Overlays are images &amp; annotations placed over the image we we analyzing.  Back in the day, scientists would place a transparent film over a photograph and
@@ -605,8 +605,8 @@ an image (say for a scientific publication); however, overlays overlays find far
 </div>
 </div>
 
-<div id="outline-container-org6bf2cdd" class="outline-3">
-<h3 id="org6bf2cdd"><span class="section-number-3">3.4</span> Learning how to use ImageJ</h3>
+<div id="outline-container-org532d24a" class="outline-3">
+<h3 id="org532d24a"><span class="section-number-3">3.4</span> Learning how to use ImageJ</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
 To use PhilaJ, I think the basic tutorial at <a href="https://imagej.net">imagej.net</a> is enough: <a href="https://imagej.net/learn/">https://imagej.net/learn/</a>
@@ -620,19 +620,19 @@ said, I think the tutorial linked above is all you really need to get started wi
 </div>
 </div>
 
-<div id="outline-container-orgc690e6b" class="outline-2">
-<h2 id="orgc690e6b"><span class="section-number-2">4</span> Using PhilaJ</h2>
+<div id="outline-container-orgd02e558" class="outline-2">
+<h2 id="orgd02e558"><span class="section-number-2">4</span> Using PhilaJ</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org058dca5" class="outline-3">
-<h3 id="org058dca5"><span class="section-number-3">4.1</span> Activate PhilaJ</h3>
+<div id="outline-container-org879fef2" class="outline-3">
+<h3 id="org879fef2"><span class="section-number-3">4.1</span> Activate PhilaJ</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 The PhilaJ toolset is activated via the toolset menu:
 </p>
 
 
-<div id="org87e4342" class="figure">
+<div id="org730ae79" class="figure">
 <p><img src="PhilaJ-toolbar-b4m-anno.gif" alt="PhilaJ-toolbar-b4m-anno.gif" align="center" width="800px" />
 </p>
 </div>
@@ -642,7 +642,7 @@ Then the PhilaJ macro set is selected:
 </p>
 
 
-<div id="orgf45de3f" class="figure">
+<div id="orgbbcba3c" class="figure">
 <p><img src="PhilaJ-toolbar-tbm-anno.gif" alt="PhilaJ-toolbar-tbm-anno.gif" align="center" width="800px" />
 </p>
 </div>
@@ -652,7 +652,7 @@ Once activated, it will add a few buttons to the toolbar:
 </p>
 
 
-<div id="org5a43e34" class="figure">
+<div id="org2acfa1b" class="figure">
 <p><img src="PhilaJ-toolbar-pmi-anno.gif" alt="PhilaJ-toolbar-pmi-anno.gif" align="center" width="800px" />
 </p>
 </div>
@@ -744,14 +744,14 @@ In addition to the buttons, a few keyboard shortcuts will now be activated!
 <h3 id="tool-set-buttons"><span class="section-number-3">4.3</span> Tool-set Buttons</h3>
 <div class="outline-text-3" id="text-tool-set-buttons">
 
-<div id="orgebd13ca" class="figure">
+<div id="org115b379" class="figure">
 <p><img src="PhilaJ-philaj-buttons.gif" alt="PhilaJ-philaj-buttons.gif" />
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgc1f4869" class="outline-4">
-<h4 id="orgc1f4869"><span class="section-number-4">4.3.1</span> Overlay Menu (images &amp; annotations drawn over the stamp image in a nondestructive way)</h4>
+<div id="outline-container-org501d8d8" class="outline-4">
+<h4 id="org501d8d8"><span class="section-number-4">4.3.1</span> Overlay Menu (images &amp; annotations drawn over the stamp image in a nondestructive way)</h4>
 <div class="outline-text-4" id="text-4-3-1">
 <dl class="org-dl">
 <dt><img src="PhilaJ-button-overlay.gif" alt="PhilaJ-button-overlay.gif" /></dt><dd><ul class="org-ul">
@@ -804,8 +804,8 @@ This toolbar button has a super power &#x2013; Right click on it to bring up the
 </div>
 </div>
 
-<div id="outline-container-org06b7627" class="outline-4">
-<h4 id="org06b7627"><span class="section-number-4">4.3.3</span> Image Scale Menu (so we can measure things like distances &amp; perforations)</h4>
+<div id="outline-container-org3ef455c" class="outline-4">
+<h4 id="org3ef455c"><span class="section-number-4">4.3.3</span> Image Scale Menu (so we can measure things like distances &amp; perforations)</h4>
 <div class="outline-text-4" id="text-4-3-3">
 <dl class="org-dl">
 <dt><img src="PhilaJ-button-scale.gif" alt="PhilaJ-button-scale.gif" /> </dt><dd><ul class="org-ul">
@@ -841,8 +841,8 @@ This toolbar button has a super power &#x2013; Right click on it to bring up the
 </div>
 </div>
 
-<div id="outline-container-orge11a596" class="outline-4">
-<h4 id="orge11a596"><span class="section-number-4">4.3.4</span> Acquiring &amp; Saving Images &amp; Data Menu</h4>
+<div id="outline-container-org3faa1b0" class="outline-4">
+<h4 id="org3faa1b0"><span class="section-number-4">4.3.4</span> Acquiring &amp; Saving Images &amp; Data Menu</h4>
 <div class="outline-text-4" id="text-4-3-4">
 <dl class="org-dl">
 <dt><img src="PhilaJ-button-files.gif" alt="PhilaJ-button-files.gif" /> </dt><dd><ul class="org-ul">
@@ -880,8 +880,8 @@ This toolbar button has a super power &#x2013; Right click on it to bring up the
 </div>
 </div>
 
-<div id="outline-container-org21fb851" class="outline-4">
-<h4 id="org21fb851"><span class="section-number-4">4.3.5</span> Everything Else Menu</h4>
+<div id="outline-container-org44628a8" class="outline-4">
+<h4 id="org44628a8"><span class="section-number-4">4.3.5</span> Everything Else Menu</h4>
 <div class="outline-text-4" id="text-4-3-5">
 <dl class="org-dl">
 <dt><img src="PhilaJ-button-misc.gif" alt="PhilaJ-button-misc.gif" /> </dt><dd><ul class="org-ul">
@@ -921,76 +921,327 @@ This toolbar button has a super power &#x2013; Right click on it to bring up the
 </div>
 </div>
 
-<div id="outline-container-org3b147e1" class="outline-3">
-<h3 id="org3b147e1"><span class="section-number-3">4.4</span> PhilaJ Tools</h3>
+<div id="outline-container-orge2e53b8" class="outline-3">
+<h3 id="orge2e53b8"><span class="section-number-3">4.4</span> PhilaJ Tools</h3>
 <div class="outline-text-3" id="text-4-4">
 </div>
-<div id="outline-container-overlay-measure" class="outline-4">
-<h4 id="overlay-measure"><span class="section-number-4">4.4.1</span> Overlay/ROI Measure</h4>
-<div class="outline-text-4" id="text-overlay-measure">
+<div id="outline-container-dynamic-perf-gauge" class="outline-4">
+<h4 id="dynamic-perf-gauge"><span class="section-number-4">4.4.1</span> Dynamic perforation gauge</h4>
+<div class="outline-text-4" id="text-dynamic-perf-gauge">
+
+<div id="org9fd6589" class="figure">
+<p><img src="PhilaJ-overlay-dynamicPerf.gif" alt="PhilaJ-overlay-dynamicPerf.gif" align="center" width="800" />
+</p>
+</div>
+
 <p>
-The menu item <a href="#overlay-measure"><code>Overlay/ROI Measure</code></a>, also bound to the uppercase <a href="#keybindings"><code>[M]</code></a> key, is intended to largely replace and extend the
-behavior of the built in "<code>Measure</code>" function bound to the lowercase <code>[m]</code> key.
+The dynamic perforation gauge is a fully interactive, digital perforation gauge capable of making very precise measurements of both perforations and hole
+size.  With physical perforation gauges one finds the gauge row that most closely matches the perforation holes.  The dynamic gauge only has one row of
+perforation dots, and the user adjusts the location (and optionally size) of these dots to match the perforation holes.  The dynamic perforation gauge is
+started by selecting one of the following menu items in the overlay menu: <a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge</code></a>,
+<a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge Options</code></a>, or <a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge Presets</code></a>.
 </p>
 
 <p>
-<a href="#overlay-measure"><code>Overlay/ROI Measure</code></a> preforms a sequence of actions.  First it saves the measured ROI in the ROI Manager with a name of
-"<code>philMeasured</code>" &#x2013; if an ROI already exists with that name, then it will be removed first.  Next it calls the built in "<code>Measure</code>" function &#x2013; note the name
-of the ROI when measured will be the name the ROI had when <a href="#overlay-measure"><code>Overlay/ROI Measure</code></a> was called &#x2013; <b>not</b> "<code>philMeasured</code>".  Lastly
-<a href="#overlay-measure"><code>Overlay/ROI Measure</code></a> will preform an overlay specific action for the following overlays:
+When using the <a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge Options</code></a> menu item, the dialog below will appear before the perforation gauge overlay is
+drawn.
+</p>
+
+
+<div id="org863a938" class="figure">
+<p><img src="PhilaJ-dialog-dynamicPerf-Options.gif" alt="PhilaJ-dialog-dynamicPerf-Options.gif" align="center" width="400" />
+</p>
+</div>
+
+<p>
+When using the <a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge Presets</code></a> menu item, the dialog below will appear.  These presets will set the initial hole
+size &amp; spacing.  Immediately after the preset dialog, the options dialog will be displayed just as if the <a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge
+Options</code></a> had been used.
+</p>
+
+
+<div id="org9678e93" class="figure">
+<p><img src="PhilaJ-dialog-dynamicPerf-Presets.gif" alt="PhilaJ-dialog-dynamicPerf-Presets.gif" align="center" width="400" />
+</p>
+</div>
+
+<p>
+The initial placement of the overlay may be controlled by an active line ROI when <a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge</code></a> or
+<a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge Options</code></a> is used &#x2013; but not <a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge Presets</code></a>.
 </p>
 
 <ul class="org-ul">
-<li><a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge</code></a></li>
-<li><a href="#pos-finder"><code>Position Finder</code></a></li>
-<li><a href="#grill-tool"><code>Grill</code></a></li>
+<li>If a line ROI was active when the menu option was selected, then the gauge will appear on the line</li>
+<li>If a line ROI is one previously created by the dynamic perforation gauge, then the number of perforation holes and perforation hole size may be
+automatically set.</li>
+<li>If no ROI is selected, then the gauge appears with the first dot in the upper left of the image and extending to the right</li>
 </ul>
-</div>
-</div>
 
-<div id="outline-container-phil-rotate" class="outline-4">
-<h4 id="phil-rotate"><span class="section-number-4">4.4.2</span> Image Rotation</h4>
-<div class="outline-text-4" id="text-phil-rotate">
 <p>
-The <a href="#phil-rotate"><code>Rotate Line to Horizontal</code></a> menu option rotates an image so that the current line ROI will be horizontal.  That is to say, draw a line
-on something that should be horizontal in the image (frame line, row of perforations, paper edge, etc..), and use this function to rotate the image.  This
-menu function is also bound to the <a href="#keybindings"><code>[1]</code></a> key.
+Once the gauge is displayed, it may be dynamically adjusted onscreen.  While being adjusted a live perforation measurement may displayed.  This live
+measurement may be presented in one of two ways: 1) graphically over the image itself, or 2) in a popup window.
+</p>
+
+<ul class="org-ul">
+<li>Click and drag any perforation gauge dot to move the dot around.  Note that the end dot furthest away from the one you clicked on stays put while all the
+other dots follow your mouse around.  The typical procedure is to drag an end dot to the first hole on the stamp, and then drag a dot on the other end of
+the perforation gauge to a hole on the other side of the stamp.</li>
+<li>If the HUD perforation report is being displayed, clicking on the HUD will allow you to drag just the HUD around.  This is useful when the HUD is placed
+over a cluttered part o the stamp making the HUD hard to read.</li>
+<li>Clicking outside of the HUD and any perforation allows you to drag the entire perforation gauge line around on the display.  This can be useful if you have just
+measured perfs on one edge, and wish to measure the other edge.</li>
+<li>Shift-Click outside of any perforation and drag to resize the perforation gauge holes.  Moving away from the gauge makes the holes larger, and moving
+toward the gauge makes them smaller.  The rate of change as you drag is slowed down to make precise chances possible, but this means that if large changes
+need to be made to the size you might have to repeat the procedure.</li>
+<li>Dots can be added or removed with an Alt-Click
+<ul class="org-ul">
+<li>Alt-Click on a dot, and all the dots left/right of that dot will be removed to the closet gauge end.</li>
+<li>Alt-Click outside of any dot, and all a new dot will be added to the end of the gauge closet to the clicked point</li>
+<li>The number of dots may also be added by bringing up the options dialog, and changing the value in the dialog.  When changed in this manner, the end dots
+stay put and the gauge is redrawn.</li>
+</ul></li>
+<li>Control-click to get a perforation report or use the <a href="#overlay-measure"><code>Overlay/ROI Measure</code></a> command</li>
+</ul>
+
+<p>
+In summary:
+</p>
+
+<table border="2 solid #ccc" cellspacing="0" cellpadding="6" rules="groups" frame="hsides" align="center">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Event</th>
+<th scope="col" class="org-left">Where</th>
+<th scope="col" class="org-left">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">SHIFT-CLICK &amp; Drag</td>
+<td class="org-left">off dot</td>
+<td class="org-left">resize dots</td>
+</tr>
+
+<tr>
+<td class="org-left">CLICK &amp; Drag</td>
+<td class="org-left">on HUD</td>
+<td class="org-left">translate HUD</td>
+</tr>
+
+<tr>
+<td class="org-left">CLICK &amp; Drag</td>
+<td class="org-left">on dot</td>
+<td class="org-left">translate dot</td>
+</tr>
+
+<tr>
+<td class="org-left">ALT-CLICK</td>
+<td class="org-left">on dot</td>
+<td class="org-left">delete end dots after clicked dot</td>
+</tr>
+
+<tr>
+<td class="org-left">ALT-CLICK</td>
+<td class="org-left">off dot</td>
+<td class="org-left">Add a dot on end closest to click</td>
+</tr>
+
+<tr>
+<td class="org-left">CONTROL-CLICK</td>
+<td class="org-left">N/A</td>
+<td class="org-left">Get a perforation report</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>[M]</code></td>
+<td class="org-left">N/A</td>
+<td class="org-left">Get a perforation report</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Once the gauge is adjusted to align with the stamp's perforation holes, a detailed perforation report may be generated via the
+<a href="#overlay-measure"><code>Overlay/ROI Measure</code></a> menu selection or by pressing the <a href="#keybindings"><code>[M]</code></a> key &#x2013; note that is an upper case "M".  
 </p>
 
 <p>
-The <a href="#phil-rotate"><code>Rotate 90 Degrees Right</code></a> menu option's function is pretty much obvious.  It is also bound to the <a href="#keybindings"><code>[2]</code></a> key.
-</p>
-
-<p>
-Both of these rotation commands will clear the current overlay.  To redraw it, hit the <a href="#keybindings"><code>[g]</code></a> key.
-</p>
-
-<p>
-Note that image rotation can make future linear measurements impossible.  Please read the section <a href="#capture-and-scale">Capturing and adjusting properly scaled images</a>.
+The report will be in a popup (just like the live measurement popup) if the option "<code>Results in measure table</code>" is not selected, otherwise it will be in the
+ImageJ measurement results window.  If the "<code>ROI Manager Use</code>" option is set to anything other than "<code>NONE</code>", then ROIs describing the perforation gauge will
+be saved in ROI manager for later recall &#x2013; see the section <a href="#reuse-dynamic-perf-roi">Reusing Dynamic Perforation Gauge ROIs</a>.
 </p>
 </div>
 </div>
-
-<div id="outline-container-sub-image" class="outline-4">
-<h4 id="sub-image"><span class="section-number-4">4.4.3</span> Making Images From Selections</h4>
-<div class="outline-text-4" id="text-sub-image">
+<div id="outline-container-reuse-dynamic-perf-roi" class="outline-4">
+<h4 id="reuse-dynamic-perf-roi"><span class="section-number-4">4.4.2</span> Reusing Dynamic Perforation Gauge ROIs</h4>
+<div class="outline-text-4" id="text-reuse-dynamic-perf-roi">
 <p>
-ImageJ is perfectly capable of creating new images from a selection with three steps: 1) "<code>Edit -&gt; Selection -&gt; To Bounding Box</code>", 2) "<code>Edit -&gt; Copy</code>", 3)
-"<code>File -&gt; New -&gt; Internal Clipboard</code>".  PhilaJ provides two ways to do something similar.
+ROIs created by the <a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge</code></a> can be used in a few different ways.  Most directly, if one is active when the
+<a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge</code></a> menu is selected, then the <a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge</code></a> will startup with
+matching perforation spacing, hole count, and hole size.  At this point the perforations can be remeasured, or the gauge may be adjusted.
 </p>
 
 <p>
-The first is <a href="#sub-image"><code>Selection to image (with scale)</code></a> which simply automates the three steps above <b>and</b> then copies the source image scale to the
-new image.  The second is <a href="#sub-image"><code>Selection to JPEG</code></a>, also bound to the uppercase <code>[J]</code> key. This one is a bit more specialized.  It is intended to
-immediately save a JPEG of the new image to disk leaving no new image open in ImageJ.  The name for the new JPEG will automatically be annotated with the
-coordinates and size of the region from which it was clipped.  This feature is used by the <a href="#coord-tool"><code>Coordinate Tool</code></a> when making box selections &#x2013;
-which is mostly how I use it in practice.
+The <a href="#phil-units"><code>Convert Distance to Perforation Measurement</code></a> menu item will also create a perforation report if a <a href="#dynamic-perf-gauge"><code>Dynamic
+Perforation Gauge</code></a> <b>line</b> ROI is active when the menu is selected.  In this case a dialog will appear allowing the user to manually adjust the numbers
+before the report is generated.
+</p>
+
+<p>
+To simply remeasure the perfs, the <a href="#reuse-dynamic-perf-roi"><code>Measure Dynamic Perf ROI</code></a> item is the way to go.  To generate a summary report for every
+<a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge</code></a> ROI in the ROI Manager, use the <a href="#reuse-dynamic-perf-roi"><code>Measure ALL Dynamic Perf ROIs</code></a> menu item.
 </p>
 </div>
 </div>
+<div id="outline-container-static-perf-gauge" class="outline-4">
+<h4 id="static-perf-gauge"><span class="section-number-4">4.4.3</span> Static perforation gauges</h4>
+<div class="outline-text-4" id="text-static-perf-gauge">
+<p>
+The "static" perforation gauges are just like the physical perforation gauges we use.  They work just like physical perforation gauges too.  That is to say,
+one activates the gauges and then moves it around to line up the gauge on the perforations to be measured.  In PhilaJ they come in two varieties:
+</p>
 
+<ul class="org-ul">
+<li>"Instanta-Style"   &#x2013; Continuous lines graduated with perforation measurements</li>
+<li>"Specialist-Style" &#x2013; rows of dots like the Kiusalas gauges</li>
+</ul>
+
+
+<div id="org066e947" class="figure">
+<p><img src="PhilaJ-overlay-instaPerf1.gif" alt="PhilaJ-overlay-instaPerf1.gif" align="center" width="800" />
+</p>
+</div>
+
+
+<div id="orgbb7be2b" class="figure">
+<p><img src="PhilaJ-overlay-spl.gif" alt="PhilaJ-overlay-spl.gif" align="center" width="800" />
+</p>
+</div>
+
+<p>
+These tools are found in the overlay menu. <a href="#static-perf-gauge"><code>Instanta-Style Perforation Gauge</code></a> &amp; <a href="#static-perf-gauge"><code>Specialized Perforation
+Gauge</code></a> will draw the gauge immediately using the most recent, or default, settings.  If you wish to change settings first, then the
+<a href="#static-perf-gauge"><code>Instanta-Style Perforation Gauge Options</code></a> &amp; <a href="#static-perf-gauge"><code>Specialized Perforation Gauge Options</code></a> menu items will pop up a
+settings dialog before drawing the overlay.
+</p>
+
+
+<div id="org845a979" class="figure">
+<p><img src="PhilaJ-dialog-instaPerf-Options.gif" alt="PhilaJ-dialog-instaPerf-Options.gif" align="center" width="400" />
+</p>
+</div>
+
+
+<div id="orga94b541" class="figure">
+<p><img src="PhilaJ-dialog-splPerf-Options.gif" alt="PhilaJ-dialog-splPerf-Options.gif" align="center" width="400" />
+</p>
+</div>
+
+<p>
+One "moves" the gauge around via the <a href="#tool-set-buttons-interact"><code>PhilaJ Overlay Interaction Tool</code></a> &#x2013; the button just to the right of the overlay menu
+button.  Simply click and drag while the <a href="#tool-set-buttons-interact"><code>PhilaJ Overlay Interaction Tool</code></a> is active to move the gauge around.
+</p>
+
+<p>
+Note that the stamp perforations must be perfectly lined up on a horizontal line to use these gauges!  To do that, draw a line along the tops/bottoms of the
+perf holes, and then use the <a href="#phil-rotate"><code>Rotate Line to Horizontal</code></a> tool &#x2013; in the misc menu or via the keybinding <a href="#keybindings"><code>[1]</code></a>.  After you
+have measured the horizontal perforations and wish to measure the vertical ones, rotate the image 90 degrees via the <a href="#phil-rotate"><code>Rotate 90 Degrees Right</code></a> tool
+&#x2013; in the misc menu or via the keybinding <a href="#keybindings"><code>[2]</code></a>.
+</p>
+
+<p>
+Unlike physical gauges, these gauges can be customized in various ways.  First the graphical presentation (colors, line widths, etc&#x2026;) can all be customized
+to make them more readable.  Secondly, they can be customized geometrically as well.  The Instanta-Style gauges can have the overall range adjusted and the
+graduations (1/10, 1/4, 1/2) adjusted.  Note that by reducing the range one can obtain very accurate measurements with the Instanta-Style gauge.  
+</p>
+
+
+<div id="orgca3ebcb" class="figure">
+<p><img src="PhilaJ-overlay-instaPerf2.gif" alt="PhilaJ-overlay-instaPerf2.gif" align="center" width="800" />
+</p>
+</div>
+
+<p>
+The specialist-style options dialog provides a drop down of several gauges (Kiusalas, traditional Kiusalas, Bari Wolf, etc&#x2026;).  The end user can add to this
+list by saving CSV files describing new gauges (see: <a href="#custom-spec-gauge"><code>Install New Specialized Gauge</code></a>).
+</p>
+
+<p>
+If you just need a custom one row specialist-style gauge, then you can use the single line specialist gauge.  It allows the user to specify the perforation
+frequency and perf sizes in a popup dialog.  It automatically converts various measures for frequency and dot size so you don't have to use millimeters.  I
+use this sometimes when working with a pile of stamps that need to be divided into two perforation groups &#x2013; i.e. a stamp fits the gauge or doesn't.  This
+gauge is available via the <a href="#static-perf-gauge"><code>Single Line Specialized Perforation Gauge Options</code></a> &amp; <a href="#static-perf-gauge"><code>Single Line Specialized
+Perforation Gauge Presets</code></a> menu options.
+</p>
+</div>
+</div>
+<div id="outline-container-custom-spec-gauge" class="outline-4">
+<h4 id="custom-spec-gauge"><span class="section-number-4">4.4.4</span> User Installable Customized Specialist Gauges</h4>
+<div class="outline-text-4" id="text-custom-spec-gauge">
+<p>
+Then menu option <a href="#custom-spec-gauge"><code>Install New Specialized Gauge</code></a> in the overlay menu allows one to install new specialized gauges.  
+</p>
+
+<p>
+New gauges are described via a CSV file &#x2013; which you can make with a text editor or Excel.  These files contain three columns:
+</p>
+<ul class="org-ul">
+<li>Gaps &#x2013; the distance from perf hole to perf hole (in millimeters)</li>
+<li>Hole Sizes &#x2013; the diameter of the hole (in millimeters)</li>
+<li>Labels &#x2013; a bit of text to identify each row of perforations</li>
+</ul>
+
+<p>
+Here is an example of a custom gauge CSV file:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-text">2.03850000000,0.95000000000,Sm  9.8
+2.03300000000,0.95000000000,Sm  9.9
+2.03300000000,1.10000000000,Lg  9.9
+1.90988461538,1.10000000000,Lg 10.5
+1.81983621474,1.10000000000,Lg 11.0
+1.77257821501,1.10000000000,Lg 11.3
+</pre>
+</div>
+
+<p>
+The <a href="#custom-spec-gauge"><code>Install New Specialized Gauge</code></a> menu option simply queries the user for a CSV file name, an copies it into the following
+directory:
+</p>
+
+<p>
+<code>~/.philaj/perfs</code>
+</p>
+
+<p>
+The "<code>~</code>" means your home directory.  On my windows machine, that expands to "<code>C:\Users\richmit\.philaj\perfs</code>".  On Linux and a mac, that expands to
+"<code>/home/richmit/.philaj/perfs</code>".  Note the "<code>richmit</code>" part is my username.
+</p>
+
+<p>
+You don't need to use the <a href="#custom-spec-gauge"><code>Install New Specialized Gauge</code></a> menu option &#x2013; you can copy them in via the command line or a file
+explorer-like tool if you wish.  All that matters is that they are in the correct place.  Once they are installed, the new gauges will show up in the
+specialized perforation options dialog.
+</p>
+
+<p>
+Note the filenames are used much like ImageJ macro files.  For example, a file named "<code>AM_Post_BEP.csv</code>" will result in a menu option named "<code>AM Post BEP</code>" &#x2013;
+i.e. the underscores are turned into spaces and the extension is removed.
+</p>
+</div>
+</div>
 <div id="outline-container-centering-measurements" class="outline-4">
-<h4 id="centering-measurements"><span class="section-number-4">4.4.4</span> Measuring Design &amp; Margins</h4>
+<h4 id="centering-measurements"><span class="section-number-4">4.4.5</span> Measuring Design &amp; Margins</h4>
 <div class="outline-text-4" id="text-centering-measurements">
 <p>
 PhilaJ can be used to make various centering &amp; paper measurements.  
@@ -1016,15 +1267,15 @@ ROI of maximal size between one edge of the paper ROI and the design.  They are 
 </p>
 
 
-<div id="org5d9f5d2" class="figure">
+<div id="org91ba7f6" class="figure">
 <p><img src="PhilaJ-meas-centeringRep.gif" alt="PhilaJ-meas-centeringRep.gif" align="center" width="800px" />
 </p>
 </div>
 </div>
 
-<div id="outline-container-org56d61f2" class="outline-5">
-<h5 id="org56d61f2"><span class="section-number-5">4.4.4.1</span> Centering Metrics</h5>
-<div class="outline-text-5" id="text-4-4-4-1">
+<div id="outline-container-org46967db" class="outline-5">
+<h5 id="org46967db"><span class="section-number-5">4.4.5.1</span> Centering Metrics</h5>
+<div class="outline-text-5" id="text-4-4-5-1">
 <p>
 No universal standard exists for how to measure centering, so I have included several values commonly used by various groups.  If you have a favorite
 centering formula that's missing, then drop me a line.
@@ -1159,9 +1410,9 @@ centering formula that's missing, then drop me a line.
 </div>
 </div>
 
-<div id="outline-container-org2e99f44" class="outline-5">
-<h5 id="org2e99f44"><span class="section-number-5">4.4.4.2</span> ROI Details</h5>
-<div class="outline-text-5" id="text-4-4-4-2">
+<div id="outline-container-org3ae74e2" class="outline-5">
+<h5 id="org3ae74e2"><span class="section-number-5">4.4.5.2</span> ROI Details</h5>
+<div class="outline-text-5" id="text-4-4-5-2">
 <p>
 The most common use case is a single stamp with a single design.  In this case the design ROI will be named "<code>design</code>" and the paper ROI will be named
 "<code>paper</code>".  For blocks with multiple stamps, each with a single design, the ROIs are augmented with a "stamp ID" like so: "<code>design_SID</code>" &amp; "<code>paper_SID</code>".  For
@@ -1188,8 +1439,333 @@ be recreated.
 </div>
 </div>
 
+<div id="outline-container-coord-tool" class="outline-4">
+<h4 id="coord-tool"><span class="section-number-4">4.4.6</span> Coordinate Tool</h4>
+<div class="outline-text-4" id="text-coord-tool">
+<p>
+The <a href="#coord-tool"><code>Coordinate Tool</code></a> is used to identify "X,Y" coordinates in millimeters on the surface of an object (stamp, sheet, cover, etc&#x2026;) with an
+arbitrary origin reference point.  It can be used as a more precise replacement for the Thirkell position finder when the reference point is the upper left
+corner of the design bounding box.
+</p>
+
+
+<div id="org7f23448" class="figure">
+<p><img src="PhilaJ-overlay-cTool.gif" alt="PhilaJ-overlay-cTool.gif" align="center" width="800" />
+</p>
+</div>
+
+<p>
+The coordinate tool may be started up via the <a href="#coord-tool"><code>Coordinate Tool</code></a> or <a href="#coord-tool"><code>Coordinate Tool Options</code></a> menu selections.  The second
+provides a chance to change the tool settings before drawing the overlay:
+</p>
+
+
+<div id="orgad966c0" class="figure">
+<p><img src="PhilaJ-dialog-cTool-Options.gif" alt="PhilaJ-dialog-cTool-Options.gif" align="center" width="400" />
+</p>
+</div>
+
+<p>
+If an ROI is active when the tool is started up, then a popup will ask if the coordinate origin should be set to the upper left hand corner of the current
+ROI's bounding box.  This is a handy way to repeatably set the coordinate system. Unlike the <a href="#pos-finder"><code>Position Finder</code></a> tool, this one may be freely
+moved around on the image via the <a href="#tool-set-buttons-interact"><code>PhilaJ Overlay Interaction Tool</code></a> (by holding down the <code>[shift]</code> key and dragging with the
+left mouse button).
+</p>
+
+<p>
+Like the <a href="#pos-finder"><code>Position Finder</code></a> tool, clicking on the image with the <a href="#tool-set-buttons-interact"><code>PhilaJ Overlay Interaction Tool</code></a> active adds
+a point to the the measurement results with additional columns "<code>relX</code>" &amp; "<code>relY</code>" &#x2013; the distance right and down from the origin in millimeters.  Note a pair
+of lines are also temporarily drawn on over the image connecting the point clicked to the X &amp; Y axes of the coordinate system &#x2013; this is only drawn when the
+option "<code>Draw Point ROI Axis Guides</code>" is selected in the options dialog.
+</p>
+
+
+<div id="org1fb8d55" class="figure">
+<p><img src="PhilaJ-overlay-cToolPt.gif" alt="PhilaJ-overlay-cToolPt.gif" align="center" width="800" />
+</p>
+</div>
+
+<p>
+One additional feature is the ability to quickly make rectangular selections and even save them to disk.  My primary use case for this feature is to document
+plate flaw locations and make tiny JPEGs for inclusion into my albums.  These rectangular selections are made just like the point selections already
+discussed, but the <code>[control]</code> key is pressed while clicking.  Note the image below has no "Axis Guides" because the option "<code>Draw Box ROI Axis Guides</code>" was
+not selected when this selection was made &#x2013; the default.  Also note that we have <b>two</b> entries in the measurement results window.  The first is for the point
+we clicked on, and the second is for the region.
+</p>
+
+
+<div id="org4a22072" class="figure">
+<p><img src="PhilaJ-overlay-cToolBx.gif" alt="PhilaJ-overlay-cToolBx.gif" align="center" width="800" />
+</p>
+</div>
+
+<p>
+The size of the selection is determined by the tool options.  The precise location of the selection is influenced by the "<code>Image Coordinates in JPEGs</code>"
+option.  If it is set to "pixels" or "thirkell", then the rectangle will be precisely centered on the point clicked.  If it is set to "physical" and the
+region is bigger than 3mm, then the upper left corner of the selection will be on an even millimeter coordinate point.  This "rounding" of the upper left
+coordinate point allows us to communicate the location of the flaw image in even millimeter values.  If the option "<code>Save Box Images</code>" is selected, then a
+JPEG of the box will be saved.  The image name will, by default, contain the size and coordinates of the selection.  Here is a closeup shot of one of my
+albums showing a plate flaw &#x2013; at mm coordinates of (3, 7) on the position 83 stamp:
+</p>
+
+
+<div id="org3bc490f" class="figure">
+<p><img src="PhilaJ-eximg-cToolBox.gif" alt="PhilaJ-eximg-cToolBox.gif" align="center" width="400" />
+</p>
+</div>
+
+<p>
+Note the "thirkell" option for units will put the Thirkell coordinates of the point clicked in the JPEG file name.  These coordinates are based on the origin
+of the <a href="#coord-tool"><code>Coordinate Tool</code></a> and a 3mm grid size.  Note the region may be set larger or smaller if desired, but the coordinates will always be
+based on the standard 3mm grid size of the Thirkell Position Finder.
+</p>
+
+<p>
+Note the "physical" option always means "millimeters" because all images in PhilaJ are scaled in units of millimeters.
+</p>
+</div>
+</div>
+<div id="outline-container-pos-finder" class="outline-4">
+<h4 id="pos-finder"><span class="section-number-4">4.4.7</span> Position Finder</h4>
+<div class="outline-text-4" id="text-pos-finder">
+<p>
+The idea is to identify the <b>location</b> of plate flaws (or anything really) using coordinates in terms of the upper left corner of the design.  Starting with
+the upper left corner of the design bounding box we enumerate a grid system (letters on the vertical and numbers on the horizontal).  The traditional grids
+are 3mm as used on the Thirkell position finder.  This tool allows one to use different sizes of grids.  When invoked it looks for a design ROI.  If one is
+found, then it is used.  Otherwise the user is prompted to create one (it will be placed in the ROI manager for the user for future use).  Like most PhilaJ
+overlays things like the fonts and colors may be adjusted.
+</p>
+
+
+<div id="org3ccc8fb" class="figure">
+<p><img src="PhilaJ-overlay-posFinder.gif" alt="PhilaJ-overlay-posFinder.gif" align="center" width="800" />
+</p>
+</div>
+
+<p>
+This tool is started via the <a href="#pos-finder"><code>Position Finder</code></a> or <a href="#pos-finder"><code>Position Finder Options</code></a> menu selections with the second option showing
+an options dialog before drawing the overlay:
+</p>
+
+
+<div id="org4cf0642" class="figure">
+<p><img src="PhilaJ-dialog-posFinder-Options.gif" alt="PhilaJ-dialog-posFinder-Options.gif" align="center" width="400" />
+</p>
+</div>
+
+<p>
+Like many PhilaJ overlays, this one may be interacted with via the <a href="#tool-set-buttons-interact"><code>PhilaJ Overlay Interaction Tool</code></a>.  If the image is clicked
+on, then the coordinates of the point clicked will be added to the measurement results window.  If an ROI is defined, and the <a href="#overlay-measure"><code>Overlay/ROI
+Measure</code></a> command is used, via the uppercase <a href="#keybindings"><code>[M]</code></a> key, then the ROI will be measured and an extra column will be added to the results for the
+position finder coordinates.  In the following image, the first measurement result line is for a clicked pint and the second is for the highlighted ROI.
+</p>
+
+
+<div id="org47ed945" class="figure">
+<p><img src="PhilaJ-overlay-posFinderPtROI.gif" alt="PhilaJ-overlay-posFinderPtROI.gif" align="center" width="800" />
+</p>
+</div>
+
+<p>
+I find this tool most useful when referring to literature that uses the Thirkell position finder.  For practical plate flaw locations, I tend to use the
+<a href="#coord-tool"><code>Coordinate Tool</code></a> more useful.
+</p>
+</div>
+</div>
+<div id="outline-container-measure-edges" class="outline-4">
+<h4 id="measure-edges"><span class="section-number-4">4.4.8</span> Measuring Edges</h4>
+<div class="outline-text-4" id="text-measure-edges">
+<p>
+We are frequently concerned with parallel edges like the straight edges of a coil stamp, paper edges of a souvenir sheet, or rows of perforations.  PhilaJ
+provides a generic tool to measure the angle and distance between arbitrary edges in the <a href="#measure-edges"><code>Angle &amp; Distance Between Edges</code></a> menu item.
+This tool will prompt the user to make two line selections, and then report some statistics in a popup:
+</p>
+
+
+<div id="org0af1cb0" class="figure">
+<p><img src="PhilaJ-meas-edges.gif" alt="PhilaJ-meas-edges.gif" align="center" width="400" />
+</p>
+</div>
+
+<p>
+It also provides a more specialized tool for US coil stamps in the <a href="#measure-edges"><code>Coil Edge Check</code></a> menu item.  This tool will make use of ROIs stored in
+the ROI Manager with names like <code>coilEdgeB</code>, <code>coilEdgeL</code>, <code>coilEdgeR</code>, and <code>coilEdgeT</code>.  If no ROIs are found, then the user will be prompted to make line
+selections, and the tool will save off these selections in the ROI Manager with appropriate names.  When ROIs are specified, a final report is displayed in a
+pop up and the edges used are highlighted on the image.
+</p>
+
+
+<div id="orgc7bbe47" class="figure">
+<p><img src="PhilaJ-meas-coil.gif" alt="PhilaJ-meas-coil.gif" align="center" width="800" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-grill-tool" class="outline-4">
+<h4 id="grill-tool"><span class="section-number-4">4.4.9</span> Grill Tool</h4>
+<div class="outline-text-4" id="text-grill-tool">
+<p>
+The <a href="#grill-tool"><code>Grill</code></a> menu option is used to draw a template of a grill over a stamp image &#x2013; so one may compare the grill marks on a stamp with a
+template of the suspected grill type.  When the grill tool starts up it looks in the ROI manager for an ROI named "<code>grill</code>" or "<code>grillPts</code>".  If one is found,
+then it is used to place the grill template over the stamp image.  If none are found, then the user will be prompted to draw a rectangle around the grill &#x2013;
+this newly created grill ROI will be placed in the ROI manager.
+</p>
+
+
+<div id="org2ea88bc" class="figure">
+<p><img src="PhilaJ-overlay-grill.gif" alt="PhilaJ-overlay-grill.gif" align="center" width="800" />
+</p>
+</div>
+
+<p>
+I find it easier to identify a handful of grill points on the edges of a grill than to identify the grill boundary sometimes. The intent is that the "<code>grill</code>"
+ROI be a rectangle outline of the grill, while the "<code>grillPts</code>" ROI is a multi-point ROI identifying grill points.
+</p>
+
+<p>
+When invoked via the "<code>Grill</code>" menu selection, the overlay is immediately drawn using the previous, or default settings.  By default an "E" grill is drawn with
+17 vertical points.  This may be changed by using the <a href="#grill-tool"><code>Grill Type &amp; Options</code></a> menu selection to start the tool.  This selection will first
+show a grill type selection dialog:
+</p>
+
+
+<div id="org43de27a" class="figure">
+<p><img src="PhilaJ-dialog-grill-Type.gif" alt="PhilaJ-dialog-grill-Type.gif" align="center" width="400" />
+</p>
+</div>
+
+<p>
+This dialog will be followed by the grill options dialog, the same dialog you get when you use the <a href="#grill-tool"><code>Grill Options</code></a> menu selection:
+</p>
+
+
+<div id="orgc6cf0fb" class="figure">
+<p><img src="PhilaJ-dialog-grill-Options.gif" alt="PhilaJ-dialog-grill-Options.gif" align="center" width="400" />
+</p>
+</div>
+
+<p>
+It is typical to toggle through a grill or two in order to find the one that fits best.  Note the options dialog contains the usual customization options like
+line color and width, but it also contains several options regarding what parts of the grill template are drawn.  For difficult grills it is worth playing
+around with these options.
+</p>
+
+
+<div id="org8511a8b" class="figure">
+<p><img src="PhilaJ-dialog-grill-Options2.gif" alt="PhilaJ-dialog-grill-Options2.gif" align="center" width="400" />
+</p>
+</div>
+
+<p>
+The <a href="#tool-set-buttons-interact"><code>PhilaJ Overlay Interaction Tool</code></a> allows one to drag the grill template around on the screen, but you must update the
+"<code>grill</code>" or "<code>grillPts</code>" ROI to make the grill appear in the new location for future invocations of the grill tool.  This may be easily done via the
+<a href="#overlay-measure"><code>Overlay/ROI Measure</code></a> command, bound to uppercase <a href="#keybindings"><code>[M]</code></a> &#x2013; this will create/update an ROI named "<code>grill</code>" in the ROI
+manager with the current grill outline.  This is also a handy way to convert a "<code>grillPts</code>" ROI into a rectangular "<code>grill</code>" ROI.
+</p>
+</div>
+</div>
+<div id="outline-container-sheet-tools" class="outline-4">
+<h4 id="sheet-tools"><span class="section-number-4">4.4.10</span> Working With Multiples &amp; Sheets</h4>
+<div class="outline-text-4" id="text-sheet-tools">
+<p>
+I expect to add more functionality in this category over time.  Right now we have one tool, the <a href="#sheet-tools"><code>Separate stamp sheet</code></a> menu option.  This
+tool is designed to break up images of stamp sheets into stacks of individual images.  When activated it asks the user how many rows and columns are in the
+sheet, and then asks the user to define a "sheet ROI".  This ROI should define the outer edge of where we would cut the stamps (see image below).
+</p>
+
+
+<div id="org915d3fd" class="figure">
+<p><img src="PhilaJ-sheetSplitROI.gif" alt="PhilaJ-sheetSplitROI.gif" align="center" width="800" />
+</p>
+</div>
+
+<p>
+The tool will then split the sheet into stamp sized rectangles with boundaries between stamps.  Sometimes these boundaries miss because the original ROI was
+improperly positioned.  For this reason, the tool will ask the user if the cut lines are acceptable.  If they are not, then the user is requested to adjust
+the sheet ROI.  This process repeats until the user accepts the cut lines.  Then the tool will extract an image for each stamp, and place them all in a single
+ImageJ image stack.  Here is what a good set of cut lines look like:
+</p>
+
+
+<div id="org0ffbe50" class="figure">
+<p><img src="PhilaJ-sheetSplitResult.gif" alt="PhilaJ-sheetSplitResult.gif" align="center" width="800" />
+</p>
+</div>
+
+<p>
+One of the best ways to spot plate flaws is to "align" these stamp images, and then flip through the images allowing the natural ability of the human eye to
+notice changes.  How do we align the images?  I find it useful to first crop the images so that we just have the designs &#x2013; no perforations.  Do that by
+making a rectangular ROI, and then use the "<code>Image -&gt; crop</code>" menu option.  In the image processing field, the problem of aligning images is called "image
+registration".  Because this is a very common problem in many fields, ImageJ has several plugins available for the task.  For stamps, I have found "<code>plugins -&gt;
+Registration -&gt; linear stack alignment with SIFT</code>" to work very well.
+</p>
+</div>
+</div>
+<div id="outline-container-phil-rotate" class="outline-4">
+<h4 id="phil-rotate"><span class="section-number-4">4.4.11</span> Image Rotation</h4>
+<div class="outline-text-4" id="text-phil-rotate">
+<p>
+The <a href="#phil-rotate"><code>Rotate Line to Horizontal</code></a> menu option rotates an image so that the current line ROI will be horizontal.  That is to say, draw a line
+on something that should be horizontal in the image (frame line, row of perforations, paper edge, etc..), and use this function to rotate the image.  This
+menu function is also bound to the <a href="#keybindings"><code>[1]</code></a> key.
+</p>
+
+<p>
+The <a href="#phil-rotate"><code>Rotate 90 Degrees Right</code></a> menu option's function is pretty much obvious.  It is also bound to the <a href="#keybindings"><code>[2]</code></a> key.
+</p>
+
+<p>
+Both of these rotation commands will clear the current overlay.  To redraw it, hit the <a href="#keybindings"><code>[g]</code></a> key.
+</p>
+
+<p>
+Note that image rotation can make future linear measurements impossible.  Please read the section <a href="#capture-and-scale">Capturing and adjusting properly scaled images</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sub-image" class="outline-4">
+<h4 id="sub-image"><span class="section-number-4">4.4.12</span> Making Images From Selections</h4>
+<div class="outline-text-4" id="text-sub-image">
+<p>
+ImageJ is perfectly capable of creating new images from a selection with three steps: 1) "<code>Edit -&gt; Selection -&gt; To Bounding Box</code>", 2) "<code>Edit -&gt; Copy</code>", 3)
+"<code>File -&gt; New -&gt; Internal Clipboard</code>".  PhilaJ provides two ways to do something similar.
+</p>
+
+<p>
+The first is <a href="#sub-image"><code>Selection to image (with scale)</code></a> which simply automates the three steps above <b>and</b> then copies the source image scale to the
+new image.  The second is <a href="#sub-image"><code>Selection to JPEG</code></a>, also bound to the uppercase <code>[J]</code> key. This one is a bit more specialized.  It is intended to
+immediately save a JPEG of the new image to disk leaving no new image open in ImageJ.  The name for the new JPEG will automatically be annotated with the
+coordinates and size of the region from which it was clipped.  This feature is used by the <a href="#coord-tool"><code>Coordinate Tool</code></a> when making box selections &#x2013;
+which is mostly how I use it in practice.
+</p>
+</div>
+</div>
+
+<div id="outline-container-overlay-measure" class="outline-4">
+<h4 id="overlay-measure"><span class="section-number-4">4.4.13</span> Overlay/ROI Measure</h4>
+<div class="outline-text-4" id="text-overlay-measure">
+<p>
+The menu item <a href="#overlay-measure"><code>Overlay/ROI Measure</code></a>, also bound to the uppercase <a href="#keybindings"><code>[M]</code></a> key, is intended to largely replace and extend the
+behavior of the built in "<code>Measure</code>" function bound to the lowercase <code>[m]</code> key.
+</p>
+
+<p>
+<a href="#overlay-measure"><code>Overlay/ROI Measure</code></a> preforms a sequence of actions.  First it saves the measured ROI in the ROI Manager with a name of
+"<code>philMeasured</code>" &#x2013; if an ROI already exists with that name, then it will be removed first.  Next it calls the built in "<code>Measure</code>" function &#x2013; note the name
+of the ROI when measured will be the name the ROI had when <a href="#overlay-measure"><code>Overlay/ROI Measure</code></a> was called &#x2013; <b>not</b> "<code>philMeasured</code>".  Lastly
+<a href="#overlay-measure"><code>Overlay/ROI Measure</code></a> will preform an overlay specific action for the following overlays:
+</p>
+
+<ul class="org-ul">
+<li><a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge</code></a></li>
+<li><a href="#pos-finder"><code>Position Finder</code></a></li>
+<li><a href="#grill-tool"><code>Grill</code></a></li>
+</ul>
+</div>
+</div>
 <div id="outline-container-measure-offset" class="outline-4">
-<h4 id="measure-offset"><span class="section-number-4">4.4.5</span> Measuring ROI Offsets</h4>
+<h4 id="measure-offset"><span class="section-number-4">4.4.14</span> Measuring ROI Offsets</h4>
 <div class="outline-text-4" id="text-measure-offset">
 <p>
 ROI offsets are closely related to centering, but are more about things that should be in a particular place but are not.  For example, if a press comes down
@@ -1199,7 +1775,7 @@ the two deign frames.
 </p>
 
 
-<div id="orgc44f1f5" class="figure">
+<div id="org261c73e" class="figure">
 <p><img src="PhilaJ-meas-offset.gif" alt="PhilaJ-meas-offset.gif" align="center" width="800px" />
 </p>
 </div>
@@ -1211,7 +1787,7 @@ Note the offsets are measured in terms of the distance between the upper left of
 </div>
 
 <div id="outline-container-load-save-magic" class="outline-4">
-<h4 id="load-save-magic"><span class="section-number-4">4.4.6</span> PhilaJ Image Load &amp; Save</h4>
+<h4 id="load-save-magic"><span class="section-number-4">4.4.15</span> PhilaJ Image Load &amp; Save</h4>
 <div class="outline-text-4" id="text-load-save-magic">
 <p>
 The PhilaJ <a href="#load-save-magic"><code>Load image &amp; ROI sidecar.  Attempt to set Scale.</code></a> menu option, also bound to lowercase <a href="#keybindings"><code>[o]</code></a>, cause a
@@ -1243,7 +1819,7 @@ filename first.
 </div>
 
 <div id="outline-container-roi-sidecars" class="outline-4">
-<h4 id="roi-sidecars"><span class="section-number-4">4.4.7</span> ROI Sidecars</h4>
+<h4 id="roi-sidecars"><span class="section-number-4">4.4.16</span> ROI Sidecars</h4>
 <div class="outline-text-4" id="text-roi-sidecars">
 <p>
 PhilaJ associates a "sidecar" file containing ROIs with each image file.  Essentially PhilaJ expects to find ROIs associated with an image file saved off in
@@ -1259,7 +1835,7 @@ We can save and load sidecar files for the currently active image with the menu 
 </div>
 
 <div id="outline-container-note-sidecars" class="outline-4">
-<h4 id="note-sidecars"><span class="section-number-4">4.4.8</span> Note Sidecars</h4>
+<h4 id="note-sidecars"><span class="section-number-4">4.4.17</span> Note Sidecars</h4>
 <div class="outline-text-4" id="text-note-sidecars">
 <p>
 Similar to <a href="#roi-sidecars"><code>ROI Sidecars</code></a>, PhilaJ can load a text file associated with an image via the <a href="#note-sidecars"><code>Load Notes from PhilaJ sidecar
@@ -1275,7 +1851,7 @@ sidecar</code></a> or <a href="#load-save-magic"><code>SaveAs image &amp; ROI si
 </div>
 
 <div id="outline-container-set-scale-convert" class="outline-4">
-<h4 id="set-scale-convert"><span class="section-number-4">4.4.9</span> Convert image scale units to mm</h4>
+<h4 id="set-scale-convert"><span class="section-number-4">4.4.18</span> Convert image scale units to mm</h4>
 <div class="outline-text-4" id="text-set-scale-convert">
 <p>
 The <a href="#set-scale-convert"><code>Convert image scale units to mm</code></a> menu option attempts to convert the current image scale units to millimeters for PhilaJ. For
@@ -1294,7 +1870,7 @@ length units in philately:
 </div>
 
 <div id="outline-container-scale-image-scale" class="outline-4">
-<h4 id="scale-image-scale"><span class="section-number-4">4.4.10</span> Image Resize To Scale</h4>
+<h4 id="scale-image-scale"><span class="section-number-4">4.4.19</span> Image Resize To Scale</h4>
 <div class="outline-text-4" id="text-scale-image-scale">
 <p>
 PhilaJ has two tools that can resize an image with the end goal of changing the image scale.  In both cases, an image with different horizontal &amp; vertical
@@ -1317,7 +1893,7 @@ It is important to make pixels square before an image is rotated.  Failure to do
 </div>
 
 <div id="outline-container-scale-roi" class="outline-4">
-<h4 id="scale-roi"><span class="section-number-4">4.4.11</span> Scale ROIs</h4>
+<h4 id="scale-roi"><span class="section-number-4">4.4.20</span> Scale ROIs</h4>
 <div class="outline-text-4" id="text-scale-roi">
 <p>
 PhilaJ contains two commands that work directly with a special ROI to set or save image scale:
@@ -1353,7 +1929,7 @@ the pixel aspect ratio is 1.
 </div>
 
 <div id="outline-container-scale-alt" class="outline-4">
-<h4 id="scale-alt"><span class="section-number-4">4.4.12</span> Alternate interfaces to the ImageJ set scale command</h4>
+<h4 id="scale-alt"><span class="section-number-4">4.4.21</span> Alternate interfaces to the ImageJ set scale command</h4>
 <div class="outline-text-4" id="text-scale-alt">
 <p>
 The built in ImageJ set scale dialog may be accessed via the PhilaJ scale menu using the option <a href="#scale-alt"><code>Set Scale via standard ImageJ dialog</code></a>.  In
@@ -1386,7 +1962,7 @@ Note the default distance in millimeters for all of these options is \(50\,\math
 </div>
 
 <div id="outline-container-set-scale-dpi" class="outline-4">
-<h4 id="set-scale-dpi"><span class="section-number-4">4.4.13</span> Set scale via DPI</h4>
+<h4 id="set-scale-dpi"><span class="section-number-4">4.4.22</span> Set scale via DPI</h4>
 <div class="outline-text-4" id="text-set-scale-dpi">
 <p>
 The <a href="#set-scale-dpi"><code>Set scale for DPI</code></a> allows the user to set the image scale directly via a DPI value.  This value is converted into millimeters
@@ -1409,7 +1985,7 @@ Lastly, several common DPIs may be set via a handful of options at the top of th
 </div>
 
 <div id="outline-container-set-scale-filename" class="outline-4">
-<h4 id="set-scale-filename"><span class="section-number-4">4.4.14</span> Set scale from DPI file name</h4>
+<h4 id="set-scale-filename"><span class="section-number-4">4.4.23</span> Set scale from DPI file name</h4>
 <div class="outline-text-4" id="text-set-scale-filename">
 <p>
 The <a href="#set-scale-filename"><code>Set scale from DPI file name</code></a> menu option extracts DPI information encoded in the filename of the current image.  This is
@@ -1430,556 +2006,8 @@ command in the main ImageJ menu.
 </div>
 </div>
 
-<div id="outline-container-grill-tool" class="outline-4">
-<h4 id="grill-tool"><span class="section-number-4">4.4.15</span> Grill Tool</h4>
-<div class="outline-text-4" id="text-grill-tool">
-<p>
-The <a href="#grill-tool"><code>Grill</code></a> menu option is used to draw a template of a grill over a stamp image &#x2013; so one may compare the grill marks on a stamp with a
-template of the suspected grill type.  When the grill tool starts up it looks in the ROI manager for an ROI named "<code>grill</code>" or "<code>grillPts</code>".  If one is found,
-then it is used to place the grill template over the stamp image.  If none are found, then the user will be prompted to draw a rectangle around the grill &#x2013;
-this newly created grill ROI will be placed in the ROI manager.
-</p>
-
-
-<div id="org8558f93" class="figure">
-<p><img src="PhilaJ-overlay-grill.gif" alt="PhilaJ-overlay-grill.gif" align="center" width="800" />
-</p>
-</div>
-
-<p>
-I find it easier to identify a handful of grill points on the edges of a grill than to identify the grill boundary sometimes. The intent is that the "<code>grill</code>"
-ROI be a rectangle outline of the grill, while the "<code>grillPts</code>" ROI is a multi-point ROI identifying grill points.
-</p>
-
-<p>
-When invoked via the "<code>Grill</code>" menu selection, the overlay is immediately drawn using the previous, or default settings.  By default an "E" grill is drawn with
-17 vertical points.  This may be changed by using the <a href="#grill-tool"><code>Grill Type &amp; Options</code></a> menu selection to start the tool.  This selection will first
-show a grill type selection dialog:
-</p>
-
-
-<div id="orga9ec7a2" class="figure">
-<p><img src="PhilaJ-dialog-grill-Type.gif" alt="PhilaJ-dialog-grill-Type.gif" align="center" width="400" />
-</p>
-</div>
-
-<p>
-This dialog will be followed by the grill options dialog, the same dialog you get when you use the <a href="#grill-tool"><code>Grill Options</code></a> menu selection:
-</p>
-
-
-<div id="org8b5c6c0" class="figure">
-<p><img src="PhilaJ-dialog-grill-Options.gif" alt="PhilaJ-dialog-grill-Options.gif" align="center" width="400" />
-</p>
-</div>
-
-<p>
-It is typical to toggle through a grill or two in order to find the one that fits best.  Note the options dialog contains the usual customization options like
-line color and width, but it also contains several options regarding what parts of the grill template are drawn.  For difficult grills it is worth playing
-around with these options.
-</p>
-
-
-<div id="orgd85a1e8" class="figure">
-<p><img src="PhilaJ-dialog-grill-Options2.gif" alt="PhilaJ-dialog-grill-Options2.gif" align="center" width="400" />
-</p>
-</div>
-
-<p>
-The <a href="#tool-set-buttons-interact"><code>PhilaJ Overlay Interaction Tool</code></a> allows one to drag the grill template around on the screen, but you must update the
-"<code>grill</code>" or "<code>grillPts</code>" ROI to make the grill appear in the new location for future invocations of the grill tool.  This may be easily done via the
-<a href="#overlay-measure"><code>Overlay/ROI Measure</code></a> command, bound to uppercase <a href="#keybindings"><code>[M]</code></a> &#x2013; this will create/update an ROI named "<code>grill</code>" in the ROI
-manager with the current grill outline.  This is also a handy way to convert a "<code>grillPts</code>" ROI into a rectangular "<code>grill</code>" ROI.
-</p>
-</div>
-</div>
-
-<div id="outline-container-coord-tool" class="outline-4">
-<h4 id="coord-tool"><span class="section-number-4">4.4.16</span> Coordinate Tool</h4>
-<div class="outline-text-4" id="text-coord-tool">
-<p>
-The <a href="#coord-tool"><code>Coordinate Tool</code></a> is used to identify "X,Y" coordinates in millimeters on the surface of an object (stamp, sheet, cover, etc&#x2026;) with an
-arbitrary origin reference point.  It can be used as a more precise replacement for the Thirkell position finder when the reference point is the upper left
-corner of the design bounding box.
-</p>
-
-
-<div id="org7b57026" class="figure">
-<p><img src="PhilaJ-overlay-cTool.gif" alt="PhilaJ-overlay-cTool.gif" align="center" width="800" />
-</p>
-</div>
-
-<p>
-The coordinate tool may be started up via the <a href="#coord-tool"><code>Coordinate Tool</code></a> or <a href="#coord-tool"><code>Coordinate Tool Options</code></a> menu selections.  The second
-provides a chance to change the tool settings before drawing the overlay:
-</p>
-
-
-<div id="org6591b67" class="figure">
-<p><img src="PhilaJ-dialog-cTool-Options.gif" alt="PhilaJ-dialog-cTool-Options.gif" align="center" width="400" />
-</p>
-</div>
-
-<p>
-If an ROI is active when the tool is started up, then a popup will ask if the coordinate origin should be set to the upper left hand corner of the current
-ROI's bounding box.  This is a handy way to repeatably set the coordinate system. Unlike the <a href="#pos-finder"><code>Position Finder</code></a> tool, this one may be freely
-moved around on the image via the <a href="#tool-set-buttons-interact"><code>PhilaJ Overlay Interaction Tool</code></a> (by holding down the <code>[shift]</code> key and dragging with the
-left mouse button).
-</p>
-
-<p>
-Like the <a href="#pos-finder"><code>Position Finder</code></a> tool, clicking on the image with the <a href="#tool-set-buttons-interact"><code>PhilaJ Overlay Interaction Tool</code></a> active adds
-a point to the the measurement results with additional columns "<code>relX</code>" &amp; "<code>relY</code>" &#x2013; the distance right and down from the origin in millimeters.  Note a pair
-of lines are also temporarily drawn on over the image connecting the point clicked to the X &amp; Y axes of the coordinate system &#x2013; this is only drawn when the
-option "<code>Draw Point ROI Axis Guides</code>" is selected in the options dialog.
-</p>
-
-
-<div id="org77696f2" class="figure">
-<p><img src="PhilaJ-overlay-cToolPt.gif" alt="PhilaJ-overlay-cToolPt.gif" align="center" width="800" />
-</p>
-</div>
-
-<p>
-One additional feature is the ability to quickly make rectangular selections and even save them to disk.  My primary use case for this feature is to document
-plate flaw locations and make tiny JPEGs for inclusion into my albums.  These rectangular selections are made just like the point selections already
-discussed, but the <code>[control]</code> key is pressed while clicking.  Note the image below has no "Axis Guides" because the option "<code>Draw Box ROI Axis Guides</code>" was
-not selected when this selection was made &#x2013; the default.  Also note that we have <b>two</b> entries in the measurement results window.  The first is for the point
-we clicked on, and the second is for the region.
-</p>
-
-
-<div id="orgae310bf" class="figure">
-<p><img src="PhilaJ-overlay-cToolBx.gif" alt="PhilaJ-overlay-cToolBx.gif" align="center" width="800" />
-</p>
-</div>
-
-<p>
-The size of the selection is determined by the tool options.  The precise location of the selection is influenced by the "<code>Image Coordinates in JPEGs</code>"
-option.  If it is set to "pixels" or "thirkell", then the rectangle will be precisely centered on the point clicked.  If it is set to "physical" and the
-region is bigger than 3mm, then the upper left corner of the selection will be on an even millimeter coordinate point.  This "rounding" of the upper left
-coordinate point allows us to communicate the location of the flaw image in even millimeter values.  If the option "<code>Save Box Images</code>" is selected, then a
-JPEG of the box will be saved.  The image name will, by default, contain the size and coordinates of the selection.  Here is a closeup shot of one of my
-albums showing a plate flaw &#x2013; at mm coordinates of (3, 7) on the position 83 stamp:
-</p>
-
-
-<div id="org4f39df8" class="figure">
-<p><img src="PhilaJ-eximg-cToolBox.gif" alt="PhilaJ-eximg-cToolBox.gif" align="center" width="400" />
-</p>
-</div>
-
-<p>
-Note the "thirkell" option for units will put the Thirkell coordinates of the point clicked in the JPEG file name.  These coordinates are based on the origin
-of the <a href="#coord-tool"><code>Coordinate Tool</code></a> and a 3mm grid size.  Note the region may be set larger or smaller if desired, but the coordinates will always be
-based on the standard 3mm grid size of the Thirkell Position Finder.
-</p>
-
-<p>
-Note the "physical" option always means "millimeters" because all images in PhilaJ are scaled in units of millimeters.
-</p>
-</div>
-</div>
-
-<div id="outline-container-pos-finder" class="outline-4">
-<h4 id="pos-finder"><span class="section-number-4">4.4.17</span> Position Finder</h4>
-<div class="outline-text-4" id="text-pos-finder">
-<p>
-The idea is to identify the <b>location</b> of plate flaws (or anything really) using coordinates in terms of the upper left corner of the design.  Starting with
-the upper left corner of the design bounding box we enumerate a grid system (letters on the vertical and numbers on the horizontal).  The traditional grids
-are 3mm as used on the Thirkell position finder.  This tool allows one to use different sizes of grids.  When invoked it looks for a design ROI.  If one is
-found, then it is used.  Otherwise the user is prompted to create one (it will be placed in the ROI manager for the user for future use).  Like most PhilaJ
-overlays things like the fonts and colors may be adjusted.
-</p>
-
-
-<div id="orgb7b794b" class="figure">
-<p><img src="PhilaJ-overlay-posFinder.gif" alt="PhilaJ-overlay-posFinder.gif" align="center" width="800" />
-</p>
-</div>
-
-<p>
-This tool is started via the <a href="#pos-finder"><code>Position Finder</code></a> or <a href="#pos-finder"><code>Position Finder Options</code></a> menu selections with the second option showing
-an options dialog before drawing the overlay:
-</p>
-
-
-<div id="org295fbeb" class="figure">
-<p><img src="PhilaJ-dialog-posFinder-Options.gif" alt="PhilaJ-dialog-posFinder-Options.gif" align="center" width="400" />
-</p>
-</div>
-
-<p>
-Like many PhilaJ overlays, this one may be interacted with via the <a href="#tool-set-buttons-interact"><code>PhilaJ Overlay Interaction Tool</code></a>.  If the image is clicked
-on, then the coordinates of the point clicked will be added to the measurement results window.  If an ROI is defined, and the <a href="#overlay-measure"><code>Overlay/ROI
-Measure</code></a> command is used, via the uppercase <a href="#keybindings"><code>[M]</code></a> key, then the ROI will be measured and an extra column will be added to the results for the
-position finder coordinates.  In the following image, the first measurement result line is for a clicked pint and the second is for the highlighted ROI.
-</p>
-
-
-<div id="orgd08d718" class="figure">
-<p><img src="PhilaJ-overlay-posFinderPtROI.gif" alt="PhilaJ-overlay-posFinderPtROI.gif" align="center" width="800" />
-</p>
-</div>
-
-<p>
-I find this tool most useful when referring to literature that uses the Thirkell position finder.  For practical plate flaw locations, I tend to use the
-<a href="#coord-tool"><code>Coordinate Tool</code></a> more useful.
-</p>
-</div>
-</div>
-
-<div id="outline-container-static-perf-gauge" class="outline-4">
-<h4 id="static-perf-gauge"><span class="section-number-4">4.4.18</span> Static perforation gauges</h4>
-<div class="outline-text-4" id="text-static-perf-gauge">
-<p>
-The "static" perforation gauges are just like the physical perforation gauges we use.  They work just like physical perforation gauges too.  That is to say,
-one activates the gauges and then moves it around to line up the gauge on the perforations to be measured.  In PhilaJ they come in two varieties:
-</p>
-
-<ul class="org-ul">
-<li>"Instanta-Style"   &#x2013; Continuous lines graduated with perforation measurements</li>
-<li>"Specialist-Style" &#x2013; rows of dots like the Kiusalas gauges</li>
-</ul>
-
-
-<div id="org7ef405c" class="figure">
-<p><img src="PhilaJ-overlay-instaPerf1.gif" alt="PhilaJ-overlay-instaPerf1.gif" align="center" width="800" />
-</p>
-</div>
-
-
-<div id="org7584a8c" class="figure">
-<p><img src="PhilaJ-overlay-spl.gif" alt="PhilaJ-overlay-spl.gif" align="center" width="800" />
-</p>
-</div>
-
-<p>
-These tools are found in the overlay menu. <a href="#static-perf-gauge"><code>Instanta-Style Perforation Gauge</code></a> &amp; <a href="#static-perf-gauge"><code>Specialized Perforation
-Gauge</code></a> will draw the gauge immediately using the most recent, or default, settings.  If you wish to change settings first, then the
-<a href="#static-perf-gauge"><code>Instanta-Style Perforation Gauge Options</code></a> &amp; <a href="#static-perf-gauge"><code>Specialized Perforation Gauge Options</code></a> menu items will pop up a
-settings dialog before drawing the overlay.
-</p>
-
-
-<div id="org800ae69" class="figure">
-<p><img src="PhilaJ-dialog-instaPerf-Options.gif" alt="PhilaJ-dialog-instaPerf-Options.gif" align="center" width="400" />
-</p>
-</div>
-
-
-<div id="org858dda5" class="figure">
-<p><img src="PhilaJ-dialog-splPerf-Options.gif" alt="PhilaJ-dialog-splPerf-Options.gif" align="center" width="400" />
-</p>
-</div>
-
-<p>
-One "moves" the gauge around via the <a href="#tool-set-buttons-interact"><code>PhilaJ Overlay Interaction Tool</code></a> &#x2013; the button just to the right of the overlay menu
-button.  Simply click and drag while the <a href="#tool-set-buttons-interact"><code>PhilaJ Overlay Interaction Tool</code></a> is active to move the gauge around.
-</p>
-
-<p>
-Note that the stamp perforations must be perfectly lined up on a horizontal line to use these gauges!  To do that, draw a line along the tops/bottoms of the
-perf holes, and then use the <a href="#phil-rotate"><code>Rotate Line to Horizontal</code></a> tool &#x2013; in the misc menu or via the keybinding <a href="#keybindings"><code>[1]</code></a>.  After you
-have measured the horizontal perforations and wish to measure the vertical ones, rotate the image 90 degrees via the <a href="#phil-rotate"><code>Rotate 90 Degrees Right</code></a> tool
-&#x2013; in the misc menu or via the keybinding <a href="#keybindings"><code>[2]</code></a>.
-</p>
-
-<p>
-Unlike physical gauges, these gauges can be customized in various ways.  First the graphical presentation (colors, line widths, etc&#x2026;) can all be customized
-to make them more readable.  Secondly, they can be customized geometrically as well.  The Instanta-Style gauges can have the overall range adjusted and the
-graduations (1/10, 1/4, 1/2) adjusted.  Note that by reducing the range one can obtain very accurate measurements with the Instanta-Style gauge.  
-</p>
-
-
-<div id="orgbdffcd8" class="figure">
-<p><img src="PhilaJ-overlay-instaPerf2.gif" alt="PhilaJ-overlay-instaPerf2.gif" align="center" width="800" />
-</p>
-</div>
-
-<p>
-The specialist-style options dialog provides a drop down of several gauges (Kiusalas, traditional Kiusalas, Bari Wolf, etc&#x2026;).  The end user can add to this
-list by saving CSV files describing new gauges (see: <a href="#custom-spec-gauge"><code>Install New Specialized Gauge</code></a>).
-</p>
-
-<p>
-If you just need a custom one row specialist-style gauge, then you can use the single line specialist gauge.  It allows the user to specify the perforation
-frequency and perf sizes in a popup dialog.  It automatically converts various measures for frequency and dot size so you don't have to use millimeters.  I
-use this sometimes when working with a pile of stamps that need to be divided into two perforation groups &#x2013; i.e. a stamp fits the gauge or doesn't.  This
-gauge is available via the <a href="#static-perf-gauge"><code>Single Line Specialized Perforation Gauge Options</code></a> &amp; <a href="#static-perf-gauge"><code>Single Line Specialized
-Perforation Gauge Presets</code></a> menu options.
-</p>
-</div>
-</div>
-
-<div id="outline-container-custom-spec-gauge" class="outline-4">
-<h4 id="custom-spec-gauge"><span class="section-number-4">4.4.19</span> User Installable Customized Specialist Gauges</h4>
-<div class="outline-text-4" id="text-custom-spec-gauge">
-<p>
-Then menu option <a href="#custom-spec-gauge"><code>Install New Specialized Gauge</code></a> in the overlay menu allows one to install new specialized gauges.  
-</p>
-
-<p>
-New gauges are described via a CSV file &#x2013; which you can make with a text editor or Excel.  These files contain three columns:
-</p>
-<ul class="org-ul">
-<li>Gaps &#x2013; the distance from perf hole to perf hole (in millimeters)</li>
-<li>Hole Sizes &#x2013; the diameter of the hole (in millimeters)</li>
-<li>Labels &#x2013; a bit of text to identify each row of perforations</li>
-</ul>
-
-<p>
-Here is an example of a custom gauge CSV file:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-text">2.03850000000,0.95000000000,Sm  9.8
-2.03300000000,0.95000000000,Sm  9.9
-2.03300000000,1.10000000000,Lg  9.9
-1.90988461538,1.10000000000,Lg 10.5
-1.81983621474,1.10000000000,Lg 11.0
-1.77257821501,1.10000000000,Lg 11.3
-</pre>
-</div>
-
-<p>
-The <a href="#custom-spec-gauge"><code>Install New Specialized Gauge</code></a> menu option simply queries the user for a CSV file name, an copies it into the following
-directory:
-</p>
-
-<p>
-<code>~/.philaj/perfs</code>
-</p>
-
-<p>
-The "<code>~</code>" means your home directory.  On my windows machine, that expands to "<code>C:\Users\richmit\.philaj\perfs</code>".  On Linux and a mac, that expands to
-"<code>/home/richmit/.philaj/perfs</code>".  Note the "<code>richmit</code>" part is my username.
-</p>
-
-<p>
-You don't need to use the <a href="#custom-spec-gauge"><code>Install New Specialized Gauge</code></a> menu option &#x2013; you can copy them in via the command line or a file
-explorer-like tool if you wish.  All that matters is that they are in the correct place.  Once they are installed, the new gauges will show up in the
-specialized perforation options dialog.
-</p>
-
-<p>
-Note the filenames are used much like ImageJ macro files.  For example, a file named "<code>AM_Post_BEP.csv</code>" will result in a menu option named "<code>AM Post BEP</code>" &#x2013;
-i.e. the underscores are turned into spaces and the extension is removed.
-</p>
-</div>
-</div>
-
-<div id="outline-container-dynamic-perf-gauge" class="outline-4">
-<h4 id="dynamic-perf-gauge"><span class="section-number-4">4.4.20</span> Dynamic perforation gauge</h4>
-<div class="outline-text-4" id="text-dynamic-perf-gauge">
-
-<div id="org549e7cb" class="figure">
-<p><img src="PhilaJ-overlay-dynamicPerf.gif" alt="PhilaJ-overlay-dynamicPerf.gif" align="center" width="800" />
-</p>
-</div>
-
-<p>
-The dynamic perforation gauge is a fully interactive, digital perforation gauge capable of making very precise measurements of both perforations and hole
-size.  With physical perforation gauges one finds the gauge row that most closely matches the perforation holes.  The dynamic gauge only has one row of
-perforation dots, and the user adjusts the location (and optionally size) of these dots to match the perforation holes.  The dynamic perforation gauge is
-started by selecting one of the following menu items in the overlay menu: <a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge</code></a>,
-<a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge Options</code></a>, or <a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge Presets</code></a>.
-</p>
-
-<p>
-When using the <a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge Options</code></a> menu item, the dialog below will appear before the perforation gauge overlay is
-drawn.
-</p>
-
-
-<div id="orgaff94b4" class="figure">
-<p><img src="PhilaJ-dialog-dynamicPerf-Options.gif" alt="PhilaJ-dialog-dynamicPerf-Options.gif" align="center" width="400" />
-</p>
-</div>
-
-<p>
-When using the <a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge Presets</code></a> menu item, the dialog below will appear.  These presets will set the initial hole
-size &amp; spacing.  Immediately after the preset dialog, the options dialog will be displayed just as if the <a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge
-Options</code></a> had been used.
-</p>
-
-
-<div id="orge6e93b4" class="figure">
-<p><img src="PhilaJ-dialog-dynamicPerf-Presets.gif" alt="PhilaJ-dialog-dynamicPerf-Presets.gif" align="center" width="400" />
-</p>
-</div>
-
-<p>
-The initial placement of the overlay may be controlled by an active line ROI when <a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge</code></a> or
-<a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge Options</code></a> is used &#x2013; but not <a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge Presets</code></a>.
-</p>
-
-<ul class="org-ul">
-<li>If a line ROI was active when the menu option was selected, then the gauge will appear on the line</li>
-<li>If a line ROI is one previously created by the dynamic perforation gauge, then the number of perforation holes and perforation hole size may be
-automatically set.</li>
-<li>If no ROI is selected, then the gauge appears with the first dot in the upper left of the image and extending to the right</li>
-</ul>
-
-<p>
-Once the gauge is displayed, it may be dynamically adjusted onscreen.  While being adjusted a live perforation measurement may displayed.  This live
-measurement may be presented in one of two ways: 1) graphically over the image itself, or 2) in a popup window.
-</p>
-
-<ul class="org-ul">
-<li>Click and drag any perforation gauge dot to move the dot around.  Note that the end dot furthest away from the one you clicked on stays put while all the
-other dots follow your mouse around.  The typical procedure is to drag an end dot to the first hole on the stamp, and then drag a dot on the other end of
-the perforation gauge to a hole on the other side of the stamp.</li>
-<li>If the HUD perforation report is being displayed, clicking on the HUD will allow you to drag just the HUD around.  This is useful when the HUD is placed
-over a cluttered part o the stamp making the HUD hard to read.</li>
-<li>Clicking outside of the HUD and any perforation allows you to drag the entire perforation gauge line around on the display.  This can be useful if you have just
-measured perfs on one edge, and wish to measure the other edge.</li>
-<li>Shift-Click outside of any perforation and drag to resize the perforation gauge holes.  Moving away from the gauge makes the holes larger, and moving
-toward the gauge makes them smaller.  The rate of change as you drag is slowed down to make precise chances possible, but this means that if large changes
-need to be made to the size you might have to repeat the procedure.</li>
-<li>Dots can be added or removed with an Alt-Click
-<ul class="org-ul">
-<li>Alt-Click on a dot, and all the dots left/right of that dot will be removed to the closet gauge end.</li>
-<li>Alt-Click outside of any dot, and all a new dot will be added to the end of the gauge closet to the clicked point</li>
-<li>The number of dots may also be added by bringing up the options dialog, and changing the value in the dialog.  When changed in this manner, the end dots
-stay put and the gauge is redrawn.</li>
-</ul></li>
-<li>Control-click to get a perforation report or use the <a href="#overlay-measure"><code>Overlay/ROI Measure</code></a> command</li>
-</ul>
-
-<p>
-In summary:
-</p>
-
-<table border="2 solid #ccc" cellspacing="0" cellpadding="6" rules="groups" frame="hsides" align="center">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">Event</th>
-<th scope="col" class="org-left">Where</th>
-<th scope="col" class="org-left">Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">SHIFT-CLICK &amp; Drag</td>
-<td class="org-left">off dot</td>
-<td class="org-left">resize dots</td>
-</tr>
-
-<tr>
-<td class="org-left">CLICK &amp; Drag</td>
-<td class="org-left">on HUD</td>
-<td class="org-left">translate HUD</td>
-</tr>
-
-<tr>
-<td class="org-left">CLICK &amp; Drag</td>
-<td class="org-left">on dot</td>
-<td class="org-left">translate dot</td>
-</tr>
-
-<tr>
-<td class="org-left">ALT-CLICK</td>
-<td class="org-left">on dot</td>
-<td class="org-left">delete end dots after clicked dot</td>
-</tr>
-
-<tr>
-<td class="org-left">ALT-CLICK</td>
-<td class="org-left">off dot</td>
-<td class="org-left">Add a dot on end closest to click</td>
-</tr>
-
-<tr>
-<td class="org-left">CONTROL-CLICK</td>
-<td class="org-left">N/A</td>
-<td class="org-left">Get a perforation report</td>
-</tr>
-
-<tr>
-<td class="org-left"><code>[M]</code></td>
-<td class="org-left">N/A</td>
-<td class="org-left">Get a perforation report</td>
-</tr>
-</tbody>
-</table>
-
-<p>
-Once the gauge is adjusted to align with the stamp's perforation holes, a detailed perforation report may be generated via the
-<a href="#overlay-measure"><code>Overlay/ROI Measure</code></a> menu selection or by pressing the <a href="#keybindings"><code>[M]</code></a> key &#x2013; note that is an upper case "M".  
-</p>
-
-<p>
-The report will be in a popup (just like the live measurement popup) if the option "<code>Results in measure table</code>" is not selected, otherwise it will be in the
-ImageJ measurement results window.  If the "<code>ROI Manager Use</code>" option is set to anything other than "<code>NONE</code>", then ROIs describing the perforation gauge will
-be saved in ROI manager for later recall &#x2013; see the section <a href="#reuse-dynamic-perf-roi">Reusing Dynamic Perforation Gauge ROIs</a>.
-</p>
-</div>
-</div>
-
-<div id="outline-container-reuse-dynamic-perf-roi" class="outline-4">
-<h4 id="reuse-dynamic-perf-roi"><span class="section-number-4">4.4.21</span> Reusing Dynamic Perforation Gauge ROIs</h4>
-<div class="outline-text-4" id="text-reuse-dynamic-perf-roi">
-<p>
-ROIs created by the <a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge</code></a> can be used in a few different ways.  Most directly, if one is active when the
-<a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge</code></a> menu is selected, then the <a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge</code></a> will startup with
-matching perforation spacing, hole count, and hole size.  At this point the perforations can be remeasured, or the gauge may be adjusted.
-</p>
-
-<p>
-The <a href="#phil-units"><code>Convert Distance to Perforation Measurement</code></a> menu item will also create a perforation report if a <a href="#dynamic-perf-gauge"><code>Dynamic
-Perforation Gauge</code></a> <b>line</b> ROI is active when the menu is selected.  In this case a dialog will appear allowing the user to manually adjust the numbers
-before the report is generated.
-</p>
-
-<p>
-To simply remeasure the perfs, the <a href="#reuse-dynamic-perf-roi"><code>Measure Dynamic Perf ROI</code></a> item is the way to go.  To generate a summary report for every
-<a href="#dynamic-perf-gauge"><code>Dynamic Perforation Gauge</code></a> ROI in the ROI Manager, use the <a href="#reuse-dynamic-perf-roi"><code>Measure ALL Dynamic Perf ROIs</code></a> menu item.
-</p>
-</div>
-</div>
-
-<div id="outline-container-measure-edges" class="outline-4">
-<h4 id="measure-edges"><span class="section-number-4">4.4.22</span> Measuring Edges</h4>
-<div class="outline-text-4" id="text-measure-edges">
-<p>
-We are frequently concerned with parallel edges like the straight edges of a coil stamp, paper edges of a souvenir sheet, or rows of perforations.  PhilaJ
-provides a generic tool to measure the angle and distance between arbitrary edges in the <a href="#measure-edges"><code>Angle &amp; Distance Between Edges</code></a> menu item.
-This tool will prompt the user to make two line selections, and then report some statistics in a popup:
-</p>
-
-
-<div id="org53d8c7b" class="figure">
-<p><img src="PhilaJ-meas-edges.gif" alt="PhilaJ-meas-edges.gif" align="center" width="400" />
-</p>
-</div>
-
-<p>
-It also provides a more specialized tool for US coil stamps in the <a href="#measure-edges"><code>Coil Edge Check</code></a> menu item.  This tool will make use of ROIs stored in
-the ROI Manager with names like <code>coilEdgeB</code>, <code>coilEdgeL</code>, <code>coilEdgeR</code>, and <code>coilEdgeT</code>.  If no ROIs are found, then the user will be prompted to make line
-selections, and the tool will save off these selections in the ROI Manager with appropriate names.  When ROIs are specified, a final report is displayed in a
-pop up and the edges used are highlighted on the image.
-</p>
-
-
-<div id="org7c10bf8" class="figure">
-<p><img src="PhilaJ-meas-coil.gif" alt="PhilaJ-meas-coil.gif" align="center" width="800" />
-</p>
-</div>
-</div>
-</div>
-
 <div id="outline-container-phil-data" class="outline-4">
-<h4 id="phil-data"><span class="section-number-4">4.4.23</span> Philatelic Data</h4>
+<h4 id="phil-data"><span class="section-number-4">4.4.24</span> Philatelic Data</h4>
 <div class="outline-text-4" id="text-phil-data">
 <p>
 Some of the data PhilaJ houses for doing computations can come in handy for the humans using the tool.
@@ -1991,7 +2019,7 @@ perforation measurement to four digits.
 </p>
 
 
-<div id="orga309a70" class="figure">
+<div id="org22d06ef" class="figure">
 <p><img src="PhilaJ-data-usKSP.gif" alt="PhilaJ-data-usKSP.gif" align="center" width="400" />
 </p>
 </div>
@@ -2001,7 +2029,7 @@ The <a href="#phil-data"><code>Grill Table</code></a> menu item will display a t
 </p>
 
 
-<div id="orgc44c714" class="figure">
+<div id="org56d902e" class="figure">
 <p><img src="PhilaJ-data-usGrills.gif" alt="PhilaJ-data-usGrills.gif" align="center" width="800" />
 </p>
 </div>
@@ -2009,7 +2037,7 @@ The <a href="#phil-data"><code>Grill Table</code></a> menu item will display a t
 </div>
 
 <div id="outline-container-phil-units" class="outline-4">
-<h4 id="phil-units"><span class="section-number-4">4.4.24</span> Philatelic Unit Conversions</h4>
+<h4 id="phil-units"><span class="section-number-4">4.4.25</span> Philatelic Unit Conversions</h4>
 <div class="outline-text-4" id="text-phil-units">
 <p>
 PhilaJ can convert a few units philatelists frequently encounter.  Perforations may be converted between "hole gap in thousandths of an inch" (i.e. Kiusalas) and "holes
@@ -2041,48 +2069,10 @@ prepopulated.  The results window provides standard perforation and Kiusalas uni
 </p>
 
 
-<div id="org862094d" class="figure">
+<div id="orga980749" class="figure">
 <p><img src="PhilaJ-compute-d2p.gif" alt="PhilaJ-compute-d2p.gif" align="center" width="400" />
 </p>
 </div>
-</div>
-</div>
-
-<div id="outline-container-sheet-tools" class="outline-4">
-<h4 id="sheet-tools"><span class="section-number-4">4.4.25</span> Working With Multiples &amp; Sheets</h4>
-<div class="outline-text-4" id="text-sheet-tools">
-<p>
-I expect to add more functionality in this category over time.  Right now we have one tool, the <a href="#sheet-tools"><code>Separate stamp sheet</code></a> menu option.  This
-tool is designed to break up images of stamp sheets into stacks of individual images.  When activated it asks the user how many rows and columns are in the
-sheet, and then asks the user to define a "sheet ROI".  This ROI should define the outer edge of where we would cut the stamps (see image below).
-</p>
-
-
-<div id="org84232c7" class="figure">
-<p><img src="PhilaJ-sheetSplitROI.gif" alt="PhilaJ-sheetSplitROI.gif" align="center" width="800" />
-</p>
-</div>
-
-<p>
-The tool will then split the sheet into stamp sized rectangles with boundaries between stamps.  Sometimes these boundaries miss because the original ROI was
-improperly positioned.  For this reason, the tool will ask the user if the cut lines are acceptable.  If they are not, then the user is requested to adjust
-the sheet ROI.  This process repeats until the user accepts the cut lines.  Then the tool will extract an image for each stamp, and place them all in a single
-ImageJ image stack.  Here is what a good set of cut lines look like:
-</p>
-
-
-<div id="org2e3cf12" class="figure">
-<p><img src="PhilaJ-sheetSplitResult.gif" alt="PhilaJ-sheetSplitResult.gif" align="center" width="800" />
-</p>
-</div>
-
-<p>
-One of the best ways to spot plate flaws is to "align" these stamp images, and then flip through the images allowing the natural ability of the human eye to
-notice changes.  How do we align the images?  I find it useful to first crop the images so that we just have the designs &#x2013; no perforations.  Do that by
-making a rectangular ROI, and then use the "<code>Image -&gt; crop</code>" menu option.  In the image processing field, the problem of aligning images is called "image
-registration".  Because this is a very common problem in many fields, ImageJ has several plugins available for the task.  For stamps, I have found "<code>plugins -&gt;
-Registration -&gt; linear stack alignment with SIFT</code>" to work very well.
-</p>
 </div>
 </div>
 
@@ -2097,7 +2087,7 @@ expressed as pixel size in \(\mu\mathrm{m}\) and other images of the same specim
 </p>
 
 
-<div id="org6987db4" class="figure">
+<div id="org566fa4d" class="figure">
 <p><img src="PhilaJ-scale-report.gif" alt="PhilaJ-scale-report.gif" align="center" width="400" />
 </p>
 </div>
@@ -2230,8 +2220,8 @@ functions for the task: <a href="#scale-image-scale"><code>Shrink image to make 
 </div>
 </div>
 
-<div id="outline-container-orgc0d88d3" class="outline-3">
-<h3 id="orgc0d88d3"><span class="section-number-3">4.6</span> Known issues with the built in specialist gauges and presets</h3>
+<div id="outline-container-org3b518d3" class="outline-3">
+<h3 id="org3b518d3"><span class="section-number-3">4.6</span> Known issues with the built in specialist gauges and presets</h3>
 <div class="outline-text-3" id="text-4-6">
 <dl class="org-dl">
 <dt>Updated Kiusalas Perforation Gauge</dt><dd>I have a high degree of confidence in this gauge, and think I have both the frequency &amp; hole sizes correct.</dd>
@@ -2245,8 +2235,8 @@ then please contact me!</dd>
 </div>
 </div>
 
-<div id="outline-container-orgfc7100a" class="outline-3">
-<h3 id="orgfc7100a"><span class="section-number-3">4.7</span> A Note About The Thirkell Position Finder</h3>
+<div id="outline-container-org57e431e" class="outline-3">
+<h3 id="org57e431e"><span class="section-number-3">4.7</span> A Note About The Thirkell Position Finder</h3>
 <div class="outline-text-3" id="text-4-7">
 <p>
 The <a href="#pos-finder"><code>Position Finder</code></a> tool provides a minimal level of support for the way the Thirkell Position Finder is used by experts (the addition of
@@ -2262,7 +2252,7 @@ communicate a location except for a couple cases. Consider the following clip fr
 </p>
 
 
-<div id="org898554a" class="figure">
+<div id="org9fe03fa" class="figure">
 <p><img src="speckOnEdge.jpg" alt="speckOnEdge.jpg" align="center" width="400" />
 </p>
 </div>
@@ -2284,8 +2274,8 @@ guides we no longer need and allow negative numbers. This is the idea behind the
 </div>
 </div>
 
-<div id="outline-container-org7c7d238" class="outline-3">
-<h3 id="org7c7d238"><span class="section-number-3">4.8</span> ROIs</h3>
+<div id="outline-container-org233316e" class="outline-3">
+<h3 id="org233316e"><span class="section-number-3">4.8</span> ROIs</h3>
 <div class="outline-text-3" id="text-4-8">
 <p>
 Note: This entire section can be ignored by most PhilaJ users&#x2026;
@@ -2296,8 +2286,8 @@ ROIs play a central role in PhilaJ (and in ImageJ in general).  PhilaJ has adopt
 </p>
 </div>
 
-<div id="outline-container-org88e76d8" class="outline-4">
-<h4 id="org88e76d8"><span class="section-number-4">4.8.1</span> Named ROIs</h4>
+<div id="outline-container-orgab4aab0" class="outline-4">
+<h4 id="orgab4aab0"><span class="section-number-4">4.8.1</span> Named ROIs</h4>
 <div class="outline-text-4" id="text-4-8-1">
 <table border="2 solid #ccc" cellspacing="0" cellpadding="6" rules="groups" frame="hsides" align="center">
 
@@ -2434,8 +2424,8 @@ ROIs play a central role in PhilaJ (and in ImageJ in general).  PhilaJ has adopt
 </table>
 </div>
 
-<div id="outline-container-orgfbb3e18" class="outline-5">
-<h5 id="orgfbb3e18"><span class="section-number-5">4.8.1.1</span> Notation</h5>
+<div id="outline-container-org211181b" class="outline-5">
+<h5 id="org211181b"><span class="section-number-5">4.8.1.1</span> Notation</h5>
 <div class="outline-text-5" id="text-4-8-1-1">
 <ul class="org-ul">
 <li>Items in square brackets <b>are not</b> required, but items in angle brackets <b>are</b> required.
@@ -2499,8 +2489,8 @@ ROIs play a central role in PhilaJ (and in ImageJ in general).  PhilaJ has adopt
 </div>
 </div>
 
-<div id="outline-container-org744c253" class="outline-5">
-<h5 id="org744c253"><span class="section-number-5">4.8.1.3</span> Some Component Recommendations</h5>
+<div id="outline-container-org3bf0aba" class="outline-5">
+<h5 id="org3bf0aba"><span class="section-number-5">4.8.1.3</span> Some Component Recommendations</h5>
 <div class="outline-text-5" id="text-4-8-1-3">
 <ul class="org-ul">
 <li>For perforation ROIs (<code>pfHole&lt;NN&gt;&lt;MM&gt;_&lt;SFX&gt;</code> &amp; <code>pfLine&lt;NN&gt;_&lt;SFX&gt;</code>)
@@ -2550,8 +2540,8 @@ would be named "<code>overprintHR_UL-red</code>".</li>
 </div>
 </div>
 
-<div id="outline-container-orgd63ea41" class="outline-5">
-<h5 id="orgd63ea41"><span class="section-number-5">4.8.1.5</span> How ROIs are Used</h5>
+<div id="outline-container-org3c43e17" class="outline-5">
+<h5 id="org3c43e17"><span class="section-number-5">4.8.1.5</span> How ROIs are Used</h5>
 <div class="outline-text-5" id="text-4-8-1-5">
 <ul class="org-ul">
 <li>Some macros will look in the ROI manager for specific ROI names or name patterns, and use them if they are found.
@@ -2625,11 +2615,11 @@ The remainder of this section documents the "<code>RPI_tools</code>" user interf
 </p>
 </div>
 
-<div id="outline-container-orgfcc1b1b" class="outline-3">
-<h3 id="orgfcc1b1b"><span class="section-number-3">5.1</span> Activate RPI-Tools</h3>
+<div id="outline-container-org26043a0" class="outline-3">
+<h3 id="org26043a0"><span class="section-number-3">5.1</span> Activate RPI-Tools</h3>
 <div class="outline-text-3" id="text-5-1">
 
-<div id="org54b8ba2" class="figure">
+<div id="orgeb85096" class="figure">
 <p><img src="RPI_Tools-toolsetmenu.gif" alt="RPI_Tools-toolsetmenu.gif" align="center" width="800" />
 </p>
 </div>
@@ -2639,15 +2629,15 @@ Once activated, it will add four buttons to the toolbar:
 </p>
 
 
-<div id="orgbf78371" class="figure">
+<div id="org24f98a4" class="figure">
 <p><img src="RPI_Tools-toolsetbuttons.gif" alt="RPI_Tools-toolsetbuttons.gif" align="center" width="800" />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org4645fc0" class="outline-3">
-<h3 id="org4645fc0"><span class="section-number-3">5.2</span> Button Functions</h3>
+<div id="outline-container-orgf5531f2" class="outline-3">
+<h3 id="orgf5531f2"><span class="section-number-3">5.2</span> Button Functions</h3>
 <div class="outline-text-3" id="text-5-2">
 </div>
 <div id="outline-container-rpi-capture" class="outline-4">
@@ -2667,7 +2657,7 @@ Once activated, it will add four buttons to the toolbar:
 </dl>
 
 
-<div id="orgdf77080" class="figure">
+<div id="org73358f2" class="figure">
 <p><img src="RPI_Tools-dialog-settings.gif" alt="RPI_Tools-dialog-settings.gif" align="center" width="400px" />
 </p>
 </div>
@@ -2701,7 +2691,7 @@ If "Change Settings Before Capture" is set, then a simplified settings dialog bo
 </p>
 
 
-<div id="org47749df" class="figure">
+<div id="org9131e04" class="figure">
 <p><img src="RPI_Tools-dialog-settings-v.gif" alt="RPI_Tools-dialog-settings-v.gif" align="center" width="400px" />
 </p>
 </div>
@@ -2716,7 +2706,7 @@ If "Change Settings Before Capture" is set, then a simplified settings dialog bo
 </dl>
 
 
-<div id="org8739692" class="figure">
+<div id="org4789144" class="figure">
 <p><img src="RPI_Tools-dialog-loadOld.gif" alt="RPI_Tools-dialog-loadOld.gif" align="center" width="400px" />
 </p>
 </div>
@@ -2740,7 +2730,7 @@ the fact.</li>
 </dl>
 
 
-<div id="orgb02760e" class="figure">
+<div id="org2ab5bea" class="figure">
 <p><img src="RPI_Tools-dialog-setscale.gif" alt="RPI_Tools-dialog-setscale.gif" align="center" width="400px" />
 </p>
 </div>
@@ -2748,8 +2738,8 @@ the fact.</li>
 </div>
 
 
-<div id="outline-container-org2a40663" class="outline-2">
-<h2 id="org2a40663"><span class="section-number-2">7</span> EOF</h2>
+<div id="outline-container-orgd404402" class="outline-2">
+<h2 id="orgd404402"><span class="section-number-2">7</span> EOF</h2>
 <div class="outline-text-2" id="text-7">
 <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
 <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
@@ -2760,7 +2750,7 @@ the fact.</li>
 </div>
 </div>
 <div id="postamble" class="status">
-Created by Mitch Richling <<a href="mailto:http://www.mitchr.me/">http://www.mitchr.me/</a>>.  Rendered on 2022-03-19 Sat 13:13 via <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.2 (<a href="https://orgmode.org">Org</a> mode 9.4.4)
+Created by Mitch Richling <<a href="mailto:http://www.mitchr.me/">http://www.mitchr.me/</a>>.  Rendered on 2022-03-19 Sat 13:30 via <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.2 (<a href="https://orgmode.org">Org</a> mode 9.4.4)
 </div>
 </body>
 </html>
