@@ -1,0 +1,203 @@
+# -*- Mode:Org; Coding:utf-8; fill-column:158 -*-
+#+TITLE:       Color Accumulators
+#+AUTHOR:      Mitch Richling
+#+EMAIL:       http://www.mitchr.me/
+#+DATE:        2021-11-29
+#+DESCRIPTION: Philatelic Tools For ImageJ
+#+KEYWORDS:    Philatelic stamps postage ImageJ Fiji Macro Image Processing Image Analysis
+#+LANGUAGE:    en
+#+OPTIONS:     num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t skip:nil d:nil todo:t pri:nil H:5 p:t author:t html-scripts:nil
+#+SEQ_TODO:    TODO:NEW(t)                         TODO:WORK(w)    TODO:HOLD(h)    | TODO:FUTURE(f)   TODO:DONE(d)    TODO:CANCELED(c)
+#+HTML_HEAD: <style>body { width: 95%; margin: 2% auto; font-size: 18px; line-height: 1.4em; font-family: Georgia, serif; color: black; background-color: white; }</style>
+#+HTML_HEAD: <style>body { min-width: 500px; max-width: 1024px; }</style>
+#+HTML_HEAD: <style>h1,h2,h3,h4,h5,h6 { color: #A5573E; line-height: 1em; font-family: Helvetica, sans-serif; }</style>
+#+HTML_HEAD: <style>h1,h2,h3 { line-height: 1.4em; }</style>
+#+HTML_HEAD: <style>h1.title { font-size: 3em; }</style>
+#+HTML_HEAD: <style>h4,h5,h6 { font-size: 1em; }</style>
+#+HTML_HEAD: <style>.org-src-container { border: 1px solid #ccc; box-shadow: 3px 3px 3px #eee; font-family: Lucida Console, monospace; font-size: 80%; margin: 0px; padding: 0px 0px; position: relative; }</style>
+#+HTML_HEAD: <style>.org-src-container>pre { line-height: 1.2em; padding-top: 1.5em; margin: 0.5em; background-color: #404040; color: white; overflow: auto; }</style>
+#+HTML_HEAD: <style>.org-src-container>pre:before { display: block; position: absolute; background-color: #b3b3b3; top: 0; right: 0; padding: 0 0.2em 0 0.4em; border-bottom-left-radius: 8px; border: 0; color: white; font-size: 100%; font-family: Helvetica, sans-serif;}</style>
+#+HTML_HEAD: <style>pre.example { white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -o-pre-wrap; font-family: Lucida Console, monospace; font-size: 80%; background: #404040; color: white; display: block; padding: 0em; border: 2px solid black; }</style>
+#+HTML_LINK_HOME: https://www.mitchr.me/
+#+HTML_LINK_UP: https://github.com/richmit/imagej
+#+EXPORT_FILE_NAME: ../docs/Color_Accumulator
+
+#+ATTR_HTML: :border 2 solid #ccc :frame hsides :align center
+|          <r> | <l>                                          |
+|    *Author:* | /{{{author}}}/                               |
+|   *Updated:* | /{{{modification-time(%Y-%m-%d %H:%M:%S)}}}/ |
+| *Generated:* | /{{{time(%Y-%m-%d %H:%M:%S)}}}/              |
+#+ATTR_HTML: :align center
+Copyright {{{time(%Y)}}} Mitch Richling. All rights reserved.
+
+#+TOC: headlines 5
+
+#        #         #         #         #         #         #         #         #         #         #         #         #         #         #         #         #         #
+#   00   #    10   #    20   #    30   #    40   #    50   #    60   #    70   #    80   #    90   #   100   #   110   #   120   #   130   #   140   #   150   #   160   #
+# 234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+#        #         #         #         #         #         #         #         #         #         #         #         #         #         #         #         #         #
+#        #         #         #         #         #         #         #         #         #         #         #         #         #         #         #         #         #
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: introduction
+:END:
+
+* Tools
+
+** Color Accumulator ColorThreshold
+:PROPERTIES:
+:CUSTOM_ID: TOOL-ColorAccumulatorColorThreshold
+:END:
+
+*** Supported Image Types
+
+ - 24-bit RGB images
+
+*** Description
+
+Grabs the mask property from an image, and copies all the masked pixels to a ColorAccumulator image.  
+
+What is a mask proprietary? The colorthreshold tool adds a mask proprietary to an image.  The mask is indicated by the pixels painted the "Threshold Color"
+when the "Filtered" button in the colorthreshold dialog is pressed.  Note that the mask property exists even when it is not being displayed -- i.e. when one
+hits the "Original" button in the colorthreshold dialog.  Note also that the mask property is dynamically updated as one manipulates the values in the
+colorthreshold dialog box so you can use this script iteratively without closing the colorthreshold dialog.
+   
+Examples: 
+ - A used postage stamp has two postmarks of different colors.  We can select each postmark using colorthreshold, and add the pixels to the accumulator.
+ - We have red, blue, & green bacteria on a slide.  The red & blue are the same species.  We can use colorthreshold to select the red ones, and add them
+   to the accumulator.  Then we can add the blue ones.  Now we we have isolated both the red & blue bacteria.
+
+** Color Accumulator Empty
+:PROPERTIES:
+:CUSTOM_ID: TOOL-ColorAccumulatorEmpty
+:END:
+
+*** Supported Image Types
+
+ - 8-bit grayscale
+ - 16-bit grayscale
+ - 32-bit grayscale
+ - 24-bit RGB images
+
+*** Description
+
+Create a new ColorAccumulator image of the same type and size as the current slice, and filled wih a user specified color.  Errors if a ColorAccumulator
+already exists.  
+
+ColorAccumulators have two image properties:
+ - "=MJR_Background_Color=" is set to a *string* with a decimal representation of the background color
+ - "=MJR_ColorAccumulator=" is set to the string "=T="
+
+** Color Accumulator EqCube
+:PROPERTIES:
+:CUSTOM_ID: TOOL-ColorAccumulatorEqCube
+:END:
+
+*** Supported Image Types
+
+ - 8-bit grayscale
+ - 16-bit grayscale
+ - 24-bit RGB images
+
+*** Description
+
+Adds pixels $P$ from a source image to a "ColorAccumulator" image if there exists a pixel $T$ in the ROI $R$, such that $P_i \in [T_i-E, T_i+E]$ for all
+image channels $i$ and where E is the "cube size".  That is to say, we copy all pixels that have a color "close" to one of the colors in the current ROI. In
+this context, "close" is means all channels are within plus or minus one cube size of each other..
+
+If cube size is zero, then this routine copies all pixels from the source image to the destination image that match one of the colors in the ROI.
+
+If run against the ColorAccumulator image, then it will set matching pixels to the ColorAccumulator fill color.  Sort of an Un-Accumulator.
+
+*** TODOs
+
+ - Add distance metric in other color spaces -- HSV
+ - Add support for 32-bit images... Or not...
+
+** Color Accumulator Fuzzy
+:PROPERTIES:
+:CUSTOM_ID: TOOL-ColorAccumulatorFuzzy
+:END:
+
+*** Supported Image Types
+
+ - 24-bit RGB images
+
+*** Description
+
+Copies pixels from a source image to an "ColorAccumulator" image that are "near" the average pixel color in the current ROI.  Two colors, $X$ & $Y$, are near
+if $\vert X_i - Y_i \vert \le W$ for all channels $i$ and a box width of $W$.
+
+If run against the ColorAccumulator image, then it will set close pixels to the ColorAccumulator fill color.  Sort of an Un-Accumulator.
+
+*** TODO
+
+ - Add code for greyscale images
+ - Add distance metric in other color spaces -- HSV
+
+
+** Color Accumulator ROI
+:PROPERTIES:
+:CUSTOM_ID: TOOL-ColorAccumulatorROI
+:END:
+
+
+*** Supported Image Types
+
+ - 8-bit grayscale
+ - 16-bit grayscale
+ - 32-bit grayscale
+ - 24-bit RGB images
+
+*** Description
+
+Adds pixels inside an ROI from a source image to an "ColorAccumulator" image.
+
+If run against the ColorAccumulator image, then it will fill the ROI with the ColorAccumulator fill color.  Sort of an Un-Accumulator.
+
+** Color Accumulator ViaMask
+:PROPERTIES:
+:CUSTOM_ID: TOOL-ColorAccumulatorViaMask
+:END:
+
+*** Supported Image Types
+
+ - 8-bit grayscale
+ - 16-bit grayscale
+ - 32-bit grayscale
+ - 24-bit RGB images
+
+*** Description
+
+Adds pixels from a source image to a "ColorAccumulator" image based on a third mask image.
+
+Operates the same way when run against the ColorAccumulator image.
+
+** Mask From Color
+:PROPERTIES:
+:CUSTOM_ID: TOOL-MaskFromColor
+:END:
+
+*** Supported Image Types
+
+ - 8-bit grayscale
+ - 16-bit grayscale
+ - 32-bit grayscale
+ - 24-bit RGB images
+
+*** Description
+
+Create a new mask image the same size as the current image, with zero pixel values where the source had the given color and 255 pixel values elsewhere.
+Automatically prepopulates color dialog via the image "Background_Color" property making conversions of "color accumulators" easy.
+
+* EOF
+
+# End of document.
+
+# The following adds some space at the bottom of exported HTML
+#+HTML: <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
+#+HTML: <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
+#+HTML: <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
+#+HTML: <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
+#+HTML: <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
