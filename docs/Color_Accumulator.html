@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-03-19 Sat 00:15 -->
+<!-- 2022-03-20 Sun 18:37 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=1024, initial-scale=1" />
 <title>Color Accumulators</title>
@@ -252,12 +252,12 @@
 
 <tr>
 <td class="org-right"><b>Updated:</b></td>
-<td class="org-left"><i>2022-03-19 00:15:29</i></td>
+<td class="org-left"><i>2022-03-20 18:33:01</i></td>
 </tr>
 
 <tr>
 <td class="org-right"><b>Generated:</b></td>
-<td class="org-left"><i>2022-03-19 00:15:30</i></td>
+<td class="org-left"><i>2022-03-20 18:37:05</i></td>
 </tr>
 </tbody>
 </table>
@@ -270,55 +270,56 @@ Copyright 2022 Mitch Richling. All rights reserved.
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#introduction">1. Introduction</a></li>
-<li><a href="#orgdf2a5ef">2. Tools</a>
+<li><a href="#install">2. Install</a></li>
+<li><a href="#org4d3ff9a">3. Tools</a>
 <ul>
-<li><a href="#TOOL-ColorAccumulatorColorThreshold">2.1. Color Accumulator ColorThreshold</a>
+<li><a href="#TOOL-ColorAccumulatorColorThreshold">3.1. Color Accumulator ColorThreshold</a>
 <ul>
-<li><a href="#orge65f3dd">2.1.1. Supported Image Types</a></li>
-<li><a href="#org0c71d3a">2.1.2. Description</a></li>
+<li><a href="#org7bcfd00">3.1.1. Supported Image Types</a></li>
+<li><a href="#org454ea57">3.1.2. Description</a></li>
 </ul>
 </li>
-<li><a href="#TOOL-ColorAccumulatorEmpty">2.2. Color Accumulator Empty</a>
+<li><a href="#TOOL-ColorAccumulatorEmpty">3.2. Color Accumulator Empty</a>
 <ul>
-<li><a href="#orgddd4d9a">2.2.1. Supported Image Types</a></li>
-<li><a href="#org7e488a5">2.2.2. Description</a></li>
+<li><a href="#orga6eda4e">3.2.1. Supported Image Types</a></li>
+<li><a href="#org46ec8e1">3.2.2. Description</a></li>
 </ul>
 </li>
-<li><a href="#TOOL-ColorAccumulatorEqCube">2.3. Color Accumulator EqCube</a>
+<li><a href="#TOOL-ColorAccumulatorEqCube">3.3. Color Accumulator EqCube</a>
 <ul>
-<li><a href="#org0e857ce">2.3.1. Supported Image Types</a></li>
-<li><a href="#org589272e">2.3.2. Description</a></li>
-<li><a href="#org82325fe">2.3.3. TODOs</a></li>
+<li><a href="#orgb4fe8db">3.3.1. Supported Image Types</a></li>
+<li><a href="#org899e8a5">3.3.2. Description</a></li>
+<li><a href="#org739b6d5">3.3.3. TODOs</a></li>
 </ul>
 </li>
-<li><a href="#TOOL-ColorAccumulatorFuzzy">2.4. Color Accumulator Fuzzy</a>
+<li><a href="#TOOL-ColorAccumulatorFuzzy">3.4. Color Accumulator Fuzzy</a>
 <ul>
-<li><a href="#orgf379644">2.4.1. Supported Image Types</a></li>
-<li><a href="#orgd0e8551">2.4.2. Description</a></li>
-<li><a href="#orgc2f1e79">2.4.3. TODO</a></li>
+<li><a href="#orgf9ffc69">3.4.1. Supported Image Types</a></li>
+<li><a href="#orgd64a4a3">3.4.2. Description</a></li>
+<li><a href="#org0040622">3.4.3. TODO</a></li>
 </ul>
 </li>
-<li><a href="#TOOL-ColorAccumulatorROI">2.5. Color Accumulator ROI</a>
+<li><a href="#TOOL-ColorAccumulatorROI">3.5. Color Accumulator ROI</a>
 <ul>
-<li><a href="#org7ff94d7">2.5.1. Supported Image Types</a></li>
-<li><a href="#org6463bbd">2.5.2. Description</a></li>
+<li><a href="#orgd5bdd13">3.5.1. Supported Image Types</a></li>
+<li><a href="#orgf3e6883">3.5.2. Description</a></li>
 </ul>
 </li>
-<li><a href="#TOOL-ColorAccumulatorViaMask">2.6. Color Accumulator ViaMask</a>
+<li><a href="#TOOL-ColorAccumulatorViaMask">3.6. Color Accumulator ViaMask</a>
 <ul>
-<li><a href="#org94bea2d">2.6.1. Supported Image Types</a></li>
-<li><a href="#orgc9e722e">2.6.2. Description</a></li>
+<li><a href="#orgb159946">3.6.1. Supported Image Types</a></li>
+<li><a href="#org6932dba">3.6.2. Description</a></li>
 </ul>
 </li>
-<li><a href="#TOOL-MaskFromColor">2.7. Mask From Color</a>
+<li><a href="#TOOL-MaskFromColor">3.7. Mask From Color</a>
 <ul>
-<li><a href="#org863b1b3">2.7.1. Supported Image Types</a></li>
-<li><a href="#org57d29e8">2.7.2. Description</a></li>
+<li><a href="#orgf387059">3.7.1. Supported Image Types</a></li>
+<li><a href="#orgab370d8">3.7.2. Description</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org1b9a4df">3. EOF</a></li>
+<li><a href="#orga95f199">4. EOF</a></li>
 </ul>
 </div>
 </div>
@@ -326,30 +327,62 @@ Copyright 2022 Mitch Richling. All rights reserved.
 <div id="outline-container-introduction" class="outline-2">
 <h2 id="introduction"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-introduction">
+<p>
+The Color Accumulator package contains a set of tools designed to select pixels from one or more source images to a "ColorAccumulator" image.  The idea is to
+iteratively apply various Color Accumulator tools to pull parts of source image(s).
+</p>
+
+<p>
+In operation it woks much the way ImageJ's "<code>Create Mask</code>" command (<code>Edit -&gt; Selection -&gt; Create Mask</code>) works with selections &#x2013; in fact the "<code>Color
+Accumulator ROI</code>" script is essentially a replacement for the "<code>Create Mask</code>" command.  The difference being the script works in conjunction with the other
+scripts in the Color Accumulator package.
+</p>
+
+<p>
+My primary use case is philately &#x2013; isolating overprints, postmarks, or design elements.  For this application it is common to require several passes with
+different tools.
+</p>
 </div>
 </div>
 
-<div id="outline-container-orgdf2a5ef" class="outline-2">
-<h2 id="orgdf2a5ef"><span class="section-number-2">2</span> Tools</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-install" class="outline-2">
+<h2 id="install"><span class="section-number-2">2</span> Install</h2>
+<div class="outline-text-2" id="text-install">
+<p>
+Unlike most ImageJ scripts, the Color Accumulator package contains two components.  The first component is the file named "<code>About_Color_Accumulator.js</code>", and
+it <b>must</b> be installed within a folder named "<code>MJR_LIB</code>" inside the Fiji "<code>plugins</code>" folder.  This file contains the vast majority of all the code for the
+Color Accumulator package, and is used by all the other scripts &#x2013; which is why it must be placed in a known location. For example, on my Windows system, I
+install this file as "<code>C:\Users\richmit\PF\Fiji.app\MJR_LIB\About_Color_Accumulator.js</code>".
+</p>
+
+<p>
+The other Javascrpt files (the ones ending in "<code>.js</code>") may be installed wherever you install other scripts.  I like to put them in a new menu named "<code>MJR</code>", and 
+so I install those files in "<code>c:\Users\richmit\PF\Fiji.app\plugins\Scripts\MJR\</code>".
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4d3ff9a" class="outline-2">
+<h2 id="org4d3ff9a"><span class="section-number-2">3</span> Tools</h2>
+<div class="outline-text-2" id="text-3">
 </div>
 <div id="outline-container-TOOL-ColorAccumulatorColorThreshold" class="outline-3">
-<h3 id="TOOL-ColorAccumulatorColorThreshold"><span class="section-number-3">2.1</span> Color Accumulator ColorThreshold</h3>
+<h3 id="TOOL-ColorAccumulatorColorThreshold"><span class="section-number-3">3.1</span> Color Accumulator ColorThreshold</h3>
 <div class="outline-text-3" id="text-TOOL-ColorAccumulatorColorThreshold">
 </div>
 
-<div id="outline-container-orge65f3dd" class="outline-4">
-<h4 id="orge65f3dd"><span class="section-number-4">2.1.1</span> Supported Image Types</h4>
-<div class="outline-text-4" id="text-2-1-1">
+<div id="outline-container-org7bcfd00" class="outline-4">
+<h4 id="org7bcfd00"><span class="section-number-4">3.1.1</span> Supported Image Types</h4>
+<div class="outline-text-4" id="text-3-1-1">
 <ul class="org-ul">
 <li>24-bit RGB images</li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org0c71d3a" class="outline-4">
-<h4 id="org0c71d3a"><span class="section-number-4">2.1.2</span> Description</h4>
-<div class="outline-text-4" id="text-2-1-2">
+<div id="outline-container-org454ea57" class="outline-4">
+<h4 id="org454ea57"><span class="section-number-4">3.1.2</span> Description</h4>
+<div class="outline-text-4" id="text-3-1-2">
 <p>
 Grabs the mask property from an image, and copies all the masked pixels to a ColorAccumulator image.  
 </p>
@@ -374,13 +407,13 @@ to the accumulator.  Then we can add the blue ones.  Now we we have isolated bot
 </div>
 
 <div id="outline-container-TOOL-ColorAccumulatorEmpty" class="outline-3">
-<h3 id="TOOL-ColorAccumulatorEmpty"><span class="section-number-3">2.2</span> Color Accumulator Empty</h3>
+<h3 id="TOOL-ColorAccumulatorEmpty"><span class="section-number-3">3.2</span> Color Accumulator Empty</h3>
 <div class="outline-text-3" id="text-TOOL-ColorAccumulatorEmpty">
 </div>
 
-<div id="outline-container-orgddd4d9a" class="outline-4">
-<h4 id="orgddd4d9a"><span class="section-number-4">2.2.1</span> Supported Image Types</h4>
-<div class="outline-text-4" id="text-2-2-1">
+<div id="outline-container-orga6eda4e" class="outline-4">
+<h4 id="orga6eda4e"><span class="section-number-4">3.2.1</span> Supported Image Types</h4>
+<div class="outline-text-4" id="text-3-2-1">
 <ul class="org-ul">
 <li>8-bit grayscale</li>
 <li>16-bit grayscale</li>
@@ -390,9 +423,9 @@ to the accumulator.  Then we can add the blue ones.  Now we we have isolated bot
 </div>
 </div>
 
-<div id="outline-container-org7e488a5" class="outline-4">
-<h4 id="org7e488a5"><span class="section-number-4">2.2.2</span> Description</h4>
-<div class="outline-text-4" id="text-2-2-2">
+<div id="outline-container-org46ec8e1" class="outline-4">
+<h4 id="org46ec8e1"><span class="section-number-4">3.2.2</span> Description</h4>
+<div class="outline-text-4" id="text-3-2-2">
 <p>
 Create a new ColorAccumulator image of the same type and size as the current slice, and filled wih a user specified color.  Errors if a ColorAccumulator
 already exists.  
@@ -410,13 +443,13 @@ ColorAccumulators have two image properties:
 </div>
 
 <div id="outline-container-TOOL-ColorAccumulatorEqCube" class="outline-3">
-<h3 id="TOOL-ColorAccumulatorEqCube"><span class="section-number-3">2.3</span> Color Accumulator EqCube</h3>
+<h3 id="TOOL-ColorAccumulatorEqCube"><span class="section-number-3">3.3</span> Color Accumulator EqCube</h3>
 <div class="outline-text-3" id="text-TOOL-ColorAccumulatorEqCube">
 </div>
 
-<div id="outline-container-org0e857ce" class="outline-4">
-<h4 id="org0e857ce"><span class="section-number-4">2.3.1</span> Supported Image Types</h4>
-<div class="outline-text-4" id="text-2-3-1">
+<div id="outline-container-orgb4fe8db" class="outline-4">
+<h4 id="orgb4fe8db"><span class="section-number-4">3.3.1</span> Supported Image Types</h4>
+<div class="outline-text-4" id="text-3-3-1">
 <ul class="org-ul">
 <li>8-bit grayscale</li>
 <li>16-bit grayscale</li>
@@ -425,9 +458,9 @@ ColorAccumulators have two image properties:
 </div>
 </div>
 
-<div id="outline-container-org589272e" class="outline-4">
-<h4 id="org589272e"><span class="section-number-4">2.3.2</span> Description</h4>
-<div class="outline-text-4" id="text-2-3-2">
+<div id="outline-container-org899e8a5" class="outline-4">
+<h4 id="org899e8a5"><span class="section-number-4">3.3.2</span> Description</h4>
+<div class="outline-text-4" id="text-3-3-2">
 <p>
 Adds pixels \(P\) from a source image to a "ColorAccumulator" image if there exists a pixel \(T\) in the ROI \(R\), such that \(P_i \in [T_i-E, T_i+E]\) for all
 image channels \(i\) and where E is the "cube size".  That is to say, we copy all pixels that have a color "close" to one of the colors in the current ROI. In
@@ -441,12 +474,16 @@ If cube size is zero, then this routine copies all pixels from the source image 
 <p>
 If run against the ColorAccumulator image, then it will set matching pixels to the ColorAccumulator fill color.  Sort of an Un-Accumulator.
 </p>
+
+<p>
+Note the runtime for this tool is <b>strongly</b> impacted by the cube size.  Values larger than 10 can have prohibitively long run times.
+</p>
 </div>
 </div>
 
-<div id="outline-container-org82325fe" class="outline-4">
-<h4 id="org82325fe"><span class="section-number-4">2.3.3</span> TODOs</h4>
-<div class="outline-text-4" id="text-2-3-3">
+<div id="outline-container-org739b6d5" class="outline-4">
+<h4 id="org739b6d5"><span class="section-number-4">3.3.3</span> TODOs</h4>
+<div class="outline-text-4" id="text-3-3-3">
 <ul class="org-ul">
 <li>Add distance metric in other color spaces &#x2013; HSV</li>
 <li>Add support for 32-bit images&#x2026; Or not&#x2026;</li>
@@ -456,22 +493,22 @@ If run against the ColorAccumulator image, then it will set matching pixels to t
 </div>
 
 <div id="outline-container-TOOL-ColorAccumulatorFuzzy" class="outline-3">
-<h3 id="TOOL-ColorAccumulatorFuzzy"><span class="section-number-3">2.4</span> Color Accumulator Fuzzy</h3>
+<h3 id="TOOL-ColorAccumulatorFuzzy"><span class="section-number-3">3.4</span> Color Accumulator Fuzzy</h3>
 <div class="outline-text-3" id="text-TOOL-ColorAccumulatorFuzzy">
 </div>
 
-<div id="outline-container-orgf379644" class="outline-4">
-<h4 id="orgf379644"><span class="section-number-4">2.4.1</span> Supported Image Types</h4>
-<div class="outline-text-4" id="text-2-4-1">
+<div id="outline-container-orgf9ffc69" class="outline-4">
+<h4 id="orgf9ffc69"><span class="section-number-4">3.4.1</span> Supported Image Types</h4>
+<div class="outline-text-4" id="text-3-4-1">
 <ul class="org-ul">
 <li>24-bit RGB images</li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgd0e8551" class="outline-4">
-<h4 id="orgd0e8551"><span class="section-number-4">2.4.2</span> Description</h4>
-<div class="outline-text-4" id="text-2-4-2">
+<div id="outline-container-orgd64a4a3" class="outline-4">
+<h4 id="orgd64a4a3"><span class="section-number-4">3.4.2</span> Description</h4>
+<div class="outline-text-4" id="text-3-4-2">
 <p>
 Copies pixels from a source image to an "ColorAccumulator" image that are "near" the average pixel color in the current ROI.  Two colors, \(X\) &amp; \(Y\), are near
 if \(\vert X_i - Y_i \vert \le W\) for all channels \(i\) and a box width of \(W\).
@@ -483,9 +520,9 @@ If run against the ColorAccumulator image, then it will set close pixels to the 
 </div>
 </div>
 
-<div id="outline-container-orgc2f1e79" class="outline-4">
-<h4 id="orgc2f1e79"><span class="section-number-4">2.4.3</span> TODO</h4>
-<div class="outline-text-4" id="text-2-4-3">
+<div id="outline-container-org0040622" class="outline-4">
+<h4 id="org0040622"><span class="section-number-4">3.4.3</span> TODO</h4>
+<div class="outline-text-4" id="text-3-4-3">
 <ul class="org-ul">
 <li>Add code for greyscale images</li>
 <li>Add distance metric in other color spaces &#x2013; HSV</li>
@@ -494,16 +531,15 @@ If run against the ColorAccumulator image, then it will set close pixels to the 
 </div>
 </div>
 
-
 <div id="outline-container-TOOL-ColorAccumulatorROI" class="outline-3">
-<h3 id="TOOL-ColorAccumulatorROI"><span class="section-number-3">2.5</span> Color Accumulator ROI</h3>
+<h3 id="TOOL-ColorAccumulatorROI"><span class="section-number-3">3.5</span> Color Accumulator ROI</h3>
 <div class="outline-text-3" id="text-TOOL-ColorAccumulatorROI">
 </div>
 
 
-<div id="outline-container-org7ff94d7" class="outline-4">
-<h4 id="org7ff94d7"><span class="section-number-4">2.5.1</span> Supported Image Types</h4>
-<div class="outline-text-4" id="text-2-5-1">
+<div id="outline-container-orgd5bdd13" class="outline-4">
+<h4 id="orgd5bdd13"><span class="section-number-4">3.5.1</span> Supported Image Types</h4>
+<div class="outline-text-4" id="text-3-5-1">
 <ul class="org-ul">
 <li>8-bit grayscale</li>
 <li>16-bit grayscale</li>
@@ -513,9 +549,9 @@ If run against the ColorAccumulator image, then it will set close pixels to the 
 </div>
 </div>
 
-<div id="outline-container-org6463bbd" class="outline-4">
-<h4 id="org6463bbd"><span class="section-number-4">2.5.2</span> Description</h4>
-<div class="outline-text-4" id="text-2-5-2">
+<div id="outline-container-orgf3e6883" class="outline-4">
+<h4 id="orgf3e6883"><span class="section-number-4">3.5.2</span> Description</h4>
+<div class="outline-text-4" id="text-3-5-2">
 <p>
 Adds pixels inside an ROI from a source image to an "ColorAccumulator" image.
 </p>
@@ -528,13 +564,13 @@ If run against the ColorAccumulator image, then it will fill the ROI with the Co
 </div>
 
 <div id="outline-container-TOOL-ColorAccumulatorViaMask" class="outline-3">
-<h3 id="TOOL-ColorAccumulatorViaMask"><span class="section-number-3">2.6</span> Color Accumulator ViaMask</h3>
+<h3 id="TOOL-ColorAccumulatorViaMask"><span class="section-number-3">3.6</span> Color Accumulator ViaMask</h3>
 <div class="outline-text-3" id="text-TOOL-ColorAccumulatorViaMask">
 </div>
 
-<div id="outline-container-org94bea2d" class="outline-4">
-<h4 id="org94bea2d"><span class="section-number-4">2.6.1</span> Supported Image Types</h4>
-<div class="outline-text-4" id="text-2-6-1">
+<div id="outline-container-orgb159946" class="outline-4">
+<h4 id="orgb159946"><span class="section-number-4">3.6.1</span> Supported Image Types</h4>
+<div class="outline-text-4" id="text-3-6-1">
 <ul class="org-ul">
 <li>8-bit grayscale</li>
 <li>16-bit grayscale</li>
@@ -544,9 +580,9 @@ If run against the ColorAccumulator image, then it will fill the ROI with the Co
 </div>
 </div>
 
-<div id="outline-container-orgc9e722e" class="outline-4">
-<h4 id="orgc9e722e"><span class="section-number-4">2.6.2</span> Description</h4>
-<div class="outline-text-4" id="text-2-6-2">
+<div id="outline-container-org6932dba" class="outline-4">
+<h4 id="org6932dba"><span class="section-number-4">3.6.2</span> Description</h4>
+<div class="outline-text-4" id="text-3-6-2">
 <p>
 Adds pixels from a source image to a "ColorAccumulator" image based on a third mask image.
 </p>
@@ -559,13 +595,13 @@ Operates the same way when run against the ColorAccumulator image.
 </div>
 
 <div id="outline-container-TOOL-MaskFromColor" class="outline-3">
-<h3 id="TOOL-MaskFromColor"><span class="section-number-3">2.7</span> Mask From Color</h3>
+<h3 id="TOOL-MaskFromColor"><span class="section-number-3">3.7</span> Mask From Color</h3>
 <div class="outline-text-3" id="text-TOOL-MaskFromColor">
 </div>
 
-<div id="outline-container-org863b1b3" class="outline-4">
-<h4 id="org863b1b3"><span class="section-number-4">2.7.1</span> Supported Image Types</h4>
-<div class="outline-text-4" id="text-2-7-1">
+<div id="outline-container-orgf387059" class="outline-4">
+<h4 id="orgf387059"><span class="section-number-4">3.7.1</span> Supported Image Types</h4>
+<div class="outline-text-4" id="text-3-7-1">
 <ul class="org-ul">
 <li>8-bit grayscale</li>
 <li>16-bit grayscale</li>
@@ -575,9 +611,9 @@ Operates the same way when run against the ColorAccumulator image.
 </div>
 </div>
 
-<div id="outline-container-org57d29e8" class="outline-4">
-<h4 id="org57d29e8"><span class="section-number-4">2.7.2</span> Description</h4>
-<div class="outline-text-4" id="text-2-7-2">
+<div id="outline-container-orgab370d8" class="outline-4">
+<h4 id="orgab370d8"><span class="section-number-4">3.7.2</span> Description</h4>
+<div class="outline-text-4" id="text-3-7-2">
 <p>
 Create a new mask image the same size as the current image, with zero pixel values where the source had the given color and 255 pixel values elsewhere.
 Automatically prepopulates color dialog via the image "Background_Color" property making conversions of "color accumulators" easy.
@@ -587,9 +623,9 @@ Automatically prepopulates color dialog via the image "Background_Color" propert
 </div>
 </div>
 
-<div id="outline-container-org1b9a4df" class="outline-2">
-<h2 id="org1b9a4df"><span class="section-number-2">3</span> EOF</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-orga95f199" class="outline-2">
+<h2 id="orga95f199"><span class="section-number-2">4</span> EOF</h2>
+<div class="outline-text-2" id="text-4">
 <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
 <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
 <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
@@ -599,7 +635,7 @@ Automatically prepopulates color dialog via the image "Background_Color" propert
 </div>
 </div>
 <div id="postamble" class="status">
-Created by Mitch Richling <<a href="mailto:http://www.mitchr.me/">http://www.mitchr.me/</a>>.  Rendered on 2022-03-19 Sat 00:15 via <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.2 (<a href="https://orgmode.org">Org</a> mode 9.4.4)
+Created by Mitch Richling <<a href="mailto:http://www.mitchr.me/">http://www.mitchr.me/</a>>.  Rendered on 2022-03-20 Sun 18:37 via <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.2 (<a href="https://orgmode.org">Org</a> mode 9.4.4)
 </div>
 </body>
 </html>

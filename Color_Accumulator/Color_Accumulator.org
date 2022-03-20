@@ -43,6 +43,29 @@ Copyright {{{time(%Y)}}} Mitch Richling. All rights reserved.
 :CUSTOM_ID: introduction
 :END:
 
+The Color Accumulator package contains a set of tools designed to select pixels from one or more source images to a "ColorAccumulator" image.  The idea is to
+iteratively apply various Color Accumulator tools to pull parts of source image(s).
+
+In operation it woks much the way ImageJ's "=Create Mask=" command (=Edit -> Selection -> Create Mask=) works with selections -- in fact the "=Color
+Accumulator ROI=" script is essentially a replacement for the "=Create Mask=" command.  The difference being the script works in conjunction with the other
+scripts in the Color Accumulator package.
+
+My primary use case is philately -- isolating overprints, postmarks, or design elements.  For this application it is common to require several passes with
+different tools.
+
+* Install
+:PROPERTIES:
+:CUSTOM_ID: install
+:END:
+
+Unlike most ImageJ scripts, the Color Accumulator package contains two components.  The first component is the file named "=About_Color_Accumulator.js=", and
+it *must* be installed within a folder named "=MJR_LIB=" inside the Fiji "=plugins=" folder.  This file contains the vast majority of all the code for the
+Color Accumulator package, and is used by all the other scripts -- which is why it must be placed in a known location. For example, on my Windows system, I
+install this file as "=C:\Users\richmit\PF\Fiji.app\MJR_LIB\About_Color_Accumulator.js=".
+
+The other Javascrpt files (the ones ending in "=.js=") may be installed wherever you install other scripts.  I like to put them in a new menu named "=MJR=", and 
+so I install those files in "=c:\Users\richmit\PF\Fiji.app\plugins\Scripts\MJR\=".
+
 * Tools
 
 ** Color Accumulator ColorThreshold
@@ -110,6 +133,8 @@ If cube size is zero, then this routine copies all pixels from the source image 
 
 If run against the ColorAccumulator image, then it will set matching pixels to the ColorAccumulator fill color.  Sort of an Un-Accumulator.
 
+Note the runtime for this tool is *strongly* impacted by the cube size.  Values larger than 10 can have prohibitively long run times.
+
 *** TODOs
 
  - Add distance metric in other color spaces -- HSV
@@ -135,7 +160,6 @@ If run against the ColorAccumulator image, then it will set close pixels to the 
 
  - Add code for greyscale images
  - Add distance metric in other color spaces -- HSV
-
 
 ** Color Accumulator ROI
 :PROPERTIES:
