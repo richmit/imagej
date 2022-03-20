@@ -381,7 +381,6 @@ file:PhilaJ-philaj-buttons.gif
    - =PhilaJ Help=
 
 ** PhilaJ Tools
-
 *** Dynamic perforation gauge
 :PROPERTIES:
 :CUSTOM_ID: dynamic-perf-gauge
@@ -1437,7 +1436,6 @@ file:RPI_Tools-dialog-loadOld.gif
 
 #+ATTR_HTML: :align center :width 400px
 file:RPI_Tools-dialog-setscale.gif
-
 
 * EOF
 
