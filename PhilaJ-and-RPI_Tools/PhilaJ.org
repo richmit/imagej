@@ -191,9 +191,11 @@ said, I think the tutorial linked above is all you really need to get started wi
 
 ** Installing PhilaJ
 
-Installing PhilaJ requires the "=PhilaJ.ijm=" file be copied into the Fiji the "=/macros/toolsets/=" directory inside the Fiji install.  For example, on my
-Windows computer, I copy it to "=c:\Users\richmit\PF\Fiji.app\macros\toolsets\PhilaJ.ijm=".  If ImageJ was running when you copied the file, then you need to
-quite and restart it.
+Installing PhilaJ requires the "=PhilaJ.ijm=" file be copied into the Fiji toolsets directory.  This directory is normally named "=macros/toolsets/=", and may
+be found inside Fiji install directory.  For example, I install Fiji at "=c:\Users\richmit\PF\Fiji.app=", and thus I copy the "=PhilaJ.ijm=" file to
+"=c:\Users\richmit\PF\Fiji.app\macros\toolsets\PhilaJ.ijm=".  
+
+If ImageJ was running when you copied the file, then you need to quite and restart it.
 
 ** Activate PhilaJ
 
