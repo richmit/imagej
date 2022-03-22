@@ -2007,7 +2007,7 @@ function specializedGaugeBltInDataLookup(dumpListNoLookup) {
   if (gbl_ALL_debug)
     print("DEBUG(specializedGaugeBltInDataLookup): Function Entry: ", dumpListNoLookup);
 
-  builtIns = newArray("Updated Kiusalas Perforation Gauge", "Liberty Issue Perforation Gauge");
+  builtIns = newArray("Updated Kiusalas");
  
   if (gbl_spl_gName == "")
     gbl_spl_gName = builtIns[0];
@@ -2015,15 +2015,10 @@ function specializedGaugeBltInDataLookup(dumpListNoLookup) {
   if (dumpListNoLookup) {
     return builtIns;
   } else {
-    if (gbl_spl_gName == "Updated Kiusalas Perforation Gauge") {
+    if (gbl_spl_gName == "Updated Kiusalas") {
       gbl_spl_perfGaps  = newArray(   95.0*0.0254,    81.0*0.0254,    80.0*0.0254,    79.0*0.0254,    75.0*0.0254,    73.0*0.0254,    72.5*0.0254,    72.0*0.0254,    70.0*0.0254,    67.0*0.0254,    66.0*0.0254,    63.0*0.0254,   51.0*0.0254);
       gbl_spl_perfDiams = newArray(    0.042*25.4,     0.042*25.4,     0.042*25.4,     0.042*25.4,     0.042*25.4,     0.042*25.4,     0.042*25.4,     0.042*25.4,     0.042*25.4,     0.042*25.4,     0.042*25.4,          0.850,         0.700);
       gbl_spl_perfLabs  = newArray(  "95.0  8.29",   "81.0  9.72",   "80.0  9.84",   "79.0  9.97",   "75.0 10.50",   "73.0 10.79",   "72.5 10.86",   "72.0 10.94",   "70.0 11.25",   "67.0 11.75",   "66.0 11.93",   "63.0 12.50",  "51.0 15.44");
-      return true;
-    } else if (gbl_spl_gName == "Liberty Issue Perforation Gauge") {
-      gbl_spl_perfGaps  = newArray(80.0*0.0254, 80.0*0.0254, 81.0*0.0254, 75.0*0.0254, 72.0*0.0254, 70.0*0.0254);
-      gbl_spl_perfDiams = newArray(      0.950,       1.100,       1.100,       1.100,       1.100,       1.100);
-      gbl_spl_perfLabs  = newArray( "Sm  9.84",  "Lg  9.84",  "Lg  9.72",  "Lg 10.50",  "Lg 10.94",  "Lg 11.25");
       return true;
     } else {
       return false;
@@ -2055,17 +2050,18 @@ function specializedGaugeAction() {
       perfString = File.openAsString(perfFullPath);
       perfLines  = split(perfString, "\n");
       perfLines  = Array.filter(perfLines, "(^[^#].+$)"); // Remove comment lines
+      //perfLines  = Array.filter(perfLines, "(^ *$)");     // Remove empty lines
       numLines = perfLines.length;
       gbl_spl_perfGaps  = newArray(numLines);
       gbl_spl_perfDiams = newArray(numLines);
       gbl_spl_perfLabs  = newArray(numLines);
       for(i=0; i<numLines; i++) {
         perfFields = split(perfLines[i], ",");
-        if (perfFields.length != 3)
-          exit("ERROR(specializedGaugeAction): Malformed line (" + d2s(i+1, 0) + ") in perf file (" +  perfFileName + ")");
+        if (perfFields.length != 4)
+          exit("ERROR(specializedGaugeAction): Malformed line (" + d2s(i+1, 0) + ") in perf file (" +  perfFileName + ")\n" + perfLines[i]);
         gbl_spl_perfGaps[i]  = parseFloat(perfFields[0]);
         gbl_spl_perfDiams[i] = parseFloat(perfFields[1]);
-        gbl_spl_perfLabs[i]  = perfFields[2];
+        gbl_spl_perfLabs[i]  = perfFields[3];
       }
     }
   }

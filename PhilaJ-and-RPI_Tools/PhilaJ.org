@@ -529,6 +529,7 @@ frequency and perf sizes in a popup dialog.  It automatically converts various m
 use this sometimes when working with a pile of stamps that need to be divided into two perforation groups -- i.e. a stamp fits the gauge or doesn't.  This
 gauge is available via the [[#static-perf-gauge][=Single Line Specialized Perforation Gauge Options=]] & [[#static-perf-gauge][=Single Line Specialized
 Perforation Gauge Presets=]] menu options.
+
 *** User Installable Customized Specialist Gauges
 :PROPERTIES:
 :CUSTOM_ID: custom-spec-gauge
@@ -537,19 +538,22 @@ Perforation Gauge Presets=]] menu options.
 Then menu option [[#custom-spec-gauge][=Install New Specialized Gauge=]] in the overlay menu allows one to install new specialized gauges.  
 
 New gauges are described via a CSV file -- which you can make with a text editor or Excel.  These files contain three columns:
- - Gaps -- the distance from perf hole to perf hole (in millimeters)
+ - Gaps -- the center to center distance between perf holes (in millimeters)
  - Hole Sizes -- the diameter of the hole (in millimeters)
+ - Preset -- If "Y" then the line will be included presets for the one line specialized gauges and the dynamic perforation gauge.
  - Labels -- a bit of text to identify each row of perforations
 
 Here is an example of a custom gauge CSV file:
 
 #+begin_src text
-   2.03850000000,0.95000000000,Sm  9.8
-   2.03300000000,0.95000000000,Sm  9.9
-   2.03300000000,1.10000000000,Lg  9.9
-   1.90988461538,1.10000000000,Lg 10.5
-   1.81983621474,1.10000000000,Lg 11.0
-   1.77257821501,1.10000000000,Lg 11.3
+   # Lines that start with a # are ignored -- they are comments
+   #         gap,         hole,P,Labels
+   2.03850000000,0.95000000000,N,Sm  9.8
+   2.03300000000,0.95000000000,N,Sm  9.9
+   2.03300000000,1.10000000000,N,Lg  9.9
+   1.90988461538,1.10000000000,N,Lg 10.5
+   1.81983621474,1.10000000000,N,Lg 11.0
+   1.77257821501,1.10000000000,N,Lg 11.3
 #+end_src
 
 The [[#custom-spec-gauge][=Install New Specialized Gauge=]] menu option simply queries the user for a CSV file name, an copies it into the following
@@ -566,6 +570,9 @@ specialized perforation options dialog.
 
 Note the filenames are used much like ImageJ macro files.  For example, a file named "=AM_Post_BEP.csv=" will result in a menu option named "=AM Post BEP=" --
 i.e. the underscores are turned into spaces and the extension is removed.
+
+See the section [[#spec-gauge-list][Available Specialist gauges and presets]] for more information regarding gauges shipped with PhilaJ.
+
 *** Measuring Design & Margins
 :PROPERTIES:
 :CUSTOM_ID: centering-measurements
@@ -1179,15 +1186,22 @@ But I need to rotate my images!  What do I do?
 The simplest answer is to adjust the image size so that the pixels become square.  This can be done manually in ImageJ, but PhilaJ provides a couple handy
 functions for the task: [[#scale-image-scale][=Shrink image to make pixels square=]] and [[#scale-image-scale][=Resize image to target DPI=]].
 
-** Known issues with the built in specialist gauges and presets
+** Available Specialist gauges and presets
+:PROPERTIES:
+:CUSTOM_ID: spec-gauge-list
+:END:
 
- - Updated Kiusalas Perforation Gauge :: I have a high degree of confidence in this gauge, and think I have both the frequency & hole sizes correct. 
- - Liberty Issue Perforation Gauge :: This one is a bit fuzzy in that hole sizes vary a bit between wet vs dry printings and the frequency between the large &
-   small hole varieties is a tiny bit different.  This gauge is a result of measurements taken from my own collection.  So be careful when using it.  If you
-   are an expert on the Liberty Series with better values for this gauge, then please contact me!
- - BARI Wolf Issue Perforation Gauge :: This gauge is based on my own observations of the issue.
- - Canadian Kiusalas Perforation Gauge :: The hole diameters on this gauge are completely wrong -- I just set them to 1mm.  If you know what they should be,
-   then please contact me!
+ - Updated Kiusalas Perforation Gauge :: I have a high degree of confidence in this gauge, and think I have both the frequency & hole sizes correct. This one
+   includeds a row for 72.5.
+ - Traditional Kiusalas Perforation :: I have a high degree of confidence in this gauge, and think I have both the frequency & hole sizes correct. 
+ - Liberty Issue Perforation Gauge :: Right now the gaps are the nearest Kiusalas value, and the hole sizes are based on values from articles.  Unfortunately
+   this isn't quite right.  The hole sizes vary a bit between wet vs dry printings and the gaps between the large & small hole varieties is a tiny bit
+   different.  So be careful when using it.  I hope to someday make a better gauge based on measurements of my extensive Liberty collection.
+ - BARI Wolf Issue Perforation Gauge :: This gauge is based on measurements of my personal collection -- I have well over 50 copies of this stamp.
+ - Canadian Kiusalas Perforation Gauge :: The gaps are correct, but the hole diameters on this gauge are completely wrong -- I just set them to 1mm.  If you
+   know what they should be, then please contact me!
+ - AMG AM Post :: I'm starting a project to put together a set of gauges for AMG issues.  Right now I have the templates installed, but the gap values are stock
+   catalog values.  I hope to update these with measured values from my collection.
 
 ** A Note About The Thirkell Position Finder
 

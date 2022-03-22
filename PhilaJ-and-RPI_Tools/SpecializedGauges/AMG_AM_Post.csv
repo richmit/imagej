@@ -1,0 +1,16 @@
+# AMG AM Post issues printed in London, Brunswick, & Washington
+#
+# Values are currently theoretical; however, I plan on updateing them
+# with values based upon measurements of my personal collection.
+#
+# Hole to hole distance (gap) formula:
+#            gap=20/perf     -- (perf units: holes per 2cm)
+#            gap=mils*0.0254 -- (mils units: thousandths of an inch)
+#
+#         Gap, Hole,P,Label
+1.40350877193,0.900,N,14.25 UK
+1.37931034483,0.900,N,14.50 UK
+1.35593220339,0.900,N,14.75 UK
+1.81818181818,0.900,n,11.00 US
+1.81818181818,0.900,n,11.00 DE
+1.73913043478,0.900,n,11.50 DE

@@ -1,0 +1,18 @@
+# Liberty Issue Perforation Gauge
+#
+# Right now the gap values are closest Kiusalas gauge values, and the
+# hole sizes are based on measurements of my own collection.  I have a
+# project on my to-do list to adjust these values based on
+# measurements of my own collection.
+#
+# Hole to hole distance (gap) formula:
+#            gap=20/perf     -- (perf units: holes per 2cm)
+#            gap=mils*0.0254 -- (mils units: thousandths of an inch)
+#
+#  Gap, Hole,P,Label
+2.0320,0.950,Y,Sm  9.84
+2.0320,1.100,Y,Lg  9.84
+2.0574,1.100,Y,Lg  9.72
+1.9050,1.100,Y,Lg 10.50
+1.8288,1.100,Y,Lg 10.94
+1.7780,1.100,Y,Lg 11.25
