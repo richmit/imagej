@@ -241,10 +241,10 @@ function waitForUserToMakeSelection(title, message, selType) {
 function waitForUserWithCancel(title, message) {
   if (gbl_ALL_debug)
     print("DEBUG(waitForUserWithCancel): Function Entry: ", title, message);
-    Dialog.createNonBlocking(title);
-    Dialog.addMessage(message);
-    Dialog.show();
-    //waitForUser(title, message);
+  Dialog.createNonBlocking(title);
+  Dialog.addMessage(message);
+  Dialog.show();
+  //waitForUser(title, message);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -253,7 +253,12 @@ function exitIfNoImages(srcStr) {
   if (gbl_ALL_debug)
     print("DEBUG(exitIfNoImages): Function Entry: ", srcStr);
   if (nImages == 0)
-    exit("ERROR(" + srcStr + "): No open images found!");
+    exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(" + srcStr + "):" + "<br>"
+         +"&nbsp; No open images found!"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html'>the user manual</a> for more information."
+         +"</font>");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -473,11 +478,21 @@ function roiManagerAddOrUpdateROI(name, overwriteWarn) {
   exitIfNoImages("roiManagerAddOrUpdateROI");
 
   if (selectionType < 0)
-    exit("PROGRAM_ERROR(roiManagerAddOrUpdateROI): Selection is required!");
+    exit("<html>"
+         +"<font size=+1>"
+         +"PROGRAM_ERROR(roiManagerAddOrUpdateROI):<br>"
+         +"&nbsp; roiManagerAddOrUpdateROI): Selection is required!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html'>the user manual</a> for more information."
+         +"</font>");
 
   if (name == "") {
     if (Roi.getName == "")
-      exit("PROGRAM_ERROR(roiManagerAddOrUpdateROI): Selection must have a name or name argument must be a non-empty string!");
+      exit("<html>"
+           +"<font size=+1>"
+           +"PROGRAM_ERROR(roiManagerAddOrUpdateROI):<br>"
+           +"&nbsp; Selection must have a name or name argument must be a non-empty string!" + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html'>the user manual</a> for more information."
+           +"</font>");
   } else {
     Roi.setName(name);
   }
@@ -592,7 +607,7 @@ function roiManagerSidecarSave(showEmptyListError, askBeforeOverwrite) {
   if (roiManager("count") > 0) {
     roiManagerMakeALL();
 
-  sidecarFullPath = roiManagerSidecarName();
+    sidecarFullPath = roiManagerSidecarName();
 
     if (askBeforeOverwrite && File.exists(sidecarFullPath))
       saveIt = getBoolean("PhilaJ ROI sidecar file already exists! \nOverwrite '" + File.getName(sidecarFullPath) + "'?");
@@ -1296,7 +1311,12 @@ function dynamicPerfMeasureROI(force_rimt) {
   colr       = dpsi[9];
 
   if ((length < 0) || (dotSize < 0) || (numDots < 0)) {
-    exit("ERROR(dynamicPerfMeasureROI): A Dynamic Perforation ROI must be selected!");
+    exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(dynamicPerfMeasureAllROIs):<br>"
+         +"&nbsp; No Dynamic Perf ROIs found in ROI Manager!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#reuse-dynamic-perf-roi'>the user manual</a> for more information."
+         +"</font>");
   } else {
     if (rimt)
       run("Measure");
@@ -1326,7 +1346,12 @@ function dynamicPerfMeasureAllROIs() {
     }
     run("Select None");
   } else {
-    exit("ERROR(dynamicPerfMeasureAllROIs): No Dynamic Perf ROIs found in ROI Manager!");
+    exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(dynamicPerfMeasureAllROIs):<br>"
+         +"&nbsp; No Dynamic Perf ROIs found in ROI Manager!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#reuse-dynamic-perf-roi'>the user manual</a> for more information."
+         +"</font>");
   }
 }
 
@@ -1628,10 +1653,10 @@ function dynamicPerfGetSelectionInfo() {
 
   lineLength     = -1;
   lineLengthUnit = "";
-  x1             = -1;
-  y1             = -1;
-  x2             = -1;
-  y2             = -1;
+  usX1           = -1;
+  usX2           = -1;
+  usY1           = -1;
+  usY2           = -1;
   holeCount      = -1;
   holeSize       = -1;
   roiAnno        = "";
@@ -1822,19 +1847,32 @@ function specializedGaugeInstall() {
 
   perfPath = getDirectory("home");
   if ( !(File.isDirectory(perfPath)))
-    exit("ERROR(specializedGaugeInstall): Home directory is missing: " + perfPath);
-
+    exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(specializedGaugeInstall):<br>"
+         +"&nbsp; Home directory is missing: " + perfPath + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#custom-spec-gauge'>the user manual</a> for more information."
+         +"</font>");
   perfPath = pathJoin(newArray(perfPath, ".philaj"));
   if ( !(File.isDirectory(perfPath)))
     File.makeDirectory(perfPath);
   if ( !(File.isDirectory(perfPath)))
-    exit("ERROR(specializedGaugeInstall): .philaj config directory is missing, and could not be created: " + perfPath);
-
+    exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(specializedGaugeInstall):<br>"
+         +"&nbsp; .philaj config directory is missing, and could not be created: " + perfPath + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#custom-spec-gauge'>the user manual</a> for more information."
+         +"</font>");
   perfPath = pathJoin(newArray(perfPath, "perfs"));
   if ( !(File.isDirectory(perfPath)))
     File.makeDirectory(perfPath);
   if ( !(File.isDirectory(perfPath)))
-    exit("ERROR(specializedGaugeInstall): .philaj perfs directory is missing, and could not be created: " + perfPath);
+    exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(specializedGaugeInstall):<br>"
+         +"&nbsp; .philaj perfs directory is missing, and could not be created: " + perfPath + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#custom-spec-gauge'>the user manual</a> for more information."
+         +"</font>");
 
   Dialog.create("PhilaJ: Install Specialized Gauge");
   Dialog.addFile("Gauge CSV File:", getDirectory("home"));
@@ -1846,9 +1884,19 @@ function specializedGaugeInstall() {
   var newPerfFileDest = Dialog.getString();
 
   if ( !(File.isDirectory(newPerfFileSrc)))
-    exit("ERROR(specializedGaugeInstall): Source perforation file can't be found: " + newPerfFileSrc);
+    exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(specializedGaugeInstall):<br>"
+         +"&nbsp; Source perforation file can't be found: " + newPerfFileSrc + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#custom-spec-gauge'>the user manual</a> for more information."
+         +"</font>");
   if ( !(matches(newPerfFileSrc, "\\.csv")))
-    exit("ERROR(specializedGaugeInstall): Source perforation file must be a CSV file!");
+    exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(specializedGaugeInstall):<br>"
+         +"&nbsp; Source perforation file must be a CSV file!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#reuse-dynamic-perf-roi'>the user manual</a> for more information."
+         +"</font>");
 
   if (newPerfFileDest == "") {
     newPerfFileDest = File.getName(newPerfFileSrc);
@@ -1941,9 +1989,10 @@ function specializedGaugeSingleOptions(queryForPreset) {
     lables = perfPresetLookup("");
     if (lables.length == 0) {
       exit("<html>"
-           +"<font size=+2>"
-           +"No specialized gauges are installed!<br>"
-           +"See <a href='https://richmit.github.io/imagej/PhilaJ.html#custom-spec-gauge'>the user manual</a> for more information."
+           +"<font size=+1>"
+           +"ERROR(specializedGaugeAction):<br>"
+           +"&nbsp; No specialized gauges are installed!<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#static-perf-gauge'>the user manual</a> for more information."
            +"</font>");
     } else {
 
@@ -2013,34 +2062,44 @@ function specializedGaugeAction() {
   exitIfNoImages("specializedGaugeAction");
   checkImageScalePhil(false, true);
 
-    if (gbl_spl_gName == "Single Line Custom") {
-      gbl_spl_perfGaps  = newArray(1);
-      gbl_spl_perfDiams = newArray(1);
-      gbl_spl_perfLabs  = newArray(1);
-      gbl_spl_perfGaps[0]  = convertPerfToMM(gbl_ssp_gapv, gbl_ssp_gapu);
-      gbl_spl_perfDiams[0] = convertLengthToMM(gbl_ssp_sizv, gbl_ssp_sizu);
-      gbl_spl_perfLabs[0]  = gbl_ssp_lab;
-    } else {
-      perfFileName = replace(gbl_spl_gName, " ", "_") + ".csv";
-      perfFullPath = pathJoin(newArray(getDirectory("home"), ".philaj", "perfs", perfFileName));
-      if ( !(File.exists(perfFullPath)))
-        exit("ERROR(specializedGaugeAction): Perf file is missing: " + perfFileName);
-      perfString = File.openAsString(perfFullPath);
-      perfLines  = split(perfString, "\n");
-      perfLines  = Array.filter(perfLines, "(^[^#].+$)"); // Remove comment lines
-      numLines = perfLines.length;
-      gbl_spl_perfGaps  = newArray(numLines);
-      gbl_spl_perfDiams = newArray(numLines);
-      gbl_spl_perfLabs  = newArray(numLines);
-      for(i=0; i<numLines; i++) {
-        perfFields = split(perfLines[i], ",");
-        if (perfFields.length != 4)
-          exit("ERROR(specializedGaugeAction): Malformed line (" + d2s(i+1, 0) + ") in perf file (" +  perfFileName + ")\n" + perfLines[i]);
-        gbl_spl_perfGaps[i]  = parseFloat(perfFields[0]);
-        gbl_spl_perfDiams[i] = parseFloat(perfFields[1]);
-        gbl_spl_perfLabs[i]  = perfFields[3];
-      }
+  if (gbl_spl_gName == "Single Line Custom") {
+    gbl_spl_perfGaps  = newArray(1);
+    gbl_spl_perfDiams = newArray(1);
+    gbl_spl_perfLabs  = newArray(1);
+    gbl_spl_perfGaps[0]  = convertPerfToMM(gbl_ssp_gapv, gbl_ssp_gapu);
+    gbl_spl_perfDiams[0] = convertLengthToMM(gbl_ssp_sizv, gbl_ssp_sizu);
+    gbl_spl_perfLabs[0]  = gbl_ssp_lab;
+  } else {
+    perfFileName = replace(gbl_spl_gName, " ", "_") + ".csv";
+    perfFullPath = pathJoin(newArray(getDirectory("home"), ".philaj", "perfs", perfFileName));
+    if ( !(File.exists(perfFullPath)))
+      exit("<html>"
+           +"<font size=+1>"
+           +"ERROR(specializedGaugeAction):<br>"
+           +"&nbsp; Perf file is missing: " + perfFileName + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#static-perf-gauge'>the user manual</a> for more information."
+           +"</font>");
+    perfString = File.openAsString(perfFullPath);
+    perfLines  = split(perfString, "\n");
+    perfLines  = Array.filter(perfLines, "(^[^#].+$)"); // Remove comment lines
+    numLines = perfLines.length;
+    gbl_spl_perfGaps  = newArray(numLines);
+    gbl_spl_perfDiams = newArray(numLines);
+    gbl_spl_perfLabs  = newArray(numLines);
+    for(i=0; i<numLines; i++) {
+      perfFields = split(perfLines[i], ",");
+      if (perfFields.length != 4)
+        exit("<html>"
+             +"<font size=+1>"
+             +"ERROR(specializedGaugeAction):<br>"
+             +"&nbsp; Malformed line (" + d2s(i+1, 0) + ") in perf file (" +  perfFileName + ")\n" + perfLines[i] + "<br>"
+             +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#static-perf-gauge'>the user manual</a> for more information."
+             +"</font>");
+      gbl_spl_perfGaps[i]  = parseFloat(perfFields[0]);
+      gbl_spl_perfDiams[i] = parseFloat(perfFields[1]);
+      gbl_spl_perfLabs[i]  = perfFields[3];
     }
+  }
 
   if (gbl_spl_perfLabs.length > 0) {
     exitIfNoImages("specializedGaugeAction");
@@ -2126,7 +2185,12 @@ function perfPresetLookup(preset) {
         perfFileNameLab = substring(replace(perfFiles[i], "_", " "), 0, lengthOf(perfFiles[i])-4);
         perfFullPath = pathJoin(newArray(getDirectory("home"), ".philaj", "perfs", perfFileName));
         if ( !(File.exists(perfFullPath)))
-          exit("ERROR(specializedGaugeAction): Perf file is missing: " + perfFileName);
+          exit("<html>"
+               +"<font size=+1>"
+               +"ERROR(specializedGaugeAction):<br>"
+               +"&nbsp; Perf file is missing: " + perfFileName + "<br>"
+               +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html'>the user manual</a> for more information."
+               +"</font>");
         perfString = File.openAsString(perfFullPath);
         perfLines  = split(perfString, "\n");
         perfLines  = Array.filter(perfLines, "(^[^#].+$)"); // Remove comment lines
@@ -2135,7 +2199,12 @@ function perfPresetLookup(preset) {
         for(j=0; j<numLines; j++) {
           perfFields = split(perfLines[j], ",");
           if (perfFields.length != 4)
-            exit("ERROR(specializedGaugeAction): Malformed line (" + d2s(j+1, 0) + ") in perf file (" +  perfFileName + ")\n" + perfLines[j]);
+            exit("<html>"
+                 +"<font size=+1>"
+                 +"ERROR(specializedGaugeAction):<br>"
+                 +"&nbsp; Malformed line (" + d2s(j+1, 0) + ") in perf file (" +  perfFileName + ")\n" + perfLines[j] + "<br>"
+                 +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html'>the user manual</a> for more information."
+                 +"</font>");
           if (perfFields[2] == "Y") {
             gap  = parseFloat(perfFields[0]);
             diam = parseFloat(perfFields[1]);
@@ -2219,12 +2288,21 @@ function videoPreviewFromRPI() {
   // not running on a RPI..
   if (gbl_pic_useCam)
     if (!(File.exists("/usr/bin/libcamera-still")))
-      exit("ERROR(captureImageFromRPI): Could not find /usr/bin/libcamera-still!");
-
+      exit("<html>"
+           +"<font size=+1>"
+           +"ERROR(captureImageFromRPI):<br>"
+           +"&nbsp; Could not find /usr/bin/libcamera-still!" + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#rpi-preview'>the user manual</a> for more information."
+           +"</font>");
   if (gbl_pic_useCam) {
     pList = exec("/bin/bash", "-c", "ps -eo pid,comm | grep libcamera- | grep -v grep");
     if (lengthOf(pList) > 10)
-      exit("ERROR(captureImageFromRPI): libcamera processes are already running!  Can't start video preview.\n\nProcess List:\n" + pList);
+      exit("<html>"
+           +"<font size=+1>"
+           +"ERROR(captureImageFromRPI):<br>"
+           +"&nbsp; libcamera processes are already running!  Can't start video preview.\n\nProcess List:\n" + pList + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#rpi-preview'>the user manual</a> for more information."
+           +"</font>");
   }
 
   // Ask for camera settings
@@ -2259,12 +2337,22 @@ function captureImageFromRPI() {
     // not running on a RPI..
     if (gbl_pic_useCam)
       if (!(File.exists("/usr/bin/libcamera-still")))
-        exit("ERROR(captureImageFromRPI): Could not find /usr/bin/libcamera-still!");
+        exit("<html>"
+             +"<font size=+1>"
+             +"ERROR(captureImageFromRPI):<br>"
+             +"&nbsp; Could not find /usr/bin/libcamera-still!" + "<br>"
+             +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#rpi-capture'>the user manual</a> for more information."
+             +"</font>");
 
     // Make sure we can find the user home directory
     piImagePath = getDirectory("home");
     if (!(File.exists(piImagePath)))
-      exit("ERROR(captureImageFromRPI): Could not find home directory!");
+      exit("<html>"
+           +"<font size=+1>"
+           +"ERROR(captureImageFromRPI):<br>"
+           +"&nbsp; Could not find home directory" + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#rpi-capture'>the user manual</a> for more information."
+           +"</font>");
 
     // Look for ~/Pictures.  Try to create it if it is missing.
     piImagePath = pathJoin(newArray(piImagePath, "Pictures"));
@@ -2273,7 +2361,12 @@ function captureImageFromRPI() {
         print("DEBUG(captureImageFromRPI): Attempting to create directory: " + piImagePath);
       File.makeDirectory(piImagePath);
       if (!(File.exists(piImagePath))) {
-        exit("ERROR(captureImageFromRPI): Directory creation failed: " + piImagePath);
+        exit("<html>"
+             +"<font size=+1>"
+             +"ERROR(captureImageFromRPI):<br>"
+             +"&nbsp; Directory creation failed: " + piImagePath + "<br>"
+             +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#rpi-capture'>the user manual</a> for more information."
+             +"</font>");
       }
     }
 
@@ -2284,13 +2377,23 @@ function captureImageFromRPI() {
         print("DEBUG(captureImageFromRPI): Attempting to create directory: " + piImagePath);
       File.makeDirectory(piImagePath);
       if (!(File.exists(piImagePath))) {
-        exit("ERROR(captureImageFromRPI): Directory creation failed: " + piImagePath);
+        exit("<html>"
+             +"<font size=+1>"
+             +"ERROR(captureImageFromRPI):<br>"
+             +"&nbsp; Directory creation failed: " + piImagePath + "<br>"
+             +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#rpi-capture'>the user manual</a> for more information."
+             +"</font>");
       }
     }
 
     // Check again that piImagePath really exists...
     if (!(File.exists(piImagePath))) {
-      exit("ERROR(captureImageFromRPI): Could not find/create image directory: " + piImagePath);
+      exit("<html>"
+           +"<font size=+1>"
+           +"ERROR(captureImageFromRPI):<br>"
+           +"&nbsp; Could not find/create image directory: " + piImagePath + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#rpi-capture'>the user manual</a> for more information."
+           +"</font>");
     }
 
     // Ask for camera settings
@@ -2336,13 +2439,23 @@ function captureImageFromRPI() {
         pid = String.trim(pid);
 
         if ( !(matches(pid, "(^[0-9][0-9]*$)")))
-          exit("ERROR(captureImageFromRPI): Can't get PID of libcamera-still process -- it may not have started!");
+          exit("<html>"
+               +"<font size=+1>"
+               +"ERROR(captureImageFromRPI):<br>"
+               +"&nbsp; Can't get PID of libcamera-still process -- it may not have started!" + "<br>"
+               +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#rpi-capture'>the user manual</a> for more information."
+               +"</font>");
 
         showMessage("PhilaJ: captureImageFromRPI", "Click OK to Capture Image");
 
         procList = exec("/bin/bash", "-c", "ps -eo pid,comm | grep '^ *" + pid + "  *libcamera-still'");
         if (lengthOf(procList) < 10)
-          exit("ERROR(captureImageFromRPI): Unable to trigger capture (Can't find libcamera-still process)!");
+          exit("<html>"
+               +"<font size=+1>"
+               +"ERROR(captureImageFromRPI):<br>"
+               +"&nbsp; Unable to trigger capture (Can't find libcamera-still process)!" + "<br>"
+               +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#rpi-capture'>the user manual</a> for more information."
+               +"</font>");
         showStatus("Waiting for capture process");
         exec("/bin/bash", "-c", "kill -SIGUSR1 " + pid);
         c=1;
@@ -2370,7 +2483,12 @@ function captureImageFromRPI() {
           setScaleForMicrograph(true);
       }
     } else {
-      exit("ERROR(captureImageFromRPI): Image file not found!: " + piImageFullFileName);
+      exit("<html>"
+           +"<font size=+1>"
+           +"ERROR(captureImageFromRPI):<br>"
+           +"&nbsp; Image file not found!: " + piImageFullFileName + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#rpi-capture'>the user manual</a> for more information."
+           +"</font>");
     }
 
     if (gbl_pic_repeat && !(gbl_pic_doSet))
@@ -2507,7 +2625,12 @@ function getCaptureRPI() {
           setScaleForMicrograph(false);
     }
   } else {
-    exit("ERROR(getCaptureRPI): No images found!");
+    exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(getCaptureRPI):<br>"
+         +"&nbsp; No images found!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#rpi-load'>the user manual</a> for more information."
+         +"</font>");
   }
 }
 
@@ -2826,7 +2949,12 @@ function grillDataLookup(grillType, factType) {
   } else {
     datIdx = indexOfInArray(grill_letter, grillType);
     if (datIdx < 0) {
-      exit("ERROR(grillDataLookup): Unknown grillType: " + grillType);
+      exit("<html>"
+           +"<font size=+1>"
+           +"ERROR(grillDataLookup):<br>"
+           +"&nbsp; Unknown grillType: " + grillType + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#grill-tool'>the user manual</a> for more information."
+           +"</font>");
     } else {
       if      (factType == "ALL")
         return newArray(min_horz_points[datIdx], max_horz_points[datIdx],
@@ -2858,7 +2986,12 @@ function grillDataLookup(grillType, factType) {
       else if (factType == "boxMaxTotH")
         return max_height[datIdx];
       else
-        exit("ERROR(grillDataLookup): Unknown factType: " + factType);
+        exit("<html>"
+             +"<font size=+1>"
+             +"ERROR(grillDataLookup):<br>"
+             +"&nbsp; Unknown factType: " + factType + "<br>"
+             +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#grill-tool'>the user manual</a> for more information."
+             +"</font>");
     }
   }
 }
@@ -2875,7 +3008,12 @@ function addCapPointToOverlay(nameForROI, origX, origY) {
   if (gbl_ALL_debug)
     print("DEBUG(addCapPointToOverlay): Function Entry: ", nameForROI);
   if (lengthOf(nameForROI) <= 0)
-    exit("PROGRAM_ERROR(addCapPointToOverlay): Invalid nameForROI argument!");
+    exit("<html>"
+         +"<font size=+1>"
+         +"PROGRAM_ERROR(addCapPointToOverlay):<br>"
+         +"&nbsp; Invalid nameForROI argument!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html'>the user manual</a> for more information."
+         +"</font>");
   makePoint(origX, origY);
   Roi.setName(nameForROI);
   Overlay.addSelection(gbl_ALL_color1);
@@ -2945,7 +3083,12 @@ function getImageScaleUnits(actionIfNotMM) {
     if (actionIfNotMM == "WARN")
       showMessage("PhilaJ: getImageScaleUnits", "WARNING: Image scale is not set to millimeters.");
     else if (actionIfNotMM == "WARN")
-      exit("ERROR(getImageScaleUnits): Image scale is not set to millimeters!");
+      exit("<html>"
+           +"<font size=+1>"
+           +"ERROR(getImageScaleUnits):<br>"
+           +"&nbsp; Image scale is not set to millimeters!" + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html'>the user manual</a> for more information."
+           +"</font>");
   return pixelLengthUnit;
 }
 
@@ -2967,7 +3110,12 @@ function checkImageScalePhil(showScaleSetWarning, showScaleSetFailWarning) {
   }
   getPixelSize(pixelLengthUnit, pixelWidth, pixelHeight);
   if (showScaleSetFailWarning && (pixelLengthUnit != "mm"))
-    exit("ERROR(checkImageScalePhil): Image scale units must be millimeters (mm)");
+    exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(checkImageScalePhil):<br>"
+         +"&nbsp; Image scale units must be millimeters (mm)" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html'>the user manual</a> for more information."
+         +"</font>");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3265,27 +3413,62 @@ function setScale2Dmm(useMeasurementResults) {
 
   if (useMeasurementResults) {
     if (nResults < 2)
-      exit("ERROR: Not enough measurements");
+      exit("<html>"
+           +"<font size=+1>"
+           +"ERROR(setScale2Dmm):<br>"
+           +"&nbsp; Not enough measurements" + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#scale-alt'>the user manual</a> for more information."
+           +"</font>");
 
     angle1 = getResult("Angle", nResults-2);
     if (isNaN(angle1))
-      exit("ERROR: First measurement has no angle in result table!");
+      exit("<html>"
+           +"<font size=+1>"
+           +"ERROR(setScale2Dmm):<br>"
+           +"&nbsp; First measurement has no angle in result table!" + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#scale-alt'>the user manual</a> for more information."
+           +"</font>");
     else if (abs(angle1) > 5)
-      exit("ERROR: First measurement is not horizontal (" + angle1 + " degrees)");
+      exit("<html>"
+           +"<font size=+1>"
+           +"ERROR(setScale2Dmm):<br>"
+           +"&nbsp; First measurement is not horizontal (" + angle1 + " degrees)" + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#scale-alt'>the user manual</a> for more information."
+           +"</font>");
 
     length1 = getResult("Length", nResults-2);
     if (isNaN(length1))
-      exit("ERROR: First measurement has no length in result table!");
+      exit("<html>"
+           +"<font size=+1>"
+           +"ERROR(setScale2Dmm):<br>"
+           +"&nbsp; First measurement has no length in result table!" + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#scale-alt'>the user manual</a> for more information."
+           +"</font>");
 
     angle2 = getResult("Angle", nResults-1);
     if (isNaN(angle2))
-      exit("ERROR: Second measurement has no angle in result table!");
+      exit("<html>"
+           +"<font size=+1>"
+           +"ERROR(setScale2Dmm):<br>"
+           +"&nbsp; Second measurement has no angle in result table!" + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#scale-alt'>the user manual</a> for more information."
+           +"</font>");
     else if ((abs(angle2) -90) > 5)
-      exit("ERROR: First measurement is not vertical (" + angle1 + " degrees)");
+      exit("<html>"
+           +"<font size=+1>"
+           +"ERROR(setScale2Dmm):<br>"
+           +"&nbsp; First measurement is not vertical (" + angle1 + " degrees)" + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#scale-alt'>the user manual</a> for more information."
+           +"</font>");
 
     length2 = getResult("Length", nResults-1);
     if (isNaN(length2))
-      exit("ERROR: Second measurement has no length in result table!");
+      exit("<html>"
+           +"<font size=+1>"
+           +"ERROR(setScale2Dmm):<br>"
+           +"&nbsp; Second measurement has no length in result table!" + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#scale-alt'>the user manual</a> for more information."
+           +"</font>");
 
     gbl_2ds_hDpx = length1;
     gbl_2ds_vDpx = length2;
@@ -3321,11 +3504,21 @@ function setScale1Dmm(useMeasurementResults) {
 
   if (useMeasurementResults) {
     if (nResults < 1)
-      exit("ERROR: Not enough measurements");
+      exit("<html>"
+           +"<font size=+1>"
+           +"ERROR(setScale1Dmm):<br>"
+           +"&nbsp; Not enough measurements" + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#scale-alt'>the user manual</a> for more information."
+           +"</font>");
 
     length = getResult("Length", nResults-1);
     if (isNaN(length))
-      exit("ERROR: Last measurement has no length in result table!");
+      exit("<html>"
+           +"<font size=+1>"
+           +"ERROR(setScale1Dmm):<br>"
+           +"&nbsp; Last measurement has no length in result table!" + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#scale-alt'>the user manual</a> for more information."
+           +"</font>");
 
     gbl_1ds_Dpx = length;
   } else {
@@ -3517,9 +3710,9 @@ function convertDistanceToPerf() {
   Dialog.create("PhilaJ: Convert distance to perforation measurement");
   Dialog.addNumber("Distance:", gbl_d2p_len, 4, 10, "");
   if (lengFromROI)
-  Dialog.addToSameRow();
+    Dialog.addToSameRow();
   Dialog.addChoice("",          gbl_OLT_lnUnits, gbl_d2p_units);
-    Dialog.addMessage("  Initial values gathered from from ROI");
+  Dialog.addMessage("  Initial values gathered from from ROI");
   Dialog.addNumber("Holes:",    gbl_d2p_holes, 0, 3, "");
 
   if (holeFromROI)
@@ -3668,7 +3861,12 @@ function instaPerfGaugeAction() {
   checkImageScalePhil(false, true);
 
   if (gbl_nst_pMin >= gbl_nst_pMax)
-    exit("ERROR(instaPerfGaugeAction): Minimum must be strictly less than maximum!");
+    exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(instaPerfGaugeAction):<br>"
+         +"&nbsp; Minimum must be strictly less than maximum!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#static-perf-gauge'>the user manual</a> for more information."
+         +"</font>");
 
   maxy = getHeight();
   maxx = getWidth();
@@ -3844,7 +4042,12 @@ function centeringReport() {
   paperROIname = Roi.getName;
 
   if (selectionType != 0)
-    exit("ERROR(centeringReport): Paper ROI must be a rectangle!");
+    exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(centeringReport):<br>"
+         +"&nbsp; Paper ROI must be a rectangle!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#centering-measurements'>the user manual</a> for more information."
+         +"</font>");
 
   Roi.getBounds(paperX, paperY, paperWidth, paperHeight);
   run("Measure");
@@ -4104,7 +4307,12 @@ function minAngleBetween(x1, y1, x2, y2, x3, y3, x4, y4) {
   v2y = y4-y3;
   b   = hypot1(v1x, v1y) * hypot1(v2x, v2y);
   if (floatEqualish(b, 0)) {
-    exit("ERROR(minAngleBetween): Division by zero!");
+    exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(minAngleBetween):<br>"
+         +"&nbsp; Division by zero!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html'>the user manual</a> for more information."
+         +"</font>");
   } else {
     a1 = Math.abs(Math.acos((v1x * v2x + v1y * v2y) / b)) * 180 / 3.141592653589793;
     a2 = 180 - a1;
@@ -4252,7 +4460,12 @@ function coilEdgeReport() {
       foundHorzEdges = roiManagerMatchingNames("(^coilEdge[BT]$)");
       if (foundVertEdges.length > 0) {
         if (foundHorzEdges.length > 0)
-          exit("ERROR(coilEdgeReport): Found both horizontal & vertical edges!  Delete invalid ROIs!");
+          exit("<html>"
+               +"<font size=+1>"
+               +"ERROR(coilEdgeReport):<br>"
+               +"&nbsp; Found both horizontal & vertical edges!  Delete invalid ROIs!" + "<br>"
+               +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#measure-edges'>the user manual</a> for more information."
+               +"</font>");
         gbl_cer_type = "Vertical";
         edgeTypeUnknown = false;
       } else if (foundHorzEdges.length > 0) {
@@ -4594,7 +4807,12 @@ function selectionToImage() {
   exitIfNoImages("selectionToImage");
 
   if (selectionType < 0)
-    exit("ERROR(selectionToImage): No active selection found!");
+    exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(selectionToImage):<br>"
+         +"&nbsp; No active selection found!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#sub-image'>the user manual</a> for more information."
+         +"</font>");
 
   srcImageTitle = getTitle();
   srcROIname    = Roi.getName;
@@ -4636,7 +4854,12 @@ function rotateToHorizontal() {
     gbl_rho_angle = lineAngle(x1, y1, x2, y2);
     if (isNaN(gbl_rho_angle)) {
       gbl_rho_angle = 0;
-      exit("ERROR(rotateToHorizontal): Line angle measurement failed");
+      exit("<html>"
+           +"<font size=+1>"
+           +"ERROR(rotateToHorizontal):<br>"
+           +"&nbsp; Line angle measurement failed" + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#phil-rotate'>the user manual</a> for more information."
+           +"</font>");
     } else {
       if (gbl_rho_angle < -90) {
         gbl_rho_angle = gbl_rho_angle + 180;
@@ -4936,9 +5159,9 @@ function notesSidecarLoad() {
   sidecarFileName = sidecarFileName + ".txt";
   sidecarFullPath = pathJoin(newArray(imageDirName, sidecarFileName));
 
-   if ( !(File.exists(sidecarFullPath)))
-     File.append("Add Notes Here!", sidecarFullPath);
-   open(sidecarFullPath);
+  if ( !(File.exists(sidecarFullPath)))
+    File.append("Add Notes Here!", sidecarFullPath);
+  open(sidecarFullPath);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -4955,7 +5178,12 @@ function selectionToJpg(saveIt, origX, origY, gridSize, cUnits) {
   exitIfNoImages("selectionToJpg");
 
   if (selectionType < 0)
-    exit("ERROR(selectionToJpg): No active selection found!");
+    exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(selectionToJpg):<br>"
+         +"&nbsp; No active selection found!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#sub-image'>the user manual</a> for more information."
+         +"</font>");
 
   imageFileName = getInfo("image.filename");
 
@@ -4963,7 +5191,12 @@ function selectionToJpg(saveIt, origX, origY, gridSize, cUnits) {
   Roi.getBounds(selX, selY, selWidth, selHeight);
 
   if ((selWidth <= 0) || (selHeight <= 0))
-    exit("ERROR(selectionToJpg): Selection contains no pixels!");
+    exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(selectionToJpg):<br>"
+         +"&nbsp; Selection contains no pixels!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#sub-image'>the user manual</a> for more information."
+         +"</font>");
 
   run("Copy");
 

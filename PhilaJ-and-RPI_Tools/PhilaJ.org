@@ -837,8 +837,8 @@ Note that image rotation can make future linear measurements impossible.  Please
 :CUSTOM_ID: sub-image
 :END:
 
-ImageJ is perfectly capable of creating new images from a selection with three steps: 1) "=Edit -> Selection -> To Bounding Box=", 2) "=Edit -> Copy=", 3)
-"=File -> New -> Internal Clipboard=".  PhilaJ provides two ways to do something similar.
+ImageJ is perfectly capable of creating new images from a selection with "=duplicate=" command or more explicitly via three steps: 1) "=Edit -> Selection ->
+To Bounding Box=", 2) "=Edit -> Copy=", 3) "=File -> New -> Internal Clipboard=".  PhilaJ provides two ways to do something similar.
 
 The first is [[#sub-image][=Selection to image (with scale)=]] which simply automates the three steps above *and* then copies the source image scale to the
 new image.  The second is [[#sub-image][=Selection to JPEG=]], also bound to the uppercase =[J]= key. This one is a bit more specialized.  It is intended to
@@ -1448,7 +1448,7 @@ file:RPI_Tools-dialog-settings-v.gif
 #+ATTR_HTML: :align center :width 400px
 file:RPI_Tools-dialog-loadOld.gif
 
-* Set Scale for Stereo Microscope Photograph
+*** Set Scale for Stereo Microscope Photograph
 :PROPERTIES:
 :CUSTOM_ID: scale-rpi
 :END:
