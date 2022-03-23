@@ -144,10 +144,10 @@ var gbl_pos_origX     = 0;                    // Position Finder Overlay: x coor
 var gbl_pos_origY     = 0;                    // Position Finder Overlay: y coordinate of the upper left origin of grid in pixels
 var gbl_r2d_targDPI   = 2400;                 // Resize To DPI:
 var gbl_rho_angle     = 0;                    // Rotate to Horizontal: Angle to rotate
-var gbl_spl_gName     = "";                   // Specialized Perforation Gauge Overlay:
-var gbl_spl_perfDiams = newArray();           // Specialized Perforation Gauge Overlay:
-var gbl_spl_perfGaps  = newArray();           // Specialized Perforation Gauge Overlay:
-var gbl_spl_perfLabs  = newArray();           // Specialized Perforation Gauge Overlay:
+var gbl_spl_gName     = "Single Line Custom"; // Specialized Perforation Gauge Overlay:
+var gbl_spl_perfDiams = newArray(0);          // Specialized Perforation Gauge Overlay:
+var gbl_spl_perfGaps  = newArray(0);          // Specialized Perforation Gauge Overlay:
+var gbl_spl_perfLabs  = newArray(0);          // Specialized Perforation Gauge Overlay:
 var gbl_spl_useDots   = true;                 // Specialized Perforation Gauge Overlay:
 var gbl_ssm_aux       = "0.63";               // Scale RPI Image: Microscope Aux Lens
 var gbl_ssm_cam       = "RPI";                // Scale RPI Image: Camera
@@ -1873,7 +1873,11 @@ function specializedGaugeInstall() {
 function specializedGaugeGetList() {
   if (gbl_ALL_debug)
     print("DEBUG(specializedGaugeGetList): Function Entry");
-  builtIns = specializedGaugeBltInDataLookup(true);  
+
+  gaugeList = newArray(1);
+  gaugeList[0] = "Single Line Custom";
+
+  perfFiles = newArray(0);
   perfPath = pathJoin(newArray(getDirectory("home"), ".philaj", "perfs"));
   if (File.isDirectory(perfPath)) {
     perfFiles = getFileList(perfPath);
@@ -1885,14 +1889,11 @@ function specializedGaugeGetList() {
         for(i=0; i<perfFiles.length; i++) {
           perfFiles[i] = substring(replace(perfFiles[i], "_", " "), 0, lengthOf(perfFiles[i])-4);
         }
+        gaugeList = Array.concat(gaugeList, perfFiles);
       }
     }
-    return Array.concat(builtIns, perfFiles);
-  } else {
-    if (gbl_ALL_debug)
-      print("DEBUG(specializedGaugeGetList): Custom perf path not found: " + perfPath);
-    return builtIns;
-  }
+  } 
+  return gaugeList;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1924,7 +1925,7 @@ function specializedGaugeOptions() {
   gbl_spl_useDots   = Dialog.getCheckbox();
   gbl_ALL_perfOrder = Dialog.getCheckbox();
 
-  if (gbl_spl_gName == "Single Line Custom Perforation Gauge")
+  if (gbl_spl_gName == "Single Line Custom")
     specializedGaugeSingleOptions(false);
   else
     if(nImages > 0)
@@ -1938,19 +1939,26 @@ function specializedGaugeSingleOptions(queryForPreset) {
 
   if (queryForPreset) {
     lables = perfPresetLookup("");
+    if (lables.length == 0) {
+      exit("<html>"
+           +"<font size=+2>"
+           +"No specialized gauges are installed!<br>"
+           +"See <a href='https://richmit.github.io/imagej/PhilaJ.html#custom-spec-gauge'>the user manual</a> for more information."
+           +"</font>");
+    } else {
 
-    Dialog.create("PhilaJ: Single Line Custom Perforation Gauge Preset Options");
-    Dialog.addChoice("Preset:", lables, lables[0]);
-    Dialog.show();
-    presetName = Dialog.getChoice();
+      Dialog.create("PhilaJ: Single Line Custom Perforation Gauge Preset Options");
+      Dialog.addChoice("Preset:", lables, lables[0]);
+      Dialog.show();
 
-    presetData = perfPresetLookup(presetName);
-
-    gbl_ssp_sizv = presetData[0];
-    gbl_ssp_gapv = presetData[1];
-    gbl_ssp_sizu = "mm";
-    gbl_ssp_gapu = "mm";
-    gbl_ssp_lab  = presetData[2];
+      presetName   = Dialog.getChoice();
+      presetData   = perfPresetLookup(presetName);
+      gbl_ssp_sizv = presetData[0];
+      gbl_ssp_gapv = presetData[1];
+      gbl_ssp_sizu = "mm";
+      gbl_ssp_gapu = "mm";
+      gbl_ssp_lab  = presetData[2];
+    }
   }
 
   do {
@@ -1991,39 +1999,10 @@ function specializedGaugeSingleOptions(queryForPreset) {
       gbl_ssp_lab = gbl_ssp_lab + " " + gbl_ssp_gapu;
   }
 
-  gbl_spl_gName = "Single Line Custom Perforation Gauge";
+  gbl_spl_gName = "Single Line Custom";
 
   if(nImages > 0)
     specializedGaugeAction();
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Lookup data for built in Specialized Perf Gauges.  
-// If nameToLookup is "", then return array of known, built-in gauges.
-// If data is found, then set global variables (gbl_spl_perfGaps, gbl_spl_perfDiams, & gbl_spl_perfLabs) and return true
-// If no data is found, sipmly return false
-// If gbl_spl_gName is "", it is set to a valid value -- this always occurs.
-function specializedGaugeBltInDataLookup(dumpListNoLookup) {
-  if (gbl_ALL_debug)
-    print("DEBUG(specializedGaugeBltInDataLookup): Function Entry: ", dumpListNoLookup);
-
-  builtIns = newArray("Updated Kiusalas");
- 
-  if (gbl_spl_gName == "")
-    gbl_spl_gName = builtIns[0];
-
-  if (dumpListNoLookup) {
-    return builtIns;
-  } else {
-    if (gbl_spl_gName == "Updated Kiusalas") {
-      gbl_spl_perfGaps  = newArray(   95.0*0.0254,    81.0*0.0254,    80.0*0.0254,    79.0*0.0254,    75.0*0.0254,    73.0*0.0254,    72.5*0.0254,    72.0*0.0254,    70.0*0.0254,    67.0*0.0254,    66.0*0.0254,    63.0*0.0254,   51.0*0.0254);
-      gbl_spl_perfDiams = newArray(    0.042*25.4,     0.042*25.4,     0.042*25.4,     0.042*25.4,     0.042*25.4,     0.042*25.4,     0.042*25.4,     0.042*25.4,     0.042*25.4,     0.042*25.4,     0.042*25.4,          0.850,         0.700);
-      gbl_spl_perfLabs  = newArray(  "95.0  8.29",   "81.0  9.72",   "80.0  9.84",   "79.0  9.97",   "75.0 10.50",   "73.0 10.79",   "72.5 10.86",   "72.0 10.94",   "70.0 11.25",   "67.0 11.75",   "66.0 11.93",   "63.0 12.50",  "51.0 15.44");
-      return true;
-    } else {
-      return false;
-    }
-  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2034,8 +2013,7 @@ function specializedGaugeAction() {
   exitIfNoImages("specializedGaugeAction");
   checkImageScalePhil(false, true);
 
-  if ( !(specializedGaugeBltInDataLookup(false))) {
-    if (gbl_spl_gName == "Single Line Custom Perforation Gauge") {
+    if (gbl_spl_gName == "Single Line Custom") {
       gbl_spl_perfGaps  = newArray(1);
       gbl_spl_perfDiams = newArray(1);
       gbl_spl_perfLabs  = newArray(1);
@@ -2050,7 +2028,6 @@ function specializedGaugeAction() {
       perfString = File.openAsString(perfFullPath);
       perfLines  = split(perfString, "\n");
       perfLines  = Array.filter(perfLines, "(^[^#].+$)"); // Remove comment lines
-      //perfLines  = Array.filter(perfLines, "(^ *$)");     // Remove empty lines
       numLines = perfLines.length;
       gbl_spl_perfGaps  = newArray(numLines);
       gbl_spl_perfDiams = newArray(numLines);
@@ -2064,7 +2041,6 @@ function specializedGaugeAction() {
         gbl_spl_perfLabs[i]  = perfFields[3];
       }
     }
-  }
 
   if (gbl_spl_perfLabs.length > 0) {
     exitIfNoImages("specializedGaugeAction");
@@ -2138,38 +2114,48 @@ function perfPresetLookup(preset) {
   if (gbl_ALL_debug)
     print("DEBUG(perfPresetLookup): Function Entry: ", preset);
 
-  builtIns = specializedGaugeBltInDataLookup(true);
-
-  presetDataLength = 0;
-  for(gIdx=0; gIdx<builtIns.length; gIdx++) {
-    gbl_spl_gName = builtIns[gIdx];
-    specializedGaugeBltInDataLookup(false);
-    presetDataLength += gbl_spl_perfGaps.length;
-  }
-
-  names  = newArray(presetDataLength);
-  labs   = newArray(presetDataLength);
-  gaps   = newArray(presetDataLength);
-  diam   = newArray(presetDataLength);
-
-  presetIdx = 0;
-  for(gIdx=0; gIdx<builtIns.length; gIdx++) {
-    gbl_spl_gName = builtIns[gIdx];
-    specializedGaugeBltInDataLookup(false);
-    for(hIdx=0; hIdx<gbl_spl_perfGaps.length; hIdx++) {
-      names[presetIdx]  = builtIns[gIdx] + " : " + gbl_spl_perfLabs[hIdx];
-      labs[presetIdx]   = gbl_spl_perfLabs[hIdx];
-      gaps[presetIdx]   = gbl_spl_perfGaps[hIdx];
-      diam[presetIdx]   = gbl_spl_perfDiams[hIdx];
-      presetIdx++;
+  tmpArray     = newArray(1);
+  presetLables = newArray(0);
+  perfPath = pathJoin(newArray(getDirectory("home"), ".philaj", "perfs"));
+  if (File.isDirectory(perfPath)) {
+    perfFiles = getFileList(perfPath);
+    perfFiles = Array.filter(perfFiles, "(^[^ ][^ ]*\\.csv$)");
+    if (perfFiles.length > 0) {
+      for(i=0; i<perfFiles.length; i++) {
+        perfFileName = perfFiles[i];
+        perfFileNameLab = substring(replace(perfFiles[i], "_", " "), 0, lengthOf(perfFiles[i])-4);
+        perfFullPath = pathJoin(newArray(getDirectory("home"), ".philaj", "perfs", perfFileName));
+        if ( !(File.exists(perfFullPath)))
+          exit("ERROR(specializedGaugeAction): Perf file is missing: " + perfFileName);
+        perfString = File.openAsString(perfFullPath);
+        perfLines  = split(perfString, "\n");
+        perfLines  = Array.filter(perfLines, "(^[^#].+$)"); // Remove comment lines
+        numLines = perfLines.length;
+        newPresetLables = newArray(numLines);
+        for(j=0; j<numLines; j++) {
+          perfFields = split(perfLines[j], ",");
+          if (perfFields.length != 4)
+            exit("ERROR(specializedGaugeAction): Malformed line (" + d2s(j+1, 0) + ") in perf file (" +  perfFileName + ")\n" + perfLines[j]);
+          if (perfFields[2] == "Y") {
+            gap  = parseFloat(perfFields[0]);
+            diam = parseFloat(perfFields[1]);
+            lab  = perfFields[3];
+            if (preset == "") {
+              tmpArray[0] = perfFileNameLab + ": " + lab;
+              presetLables = Array.concat(presetLables, tmpArray);
+            } else if (preset == newPresetLables[j]) {
+              return newArray(diam[presetIdx], gaps[presetIdx], labs[presetIdx]);
+            }
+          }
+        }
+      }
     }
-  }
-
-  if (preset == "") {
-    return names;
+    if (preset == "") 
+      return presetLables;
+    else
+      return false;
   } else {
-    presetIdx = indexOfInArray(names, preset);
-    return newArray(diam[presetIdx], gaps[presetIdx], labs[presetIdx]);
+    return false;
   }
 }
 
