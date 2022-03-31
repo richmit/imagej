@@ -191,15 +191,42 @@ said, I think the tutorial linked above is all you really need to get started wi
 
 ** Installing PhilaJ
 
+*** The PhilaJ Package
+
 Installing PhilaJ requires the "=imagej/PhilaJ-and-RPI_Tools/PhilaJ.ijm=" file in the PhilaJ distribution be copied into the Fiji toolsets directory.  This
 directory is normally named "=macros/toolsets/=", and may be found inside the Fiji install directory.  For example, I install Fiji at
 "=c:\Users\richmit\PF\Fiji.app=", and thus I copy the "=PhilaJ.ijm=" file to "=c:\Users\richmit\PF\Fiji.app\macros\toolsets\PhilaJ.ijm=".
 
 If ImageJ was running when you copied the file, then you need to quite and restart it.
 
+*** Specialized Perforation Gauges
+
 You will also want to install some specialized perforation gauges.  Several gauges are shipped as part of the PhilaJ distribution in the
 "=imagej/PhilaJ-and-RPI_Tools/SpecializedGauges=" directory.  For instructions on how to install these gauges see: [[#custom-spec-gauge][=Install New
 Specialized Gauge=]].
+
+*** Settings
+
+ImageJ's default measurement settings are not ideal for PhilaJ, so we need to change those defaults.  Select "Analyze -> Set Measurements" from the main ImageJ menu:
+
+#+ATTR_HTML: :align center :width 800px
+file:PhilaJ-setup-measure-menu.gif
+
+The following dialog box will appear:
+
+#+ATTR_HTML: :align center :width 400px
+file:PhilaJ-setup-measure-dialog.gif
+
+It is important to select the three highlighted options:
+ - Area
+ - Bounding rectangle
+ - Display label
+You can select others options as desired.
+
+Why are these options important?
+ - *Area:* This one is used for centering, design, and paper measurements.
+ - *Bounding rectangle:*  This one is used by most tools.  It identifies the location and size of an ROI.
+ - *Display label:* PhilaJ frequently adds multiple measurements to the results window, and without labels they aren't very useful.
 
 ** Activate PhilaJ
 
