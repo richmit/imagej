@@ -15,6 +15,7 @@ fi
 if [ -d "$IMAGEJ_PATH" ]; then
   IJSCRIPT_PATH="$IMAGEJ_PATH/plugins/Scripts"
   if [ -d "$IJSCRIPT_PATH" ]; then
+    echo "INFO:  SEARCH            $IJSCRIPT_PATH"
     FOUND_FILES=$(find $IJSCRIPT_PATH -type f | grep -v ' ')
     for f in $(grep -l 'OWNER=MJR' $FOUND_FILES); do
       echo "INFO:  RM                $f"
@@ -25,13 +26,13 @@ if [ -d "$IMAGEJ_PATH" ]; then
         echo "INFO:  RMDIR             $d"
       fi
     done
-
   else
     echo "INFO: Could not find script path"
   fi
 
   TOOLSET_PATH="$IMAGEJ_PATH/macros/toolsets/"
   if [ -d "$TOOLSET_PATH" ]; then
+    echo "INFO:  SEARCH            $TOOLSET_PATH"
     FOUND_FILES=$(find $TOOLSET_PATH -type f | grep -v ' ')
     for f in $(grep -l 'OWNER=MJR' $FOUND_FILES); do
       echo "INFO:  RM                $f"
