@@ -5,17 +5,24 @@ import ij.gui.*;
 import java.awt.*;
 
 /* Like Convert_RGB_To_Color_Components, but:
- *   1) Always produces a 32-bit, floating point image stack
- *   2) Has no user interface -- it always creates all channels
- *   3) It is written in Java, and is about 60x faster than the javascript version
- *
- * How to install...
- *  - Compile by running the following macro in ImageJ -- not Fiji!!  This will also install the macro in ImageJ.
- *     run("Install... ", "install=C:/Users/richmit/Documents/world/my_prog/imagej/Convert_RGB_To_All_Color_Components.java save=C:/Users/richmit/PF/ImageJ/plugins/MJR/Convert_RGB_To_All_Color_Components.java");
- *  - Copy class files back
- *     cp c:/Users/richmit/PF/ImageJ/plugins/MJR/Convert_RGB_To_All_Color_Components*.class c:/Users/richmit/Documents/world/my_prog/imagej/
- *  - Copy class files to Fiji
- *     cp Convert_RGB_To_All_Color_Components* c:/Users/richmit/PF/Fiji.app/plugins/MJR/
+    1) Always produces a 32-bit, floating point image stack
+    2) Has no user interface -- it always creates all channels
+    3) It is written in Java, and is about 60x faster than the javascript version
+ 
+  How to install in Fiji...
+   - Compile by running using ImageJ -- not Fiji!!  This macro will do the trick:
+     run("Install... ", "install=C:/Users/richmit/Documents/world/my_prog/imagej/Convert_RGB_To_All_Color_Components.java save=C:/Users/richmit/PF/ImageJ/plugins/MJR/Convert_RGB_To_All_Color_Components.java");
+   - Put files in place
+     # Get into this directory
+     cd ~/world/my_prog/imagej/
+     # Copy class files back
+     cp c:/Users/richmit/PF/ImageJ/plugins/MJR/Convert_RGB_To_All_Color_Components*.class ./
+     # Make jar file
+     fastjar cvf Convert_RGB_To_All_Color_Components.jar Convert_RGB_To_All_Color_Components*.class
+     # Remove old files in Fiji
+     rm c:/Users/richmit/PF/Fiji.app/plugins/MJR/Convert_RGB_To_All_Color_Components*
+     # Copy in new jar
+     cp Convert_RGB_To_All_Color_Components.jar c:/Users/richmit/PF/Fiji.app/plugins/MJR/
  */
 
 public class Convert_RGB_To_All_Color_Components implements PlugInFilter{
@@ -35,11 +42,7 @@ public class Convert_RGB_To_All_Color_Components implements PlugInFilter{
 
     public int setup(String arg, ImagePlus imp){
       this.imp = imp;
-      if (arg.equals("about")) {
-        showAbout(); 
-        return DONE;
-      }
-      return DOES_ALL;
+      return DOES_RGB; // Only works with RGB images
     }
   
     public void run(ImageProcessor ip) {
@@ -167,15 +170,5 @@ public class Convert_RGB_To_All_Color_Components implements PlugInFilter{
       outImage.show();
     }
     
-    void showAbout() {
-      IJ.showMessage("About Colour_transformConvert_RGB_To_All_Color_Components_FAST...",
-                     "It converts an RGB image into a colour space stack.\n"
-                    );
-    } 
-  
-    void error() {
-      IJ.showMessage("Colour_transformConvert_RGB_To_All_Color_Components_FAST", 
-                     "Something happened...");
-    }    
 
 }
