@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Construct ImageJ toolset macros & javascript scripts.
+# Construct ImageJ toolset macros from source components
+# Copy toolset macros and javascript scripts into correct Fiji install paths.
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------------------
 # We pop off our arguments and process them
