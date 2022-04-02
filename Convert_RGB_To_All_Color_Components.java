@@ -28,14 +28,14 @@ import java.awt.*;
 public class Convert_RGB_To_All_Color_Components implements PlugInFilter{
 
     enum cchans {
-      RGB_R, RGB_G, RGB_B, RGB_L, RGB_M,
-      RGBW_R, RGBW_G, RGBW_B, RGBW_W, 
-      HSB_H, HSB_S, HSB_B,
-      XYZ_X, XYZ_Y, XYZ_Z,
-      Yxy_x, Yxy_y, 
-      LAB_L, LAB_A, LAB_B, LAB_H, LAB_C,
-      YUV_Y, YUV_U, YUV_V, 
-      YIQ_I, YIQ_Q
+      RGB_Red,            RGB_Green,             RGB_Blue,                               RGB_Luminance, RGB_Max,
+      RGBW_Red,           RGBW_Green,            RGBW_Blue,            RGBW_White, 
+      HSB_Hue,            HSB_Saturation,        HSB_Brightness,
+      XYZ_X,              XYZ_Y_luminance,       XYZ_Z,
+      Yxy_x_chromaticity, Yxy_y_chromaticity, 
+      LAB_Luminance,      LAB_A_red_to_green,    LAB_B_blue_to_yellow,                   LAB_Hue,       LAB_Chroma,
+      YUV_Y_luminance,    YUV_U,                 YUV_V, 
+                          YIQ_I,                 YIQ_Q
     }
 
     private ImagePlus  imp;
@@ -129,36 +129,36 @@ public class Convert_RGB_To_All_Color_Components implements PlugInFilter{
         float ccYIQ_I =  0.596f * ccRGB_R - 0.274f * ccRGB_G - 0.322f * ccRGB_B;
         float ccYIQ_Q =  0.211f * ccRGB_R - 0.253f * ccRGB_G - 0.312f * ccRGB_B;
 
-        pixArrs[cchans.RGB_R.ordinal()][idxPix] = ccRGB_R;
-        pixArrs[cchans.RGB_G.ordinal()][idxPix] = ccRGB_G;
-        pixArrs[cchans.RGB_B.ordinal()][idxPix] = ccRGB_B;
+        pixArrs[cchans.RGB_Red.ordinal()][idxPix] = ccRGB_R;
+        pixArrs[cchans.RGB_Green.ordinal()][idxPix] = ccRGB_G;
+        pixArrs[cchans.RGB_Blue.ordinal()][idxPix] = ccRGB_B;
 
-        pixArrs[cchans.RGB_L.ordinal()][idxPix] = ccRGB_L;
-        pixArrs[cchans.RGB_M.ordinal()][idxPix] = ccRGB_M;
+        pixArrs[cchans.RGB_Luminance.ordinal()][idxPix] = ccRGB_L;
+        pixArrs[cchans.RGB_Max.ordinal()][idxPix] = ccRGB_M;
 
-        pixArrs[cchans.RGBW_R.ordinal()][idxPix] = ccRGBW_R;
-        pixArrs[cchans.RGBW_G.ordinal()][idxPix] = ccRGBW_G;
-        pixArrs[cchans.RGBW_B.ordinal()][idxPix] = ccRGBW_B;
-        pixArrs[cchans.RGBW_W.ordinal()][idxPix] = ccRGBW_W;
+        pixArrs[cchans.RGBW_Red.ordinal()][idxPix] = ccRGBW_R;
+        pixArrs[cchans.RGBW_Green.ordinal()][idxPix] = ccRGBW_G;
+        pixArrs[cchans.RGBW_Blue.ordinal()][idxPix] = ccRGBW_B;
+        pixArrs[cchans.RGBW_White.ordinal()][idxPix] = ccRGBW_W;
 
-        pixArrs[cchans.HSB_H.ordinal()][idxPix] = ccHSB_H;
-        pixArrs[cchans.HSB_S.ordinal()][idxPix] = ccHSB_S;
-        pixArrs[cchans.HSB_B.ordinal()][idxPix] = ccHSB_B;
+        pixArrs[cchans.HSB_Hue.ordinal()][idxPix] = ccHSB_H;
+        pixArrs[cchans.HSB_Saturation.ordinal()][idxPix] = ccHSB_S;
+        pixArrs[cchans.HSB_Brightness.ordinal()][idxPix] = ccHSB_B;
 
         pixArrs[cchans.XYZ_X.ordinal()][idxPix] = ccXYZ_X;
-        pixArrs[cchans.XYZ_Y.ordinal()][idxPix] = ccXYZ_Y;
+        pixArrs[cchans.XYZ_Y_luminance.ordinal()][idxPix] = ccXYZ_Y;
         pixArrs[cchans.XYZ_Z.ordinal()][idxPix] = ccXYZ_Z;
 
-        pixArrs[cchans.Yxy_x.ordinal()][idxPix] = ccYxy_x;
-        pixArrs[cchans.Yxy_y.ordinal()][idxPix] = ccYxy_y;
+        pixArrs[cchans.Yxy_x_chromaticity.ordinal()][idxPix] = ccYxy_x;
+        pixArrs[cchans.Yxy_y_chromaticity.ordinal()][idxPix] = ccYxy_y;
 
-        pixArrs[cchans.LAB_L.ordinal()][idxPix] = ccLAB_L;
-        pixArrs[cchans.LAB_A.ordinal()][idxPix] = ccLAB_A;
-        pixArrs[cchans.LAB_B.ordinal()][idxPix] = ccLAB_B;
-        pixArrs[cchans.LAB_H.ordinal()][idxPix] = ccLAB_H;
-        pixArrs[cchans.LAB_C.ordinal()][idxPix] = ccLAB_C;
+        pixArrs[cchans.LAB_Luminance.ordinal()][idxPix] = ccLAB_L;
+        pixArrs[cchans.LAB_A_red_to_green.ordinal()][idxPix] = ccLAB_A;
+        pixArrs[cchans.LAB_B_blue_to_yellow.ordinal()][idxPix] = ccLAB_B;
+        pixArrs[cchans.LAB_Hue.ordinal()][idxPix] = ccLAB_H;
+        pixArrs[cchans.LAB_Chroma.ordinal()][idxPix] = ccLAB_C;
 
-        pixArrs[cchans.YUV_Y.ordinal()][idxPix] = ccYUV_Y;
+        pixArrs[cchans.YUV_Y_luminance.ordinal()][idxPix] = ccYUV_Y;
         pixArrs[cchans.YUV_U.ordinal()][idxPix] = ccYUV_U;
         pixArrs[cchans.YUV_V.ordinal()][idxPix] = ccYUV_V;
 
