@@ -91,7 +91,7 @@ function main() {
   }
 
   if ( !(doSpace.some(function(e) { return e; }))) {
-2    Packages.ij.IJ.showMessage("ERROR(Convert_RGB_To_Color_Components.js): At least one channel must be selected!");
+    Packages.ij.IJ.showMessage("ERROR(Convert_RGB_To_Color_Components.js): At least one channel must be selected!");
     return false;
   }
 
