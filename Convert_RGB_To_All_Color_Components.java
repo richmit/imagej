@@ -5,37 +5,37 @@ import ij.gui.*;
 import java.awt.*;
 
 /* Like Convert_RGB_To_Color_Components, but:
-    1) Always produces a 32-bit, floating point image stack
-    2) Has no user interface -- it always creates all channels
-    3) It is written in Java, and is about 60x faster than the javascript version
- 
-  How to install in Fiji...
-   - Compile by running using ImageJ -- not Fiji!!  This macro will do the trick:
-     run("Install... ", "install=C:/Users/richmit/Documents/world/my_prog/imagej/Convert_RGB_To_All_Color_Components.java save=C:/Users/richmit/PF/ImageJ/plugins/MJR/Convert_RGB_To_All_Color_Components.java");
+   1) Always produces a 32-bit, floating point image stack
+   2) Has no user interface -- it always creates all channels
+   3) It is written in Java, and is about 60x faster than the javascript version
+
+   How to install in Fiji...
+   - Compile by running ImageJ (not Fiji), and evaluating the following macro:
+   run("Install... ", "install=C:/Users/richmit/Documents/world/my_prog/imagej/Convert_RGB_To_All_Color_Components.java save=C:/Users/richmit/PF/ImageJ/plugins/MJR/Convert_RGB_To_All_Color_Components.java");
    - Put files in place
-     # Get into this directory
-     cd ~/world/my_prog/imagej/
-     # Copy class files back
-     cp c:/Users/richmit/PF/ImageJ/plugins/MJR/Convert_RGB_To_All_Color_Components*.class ./
-     # Make jar file
-     fastjar cvf Convert_RGB_To_All_Color_Components.jar Convert_RGB_To_All_Color_Components*.class
-     # Remove old files in Fiji
-     rm c:/Users/richmit/PF/Fiji.app/plugins/MJR/Convert_RGB_To_All_Color_Components*
-     # Copy in new jar
-     cp Convert_RGB_To_All_Color_Components.jar c:/Users/richmit/PF/Fiji.app/plugins/MJR/
- */
+   # Get into this directory
+   cd ~/world/my_prog/imagej/
+   # Copy class files back
+   cp c:/Users/richmit/PF/ImageJ/plugins/MJR/Convert_RGB_To_All_Color_Components*.class ./
+   # Make jar file
+   fastjar cvf Convert_RGB_To_All_Color_Components.jar Convert_RGB_To_All_Color_Components*.class
+   # Remove old files in Fiji
+   rm c:/Users/richmit/PF/Fiji.app/plugins/MJR/Convert_RGB_To_All_Color_Components*
+   # Copy in new jar
+   cp Convert_RGB_To_All_Color_Components.jar c:/Users/richmit/PF/Fiji.app/plugins/MJR/
+*/
 
 public class Convert_RGB_To_All_Color_Components implements PlugInFilter{
 
     enum cchans {
       RGB_Red,            RGB_Green,             RGB_Blue,                               RGB_Luminance, RGB_Max,
-      RGBW_Red,           RGBW_Green,            RGBW_Blue,            RGBW_White, 
+      RGBW_Red,           RGBW_Green,            RGBW_Blue,            RGBW_White,
       HSB_Hue,            HSB_Saturation,        HSB_Brightness,
       XYZ_X,              XYZ_Y_luminance,       XYZ_Z,
-      Yxy_x_chromaticity, Yxy_y_chromaticity, 
+      Yxy_x_chromaticity, Yxy_y_chromaticity,
       LAB_Luminance,      LAB_A_red_to_green,    LAB_B_blue_to_yellow,                   LAB_Hue,       LAB_Chroma,
-      YUV_Y_luminance,    YUV_U,                 YUV_V, 
-                          YIQ_I,                 YIQ_Q
+      YUV_Y_luminance,    YUV_U,                 YUV_V,
+      YIQ_I,                 YIQ_Q
     }
 
     private ImagePlus  imp;
@@ -44,7 +44,7 @@ public class Convert_RGB_To_All_Color_Components implements PlugInFilter{
       this.imp = imp;
       return DOES_RGB; // Only works with RGB images
     }
-  
+
     public void run(ImageProcessor ip) {
       ColorSpaceConverter colorConv = new ColorSpaceConverter();
       float eps = 0.0001f;
@@ -72,21 +72,21 @@ public class Convert_RGB_To_All_Color_Components implements PlugInFilter{
           IJ.showProgress(idxPix, srcLength);
           IJ.showStatus("Computing Color Channels");
         }
-    
+
         int curPixeli = srcPix[idxPix];
 
         int ccRGB_Ri  = (curPixeli >> 16) & 0xff;
         int ccRGB_Gi  = (curPixeli >>  8) & 0xff;
-        int ccRGB_Bi  = (curPixeli >>  0) & 0xff;	
+        int ccRGB_Bi  = (curPixeli >>  0) & 0xff;
 
         float ccRGB_R  = ccRGB_Ri / 255.0f;
         float ccRGB_G  = ccRGB_Gi / 255.0f;
-        float ccRGB_B  = ccRGB_Bi / 255.0f;	
+        float ccRGB_B  = ccRGB_Bi / 255.0f;
 
         float ccRGB_L  = (float)Math.sqrt(0.299f * ccRGB_R * ccRGB_R +
-                                          0.587f * ccRGB_G * ccRGB_G + 
+                                          0.587f * ccRGB_G * ccRGB_G +
                                           0.114f * ccRGB_B * ccRGB_B);
-        float ccRGB_M  = Math.max(Math.max(ccRGB_R, ccRGB_G), ccRGB_B);     
+        float ccRGB_M  = Math.max(Math.max(ccRGB_R, ccRGB_G), ccRGB_B);
 
         float ccRGBW_W = Math.min(Math.min(ccRGB_R, ccRGB_G), ccRGB_B);
         float ccRGBW_R = ccRGB_R - ccRGBW_W;
@@ -112,7 +112,7 @@ public class Convert_RGB_To_All_Color_Components implements PlugInFilter{
         float ccLAB_A = (float)Math.min(Math.max(ccaLAB[1], -labABclip), labABclip);
         float ccLAB_B = (float)Math.min(Math.max(ccaLAB[2], -labABclip), labABclip);
 
-        ccLAB_L = (float)ccLAB_L / 100.0f;                        
+        ccLAB_L = (float)ccLAB_L / 100.0f;
         ccLAB_A = (float)(ccLAB_A + labABclip) / 2.0f / labABclip;
         ccLAB_B = (float)(ccLAB_B + labABclip) / 2.0f / labABclip;
 
@@ -129,46 +129,36 @@ public class Convert_RGB_To_All_Color_Components implements PlugInFilter{
         float ccYIQ_I =  0.596f * ccRGB_R - 0.274f * ccRGB_G - 0.322f * ccRGB_B;
         float ccYIQ_Q =  0.211f * ccRGB_R - 0.253f * ccRGB_G - 0.312f * ccRGB_B;
 
-        pixArrs[cchans.RGB_Red.ordinal()][idxPix] = ccRGB_R;
-        pixArrs[cchans.RGB_Green.ordinal()][idxPix] = ccRGB_G;
-        pixArrs[cchans.RGB_Blue.ordinal()][idxPix] = ccRGB_B;
-
-        pixArrs[cchans.RGB_Luminance.ordinal()][idxPix] = ccRGB_L;
-        pixArrs[cchans.RGB_Max.ordinal()][idxPix] = ccRGB_M;
-
-        pixArrs[cchans.RGBW_Red.ordinal()][idxPix] = ccRGBW_R;
-        pixArrs[cchans.RGBW_Green.ordinal()][idxPix] = ccRGBW_G;
-        pixArrs[cchans.RGBW_Blue.ordinal()][idxPix] = ccRGBW_B;
-        pixArrs[cchans.RGBW_White.ordinal()][idxPix] = ccRGBW_W;
-
-        pixArrs[cchans.HSB_Hue.ordinal()][idxPix] = ccHSB_H;
-        pixArrs[cchans.HSB_Saturation.ordinal()][idxPix] = ccHSB_S;
-        pixArrs[cchans.HSB_Brightness.ordinal()][idxPix] = ccHSB_B;
-
-        pixArrs[cchans.XYZ_X.ordinal()][idxPix] = ccXYZ_X;
-        pixArrs[cchans.XYZ_Y_luminance.ordinal()][idxPix] = ccXYZ_Y;
-        pixArrs[cchans.XYZ_Z.ordinal()][idxPix] = ccXYZ_Z;
-
-        pixArrs[cchans.Yxy_x_chromaticity.ordinal()][idxPix] = ccYxy_x;
-        pixArrs[cchans.Yxy_y_chromaticity.ordinal()][idxPix] = ccYxy_y;
-
-        pixArrs[cchans.LAB_Luminance.ordinal()][idxPix] = ccLAB_L;
-        pixArrs[cchans.LAB_A_red_to_green.ordinal()][idxPix] = ccLAB_A;
+        pixArrs[cchans.RGB_Red.ordinal()][idxPix]              = ccRGB_R;
+        pixArrs[cchans.RGB_Green.ordinal()][idxPix]            = ccRGB_G;
+        pixArrs[cchans.RGB_Blue.ordinal()][idxPix]             = ccRGB_B;
+        pixArrs[cchans.RGB_Luminance.ordinal()][idxPix]        = ccRGB_L;
+        pixArrs[cchans.RGB_Max.ordinal()][idxPix]              = ccRGB_M;
+        pixArrs[cchans.RGBW_Red.ordinal()][idxPix]             = ccRGBW_R;
+        pixArrs[cchans.RGBW_Green.ordinal()][idxPix]           = ccRGBW_G;
+        pixArrs[cchans.RGBW_Blue.ordinal()][idxPix]            = ccRGBW_B;
+        pixArrs[cchans.RGBW_White.ordinal()][idxPix]           = ccRGBW_W;
+        pixArrs[cchans.HSB_Hue.ordinal()][idxPix]              = ccHSB_H;
+        pixArrs[cchans.HSB_Saturation.ordinal()][idxPix]       = ccHSB_S;
+        pixArrs[cchans.HSB_Brightness.ordinal()][idxPix]       = ccHSB_B;
+        pixArrs[cchans.XYZ_X.ordinal()][idxPix]                = ccXYZ_X;
+        pixArrs[cchans.XYZ_Y_luminance.ordinal()][idxPix]      = ccXYZ_Y;
+        pixArrs[cchans.XYZ_Z.ordinal()][idxPix]                = ccXYZ_Z;
+        pixArrs[cchans.Yxy_x_chromaticity.ordinal()][idxPix]   = ccYxy_x;
+        pixArrs[cchans.Yxy_y_chromaticity.ordinal()][idxPix]   = ccYxy_y;
+        pixArrs[cchans.LAB_Luminance.ordinal()][idxPix]        = ccLAB_L;
+        pixArrs[cchans.LAB_A_red_to_green.ordinal()][idxPix]   = ccLAB_A;
         pixArrs[cchans.LAB_B_blue_to_yellow.ordinal()][idxPix] = ccLAB_B;
-        pixArrs[cchans.LAB_Hue.ordinal()][idxPix] = ccLAB_H;
-        pixArrs[cchans.LAB_Chroma.ordinal()][idxPix] = ccLAB_C;
-
-        pixArrs[cchans.YUV_Y_luminance.ordinal()][idxPix] = ccYUV_Y;
-        pixArrs[cchans.YUV_U.ordinal()][idxPix] = ccYUV_U;
-        pixArrs[cchans.YUV_V.ordinal()][idxPix] = ccYUV_V;
-
-        pixArrs[cchans.YIQ_I.ordinal()][idxPix] = ccYIQ_I;
-        pixArrs[cchans.YIQ_Q.ordinal()][idxPix] = ccYIQ_Q;
+        pixArrs[cchans.LAB_Hue.ordinal()][idxPix]              = ccLAB_H;
+        pixArrs[cchans.LAB_Chroma.ordinal()][idxPix]           = ccLAB_C;
+        pixArrs[cchans.YUV_Y_luminance.ordinal()][idxPix]      = ccYUV_Y;
+        pixArrs[cchans.YUV_U.ordinal()][idxPix]                = ccYUV_U;
+        pixArrs[cchans.YUV_V.ordinal()][idxPix]                = ccYUV_V;
+        pixArrs[cchans.YIQ_I.ordinal()][idxPix]                = ccYIQ_I;
+        pixArrs[cchans.YIQ_Q.ordinal()][idxPix]                = ccYIQ_Q;
       }
-        
+
       ImagePlus outImage = new ImagePlus(outTitle, outStack);
       outImage.show();
     }
-    
-
 }
