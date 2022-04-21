@@ -1311,6 +1311,7 @@ function dynamicPerfMeasureROI(force_rimt) {
   colr       = dpsi[9];
 
   if ((length < 0) || (dotSize < 0) || (numDots < 0)) {
+   //  MJR TODO NOTE <2022-04-21T14:58:28-0500> dynamicPerfMeasureROI: This error could happen if an ROI exists -- just a line with no dots.  Fix this logic.
     exit("<html>"
          +"<font size=+1>"
          +"ERROR(dynamicPerfMeasureAllROIs):<br>"
@@ -1710,8 +1711,8 @@ function dynamicPerfDraw(firstDotX, firstDotY, firstDotIndex, otherDotX, otherDo
   checkImageScalePhil(false, true);
 
   if (firstDotIndex < 0) {
-    if (selectionType == 5) {
-      dpsi = dynamicPerfGetSelectionInfo();
+    dpsi = dynamicPerfGetSelectionInfo();
+    if (dpsi[0] > 0) {
       firstDotX  = dpsi[2];
       firstDotY  = dpsi[3];
       tmpSelEndX = dpsi[4];

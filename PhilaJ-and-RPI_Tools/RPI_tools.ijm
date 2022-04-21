@@ -1311,6 +1311,7 @@ function dynamicPerfMeasureROI(force_rimt) {
   colr       = dpsi[9];
 
   if ((length < 0) || (dotSize < 0) || (numDots < 0)) {
+   //  MJR TODO NOTE <2022-04-21T14:58:28-0500> dynamicPerfMeasureROI: This error could happen if an ROI exists -- just a line with no dots.  Fix this logic.
     exit("<html>"
          +"<font size=+1>"
          +"ERROR(dynamicPerfMeasureAllROIs):<br>"
@@ -1664,16 +1665,9 @@ function dynamicPerfGetSelectionInfo() {
 
   if (nImages > 0) {
     // If we have an active perf hole ROI, then find the line ROI
-print("HI HO");
     if (selectionType == 1) {
-print("HAVE HO")
       tmp = Roi.getName;
       if (matches(tmp, "pfHole[0-9][0-9][0-9][0-9](_.+)?")) {
-
-print("GOT HO: " + tmp)
-print("LOOK HO LINE: " + "pfLine" + substring(tmp, 6, 8) + roiNameToAnnoWithDelim(tmp));
-
-
         roiManagerSelectFirstROI("pfLine" + substring(tmp, 6, 8) + roiNameToAnnoWithDelim(tmp));
       }
     }
@@ -1717,8 +1711,8 @@ function dynamicPerfDraw(firstDotX, firstDotY, firstDotIndex, otherDotX, otherDo
   checkImageScalePhil(false, true);
 
   if (firstDotIndex < 0) {
-    if (selectionType == 5) {
-      dpsi = dynamicPerfGetSelectionInfo();
+    dpsi = dynamicPerfGetSelectionInfo();
+    if (dpsi[0] > 0) {
       firstDotX  = dpsi[2];
       firstDotY  = dpsi[3];
       tmpSelEndX = dpsi[4];
