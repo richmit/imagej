@@ -2002,6 +2002,7 @@ function specializedGaugeSingleOptions(queryForPreset) {
 
       presetName   = Dialog.getChoice();
       presetData   = perfPresetLookup(presetName);
+
       gbl_ssp_sizv = presetData[0];
       gbl_ssp_gapv = presetData[1];
       gbl_ssp_sizu = "mm";
@@ -2187,7 +2188,7 @@ function perfPresetLookup(preset) {
         if ( !(File.exists(perfFullPath)))
           exit("<html>"
                +"<font size=+1>"
-               +"ERROR(specializedGaugeAction):<br>"
+               +"ERROR(perfPresetLookup):<br>"
                +"&nbsp; Perf file is missing: " + perfFileName + "<br>"
                +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html'>the user manual</a> for more information."
                +"</font>");
@@ -2201,7 +2202,7 @@ function perfPresetLookup(preset) {
           if (perfFields.length != 4)
             exit("<html>"
                  +"<font size=+1>"
-                 +"ERROR(specializedGaugeAction):<br>"
+                 +"ERROR(perfPresetLookup):<br>"
                  +"&nbsp; Malformed line (" + d2s(j+1, 0) + ") in perf file (" +  perfFileName + ")\n" + perfLines[j] + "<br>"
                  +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html'>the user manual</a> for more information."
                  +"</font>");
@@ -2209,22 +2210,42 @@ function perfPresetLookup(preset) {
             gap  = parseFloat(perfFields[0]);
             diam = parseFloat(perfFields[1]);
             lab  = perfFields[3];
+            longLab = perfFileNameLab + ": " + lab;
             if (preset == "") {
-              tmpArray[0] = perfFileNameLab + ": " + lab;
+              tmpArray[0] = longLab;
               presetLables = Array.concat(presetLables, tmpArray);
-            } else if (preset == newPresetLables[j]) {
-              return newArray(diam[presetIdx], gaps[presetIdx], labs[presetIdx]);
+            } else if (preset == longLab) {
+              return newArray(diam, gap, lab);
             }
           }
         }
       }
-    }
-    if (preset == "") 
+    } 
+    if (preset == "") {
+      if (presetLables.length == 0) {
+        showMessage("<html>"
+                    +"<font size=+1>"
+                    +"WARNING(perfPresetLookup):<br>"
+                    +"&nbsp; No preset files were found!\n" + "<br>"
+                    +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#custom-spec-gauge'>the user manual</a> for more information."
+                    +"</font>");
+      } 
       return presetLables;
-    else
-      return false;
+    } else {
+      exit("<html>"
+           +"<font size=+1>"
+           +"ERROR(perfPresetLookup):<br>"
+           +"&nbsp; Unable to locate preset file for '" + preset + "'!\n" + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#custom-spec-gauge'>the user manual</a> for more information."
+           +"</font>");
+    }
   } else {
-    return false;
+    exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(perfPresetLookup):<br>"
+         +"&nbsp; Unable to locate custom perforation file directory (" + perfPath + ")\n" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#custom-spec-gauge'>the user manual</a> for more information."
+         +"</font>");
   }
 }
 
