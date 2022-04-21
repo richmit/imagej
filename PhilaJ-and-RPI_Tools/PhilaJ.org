@@ -46,7 +46,7 @@ PhilaJ is software to assist with philatelic image analysis. It is built on top 
 
 * Some PhilaJ Features
 
-While ImageJ is perfectly capable of philatelic image analysis out of the box, PhilaJ assists philatelist by automating and simplifying many typical
+While ImageJ is perfectly capable of philatelic image analysis out of the box, PhilaJ assists the philatelist by automating and simplifying many typical
 philatelic image processing procedures.
 
   - Efficiently rotate and zoom images
@@ -117,7 +117,7 @@ have tried to sort the list from highest priority to lowest:
     - Mostly I care about rectangular stamps only
     - It would be nice to detect the holes directly -- perhaps a multi-point, affinity-descent method to find the hole bottoms?
   - Compute perforations automatically (Hard)
-    - Via Fourier transform
+    - Via Fourier transform 
     - Via custom line graph analysis
   - Automatic grill identification from individual grill points (Hard)
     - Use up/down data provided by user to guide algorithm
@@ -135,16 +135,11 @@ ImageJ is not hard to use.  In many ways it is less complex than Photoshop or GI
 like Photoshop & GIMP but it works quite differently.  The similarity really is just surface deep.  Tools like Photoshop are intended for image manipulation
 with an eye toward the artistic.  Tools like ImageJ are intended for image measurement.
 
-You *can* measure things with Photoshop.  You *can* draw with ImageJ.  You *can* drive a nail with a brick instead of a hammer.
+You *can* measure things with Photoshop.  You *can* draw with ImageJ.  You *can* drive a nail with a screwdriver.
 
-As an example of the kind of confusion this similarity can cause, we can consider the "line tool".  In ImageJ it is *not* for drawing, but for identifying a
-linear feature on the image we wish to measure.  "Measure What?" you may ask.  We might wish to see a graph of the image intensity along that line -- useful
-for making optical resolution measurements for example.  Or we might wish to measure the length of that line in units related to the physical object -- the
-width of a stamp design for example.
-
-When learning ImageJ keep in mind that it is a completely different tool than Photoshop or GIMP.  Do not expect similar behavior.  Do not expect your
-knowledge of Photoshop or GIMP to translate to ImageJ.  ImageJ is not harder to use than Photoshop or GIMP!  It is just a different sort of tool --
-screwdriver vs hammer.
+So my advice while learning learning ImageJ is to keep in mind that it is a completely different tool than Photoshop or GIMP.  Do not expect similar behavior.
+Do not expect your knowledge of Photoshop or GIMP to translate to ImageJ.  ImageJ is not harder to use than Photoshop or GIMP!  It is just a different sort of
+tool -- screwdriver vs hammer.
 
 ** ImageJ & ROIs
 
@@ -188,6 +183,13 @@ The [[https://imagej.net][imagej.net]] site is stuffed full of great content, an
 said, I think the tutorial linked above is all you really need to get started with PhilaJ.
 
 * Using PhilaJ
+
+** Install Fiji
+
+From this point on, this document assumes you are using the Fiji distribution of ImageJ.  If you have not yet installed it, then do so now:
+https://imagej.net/software/fiji/
+
+I recommend that you install it someplace in your user directory.  
 
 ** Installing PhilaJ
 
