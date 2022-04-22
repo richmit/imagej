@@ -1,0 +1,163 @@
+
+* DE 11.5x11
+
+Distance	22.660	mm
+Holes	14.000	#
+Hole Sz	0.898	mm  <- good
+Hole Sz	35.358	mil
+Perfs	11.474	perf/2cm
+Kiusalas	68.624	mil
+
+Distance	38.483	mm
+Holes	22.000	#
+Hole Sz	0.898	mm
+Hole Sz	35.358	mil
+Perfs	10.914	perf/2cm
+Kiusalas	72.147	mil
+
+* DE 11x11.5
+
+Distance	35.086	mm
+Holes	20.000	#
+Hole Sz	1.035	mm
+Hole Sz	40.766	mil
+Perfs	10.830	perf/2cm
+Kiusalas	72.703	mil
+
+
+Distance	27.867	mm
+Holes	17.000	#
+Hole Sz	1.083	mm  <- good
+Hole Sz	42.637	mil
+Perfs	11.483	perf/2cm
+Kiusalas	68.570	mil
+
+* DE 11x11
+
+Distance	36.901	mm
+Holes	21.000	#
+Hole Sz	1.014	mm    <- good
+Hole Sz	39.934	mil
+Perfs	10.840	perf/2cm
+Kiusalas	72.639	mil
+
+Distance	42.295	mm
+Holes	24.000	#
+Hole Sz	1.035	mm    <- good
+Hole Sz	40.766	mil
+Perfs	10.876	perf/2cm
+Kiusalas	72.399	mil
+
+* UK 14.25x14.75
+
+Distance	68.127	mm
+Holes	49.000	#
+Hole Sz	0.835	mm
+Hole Sz	32.862	mil
+Perfs	14.091	perf/2cm
+Kiusalas	55.878	mil
+
+Distance	61.150	mm
+Holes	46.000	#
+Hole Sz	0.787	mm
+Hole Sz	30.990	mil
+Perfs	14.718	perf/2cm
+Kiusalas	53.499	mil
+
+* UK 14.25 x 14.74
+
+Distance	18.434	mm
+Holes	14.000	#
+Hole Sz	0.835	mm
+Hole Sz	32.862	mil
+Perfs	14.105	perf/2cm
+Kiusalas	55.826	mil
+
+Distance	21.746	mm
+Holes	17.000	#
+Hole Sz	0.835	mm
+Hole Sz	32.862	mil
+Perfs	14.716	perf/2cm
+Kiusalas	53.508	mil
+
+* UK 14.25x14.75
+
+Distance	29.768	mm
+Holes	22.000	#
+Hole Sz	0.835	mm
+Hole Sz	32.862	mil
+Perfs	14.109	perf/2cm
+Kiusalas	55.807	mil
+
+Distance	24.264	mm
+Holes	19.000	#
+Hole Sz	0.877	mm
+Hole Sz	34.526	mil
+Perfs	14.837	perf/2cm
+Kiusalas	53.071	mil
+
+* UK 14.50x14.25
+
+Distance	33.191	mm
+Holes	25.000	#
+Hole Sz	0.866	mm
+Hole Sz	34.110	mil
+Perfs	14.462	perf/2cm
+Kiusalas	54.447	mil
+
+Distance	25.494	mm
+Holes	19.000	#
+Hole Sz	0.866	mm
+Hole Sz	34.110	mil
+Perfs	14.121	perf/2cm
+Kiusalas	55.761	mil
+
+* UK 14.50x14.50
+
+Distance	23.483	mm
+Holes	18.000	#
+Hole Sz	0.866	mm
+Hole Sz	34.110	mil
+Perfs	14.479	perf/2cm
+Kiusalas	54.384	mil
+
+Distance	20.735	mm
+Holes	16.000	#
+Hole Sz	0.866	mm
+Hole Sz	34.110	mil
+Perfs	14.469	perf/2cm
+Kiusalas	54.421	mil
+
+* UK 14.75x14.50
+
+Distance	18.998	mm
+Holes	15.000	#
+Hole Sz	0.946	mm
+Hole Sz	37.229	mil
+Perfs	14.739	perf/2cm
+Kiusalas	53.424	mil
+
+Distance	23.638	mm
+Holes	18.000	#
+Hole Sz	0.866	mm
+Hole Sz	34.110	mil
+Perfs	14.384	perf/2cm
+Kiusalas	54.743	mil
+
+* US 11x11
+
+Distance	89.800	mm
+Holes	50.000	#
+Hole Sz	1.017	mm
+Hole Sz	40.033	mil
+Perfs	10.913	perf/2cm
+Kiusalas	72.152	mil
+
+* US 11x11
+
+Distance	89.536	mm
+Holes	50.000	#
+Hole Sz	1.017	mm
+Hole Sz	40.033	mil
+Perfs	10.945	perf/2cm
+Kiusalas	71.939	mil
