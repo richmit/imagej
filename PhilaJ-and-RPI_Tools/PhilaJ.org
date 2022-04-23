@@ -1230,11 +1230,11 @@ functions for the task: [[#scale-image-scale][=Shrink image to make pixels squar
  - Liberty Issue Perforation Gauge :: Right now the gaps are the nearest Kiusalas value, and the hole sizes are based on values from articles.  Unfortunately
    this isn't quite right.  The hole sizes vary a bit between wet vs dry printings and the gaps between the large & small hole varieties is a tiny bit
    different.  So be careful when using it.  I hope to someday make a better gauge based on measurements of my extensive Liberty collection.
- - BARI Wolf Issue Perforation Gauge :: This gauge is based on measurements of my personal collection -- I have well over 50 copies of this stamp.
+ - BARI Wolf Issue Perforation Gauge :: This gauge is based on measurements of my personal collection.  I'm still refining this gauge as I learn more about
+   this issue, but the gauge is pretty good at this point.
  - Canadian Kiusalas Perforation Gauge :: The gaps are correct, but the hole diameters on this gauge are completely wrong -- I just set them to 1mm.  If you
    know what they should be, then please contact me!
- - AMG AM Post :: I'm starting a project to put together a set of gauges for AMG issues.  Right now I have the templates installed, but the gap values are stock
-   catalog values.  I hope to update these with measured values from my collection.
+ - AMG AM Post :: This gauge is based on a *very small* set of measurements of these issues, and needs more work.  
 
 ** A Note About The Thirkell Position Finder
 
