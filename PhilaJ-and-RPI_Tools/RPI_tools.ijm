@@ -149,7 +149,7 @@ var gbl_spl_perfDiams = newArray(0);          // Specialized Perforation Gauge O
 var gbl_spl_perfGaps  = newArray(0);          // Specialized Perforation Gauge Overlay:
 var gbl_spl_perfLabs  = newArray(0);          // Specialized Perforation Gauge Overlay:
 var gbl_spl_useDots   = true;                 // Specialized Perforation Gauge Overlay:
-var gbl_ssm_aux       = "0.63";               // Scale RPI Image: Microscope Aux Lens
+var gbl_ssm_aux       = "0.32";               // Scale RPI Image: Microscope Aux Lens
 var gbl_ssm_cam       = "RPI";                // Scale RPI Image: Camera
 var gbl_ssm_gbl       = false;                // Scale RPI Image: When setting RPI image scale, make it global
 var gbl_ssm_res       = false;                // Scale RPI Image: RPI Adjust for Resolution when scaleing images
@@ -2664,11 +2664,11 @@ function setScaleForMicrograph(freshFromCamera) {
   exitIfNoImages("setScaleForMicrograph");
 
   Dialog.create("Set Scale for Stereo Microscope Photograph");
-  Dialog.addChoice("Microscope:", newArray("Leica S8API"),   gbl_ssm_scope);
-  Dialog.addChoice("Zoom Stop:",  newArray("1.00", "8.00"),  gbl_ssm_zoom);
-  Dialog.addChoice("Auxiliary:",  newArray("0.63", "1.00"),  gbl_ssm_aux);
-  Dialog.addChoice("Video Obj:",  newArray("0.32", "0.50"),  gbl_ssm_vobj);
-  Dialog.addChoice("Camera:",     newArray("RPI", "OLY"),    gbl_ssm_cam );
+  Dialog.addChoice("Microscope:", newArray("Leica S8API"),           gbl_ssm_scope);
+  Dialog.addChoice("Zoom Stop:",  newArray("1.00", "8.00"),          gbl_ssm_zoom);
+  Dialog.addChoice("Auxiliary:",  newArray("0.32", "0.63", "1.00"),  gbl_ssm_aux);
+  Dialog.addChoice("Video Obj:",  newArray("0.32", "0.50"),          gbl_ssm_vobj);
+  Dialog.addChoice("Camera:",     newArray("RPI", "OLY"),            gbl_ssm_cam );
   if (freshFromCamera)
     Dialog.addMessage("Adjust for Resolution: YES");
   else
