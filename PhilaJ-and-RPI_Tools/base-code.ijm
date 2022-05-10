@@ -97,7 +97,7 @@ var gbl_dyn_dotSzMx   = 1.5;                  // Dynamic Perforation Gauge: Maxi
 var gbl_dyn_nuGap     = 1.5;                  // Dynamic Perforation Gauge: Size of perf gap for newly drawn gauges
 var gbl_dyn_numPerf   = 15;                   // Dynamic Perforation Gauge: Number fo perf holes. Note it is a number, and we do not use gbl_ALL_numPerf
 var gbl_dyn_rimt      = false;                // Dynamic Perforation Gauge: Put results in results table or in new window
-var gbl_dyn_roiTag   = "";                    // Dynamic Perforation Gauge: ROI prefix to use for ROI bound ROIs
+var gbl_dyn_roiTag    = "";                   // Dynamic Perforation Gauge: ROI prefix to use for ROI bound ROIs
 var gbl_dyn_roiMgrU   = "NONE";               // Dynamic Perforation Gauge: How ROI manager is used
 var gbl_grl_ROI       = "";                   // Grill Template: The ROI name used to draw grill
 var gbl_grl_ROIx      = 0;                    // Grill Template: The upper left x coordinate of ROI used to draw grill
@@ -126,7 +126,7 @@ var gbl_pic_group     = "";                   // RPI Image Capture: File group n
 var gbl_pic_ifmt      = "jpg";                // RPI Image Capture: Image Format for RPI captured images
 var gbl_pic_loadem    = true;                 // RPI Image Capture: Load image after capture
 var gbl_pic_pviewDo   = true;                 // RPI Image Capture: Video preview before RPI capture
-var gbl_pic_pviewScl  = 4;                    // RPI Image Capture: RPI Capture Preview Scale (1/n)
+var gbl_pic_pviewScl  = "4";                  // RPI Image Capture: RPI Capture Preview Scale (1/n)
 var gbl_pic_repeat    = false;                // RPI Image Capture: Repeated RPI capture mode
 var gbl_pic_res       = "100%";               // RPI Image Capture: Image Size for RPI captured images
 var gbl_pic_useCam    = true;                 // RPI Image Capture: Use the camera or fake it
@@ -163,7 +163,7 @@ var gbl_ssp_sizu      = "mm";                 // Single Line Specialized Perfora
 var gbl_ssp_sizv      = 1;                    // Single Line Specialized Perforation Gauge Overlay:
 var gbl_sus_cols      = 10;                   // Slice Up Sheet:
 var gbl_sus_rows      = 10;                   // Slice Up Sheet:
-var gbl_vid_pviewScl  = "1";                  // RPI Live Video Preview: Live RPI Video Scale (1/n)
+var gbl_vid_pviewScl  = "4";                  // RPI Live Video Preview: Live RPI Video Scale (1/n)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2445,10 +2445,10 @@ function captureImageFromRPI() {
     // Run libcamera-still
     if (gbl_pic_useCam) {
 
-      pList = exec("/bin/bash", "-c", "ps -eo pid,comm | grep libcamera- | grep -v grep");
-      while (lengthOf(pList) > 10) {
-        waitForUserWithCancel("PhilaJ: captureImageFromRPI", "ERROR: libcamera processes are running.  Please close them.\n\nProcess List:\n" + pList);
-        pList = exec("/bin/bash", "-c", "ps -eo pid,comm | grep libcamera- | grep -v grep");
+      procOut = exec("/bin/bash", "-c", "ps -eo pid,comm | grep libcamera- | grep -v grep");
+      while (lengthOf(procOut) > 10) {
+        waitForUserWithCancel("PhilaJ: captureImageFromRPI", "ERROR: libcamera processes are running.  Please close them.\n\nProcess List:\n" + procOut);
+        procOut = exec("/bin/bash", "-c", "ps -eo pid,comm | grep libcamera- | grep -v grep");
       }
 
       if (gbl_pic_pviewDo) {
@@ -2469,25 +2469,38 @@ function captureImageFromRPI() {
                +"</font>");
 
         showMessage("PhilaJ: captureImageFromRPI", "Click OK to Capture Image");
-
-        procList = exec("/bin/bash", "-c", "ps -eo pid,comm | grep '^ *" + pid + "  *libcamera-still'");
-        if (lengthOf(procList) < 10)
+        exec("/bin/bash", "-c", "kill -SIGUSR1 " + pid);
+        // In the past the process woudl end after we send a SIGUSR1, but now it waits around till we send it a SIGUSR2.  Problem is that if we
+        // sned that SIGUSR2 at the wrong moment, the process will CRASH without writeing the file.  So...  We have a hack here....  We wait for
+        // up to 5 seconds for teh file to appear, and be 0.5 second old.
+        showStatus("Waiting for capture process to write image");
+        for(c=0; c<50; c++) {
+          showProgress(c, 50);
+          if (File.exists(piImageFullFileName))
+            if (500 < (getTime() - File.lastModified(piImageFullFileName)))
+              break;
+          wait(100);
+        }
+        // At this point we have a file, or we waited too long.  Whatever, we need to kill the process now
+        showStatus("Waiting for capture process to die");
+        for(c=0; c<10; c++) {
+          showProgress(c, 10);
+          exec("/bin/bash", "-c", "kill -SIGUSR2 " + pid);
+          wait(100);
+          procOut = exec("/bin/bash", "-c", "ps -eo pid,cmd | grep '^ *" + pid + "  *libcamera-still'");
+          if (lengthOf(procOut) < 10)
+            break;
+          c++;
+        }
+        // Now the process is dead or it isn't.  Whatever, we need to move on.  If it's not dead, warn the user.
+        if (lengthOf(procOut) > 10)
           exit("<html>"
                +"<font size=+1>"
                +"ERROR(captureImageFromRPI):<br>"
-               +"&nbsp; Unable to trigger capture (Can't find libcamera-still process)!" + "<br>"
+               +"&nbsp; Unable to kill camera process (libcamera-still with pid " + pid + ")!" + "<br>"
+               +"&nbsp; Please close the preview window if it is visible." + "<br>"
                +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#rpi-capture'>the user manual</a> for more information."
                +"</font>");
-        showStatus("Waiting for capture process");
-        exec("/bin/bash", "-c", "kill -SIGUSR1 " + pid);
-        c=1;
-        do {
-          showProgress(c, 30);
-          wait(40);
-          procList = exec("/bin/bash", "-c", "ps -eo pid,cmd | grep '^ *" + pid + "  *libcamera-still'");
-          c++;
-        } while ( (c<30) && (lengthOf(procList) > 10));
-        wait(100);
       } else {
         exec("libcamera-still -t 1 -n -q 100 " + resOpt + " -e " + gbl_pic_ifmt + " -o " + piImageFullFileName);
       }
