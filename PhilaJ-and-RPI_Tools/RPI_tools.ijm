@@ -563,6 +563,7 @@ function roiManagerBulkRename(oldString, newString) {
     Dialog.addMessage("Backup ROIs just in case!");
     Dialog.addString("Search:",  "", 25);
     Dialog.addString("Replace:", "", 25);
+    Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#roi-name-tools")
     Dialog.show();
     oldString = Dialog.getString();
     newString = Dialog.getString();
@@ -926,6 +927,7 @@ function mmCoordOptions() {
   Dialog.addCheckbox("Save Box Images?",                           gbl_mmc_saveJPG);
   Dialog.addCheckbox("Draw Point ROI Axis Guides",                 gbl_mmc_pntGuides);
   Dialog.addCheckbox("Draw Box ROI Axis Guides",                   gbl_mmc_boxGuides);
+  Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#coord-tool")
   Dialog.show();
 
   gbl_ALL_color1    = Dialog.getChoice();
@@ -1142,6 +1144,7 @@ function philPosFinderOptions() {
   Dialog.addChoice("Line Width:", gbl_OLT_lineWidth,  gbl_ALL_lineWidth);
   Dialog.addChoice("Font:", fontChoiceList,           gbl_ALL_font);
   Dialog.addChoice("Font Size:", gbl_OLT_fontMag,     gbl_ALL_fMag);
+  Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#pos-finder")
   Dialog.show();
 
   gbl_ALL_color1    = Dialog.getChoice();
@@ -1367,6 +1370,7 @@ function dynamicPerfOptions(queryForPreset) {
 
     Dialog.create("PhilaJ: Dynamic Perforation Tool Preset Options");
     Dialog.addChoice("Preset:", lables, lables[0]);
+    Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#dynamic-perf-gauge")
     Dialog.show();
     presetName = Dialog.getChoice();
 
@@ -1392,6 +1396,7 @@ function dynamicPerfOptions(queryForPreset) {
   Dialog.addCheckbox("Always Show Perf Report",                                                              gbl_dyn_autoRep);
   Dialog.addCheckbox("Fill Dots",                                                                            gbl_ALL_fillDots);
   Dialog.addCheckbox("Reset Perf Readout HUD Location",                                                      false);
+  Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#dynamic-perf-gauge")
   Dialog.show();
 
   gbl_ALL_color1    = Dialog.getChoice();
@@ -1576,6 +1581,7 @@ function dynamicPerfMeasure() {
       needAnno = false;
       Dialog.create("PhilaJ: Dynamic Perforation Tool");
       Dialog.addString("ROI Name Annotation:", gbl_dyn_roiTag, 5);
+      Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#dynamic-perf-gauge")
       Dialog.show();
       gbl_dyn_roiTag = Dialog.getString();
       if (gbl_dyn_roiTag == "") {
@@ -1877,8 +1883,8 @@ function specializedGaugeInstall() {
 
   Dialog.create("PhilaJ: Install Specialized Gauge");
   Dialog.addFile("Gauge CSV File:", getDirectory("home"));
-
   Dialog.addString("Name For New Gauge:", "A New Perf Gauge", 30);
+  Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#custom-spec-gauge")
   Dialog.show();
 
   var newPerfFileSrc  = Dialog.getString();
@@ -1962,6 +1968,7 @@ function specializedGaugeOptions() {
   Dialog.addCheckbox("Fill Dots",                    gbl_ALL_fillDots);
   Dialog.addCheckbox("Use Dots",                     gbl_spl_useDots);
   Dialog.addCheckbox("Reverse Order",                gbl_ALL_perfOrder);
+  Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#static-perf-gauge")
   Dialog.show();
 
   gbl_spl_gName     = Dialog.getChoice();
@@ -1999,6 +2006,7 @@ function specializedGaugeSingleOptions(queryForPreset) {
 
       Dialog.create("PhilaJ: Single Line Custom Perforation Gauge Preset Options");
       Dialog.addChoice("Preset:", lables, lables[0]);
+      Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#static-perf-gauge")
       Dialog.show();
 
       presetName   = Dialog.getChoice();
@@ -2023,6 +2031,7 @@ function specializedGaugeSingleOptions(queryForPreset) {
     Dialog.addNumber("Perf Gauge:",                      gbl_ssp_gapv, 5, 10, "");
     Dialog.addToSameRow();
     Dialog.addChoice("", gbl_OLT_pfUnits,                gbl_ssp_gapu);
+    Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#static-perf-gauge")
     Dialog.show();
 
     gbl_ssp_lab  = Dialog.getString();
@@ -2276,8 +2285,9 @@ function configureRPI() {
     Dialog.addCheckbox("Load image after capture",                     gbl_pic_loadem);
     Dialog.addCheckbox("Set scale after capture/load",                 gbl_ALL_doScl);
     Dialog.addCheckbox("Debugging",                                    gbl_ALL_debug);
-
+    Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#rpi-settings")
     Dialog.show();
+
     gbl_pic_group    = Dialog.getString();
     gbl_pic_anno     = Dialog.getString();
     gbl_pic_ifmt     = Dialog.getChoice();
@@ -2332,6 +2342,7 @@ function videoPreviewFromRPI() {
     Dialog.create("Configure RPI Live Video Settings");
     Dialog.addChoice("Live Video Scale (1/n):", gbl_OLT_pviewScl, gbl_vid_pviewScl);
     Dialog.addCheckbox("Change settings before preview",          gbl_pic_doSet);
+    Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#rpi-preview")
     Dialog.show();
     gbl_vid_pviewScl = Dialog.getChoice();
     gbl_pic_doSet    = Dialog.getCheckbox();
@@ -2635,6 +2646,7 @@ function getCaptureRPI() {
   Dialog.create("Load Previous RPI Capture(s)");
   Dialog.addChoice("Capture Group:", allGroups, gbl_lil_group);
   Dialog.addChoice("Which images:", newArray("First", "First 10", "All", "Last 10", "Last"), gbl_lil_which);
+  Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#rpi-load")
   Dialog.show();
 
   gbl_lil_group = Dialog.getChoice();
@@ -2687,6 +2699,7 @@ function setScaleForMicrograph(freshFromCamera) {
   else
     Dialog.addCheckbox("Adjust for Resolution", gbl_ssm_res);
   Dialog.addCheckbox("Global Scale", gbl_ssm_gbl);
+  Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#scale-rpi")
   Dialog.show();
 
   gbl_ssm_scope = Dialog.getChoice();
@@ -2750,6 +2763,7 @@ function philGrillOptions(grillToUse) {
     grillLetters = grillDataLookup("", "");
     Dialog.create("PhilaJ: Grill Type");
     Dialog.addChoice("Grill:", grillLetters, gbl_grl_type);
+    Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#grill-tool")
     Dialog.show();
     gbl_grl_type = Dialog.getChoice();
   } else if (grillToUse != "KEEP") {
@@ -2783,6 +2797,7 @@ function philGrillOptions(grillToUse) {
   Dialog.addCheckbox("Draw Point Ridges",              gbl_grl_doPridge);
   Dialog.addCheckbox("Draw Point Box Boundary",        gbl_grl_doOut);
   Dialog.addCheckbox("Draw Max Grill Box",             gbl_grl_doMGB);
+  Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#grill-tool")
   Dialog.show();
 
   if ((maxH-minH)>0)
@@ -3218,6 +3233,7 @@ function setScaleFromDPI(inHDPI, inVDPI) {
     Dialog.addMessage("  - Units: mm");
     if (inVDPI < 0)
       Dialog.addMessage("  - Pixel Aspect Ratio: 1.0");
+    Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#set-scale-dpi")
     Dialog.show();
     hdpi    = Dialog.getNumber();
     if (inVDPI > 0)
@@ -3515,6 +3531,7 @@ function setScale2Dmm(useMeasurementResults) {
   Dialog.addNumber("Vert Distance:", gbl_2ds_vDpx, 3, 10, "Px");
   Dialog.addNumber("Vert Distance:", gbl_2ds_vDvv, 3, 10, "mm");
   Dialog.addCheckbox("Global Scale", gbl_2ds_gbl);
+  Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#scale-alt")
   Dialog.show();
 
   gbl_2ds_hDpx  = Dialog.getNumber();
@@ -3567,6 +3584,7 @@ function setScale1Dmm(useMeasurementResults) {
   Dialog.addNumber("Known Distance:", gbl_1ds_Dpx, 3, 10, "Px");
   Dialog.addNumber("Known Distance:", gbl_1ds_Dmm, 3, 10, "mm");
   Dialog.addCheckbox("Global Scale", gbl_2ds_gbl);
+  Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#scale-alt")
   Dialog.show();
 
   gbl_1ds_Dpx  = Dialog.getNumber();
@@ -3630,6 +3648,7 @@ function resizeToDPI(targetDPI) {
   if (targetDPI < 0) {
     Dialog.create("PhilaJ: Resize To Target DPI");
     Dialog.addNumber("Target DPI:", gbl_r2d_targDPI, 0, 6, "DPI");
+    Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#scale-image-scale")
     Dialog.show();
     gbl_r2d_targDPI = Dialog.getNumber();
     targetDPI = gbl_r2d_targDPI;
@@ -3752,6 +3771,7 @@ function convertDistanceToPerf() {
 
   if (holeFromROI)
     Dialog.addMessage("  Initial value gathered from ROI");
+  Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#phil-units")
   Dialog.show();
   gbl_d2p_len    = Dialog.getNumber();
   gbl_d2p_units  = Dialog.getChoice();
@@ -3773,6 +3793,7 @@ function convertKperfAndPerf20(k2p) {
     Dialog.addNumber("Kiusalas:",    gbl_pcv_inv,   4, 10, "mil");
   else
     Dialog.addNumber("Perforation:", gbl_pcv_inv,   4, 10, "perf/2cm");
+  Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#phil-units")
   Dialog.show();
   gbl_pcv_inv    = Dialog.getNumber();
 
@@ -3857,6 +3878,7 @@ function instaPerfGaugeOptions() {
   Dialog.addChoice("Font Size:", gbl_OLT_fontMag,    gbl_ALL_fMag);
   Dialog.addCheckbox("Force Minor Div",              gbl_nst_mFrc);
   Dialog.addCheckbox("Reverse Order",                gbl_ALL_perfOrder);
+  Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#static-perf-gauge")
   Dialog.show();
 
   gbl_nst_pMin      = Math.floor(Dialog.getNumber());
@@ -4515,6 +4537,7 @@ function coilEdgeReport() {
   if (edgeTypeUnknown) {
     Dialog.create("PhilaJ: Coil Edge Report");
     Dialog.addChoice("Edges:", newArray("Vertical", "Horizontal"), gbl_cer_type);
+    Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#measure-edges")
     Dialog.show();
     gbl_cer_type = Dialog.getChoice();
   }
@@ -4961,6 +4984,7 @@ function sliceUpSheet() {
   Dialog.create("PhilaJ: Slice Up Sheet");
   Dialog.addNumber("Number of Columns:", gbl_sus_cols, 0, 6, "");
   Dialog.addNumber("Number of Rows:",    gbl_sus_rows, 0, 6, "");
+  Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#sheet-tools")
   Dialog.show();
 
   gbl_sus_cols = Dialog.getNumber();
@@ -5024,6 +5048,7 @@ function processScanDirectory() {
       Dialog.addNumber("Incoming Horz DPI:", 2410, 0, 6, "DPI");
       Dialog.addNumber("Incoming Vert DPI:", 2398, 0, 6, "DPI");
       Dialog.addNumber("Thumbnail DPI",       300, 0, 6, "DPI");
+      Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#bulk-processing")
       Dialog.show();
       inHdpi  = Dialog.getNumber();
       inVdpi  = Dialog.getNumber();
@@ -5128,6 +5153,7 @@ function convertLengthUI() {
   Dialog.addNumber("Distance:", gbl_l2l_len, 4, 10, "");
   Dialog.addToSameRow();
   Dialog.addChoice("",          gbl_OLT_lnUnits, gbl_l2l_units);
+  Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#phil-units")
   Dialog.show();
   gbl_l2l_len    = Dialog.getNumber();
   gbl_l2l_units  = Dialog.getChoice();
@@ -5259,6 +5285,7 @@ function selectionToJpg(saveIt, origX, origY, gridSize, cUnits) {
 
   Dialog.create("PhilaJ: File name tag");
   Dialog.addString("Tag:", fileNameTag, 20);
+  Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#sub-image")
   Dialog.show();
   fileNameTag = Dialog.getString();
 

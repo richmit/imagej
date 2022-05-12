@@ -32,12 +32,11 @@ Copyright {{{time(%Y)}}} Mitch Richling. All rights reserved.
 
 #+TOC: headlines 5
 
-
-#        #         #         #         #         #         #         #         #         #         #         #         #         #         #         #         #         #
-#   00   #    10   #    20   #    30   #    40   #    50   #    60   #    70   #    80   #    90   #   100   #   110   #   120   #   130   #   140   #   150   #   160   #
-# 234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
-#        #         #         #         #         #         #         #         #         #         #         #         #         #         #         #         #         #
-#        #         #         #         #         #         #         #         #         #         #         #         #         #         #         #         #         #
+#        #         #         #         #         #         #         #         #         #         #         #         #         #         #         #         #
+#   010  #    020  #    030  #    040  #    050  #    060  #    070  #    080  #    090  #    100  #    110  #    120  #    130  #    140  #    150  #    160  #
+# 34567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+#        #         #         #         #         #         #         #         #         #         #         #         #         #         #         #       | #
+#        #         #         #         #         #         #         #         #         #         #         #         #         #         #         #       | #
 
 * Introduction
 
@@ -65,9 +64,11 @@ philatelic image processing procedures.
     - Named ROIs in the ROI manager will automatically be used if they exist for many measurements
     - Measurements create ROIs to document & save results for later use
   - Perforation Measurements
-    - A fully dynamic perforation gauge brings perforation measurements into the digital realm.  Simultaneously and accurately measure perforations frequency and hole size and on any angle
+    - A fully dynamic perforation gauge brings perforation measurements into the digital realm.  Simultaneously and accurately measure perforations frequency
+      and hole size and on any angle
     - Perforations may be directly, and very accurately, computed from simple distance measurements
-    - Display very customizable, old school perforation gauges (Instanta & Kiusalas) over the image so that perforations may be measured in the traditional manner.
+    - Display very customizable, old school perforation gauges (Instanta & Kiusalas) over the image so that perforations may be measured in the traditional
+      manner.
     - Specialized gauges for particular stamps like the US Liberty Issues or AMG Bari Wolf Issue
   - Grills
     - Display a very customizable template of US Grills over image
@@ -209,7 +210,8 @@ Specialized Gauge=]].
 
 *** Settings
 
-ImageJ's default measurement settings are not ideal for PhilaJ, so we need to change those defaults.  Select "Analyze -> Set Measurements" from the main ImageJ menu:
+ImageJ's default measurement settings are not ideal for PhilaJ, so we need to change those defaults.  Select "Analyze -> Set Measurements" from the main
+ImageJ menu:
 
 #+ATTR_HTML: :align center :width 800px
 file:PhilaJ-setup-measure-menu.gif
@@ -859,7 +861,8 @@ The [[#phil-rotate][=Rotate 90 Degrees Right=]] menu option's function is pretty
 
 Both of these rotation commands will clear the current overlay.  To redraw it, hit the [[#keybindings][=[g]=]] key.
 
-Note that image rotation can make future linear measurements impossible.  Please read the section [[#capture-and-scale][Capturing and adjusting properly scaled images]].
+Note that image rotation can make future linear measurements impossible.  
+Please read the section [[#capture-and-scale][Capturing and adjusting properly scaled images]].
 
 *** Making Images From Selections
 :PROPERTIES:
@@ -1091,8 +1094,8 @@ file:PhilaJ-data-usGrills.gif
 :CUSTOM_ID: phil-units
 :END:
 
-PhilaJ can convert a few units philatelists frequently encounter.  Perforations may be converted between "hole gap in thousandths of an inch" (i.e. Kiusalas) and "holes
-per 2cm" (i.e. what is in most catalogs) via:
+PhilaJ can convert a few units philatelists frequently encounter.  Perforations may be converted between "hole gap in thousandths of an inch" (i.e. Kiusalas)
+and "holes per 2cm" (i.e. what is in most catalogs) via:
 
    - [[#phil-units][=Convert Kiusalas to Perforations per 2cm=]]
    - [[#phil-units][=Convert Perforations per 2cm to Kiusalas=]]
@@ -1430,7 +1433,8 @@ file:RPI_Tools-toolsetbuttons.gif
 :CUSTOM_ID: rpi-capture
 :END:
 
- - file:RPI_Tools-toolsetbutton-capture.gif   :: Capture, save, and open an image from the camera.  Images are stored in the same location, and with the same file name conventions, used by =piSnap.sh=.
+ - file:RPI_Tools-toolsetbutton-capture.gif :: 
+   Capture, save, and open an image from the camera.  Images are stored in the same location, and with the same file name conventions, used by =piSnap.sh=.
 
 *** Configure RPI Microscope Camera
 :PROPERTIES:
@@ -1460,7 +1464,8 @@ file:RPI_Tools-dialog-settings.gif
 :CUSTOM_ID: rpi-preview
 :END:
 
- - file:RPI_Tools-toolsetbutton-video.gif      :: Live video feed from camera.  Note the scale setting for the live video feed is different from the capture preview scale.
+ - file:RPI_Tools-toolsetbutton-video.gif :: 
+   Live video feed from camera.  Note the scale setting for the live video feed is different from the capture preview scale.
 
 If "Change Settings Before Capture" is set, then a simplified settings dialog box will appear before the video feed window.
 
@@ -1472,7 +1477,8 @@ file:RPI_Tools-dialog-settings-v.gif
 :CUSTOM_ID: rpi-load
 :END:
 
- - file:RPI_Tools-toolsetbutton-load.gif      :: Load previous capture(s) from camera using the ImageJ/Fiji macro above or the =piSnap.sh= script.  
+ - file:RPI_Tools-toolsetbutton-load.gif :: 
+   Load previous capture(s) from camera using the ImageJ/Fiji macro above or the =piSnap.sh= script.  
 
 #+ATTR_HTML: :align center :width 400px
 file:RPI_Tools-dialog-loadOld.gif
@@ -1482,7 +1488,9 @@ file:RPI_Tools-dialog-loadOld.gif
 :CUSTOM_ID: scale-rpi
 :END:
 
- - file:RPI_Tools-toolsetbutton-scale.gif     :: Set image scale based upon microscope settings.  This script contains hardwired settings for my specific microscope and lenses, and may require modification for your microscope.
+ - file:RPI_Tools-toolsetbutton-scale.gif :: 
+   Set image scale based upon microscope settings.  This script contains hardwired settings for my specific microscope and lenses, and may require
+   modification for your microscope.
 
    - The choice of microscope enables a calibration correction factor in the final computation
    - The "Adjust for Resolution" option adjusts the scale if the number of horizontal pixels in the image differs from the horizontal resolution of the
