@@ -4983,6 +4983,8 @@ function rotateRight90() {
 function sliceUpBlock() {
   if (gbl_ALL_debug)
     print("DEBUG(sliceUpBlock): Function Entry");
+
+  fontChoiceList = getFavFontList();
   Dialog.create("PhilaJ: Slice Up Sheet");
   Dialog.setInsets(5, 0, 0);
   Dialog.addMessage("Size of this block");
@@ -4992,15 +4994,28 @@ function sliceUpBlock() {
   Dialog.addMessage("Location in Full Sheet");
   Dialog.addNumber("Sheet Position (upper left):", gbl_sus_1pos, 0, 6, "");
   Dialog.addNumber("Number of Columns Full Sheet:", gbl_sus_scols, 0, 6, "");
-
+  Dialog.setInsets(5, 0, 0);
+  Dialog.addMessage("Overlay Graphical Characterstics");
+  Dialog.addChoice("color1:", gbl_OLT_colors,        gbl_ALL_color1);
+  Dialog.addChoice("color2:", gbl_OLT_colors,        gbl_ALL_color2);
+  Dialog.addChoice("Line Width:", gbl_OLT_lineWidth, gbl_ALL_lineWidth);
+  Dialog.addChoice("Font:", fontChoiceList,          gbl_ALL_font);
+  Dialog.addChoice("Font Size:", gbl_OLT_fontMag,    gbl_ALL_fMag);
   Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#sheet-tools");
-    Dialog.show();
+  Dialog.show();
 
-  gbl_sus_cols  = Dialog.getNumber();
-  gbl_sus_rows  = Dialog.getNumber();
-  gbl_sus_1pos  = Dialog.getNumber();
-  gbl_sus_scols = Dialog.getNumber();
- 
+  gbl_sus_cols      = Dialog.getNumber();
+  gbl_sus_rows      = Dialog.getNumber();
+  gbl_sus_1pos      = Dialog.getNumber();
+  gbl_sus_scols     = Dialog.getNumber();
+  gbl_ALL_color1    = Dialog.getChoice();
+  gbl_ALL_color2    = Dialog.getChoice();
+  gbl_ALL_lineWidth = Dialog.getChoice();
+  gbl_ALL_font      = Dialog.getChoice();
+  gbl_ALL_fMag      = Dialog.getChoice();
+
+  lineWidth = parseInt(gbl_ALL_lineWidth); 
+
   IID = getImageID();
 
   totalWidth = -1;
@@ -5015,19 +5030,28 @@ function sliceUpBlock() {
 	} while (selectionType != 0);   
     Roi.getBounds(x0, y0, totalWidth, totalHeight);
 
-    width = totalWidth   / gbl_sus_cols;
+    width  = totalWidth  / gbl_sus_cols;
     height = totalHeight / gbl_sus_rows;
 
+    setFontHeight(minOf(width, height) / 3, true);
+    fontHeight = getValue("font.height");
+    fontWidth = getStringWidth("9");
+
     clearOverlay();
+    setColor(gbl_ALL_color1);
+    setLineWidth(lineWidth);
     for(yi=0; yi<gbl_sus_rows; yi++) {
       for(xi=0; xi<gbl_sus_cols; xi++) {
         xc = x0 + xi * width;
         yc = y0 + yi * height;
+        if (gbl_sus_1pos > 0) 
+          Overlay.drawString(xi+gbl_sus_1pos+yi*gbl_sus_scols, xc+fontWidth, yc+2*fontHeight);
         makeRectangle(xc, yc, width, height);
-        Overlay.addSelection("red");
+        Overlay.addSelection(gbl_ALL_color1, lineWidth);
       }
     }
     makeRectangle(x0, y0, totalWidth, totalHeight);
+    Overlay.addSelection(gbl_ALL_color2, lineWidth);
   } while( !(getBoolean("Good separation?")));
 
 
@@ -5056,6 +5080,85 @@ function sliceUpBlock() {
   selectImage(SIID);
   setSlice(1);
 }
+
+// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// // Slice up a stamp sheet into individual stamps.  Each stamp is placed into a slice in a new image.
+// function makeBlockDesignROI() {
+//   if (gbl_ALL_debug)
+//     print("DEBUG(makeBlockDesignROI): Function Entry");
+//   Dialog.create("PhilaJ: Create Design ROIs");
+//   Dialog.setInsets(5, 0, 0);
+//   Dialog.addMessage("Size of this block");
+//   Dialog.addNumber("Number of Columns:", gbl_sus_cols, 0, 6, "");
+//   Dialog.addNumber("Number of Rows:",    gbl_sus_rows, 0, 6, "");
+//   Dialog.setInsets(5, 0, 0);
+//   Dialog.addMessage("Location in Full Sheet");
+//   Dialog.addNumber("Sheet Position (upper left):", gbl_sus_1pos, 0, 6, "");
+//   Dialog.addNumber("Number of Columns Full Sheet:", gbl_sus_scols, 0, 6, "");
+
+//   Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#sheet-tools");
+//     Dialog.show();
+
+//   gbl_sus_cols  = Dialog.getNumber();
+//   gbl_sus_rows  = Dialog.getNumber();
+//   gbl_sus_1pos  = Dialog.getNumber();
+//   gbl_sus_scols = Dialog.getNumber();
+ 
+//   IID = getImageID();
+
+//   totalWidth = -1;
+//   do {
+// 	do {
+//       setTool(0);
+//       clearOverlay(); 
+//       if (selectionType == 0) 
+//         waitForUserWithCancel("PhilaJ: sliceUpBlock", "Adjust Block ROI");
+//       else
+//         waitForUserWithCancel("PhilaJ: sliceUpBlock", "Create/Activate Block ROI");
+// 	} while (selectionType != 0);   
+//     Roi.getBounds(x0, y0, totalWidth, totalHeight);
+
+//     width = totalWidth   / gbl_sus_cols;
+//     height = totalHeight / gbl_sus_rows;
+
+//     clearOverlay();
+//     for(yi=0; yi<gbl_sus_rows; yi++) {
+//       for(xi=0; xi<gbl_sus_cols; xi++) {
+//         xc = x0 + xi * width;
+//         yc = y0 + yi * height;
+//         makeRectangle(xc, yc, width, height);
+//         Overlay.addSelection("red");
+//       }
+//     }
+//     makeRectangle(x0, y0, totalWidth, totalHeight);
+//   } while( !(getBoolean("Good separation?")));
+
+
+//   newImage("stamps", "RGB", width, height, gbl_sus_rows * gbl_sus_cols);
+//   SIID = getImageID();
+
+//   i=0;
+//   for(yi=0; yi<gbl_sus_rows; yi++) {
+//     for(xi=0; xi<gbl_sus_cols; xi++) {
+// 	  selectImage(IID);
+//       xc = x0 + xi * width;
+//       yc = y0 + yi * height;
+//       makeRectangle(xc, yc, width, height);
+//       Image.copy();
+//       selectImage(SIID);
+//       setSlice(i+1);
+//       Property.setSliceLabel("p" + (xi+gbl_sus_1pos+yi*gbl_sus_scols))    
+//         Image.paste(0, 0);
+//       i++;
+//     }
+//   }
+//   selectImage(IID);
+//   clearOverlay();
+//   makeRectangle(x0, y0, totalWidth, totalHeight);
+  
+//   selectImage(SIID);
+//   setSlice(1);
+// }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // This is *VERY* specific to my scanner processing flow.  It queries for a direcotry, finds all *.tif files without
@@ -5670,7 +5773,7 @@ var gbl_menu_compute = newMenu("PhilaJ Main Menu Tool",
                                         "Rotate Line to Horizontal",
                                         "Rotate 90 Degrees Right",
                                         "---",
-                                        "Separate stamp sheet",
+                                        "Separate stamp multiple",
                                         "---",
                                         "Convert Distance to Perforation Measurement",
                                         "Convert Kiusalas to Perforations per 2cm",
@@ -5724,7 +5827,7 @@ macro "PhilaJ Main Menu Tool - C000 T0b14P T6e14J" {
     rotateToHorizontal();
   else if (cmd=="Rotate 90 degrees")
     rotateRight90();
-  else if (cmd=="Separate stamp sheet")
+  else if (cmd=="Separate stamp multiple")
     sliceUpBlock();
   else if (cmd=="Grill Table")
     grillDataLookup("ALL", "ALL");
