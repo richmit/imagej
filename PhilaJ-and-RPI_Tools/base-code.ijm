@@ -5035,15 +5035,27 @@ function sliceUpBlock() {
 
   IID = getImageID();
 
-  totalWidth = -1;
+
+  haveAnROI = false;
   do {
 	do {
       setTool(0);
       clearOverlay(); 
-      if (selectionType == 0) 
-        waitForUserWithCancel("PhilaJ: sliceUpBlock", "Adjust Block ROI");
-      else
-        waitForUserWithCancel("PhilaJ: sliceUpBlock", "Create/Activate Block ROI");
+      if (haveAnROI) {
+        roiManagerActivate("multipleOuterSep", "multipleOuterSep");
+        waitForUserWithCancel("PhilaJ: sliceUpBlock", "Please adjust the block ROI");
+        roiManagerAddOrUpdateROI("multipleOuterSep", false); 
+      } else {
+        roiManagerActivateOrCreate("multipleOuterSep", "Identify outer block seporations", "Identify outer block seporations", true, "multipleOuterSep");
+      }
+      if (selectionType != 0) {
+        roiManagerDeleteAllROIs("multipleOuterSep");
+        run("Select None");
+        showMessage("PhilaJ: sliceUpBlock", "ERROR: Block ROI must be a rectangle!");
+        haveAnROI = false;
+      } else {
+        haveAnROI = true;
+      }
 	} while (selectionType != 0);   
     Roi.getBounds(x0, y0, totalWidth, totalHeight);
 

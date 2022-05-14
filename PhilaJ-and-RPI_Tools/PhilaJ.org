@@ -861,6 +861,8 @@ ImageJ image stack.  Here is what a good set of cut lines look like:
 #+ATTR_HTML: :align center :width 800
 file:PhilaJ-sheetSplitResult.gif
 
+Note that this final block ROI will be saved in the ROI manager with the name "=multipleOuterSep=".
+
 One of the best ways to spot plate flaws is to "align" these stamp images, and then flip through the images in the stack allowing the natural ability of the
 human eye to notice changes.  How do we align the images in the stack?  I find it useful to first crop the images so that we just have the designs -- no
 perforations.  Do that by making a rectangular ROI, and then use the "=Image -> crop=" menu option.  In the image processing field, the problem of aligning
@@ -1348,6 +1350,7 @@ ROIs play a central role in PhilaJ (and in ImageJ in general).  PhilaJ has adopt
 | =pn_<N>=                          | Rectangle | Rectangle bounding the plate number                     |
 | =pt_<TAG>_<N>=                    | Point     | Points created by coordinate tool.                      |
 | =scale_<X>mm=                     | Rectangle | Used to set image scale (=<X>= is the scale)            |
+| =multipleOuterSep=                | Rectangle | Multiple outer separation boundary                       |
 | =stampBdry[_<SID>]=               | Any Area  | Outer paper boundaries of a single stamp                |
 | =wmark[_<SID>][-<SFX>]=           | Any area  | Watermarks                                              |
 |-----------------------------------+-----------+---------------------------------------------------------|

@@ -5035,15 +5035,27 @@ function sliceUpBlock() {
 
   IID = getImageID();
 
-  totalWidth = -1;
+
+  haveAnROI = false;
   do {
 	do {
       setTool(0);
       clearOverlay(); 
-      if (selectionType == 0) 
-        waitForUserWithCancel("PhilaJ: sliceUpBlock", "Adjust Block ROI");
-      else
-        waitForUserWithCancel("PhilaJ: sliceUpBlock", "Create/Activate Block ROI");
+      if (haveAnROI) {
+        roiManagerActivate("multipleOuterSep", "multipleOuterSep");
+        waitForUserWithCancel("PhilaJ: sliceUpBlock", "Please adjust the block ROI");
+        roiManagerAddOrUpdateROI("multipleOuterSep", false); 
+      } else {
+        roiManagerActivateOrCreate("multipleOuterSep", "Identify outer block seporations", "Identify outer block seporations", true, "multipleOuterSep");
+      }
+      if (selectionType != 0) {
+        roiManagerDeleteAllROIs("multipleOuterSep");
+        run("Select None");
+        showMessage("PhilaJ: sliceUpBlock", "ERROR: Block ROI must be a rectangle!");
+        haveAnROI = false;
+      } else {
+        haveAnROI = true;
+      }
 	} while (selectionType != 0);   
     Roi.getBounds(x0, y0, totalWidth, totalHeight);
 
@@ -5087,7 +5099,7 @@ function sliceUpBlock() {
       if (gbl_sus_1pos > 0) 
         Property.setSliceLabel("p" + (xi+gbl_sus_1pos+yi*gbl_sus_scols));
       else
-        Property.setSliceLabel(i);
+        Property.setSliceLabel(i+1);
       Image.paste(0, 0);
       i++;
     }
@@ -5171,6 +5183,14 @@ function makeBlockDesignROI()  {
   gapWidth  = (xRL - xLU)  / (gbl_sus_cols - 1);
   gapHeight = (yRL - yLU) / (gbl_sus_rows - 1);
 
+  if ((gapWidth <= 0) && (gapHeight <= 0))
+        exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(makeBlockDesignROI):<br>"
+         +"&nbsp; Invalid ROIs!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#block-d-roi'>the user manual</a> for more information."
+         +"</font>");
+
   medWidth  = (widthLU  + widthRL)  / 2.0;
   medHeight = (heightRL + heightLU) / 2.0;
 
@@ -5201,7 +5221,7 @@ function makeBlockDesignROI()  {
         if (gbl_sus_1pos > 0) 
           roiManagerAddOrUpdateROI("design_p" + (xi+gbl_sus_1pos+yi*gbl_sus_scols), false); 
         else
-          roiManagerAddOrUpdateROI("design_"  + i, false); 
+          roiManagerAddOrUpdateROI("design_"  + (i+1), false); 
         i++;
 	  }
 	}
