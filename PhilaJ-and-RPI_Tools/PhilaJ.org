@@ -839,11 +839,13 @@ file:PhilaJ-dialog-sheetSep-Options.gif
 The first two requested numbers define the block size, and are used later by PhilaJ to separate the sheet into stamps.  The second two values
 are used to label the stamp images with the position number from the original sheet from which the block came:
  - The *sheet* position of the upper left stamp -- if you don't know, then set it to "=-1=".
- - The width of the *sheet* from which the block came -- if you don't know, then leave set it to the number of columns in the block
+ - The width of the *sheet* from which the block came -- if you don't know, then leave it as is.
 In the example here, we have a 7x2 block taken from the lower left corner of a 10x10 sheet.  Thus the upper left stamp in our block was position 81 in the
-original sheet.  If you don't know what values to use for sheet position, set the first to "=1=" and the second to the width of the block -- this will number
-the stamps consecutively starting at 1. The remaining options are used to specify how the image overlay will look -- in this case we have selected pretty wide lines (so I can
-include nice screenshots), red division lines & text, and green for the "block ROI" discussed next).  
+original sheet.  If you don't know what values to use for sheet position, set the first to "=-1=" -- this will number the stamps consecutively starting
+at 1. Using "=-1=" also causes a subtle change in the resulting slice names in that they will be simple numbers instead of being prefixed by "p" -- this is
+related to recommended =SID= values documented in the section [[#roi-name-components][About ROI Name Components]].  The remaining options are used to specify
+how the image overlay will look -- in this case we have selected pretty wide lines (so I can include nice screenshots), red division lines & text, and green
+for the "block ROI" discussed next).
 
 After the dialog, the tool will ask the user to define a "block ROI".  This ROI should define the outer edge of where we would cut the stamps (see image
 below).
@@ -878,8 +880,11 @@ with a dialog box:
 #+ATTR_HTML: :align center :width 400
 file:PhilaJ-dialog-bultDroi-Options.gif
 
-For the most part, this dialog is precisely like the [[#sep-block][=Separate stamp multiple=]] tool -- one fewer color. Next the tool will ask the user
-to identify the upper left stamp design like so:
+For the most part, this dialog like the [[#sep-block][=Separate stamp multiple=]] tool. The use of "=-1=" for the sheet position will cause the resulting ROI
+names to be "=design_#= instead of "=design_p#=" -- i.e. the =SID= won't be prefixed by a "=p=".  This is related to recommended =SID= values documented in
+the section [[#roi-name-components][About ROI Name Components]].
+
+After the dialog box, the tool will ask the user to identify the upper left stamp design like so:
 
 #+ATTR_HTML: :align center :width 800
 file:PhilaJ-bultDroi-LU.gif

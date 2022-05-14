@@ -5014,6 +5014,23 @@ function sliceUpBlock() {
   gbl_ALL_font      = Dialog.getChoice();
   gbl_ALL_fMag      = Dialog.getChoice();
 
+  if ((gbl_sus_cols <= 0) || (gbl_sus_rows <= 0))
+        exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(sliceUpBlock):<br>"
+         +"&nbsp; Values for rows and columns must both be positive whole numbers!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#sep-block'>the user manual</a> for more information."
+         +"</font>");
+
+  if ((gbl_sus_1pos > 0) && (gbl_sus_scols < gbl_sus_cols))
+        exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(sliceUpBlock):<br>"
+         +"&nbsp; The sheet must not have fewer columns than the block!!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#sep-block'>the user manual</a> for more information."
+         +"</font>");
+
+
   lineWidth = parseInt(gbl_ALL_lineWidth); 
 
   IID = getImageID();
@@ -5067,8 +5084,11 @@ function sliceUpBlock() {
       Image.copy();
       selectImage(SIID);
       setSlice(i+1);
-      Property.setSliceLabel("p" + (xi+gbl_sus_1pos+yi*gbl_sus_scols))    
-        Image.paste(0, 0);
+      if (gbl_sus_1pos > 0) 
+        Property.setSliceLabel("p" + (xi+gbl_sus_1pos+yi*gbl_sus_scols));
+      else
+        Property.setSliceLabel(i);
+      Image.paste(0, 0);
       i++;
     }
   }
@@ -5105,14 +5125,30 @@ function makeBlockDesignROI()  {
   Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#block-d-roi");
   Dialog.show();
 
-  gbl_sus_cols      = Dialog.getNumber();
-  gbl_sus_rows      = Dialog.getNumber();
-  gbl_sus_1pos      = Dialog.getNumber();
-  gbl_sus_scols     = Dialog.getNumber();
+  gbl_sus_cols      = floor(Dialog.getNumber());
+  gbl_sus_rows      = floor(Dialog.getNumber());
+  gbl_sus_1pos      = floor(Dialog.getNumber());
+  gbl_sus_scols     = floor(Dialog.getNumber());
   gbl_ALL_color1    = Dialog.getChoice();
   gbl_ALL_lineWidth = Dialog.getChoice();
   gbl_ALL_font      = Dialog.getChoice();
   gbl_ALL_fMag      = Dialog.getChoice();
+
+  if ((gbl_sus_cols <= 0) || (gbl_sus_rows <= 0))
+        exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(makeBlockDesignROI):<br>"
+         +"&nbsp; Values for rows and columns must both be positive whole numbers!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#block-d-roi'>the user manual</a> for more information."
+         +"</font>");
+
+  if ((gbl_sus_1pos > 0) && (gbl_sus_scols < gbl_sus_cols))
+        exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(makeBlockDesignROI):<br>"
+         +"&nbsp; The sheet must not have fewer columns than the block!!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#block-d-roi'>the user manual</a> for more information."
+         +"</font>");
 
   lineWidth = parseInt(gbl_ALL_lineWidth); 
 
@@ -5132,7 +5168,7 @@ function makeBlockDesignROI()  {
   } while (selectionType != 0);   
   Roi.getBounds(xRL, yRL, widthRL, heightRL);
 
-  gapWidth  = (xRL - xLU)  / (gbl_sus_cols-1);
+  gapWidth  = (xRL - xLU)  / (gbl_sus_cols - 1);
   gapHeight = (yRL - yLU) / (gbl_sus_rows - 1);
 
   medWidth  = (widthLU  + widthRL)  / 2.0;
@@ -5156,12 +5192,17 @@ function makeBlockDesignROI()  {
   }
   
   if (getBoolean("Add these design ROIs to ROI Manager?")) {
+    i = 0;
     for(yi=0; yi<gbl_sus_rows; yi++) {
       for(xi=0; xi<gbl_sus_cols; xi++) {
         xc = xLU + xi * gapWidth;
         yc = yLU + yi * gapHeight;
 		makeRectangle(xc, yc, medWidth, medHeight);
-		roiManagerAddOrUpdateROI("design_p" + (xi+gbl_sus_1pos+yi*gbl_sus_scols), false); 
+        if (gbl_sus_1pos > 0) 
+          roiManagerAddOrUpdateROI("design_p" + (xi+gbl_sus_1pos+yi*gbl_sus_scols), false); 
+        else
+          roiManagerAddOrUpdateROI("design_"  + i, false); 
+        i++;
 	  }
 	}
   }
