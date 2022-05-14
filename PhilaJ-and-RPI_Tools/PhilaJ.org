@@ -412,7 +412,8 @@ file:PhilaJ-philaj-buttons.gif
    - [[#phil-rotate][=Rotate Line to Horizontal=]]
    - [[#phil-rotate][=Rotate 90 Degrees Right=]]
    - ---
-   - [[#sheet-tools][=Separate stamp multiple=]]
+   - [[#sep-block][=Separate stamp multiple=]]
+   - [[#block-d-roi][=Make Design ROIs for Multiple=]] 
    - ---
    - [[#phil-units][=Convert Distance to Perforation Measurement=]]
    - [[#phil-units][=Convert Kiusalas to Perforations per 2cm=]]
@@ -823,21 +824,22 @@ The [[#tool-set-buttons-interact][=PhilaJ Overlay Interaction Tool=]] allows one
 "=grill=" or "=grillPts=" ROI to make the grill appear in the new location for future invocations of the grill tool.  This may be easily done via the
 [[#overlay-measure][=Overlay/ROI Measure=]] command, bound to uppercase [[#keybindings][=[M]=]] -- this will create/update an ROI named "=grill=" in the ROI
 manager with the current grill outline.  This is also a handy way to convert a "=grillPts=" ROI into a rectangular "=grill=" ROI.
-*** Working With Multiples & Sheets
+
+*** Seporateing Images of Multiples into Image Stacks
 :PROPERTIES:
-:CUSTOM_ID: sheet-tools
+:CUSTOM_ID: sep-block
 :END:
 
-I expect to add more functionality in this category over time.  Right now we have one tool, the [[#sheet-tools][=Separate stamp multiple=]] menu option.  This
-tool is designed to break up images of stamp blocks into stacks of individual images.  When activated the following dialog will appear:
+The [[#sep-block][=Separate stamp multiple=]] menu option breaks up images of stamp blocks into stacks of individual images.  When activated the following
+dialog will appear:
 
 #+ATTR_HTML: :align center :width 400
 file:PhilaJ-dialog-sheetSep-Options.gif
 
 The first two requested numbers define the block size, and are used later by PhilaJ to separate the sheet into stamps.  The second two values
 are used to label the stamp images with the position number from the original sheet from which the block came:
- - The *sheet* position of the upper left stamp -- if you don't know, then set it to 1.
- - The width of the *sheet* from which the block came -- if you don't know, then set it to the number of columns in the block
+ - The *sheet* position of the upper left stamp -- if you don't know, then set it to "=-1=".
+ - The width of the *sheet* from which the block came -- if you don't know, then leave set it to the number of columns in the block
 In the example here, we have a 7x2 block taken from the lower left corner of a 10x10 sheet.  Thus the upper left stamp in our block was position 81 in the
 original sheet.  If you don't know what values to use for sheet position, set the first to "=1=" and the second to the width of the block -- this will number
 the stamps consecutively starting at 1. The remaining options are used to specify how the image overlay will look -- in this case we have selected pretty wide lines (so I can
@@ -862,6 +864,41 @@ human eye to notice changes.  How do we align the images in the stack?  I find i
 perforations.  Do that by making a rectangular ROI, and then use the "=Image -> crop=" menu option.  In the image processing field, the problem of aligning
 images is called "image registration".  Because this is a very common problem in many fields, ImageJ has several plugins available for the task.  For stamps,
 I have found "=plugins -> Registration -> linear stack alignment with SIFT=" to work very well.
+
+*** Bulk Create Design ROIs for Multiples
+:PROPERTIES:
+:CUSTOM_ID: block-d-roi
+:END:
+
+The [[#block-d-roi][=Make Design ROIs for Multiple=]] menu option is designed to partly automate the creation of design ROIs for multiples.  The resulting
+ROIs usually need to be individually adjusted, but this is much less work than creating each ROI from scratch. In practice it works much like the
+[[#sep-block][=Separate stamp multiple=]] tool.  When The [[#block-d-roi][=Make Design ROIs for Multiple=]] menu option is selected, the user is presented
+with a dialog box:
+
+#+ATTR_HTML: :align center :width 400
+file:PhilaJ-dialog-bultDroi-Options.gif
+
+For the most part, this dialog is precisely like the [[#sep-block][=Separate stamp multiple=]] tool -- one fewer color. Next the tool will ask the user
+to identify the upper left stamp design like so:
+
+#+ATTR_HTML: :align center :width 800
+file:PhilaJ-bultDroi-LU.gif
+
+Next the tool will ask the user to identify the lower right stamp design like so:
+
+#+ATTR_HTML: :align center :width 800
+file:PhilaJ-bultDroi-RL.gif
+
+The generated design ROIs will then be displayed, and the user will be ask if the ROIs should be saved in the ROI manager:
+
+#+ATTR_HTML: :align center :width 800
+file:PhilaJ-bultDroi-res.gif
+
+If the user instructs PhilaJ to save the ROIs, then ROIs will be created and saved in the ROI manager:
+
+#+ATTR_HTML: :align center :width 400
+file:PhilaJ-bultDroi-ROIs.gif
+
 *** Image Rotation
 :PROPERTIES:
 :CUSTOM_ID: phil-rotate
@@ -1336,7 +1373,8 @@ ROIs play a central role in PhilaJ (and in ImageJ in general).  PhilaJ has adopt
      - Should be alphanumeric (letters and numbers)
      - Must not contain a dash ("=-=")
    - Recommendations
-     - Blocks/sheets: Integers starting with 1 at the upper left and going left to right & top to bottom.  
+     - Sheets & if you know the sheet position: Use =p###= -- the "=p=" is for position.
+     - Blocks: Integers starting with 1 at the upper left and going left to right & top to bottom.  
      - For large multiples, zero pad the integer so the SID integers are all the same width and thus sort correctly
      - For pairs use =L= (Left) & =R= (Right) or =T= (Top) & =B= (Bottom)
  - =<SFX>= - Used to differentiate an ROI from others with the same name

@@ -376,6 +376,7 @@ var gbl_menu_compute = newMenu("PhilaJ Main Menu Tool",
                                         "Rotate 90 Degrees Right",
                                         "---",
                                         "Separate stamp multiple",
+                                        "Make Design ROIs for Multiple",
                                         "---",
                                         "Convert Distance to Perforation Measurement",
                                         "Convert Kiusalas to Perforations per 2cm",
@@ -431,6 +432,8 @@ macro "PhilaJ Main Menu Tool - C000 T0b14P T6e14J" {
     rotateRight90();
   else if (cmd=="Separate stamp multiple")
     sliceUpBlock();
+  else if (cmd=="Make Design ROIs for Multiple")
+    makeBlockDesignROI();
   else if (cmd=="Grill Table")
     grillDataLookup("ALL", "ALL");
 }

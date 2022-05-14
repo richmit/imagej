@@ -5001,7 +5001,7 @@ function sliceUpBlock() {
   Dialog.addChoice("Line Width:", gbl_OLT_lineWidth, gbl_ALL_lineWidth);
   Dialog.addChoice("Font:", fontChoiceList,          gbl_ALL_font);
   Dialog.addChoice("Font Size:", gbl_OLT_fontMag,    gbl_ALL_fMag);
-  Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#sheet-tools");
+  Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#sep-block");
   Dialog.show();
 
   gbl_sus_cols      = Dialog.getNumber();
@@ -5080,10 +5080,93 @@ function sliceUpBlock() {
   setSlice(1);
 }
 
-// TODO: Add this function
-// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// // Create design ROIs and put them in the ROI Manager for each stamp in a block given an ROI for the upper left and lower right stamp.
-// function makeBlockDesignROI()
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Create design ROIs and put them in the ROI Manager for each stamp in a block given an ROI for the upper left and lower right stamp.
+function makeBlockDesignROI()  {
+  if (gbl_ALL_debug)
+    print("DEBUG(makeBlockDesignROI): Function Entry");
+
+  fontChoiceList = getFavFontList();
+  Dialog.create("PhilaJ: Create Design ROIs");
+  Dialog.setInsets(5, 0, 0);
+  Dialog.addMessage("Size of this block");
+  Dialog.addNumber("Number of Columns:", gbl_sus_cols, 0, 6, "");
+  Dialog.addNumber("Number of Rows:",    gbl_sus_rows, 0, 6, "");
+  Dialog.setInsets(5, 0, 0);
+  Dialog.addMessage("Location in Full Sheet");
+  Dialog.addNumber("Sheet Position (upper left):", gbl_sus_1pos, 0, 6, "");
+  Dialog.addNumber("Number of Columns Full Sheet:", gbl_sus_scols, 0, 6, "");
+  Dialog.setInsets(5, 0, 0);
+  Dialog.addMessage("Overlay Graphical Characterstics");
+  Dialog.addChoice("color1:", gbl_OLT_colors,        gbl_ALL_color1);
+  Dialog.addChoice("Line Width:", gbl_OLT_lineWidth, gbl_ALL_lineWidth);
+  Dialog.addChoice("Font:", fontChoiceList,          gbl_ALL_font);
+  Dialog.addChoice("Font Size:", gbl_OLT_fontMag,    gbl_ALL_fMag);
+  Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#block-d-roi");
+  Dialog.show();
+
+  gbl_sus_cols      = Dialog.getNumber();
+  gbl_sus_rows      = Dialog.getNumber();
+  gbl_sus_1pos      = Dialog.getNumber();
+  gbl_sus_scols     = Dialog.getNumber();
+  gbl_ALL_color1    = Dialog.getChoice();
+  gbl_ALL_lineWidth = Dialog.getChoice();
+  gbl_ALL_font      = Dialog.getChoice();
+  gbl_ALL_fMag      = Dialog.getChoice();
+
+  lineWidth = parseInt(gbl_ALL_lineWidth); 
+
+  IID = getImageID();
+
+  clearOverlay(); 
+  do {
+    setTool(0);
+    waitForUserWithCancel("PhilaJ: makeBlockDesignROI", "Define Upper Left Design ROI");
+  } while (selectionType != 0);   
+  Roi.getBounds(xLU, yLU, widthLU, heightLU);
+
+  run("Select None");
+  do {
+    setTool(0);
+    waitForUserWithCancel("PhilaJ: makeBlockDesignROI", "Define Lower Right Design ROI");
+  } while (selectionType != 0);   
+  Roi.getBounds(xRL, yRL, widthRL, heightRL);
+
+  gapWidth  = (xRL - xLU)  / (gbl_sus_cols-1);
+  gapHeight = (yRL - yLU) / (gbl_sus_rows - 1);
+
+  medWidth  = (widthLU  + widthRL)  / 2.0;
+  medHeight = (heightRL + heightLU) / 2.0;
+
+  setFontHeight(minOf(medWidth, medHeight) / 3, true);
+  fontHeight = getValue("font.height");
+  fontWidth = getStringWidth("9");
+
+  setColor(gbl_ALL_color1);
+  setLineWidth(lineWidth);
+  for(yi=0; yi<gbl_sus_rows; yi++) {
+    for(xi=0; xi<gbl_sus_cols; xi++) {
+      xc = xLU + xi * gapWidth;
+      yc = yLU + yi * gapHeight;
+      if (gbl_sus_1pos > 0) 
+        Overlay.drawString(xi+gbl_sus_1pos+yi*gbl_sus_scols, xc+fontWidth, yc+2*fontHeight);
+      makeRectangle(xc, yc, medWidth, medHeight);
+      Overlay.addSelection(gbl_ALL_color1, lineWidth);
+    }
+  }
+  
+  if (getBoolean("Add these design ROIs to ROI Manager?")) {
+    for(yi=0; yi<gbl_sus_rows; yi++) {
+      for(xi=0; xi<gbl_sus_cols; xi++) {
+        xc = xLU + xi * gapWidth;
+        yc = yLU + yi * gapHeight;
+		makeRectangle(xc, yc, medWidth, medHeight);
+		roiManagerAddOrUpdateROI("design_p" + (xi+gbl_sus_1pos+yi*gbl_sus_scols), false); 
+	  }
+	}
+  }
+  clearOverlay(); 
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // This is *VERY* specific to my scanner processing flow.  It queries for a direcotry, finds all *.tif files without
