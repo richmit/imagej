@@ -5171,6 +5171,14 @@ function makeBlockDesignROI()  {
   gapWidth  = (xRL - xLU)  / (gbl_sus_cols - 1);
   gapHeight = (yRL - yLU) / (gbl_sus_rows - 1);
 
+  if ((gapWidth <= 0) && (gapHeight <= 0))
+        exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(makeBlockDesignROI):<br>"
+         +"&nbsp; Invalid ROIs!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#block-d-roi'>the user manual</a> for more information."
+         +"</font>");
+
   medWidth  = (widthLU  + widthRL)  / 2.0;
   medHeight = (heightRL + heightLU) / 2.0;
 
