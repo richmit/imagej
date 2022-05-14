@@ -412,7 +412,7 @@ file:PhilaJ-philaj-buttons.gif
    - [[#phil-rotate][=Rotate Line to Horizontal=]]
    - [[#phil-rotate][=Rotate 90 Degrees Right=]]
    - ---
-   - [[#sheet-tools][=Separate stamp sheet=]]
+   - [[#sheet-tools][=Separate stamp multiple=]]
    - ---
    - [[#phil-units][=Convert Distance to Perforation Measurement=]]
    - [[#phil-units][=Convert Kiusalas to Perforations per 2cm=]]
@@ -828,26 +828,35 @@ manager with the current grill outline.  This is also a handy way to convert a "
 :CUSTOM_ID: sheet-tools
 :END:
 
-I expect to add more functionality in this category over time.  Right now we have one tool, the [[#sheet-tools][=Separate stamp sheet=]] menu option.  This
-tool is designed to break up images of stamp sheets into stacks of individual images.  When activated it asks the user how many rows and columns are in the
-sheet, and then asks the user to define a "sheet ROI".  This ROI should define the outer edge of where we would cut the stamps (see image below).
+I expect to add more functionality in this category over time.  Right now we have one tool, the [[#sheet-tools][=Separate stamp multiple=]] menu option.  This
+tool is designed to break up images of stamp blocks into stacks of individual images.  When activated the following dialog will appear:
+
+#+ATTR_HTML: :align center :width 400
+file:PhilaJ-dialog-sheetSep-Options.gif
+
+The first two requested numbers define the block size, and are used later by PhilaJ to separate the sheet into stamps.  The second two values
+are used to label the stamp images with the position number from the original sheet from which the block came:
+ - The *sheet* position of the upper left stamp -- if you don't know, set it to "1"
+ - The width of the *sheet* from which the block came -- if you don't know, then set it to the number of columns in the block
+Once the dialog is cleared, the tool will ask the user to define a "block ROI".  This ROI should define the outer edge of where we would cut the stamps (see
+image below).
 
 #+ATTR_HTML: :align center :width 800
 file:PhilaJ-sheetSplitROI.gif
 
-The tool will then split the sheet into stamp sized rectangles with boundaries between stamps.  Sometimes these boundaries miss because the original ROI was
+The tool will then split the block into stamp sized rectangles with boundaries between stamps.  Sometimes these boundaries miss because the original ROI was
 improperly positioned.  For this reason, the tool will ask the user if the cut lines are acceptable.  If they are not, then the user is requested to adjust
-the sheet ROI.  This process repeats until the user accepts the cut lines.  Then the tool will extract an image for each stamp, and place them all in a single
+the block ROI.  This process repeats until the user accepts the cut lines.  Then the tool will extract an image for each stamp, and place them all in a single
 ImageJ image stack.  Here is what a good set of cut lines look like:
 
 #+ATTR_HTML: :align center :width 800
 file:PhilaJ-sheetSplitResult.gif
 
-One of the best ways to spot plate flaws is to "align" these stamp images, and then flip through the images allowing the natural ability of the human eye to
-notice changes.  How do we align the images?  I find it useful to first crop the images so that we just have the designs -- no perforations.  Do that by
-making a rectangular ROI, and then use the "=Image -> crop=" menu option.  In the image processing field, the problem of aligning images is called "image
-registration".  Because this is a very common problem in many fields, ImageJ has several plugins available for the task.  For stamps, I have found "=plugins ->
-Registration -> linear stack alignment with SIFT=" to work very well.
+One of the best ways to spot plate flaws is to "align" these stamp images, and then flip through the images in the stack allowing the natural ability of the
+human eye to notice changes.  How do we align the images in the stack?  I find it useful to first crop the images so that we just have the designs -- no
+perforations.  Do that by making a rectangular ROI, and then use the "=Image -> crop=" menu option.  In the image processing field, the problem of aligning
+images is called "image registration".  Because this is a very common problem in many fields, ImageJ has several plugins available for the task.  For stamps,
+I have found "=plugins -> Registration -> linear stack alignment with SIFT=" to work very well.
 *** Image Rotation
 :PROPERTIES:
 :CUSTOM_ID: phil-rotate

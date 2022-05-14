@@ -375,7 +375,7 @@ var gbl_menu_compute = newMenu("PhilaJ Main Menu Tool",
                                         "Rotate Line to Horizontal",
                                         "Rotate 90 Degrees Right",
                                         "---",
-                                        "Separate stamp sheet",
+                                        "Separate stamp multiple",
                                         "---",
                                         "Convert Distance to Perforation Measurement",
                                         "Convert Kiusalas to Perforations per 2cm",
@@ -429,8 +429,8 @@ macro "PhilaJ Main Menu Tool - C000 T0b14P T6e14J" {
     rotateToHorizontal();
   else if (cmd=="Rotate 90 degrees")
     rotateRight90();
-  else if (cmd=="Separate stamp sheet")
-    sliceUpSheet();
+  else if (cmd=="Separate stamp multiple")
+    sliceUpBlock();
   else if (cmd=="Grill Table")
     grillDataLookup("ALL", "ALL");
 }
