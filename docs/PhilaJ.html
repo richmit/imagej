@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-05-15 Sun 14:30 -->
+<!-- 2022-05-15 Sun 14:45 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=1024, initial-scale=1" />
 <title>PhilaJ: Philatelic Tools For ImageJ</title>
@@ -250,12 +250,12 @@
 
 <tr>
 <td class="org-right"><b>Updated:</b></td>
-<td class="org-left"><i>2022-05-15 14:30:19</i></td>
+<td class="org-left"><i>2022-05-15 14:45:06</i></td>
 </tr>
 
 <tr>
 <td class="org-right"><b>Generated:</b></td>
-<td class="org-left"><i>2022-05-15 14:30:20</i></td>
+<td class="org-left"><i>2022-05-15 14:45:35</i></td>
 </tr>
 </tbody>
 </table>
@@ -267,42 +267,42 @@ Copyright 2022 Mitch Richling. All rights reserved.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgb869ce5">1. Introduction</a></li>
-<li><a href="#orgbba5b88">2. Some PhilaJ Features</a>
+<li><a href="#org76dde61">1. Introduction</a></li>
+<li><a href="#orgfc7e620">2. Some PhilaJ Features</a>
 <ul>
-<li><a href="#orgef4a386">2.1. Future Features</a></li>
+<li><a href="#orgd015f5b">2.1. Future Features</a></li>
 </ul>
 </li>
-<li><a href="#org11f8211">3. Learning ImageJ</a>
+<li><a href="#org560dd9e">3. Learning ImageJ</a>
 <ul>
-<li><a href="#org1f45ece">3.1. ImageJ is not Photoshop!</a></li>
-<li><a href="#org917301e">3.2. ImageJ &amp; ROIs</a></li>
-<li><a href="#orgc0ed197">3.3. Overlays</a></li>
-<li><a href="#orga9b4922">3.4. Learning how to use ImageJ</a></li>
+<li><a href="#org73f8a30">3.1. ImageJ is not Photoshop!</a></li>
+<li><a href="#org5f19dde">3.2. ImageJ &amp; ROIs</a></li>
+<li><a href="#orgbee1b5c">3.3. Overlays</a></li>
+<li><a href="#orgd64b31f">3.4. Learning how to use ImageJ</a></li>
 </ul>
 </li>
-<li><a href="#org55da24b">4. Using PhilaJ</a>
+<li><a href="#org4f393dd">4. Using PhilaJ</a>
 <ul>
-<li><a href="#orga293031">4.1. Install Fiji</a></li>
-<li><a href="#org91aa14f">4.2. Installing PhilaJ</a>
+<li><a href="#orge7b4a01">4.1. Install Fiji</a></li>
+<li><a href="#org63fa181">4.2. Installing PhilaJ</a>
 <ul>
-<li><a href="#org36dd34c">4.2.1. The PhilaJ Package</a></li>
-<li><a href="#org9562c74">4.2.2. Specialized Perforation Gauges</a></li>
-<li><a href="#orgf1453c4">4.2.3. Settings</a></li>
+<li><a href="#org8ab3e94">4.2.1. The PhilaJ Package</a></li>
+<li><a href="#orga06fe78">4.2.2. Specialized Perforation Gauges</a></li>
+<li><a href="#orge4e604f">4.2.3. Settings</a></li>
 </ul>
 </li>
-<li><a href="#org9ae8231">4.3. Activate PhilaJ</a></li>
+<li><a href="#org35f19ed">4.3. Activate PhilaJ</a></li>
 <li><a href="#keybindings">4.4. Keyboard short-cuts</a></li>
 <li><a href="#tool-set-buttons">4.5. Tool-set Buttons</a>
 <ul>
-<li><a href="#org6203ed6">4.5.1. Overlay Menu (images &amp; annotations drawn over the stamp image in a nondestructive way)</a></li>
+<li><a href="#org52dff26">4.5.1. Overlay Menu (images &amp; annotations drawn over the stamp image in a nondestructive way)</a></li>
 <li><a href="#tool-set-buttons-interact">4.5.2. Overlay Interaction tool</a></li>
-<li><a href="#org1488f9c">4.5.3. Image Scale Menu (so we can measure things like distances &amp; perforations)</a></li>
-<li><a href="#orgc7a1f7b">4.5.4. Acquiring &amp; Saving Images &amp; Data Menu</a></li>
-<li><a href="#org1290e16">4.5.5. Everything Else Menu</a></li>
+<li><a href="#org9d04146">4.5.3. Image Scale Menu (so we can measure things like distances &amp; perforations)</a></li>
+<li><a href="#org0e1f71b">4.5.4. Acquiring &amp; Saving Images &amp; Data Menu</a></li>
+<li><a href="#orgbc0bfc2">4.5.5. Everything Else Menu</a></li>
 </ul>
 </li>
-<li><a href="#org8d7ee7c">4.6. PhilaJ Tools</a>
+<li><a href="#org16ce7b8">4.6. PhilaJ Tools</a>
 <ul>
 <li><a href="#dynamic-perf-gauge">4.6.1. Dynamic perforation gauge</a></li>
 <li><a href="#reuse-dynamic-perf-roi">4.6.2. Reusing Dynamic Perforation Gauge ROIs</a></li>
@@ -310,8 +310,8 @@ Copyright 2022 Mitch Richling. All rights reserved.
 <li><a href="#custom-spec-gauge">4.6.4. User Installable Customized Specialist Gauges</a></li>
 <li><a href="#centering-measurements">4.6.5. Measuring Design &amp; Margins</a>
 <ul>
-<li><a href="#orgc942006">4.6.5.1. Centering Metrics</a></li>
-<li><a href="#orgb9b6cd5">4.6.5.2. ROI Details</a></li>
+<li><a href="#org830b106">4.6.5.1. Centering Metrics</a></li>
+<li><a href="#org2de3d73">4.6.5.2. ROI Details</a></li>
 </ul>
 </li>
 <li><a href="#coord-tool">4.6.6. Coordinate Tool</a></li>
@@ -344,22 +344,22 @@ Copyright 2022 Mitch Richling. All rights reserved.
 </li>
 <li><a href="#capture-and-scale">4.7. Capturing and adjusting properly scaled images</a></li>
 <li><a href="#spec-gauge-list">4.8. Available Specialist gauges and presets</a></li>
-<li><a href="#org4a41724">4.9. A Note About The Thirkell Position Finder</a></li>
+<li><a href="#org4e5d571">4.9. A Note About The Thirkell Position Finder</a></li>
 <li><a href="#named-rois">4.10. Named ROIs</a>
 <ul>
-<li><a href="#orga3c39cc">4.10.1. Notation</a></li>
+<li><a href="#orga9ed849">4.10.1. Notation</a></li>
 <li><a href="#roi-name-components">4.10.2. About ROI Name Components</a></li>
-<li><a href="#orga648f8e">4.10.3. Some Component Recommendations</a></li>
+<li><a href="#orgedce10b">4.10.3. Some Component Recommendations</a></li>
 <li><a href="#bb-hr-roi">4.10.4. About "<code>HR</code>" &amp; "<code>BB</code>" ROIs</a></li>
-<li><a href="#org8783aa6">4.10.5. How ROIs are Used</a></li>
+<li><a href="#org16be878">4.10.5. How ROIs are Used</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li><a href="#rpi-tools">5. RPI Tools</a>
 <ul>
-<li><a href="#orge49bbdd">5.1. Activate RPI-Tools</a></li>
-<li><a href="#org6fc18c5">5.2. Button Functions</a>
+<li><a href="#orgc4e2674">5.1. Activate RPI-Tools</a></li>
+<li><a href="#orgdd4d59e">5.2. Button Functions</a>
 <ul>
 <li><a href="#rpi-capture">5.2.1. Capture Image From RPI Microscope Camera</a></li>
 <li><a href="#rpi-settings">5.2.2. Configure RPI Microscope Camera</a></li>
@@ -370,13 +370,13 @@ Copyright 2022 Mitch Richling. All rights reserved.
 </li>
 </ul>
 </li>
-<li><a href="#org64f537b">6. EOF</a></li>
+<li><a href="#org66632f7">6. EOF</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgb869ce5" class="outline-2">
-<h2 id="orgb869ce5"><span class="section-number-2">1.</span> Introduction</h2>
+<div id="outline-container-org76dde61" class="outline-2">
+<h2 id="org76dde61"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 PhilaJ is software to assist with philatelic image analysis. It is built on top of the popular scientific image analysis package
@@ -385,8 +385,8 @@ PhilaJ is software to assist with philatelic image analysis. It is built on top 
 </div>
 </div>
 
-<div id="outline-container-orgbba5b88" class="outline-2">
-<h2 id="orgbba5b88"><span class="section-number-2">2.</span> Some PhilaJ Features</h2>
+<div id="outline-container-orgfc7e620" class="outline-2">
+<h2 id="orgfc7e620"><span class="section-number-2">2.</span> Some PhilaJ Features</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 While ImageJ is perfectly capable of philatelic image analysis out of the box, PhilaJ assists the philatelist by automating and simplifying many typical
@@ -437,8 +437,8 @@ manner.</li>
 </ul>
 </div>
 
-<div id="outline-container-orgef4a386" class="outline-3">
-<h3 id="orgef4a386"><span class="section-number-3">2.1.</span> Future Features</h3>
+<div id="outline-container-orgd015f5b" class="outline-3">
+<h3 id="orgd015f5b"><span class="section-number-3">2.1.</span> Future Features</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Some of the features listed here are very difficult to implement &#x2013; complex enough they might not even be possible.  Others are easy things I simply need to
@@ -514,16 +514,16 @@ have tried to sort the list from highest priority to lowest:
 </div>
 </div>
 
-<div id="outline-container-org11f8211" class="outline-2">
-<h2 id="org11f8211"><span class="section-number-2">3.</span> Learning ImageJ</h2>
+<div id="outline-container-org560dd9e" class="outline-2">
+<h2 id="org560dd9e"><span class="section-number-2">3.</span> Learning ImageJ</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Because many people wishing to use PhilaJ are not already ImageJ users, this section provides some ImageJ background information and some links to learn more.
 </p>
 </div>
 
-<div id="outline-container-org1f45ece" class="outline-3">
-<h3 id="org1f45ece"><span class="section-number-3">3.1.</span> ImageJ is not Photoshop!</h3>
+<div id="outline-container-org73f8a30" class="outline-3">
+<h3 id="org73f8a30"><span class="section-number-3">3.1.</span> ImageJ is not Photoshop!</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 ImageJ is not hard to use.  In many ways it is less complex than Photoshop or GIMP.  That said, sometimes ImageJ newcomers stumble because ImageJ looks a lot
@@ -543,8 +543,8 @@ tool &#x2013; screwdriver vs hammer.
 </div>
 </div>
 
-<div id="outline-container-org917301e" class="outline-3">
-<h3 id="org917301e"><span class="section-number-3">3.2.</span> ImageJ &amp; ROIs</h3>
+<div id="outline-container-org5f19dde" class="outline-3">
+<h3 id="org5f19dde"><span class="section-number-3">3.2.</span> ImageJ &amp; ROIs</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 The "drawing" tools on the ImageJ toolbar are not drawing tools in that they do not draw anything (i.e. they do not manipulate the image in any way).  Instead
@@ -564,8 +564,8 @@ Once again.  ImageJ is all about measuring things.  Distances, sizes, colors, et
 </div>
 </div>
 
-<div id="outline-container-orgc0ed197" class="outline-3">
-<h3 id="orgc0ed197"><span class="section-number-3">3.3.</span> Overlays</h3>
+<div id="outline-container-orgbee1b5c" class="outline-3">
+<h3 id="orgbee1b5c"><span class="section-number-3">3.3.</span> Overlays</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 Overlays are images &amp; annotations placed over the image we we analyzing.  Back in the day, scientists would place a transparent film over a photograph and
@@ -603,8 +603,8 @@ an image (say for a scientific publication); however, overlays overlays find far
 </div>
 </div>
 
-<div id="outline-container-orga9b4922" class="outline-3">
-<h3 id="orga9b4922"><span class="section-number-3">3.4.</span> Learning how to use ImageJ</h3>
+<div id="outline-container-orgd64b31f" class="outline-3">
+<h3 id="orgd64b31f"><span class="section-number-3">3.4.</span> Learning how to use ImageJ</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
 To use PhilaJ, I think the basic tutorial at <a href="https://imagej.net">imagej.net</a> is enough: <a href="https://imagej.net/learn/">https://imagej.net/learn/</a>
@@ -618,12 +618,12 @@ said, I think the tutorial linked above is all you really need to get started wi
 </div>
 </div>
 
-<div id="outline-container-org55da24b" class="outline-2">
-<h2 id="org55da24b"><span class="section-number-2">4.</span> Using PhilaJ</h2>
+<div id="outline-container-org4f393dd" class="outline-2">
+<h2 id="org4f393dd"><span class="section-number-2">4.</span> Using PhilaJ</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-orga293031" class="outline-3">
-<h3 id="orga293031"><span class="section-number-3">4.1.</span> Install Fiji</h3>
+<div id="outline-container-orge7b4a01" class="outline-3">
+<h3 id="orge7b4a01"><span class="section-number-3">4.1.</span> Install Fiji</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 From this point on, this document assumes you are using the Fiji distribution of ImageJ.  If you have not yet installed it, then do so now:
@@ -636,12 +636,12 @@ I recommend that you install it someplace in your user directory.
 </div>
 </div>
 
-<div id="outline-container-org91aa14f" class="outline-3">
-<h3 id="org91aa14f"><span class="section-number-3">4.2.</span> Installing PhilaJ</h3>
+<div id="outline-container-org63fa181" class="outline-3">
+<h3 id="org63fa181"><span class="section-number-3">4.2.</span> Installing PhilaJ</h3>
 <div class="outline-text-3" id="text-4-2">
 </div>
-<div id="outline-container-org36dd34c" class="outline-4">
-<h4 id="org36dd34c"><span class="section-number-4">4.2.1.</span> The PhilaJ Package</h4>
+<div id="outline-container-org8ab3e94" class="outline-4">
+<h4 id="org8ab3e94"><span class="section-number-4">4.2.1.</span> The PhilaJ Package</h4>
 <div class="outline-text-4" id="text-4-2-1">
 <p>
 Installing PhilaJ requires the "<code>imagej/PhilaJ-and-RPI_Tools/PhilaJ.ijm</code>" file in the PhilaJ distribution be copied into the Fiji toolsets directory.  This
@@ -655,8 +655,8 @@ If ImageJ was running when you copied the file, then you need to quite and resta
 </div>
 </div>
 
-<div id="outline-container-org9562c74" class="outline-4">
-<h4 id="org9562c74"><span class="section-number-4">4.2.2.</span> Specialized Perforation Gauges</h4>
+<div id="outline-container-orga06fe78" class="outline-4">
+<h4 id="orga06fe78"><span class="section-number-4">4.2.2.</span> Specialized Perforation Gauges</h4>
 <div class="outline-text-4" id="text-4-2-2">
 <p>
 You will also want to install some specialized perforation gauges.  Several gauges are shipped as part of the PhilaJ distribution in the
@@ -666,8 +666,8 @@ Specialized Gauge</code></a>.
 </div>
 </div>
 
-<div id="outline-container-orgf1453c4" class="outline-4">
-<h4 id="orgf1453c4"><span class="section-number-4">4.2.3.</span> Settings</h4>
+<div id="outline-container-orge4e604f" class="outline-4">
+<h4 id="orge4e604f"><span class="section-number-4">4.2.3.</span> Settings</h4>
 <div class="outline-text-4" id="text-4-2-3">
 <p>
 ImageJ's default measurement settings are not ideal for PhilaJ, so we need to change those defaults.  Select "Analyze -&gt; Set Measurements" from the main
@@ -675,7 +675,7 @@ ImageJ menu:
 </p>
 
 
-<div id="org3d37b57" class="figure">
+<div id="org1ea0879" class="figure">
 <p><img src="PhilaJ-setup-measure-menu.gif" alt="PhilaJ-setup-measure-menu.gif" align="center" width="800px" />
 </p>
 </div>
@@ -685,7 +685,7 @@ The following dialog box will appear:
 </p>
 
 
-<div id="org0d36812" class="figure">
+<div id="org938d988" class="figure">
 <p><img src="PhilaJ-setup-measure-dialog.gif" alt="PhilaJ-setup-measure-dialog.gif" align="center" width="400px" />
 </p>
 </div>
@@ -714,15 +714,15 @@ Why are these options important?
 </div>
 </div>
 
-<div id="outline-container-org9ae8231" class="outline-3">
-<h3 id="org9ae8231"><span class="section-number-3">4.3.</span> Activate PhilaJ</h3>
+<div id="outline-container-org35f19ed" class="outline-3">
+<h3 id="org35f19ed"><span class="section-number-3">4.3.</span> Activate PhilaJ</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 The PhilaJ toolset is activated via the toolset menu:
 </p>
 
 
-<div id="org680093c" class="figure">
+<div id="org1fe1c0f" class="figure">
 <p><img src="PhilaJ-toolbar-b4m-anno.gif" alt="PhilaJ-toolbar-b4m-anno.gif" align="center" width="800px" />
 </p>
 </div>
@@ -732,7 +732,7 @@ Then the PhilaJ macro set is selected:
 </p>
 
 
-<div id="org05804b3" class="figure">
+<div id="orge03707e" class="figure">
 <p><img src="PhilaJ-toolbar-tbm-anno.gif" alt="PhilaJ-toolbar-tbm-anno.gif" align="center" width="800px" />
 </p>
 </div>
@@ -742,7 +742,7 @@ Once activated, it will add a few buttons to the toolbar:
 </p>
 
 
-<div id="org20ca333" class="figure">
+<div id="orgfe96b3b" class="figure">
 <p><img src="PhilaJ-toolbar-pmi-anno.gif" alt="PhilaJ-toolbar-pmi-anno.gif" align="center" width="800px" />
 </p>
 </div>
@@ -834,14 +834,14 @@ In addition to the buttons, a few keyboard shortcuts will now be activated!
 <h3 id="tool-set-buttons"><span class="section-number-3">4.5.</span> Tool-set Buttons</h3>
 <div class="outline-text-3" id="text-tool-set-buttons">
 
-<div id="orgf9a6dca" class="figure">
+<div id="org49437cf" class="figure">
 <p><img src="PhilaJ-philaj-buttons.gif" alt="PhilaJ-philaj-buttons.gif" />
 </p>
 </div>
 </div>
 
-<div id="outline-container-org6203ed6" class="outline-4">
-<h4 id="org6203ed6"><span class="section-number-4">4.5.1.</span> Overlay Menu (images &amp; annotations drawn over the stamp image in a nondestructive way)</h4>
+<div id="outline-container-org52dff26" class="outline-4">
+<h4 id="org52dff26"><span class="section-number-4">4.5.1.</span> Overlay Menu (images &amp; annotations drawn over the stamp image in a nondestructive way)</h4>
 <div class="outline-text-4" id="text-4-5-1">
 <dl class="org-dl">
 <dt><img src="PhilaJ-button-overlay.gif" alt="PhilaJ-button-overlay.gif" /></dt><dd><ul class="org-ul">
@@ -894,8 +894,8 @@ This toolbar button has a super power &#x2013; Right click on it to bring up the
 </div>
 </div>
 
-<div id="outline-container-org1488f9c" class="outline-4">
-<h4 id="org1488f9c"><span class="section-number-4">4.5.3.</span> Image Scale Menu (so we can measure things like distances &amp; perforations)</h4>
+<div id="outline-container-org9d04146" class="outline-4">
+<h4 id="org9d04146"><span class="section-number-4">4.5.3.</span> Image Scale Menu (so we can measure things like distances &amp; perforations)</h4>
 <div class="outline-text-4" id="text-4-5-3">
 <dl class="org-dl">
 <dt><img src="PhilaJ-button-scale.gif" alt="PhilaJ-button-scale.gif" /> </dt><dd><ul class="org-ul">
@@ -931,8 +931,8 @@ This toolbar button has a super power &#x2013; Right click on it to bring up the
 </div>
 </div>
 
-<div id="outline-container-orgc7a1f7b" class="outline-4">
-<h4 id="orgc7a1f7b"><span class="section-number-4">4.5.4.</span> Acquiring &amp; Saving Images &amp; Data Menu</h4>
+<div id="outline-container-org0e1f71b" class="outline-4">
+<h4 id="org0e1f71b"><span class="section-number-4">4.5.4.</span> Acquiring &amp; Saving Images &amp; Data Menu</h4>
 <div class="outline-text-4" id="text-4-5-4">
 <dl class="org-dl">
 <dt><img src="PhilaJ-button-files.gif" alt="PhilaJ-button-files.gif" /> </dt><dd><ul class="org-ul">
@@ -970,8 +970,8 @@ This toolbar button has a super power &#x2013; Right click on it to bring up the
 </div>
 </div>
 
-<div id="outline-container-org1290e16" class="outline-4">
-<h4 id="org1290e16"><span class="section-number-4">4.5.5.</span> Everything Else Menu</h4>
+<div id="outline-container-orgbc0bfc2" class="outline-4">
+<h4 id="orgbc0bfc2"><span class="section-number-4">4.5.5.</span> Everything Else Menu</h4>
 <div class="outline-text-4" id="text-4-5-5">
 <dl class="org-dl">
 <dt><img src="PhilaJ-button-misc.gif" alt="PhilaJ-button-misc.gif" /> </dt><dd><ul class="org-ul">
@@ -1012,15 +1012,15 @@ This toolbar button has a super power &#x2013; Right click on it to bring up the
 </div>
 </div>
 
-<div id="outline-container-org8d7ee7c" class="outline-3">
-<h3 id="org8d7ee7c"><span class="section-number-3">4.6.</span> PhilaJ Tools</h3>
+<div id="outline-container-org16ce7b8" class="outline-3">
+<h3 id="org16ce7b8"><span class="section-number-3">4.6.</span> PhilaJ Tools</h3>
 <div class="outline-text-3" id="text-4-6">
 </div>
 <div id="outline-container-dynamic-perf-gauge" class="outline-4">
 <h4 id="dynamic-perf-gauge"><span class="section-number-4">4.6.1.</span> Dynamic perforation gauge</h4>
 <div class="outline-text-4" id="text-dynamic-perf-gauge">
 
-<div id="org66db2bd" class="figure">
+<div id="orgbafea56" class="figure">
 <p><img src="PhilaJ-overlay-dynamicPerf.gif" alt="PhilaJ-overlay-dynamicPerf.gif" align="center" width="800" />
 </p>
 </div>
@@ -1039,7 +1039,7 @@ drawn.
 </p>
 
 
-<div id="orga6e9d64" class="figure">
+<div id="org00ee144" class="figure">
 <p><img src="PhilaJ-dialog-dynamicPerf-Options.gif" alt="PhilaJ-dialog-dynamicPerf-Options.gif" align="center" width="400" />
 </p>
 </div>
@@ -1051,7 +1051,7 @@ Options</code></a> had been used.
 </p>
 
 
-<div id="orgba1eea4" class="figure">
+<div id="org1c3aaba" class="figure">
 <p><img src="PhilaJ-dialog-dynamicPerf-Presets.gif" alt="PhilaJ-dialog-dynamicPerf-Presets.gif" align="center" width="400" />
 </p>
 </div>
@@ -1207,13 +1207,13 @@ one activates the gauges and then moves it around to line up the gauge on the pe
 </ul>
 
 
-<div id="org2412714" class="figure">
+<div id="orgdb6b79e" class="figure">
 <p><img src="PhilaJ-overlay-instaPerf1.gif" alt="PhilaJ-overlay-instaPerf1.gif" align="center" width="800" />
 </p>
 </div>
 
 
-<div id="orgdcdbe3e" class="figure">
+<div id="org8fa7737" class="figure">
 <p><img src="PhilaJ-overlay-spl.gif" alt="PhilaJ-overlay-spl.gif" align="center" width="800" />
 </p>
 </div>
@@ -1226,13 +1226,13 @@ settings dialog before drawing the overlay.
 </p>
 
 
-<div id="orgf439823" class="figure">
+<div id="orgd6eb76f" class="figure">
 <p><img src="PhilaJ-dialog-instaPerf-Options.gif" alt="PhilaJ-dialog-instaPerf-Options.gif" align="center" width="400" />
 </p>
 </div>
 
 
-<div id="org8348499" class="figure">
+<div id="orge40f651" class="figure">
 <p><img src="PhilaJ-dialog-splPerf-Options.gif" alt="PhilaJ-dialog-splPerf-Options.gif" align="center" width="400" />
 </p>
 </div>
@@ -1256,7 +1256,7 @@ graduations (1/10, 1/4, 1/2) adjusted.  Note that by reducing the range one can 
 </p>
 
 
-<div id="org0d82081" class="figure">
+<div id="org3e5fd87" class="figure">
 <p><img src="PhilaJ-overlay-instaPerf2.gif" alt="PhilaJ-overlay-instaPerf2.gif" align="center" width="800" />
 </p>
 </div>
@@ -1367,14 +1367,14 @@ ROI of maximal size between one edge of the paper ROI and the design.  They are 
 </p>
 
 
-<div id="orgd5334b9" class="figure">
+<div id="org74dc7b1" class="figure">
 <p><img src="PhilaJ-meas-centeringRep.gif" alt="PhilaJ-meas-centeringRep.gif" align="center" width="800px" />
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgc942006" class="outline-5">
-<h5 id="orgc942006"><span class="section-number-5">4.6.5.1.</span> Centering Metrics</h5>
+<div id="outline-container-org830b106" class="outline-5">
+<h5 id="org830b106"><span class="section-number-5">4.6.5.1.</span> Centering Metrics</h5>
 <div class="outline-text-5" id="text-4-6-5-1">
 <p>
 No universal standard exists for how to measure centering, so I have included several values commonly used by various groups.  If you have a favorite
@@ -1510,8 +1510,8 @@ centering formula that's missing, then drop me a line.
 </div>
 </div>
 
-<div id="outline-container-orgb9b6cd5" class="outline-5">
-<h5 id="orgb9b6cd5"><span class="section-number-5">4.6.5.2.</span> ROI Details</h5>
+<div id="outline-container-org2de3d73" class="outline-5">
+<h5 id="org2de3d73"><span class="section-number-5">4.6.5.2.</span> ROI Details</h5>
 <div class="outline-text-5" id="text-4-6-5-2">
 <p>
 The most common use case is a single stamp with a single design.  In this case the design ROI will be named "<code>design</code>" and the paper ROI will be named
@@ -1550,7 +1550,7 @@ ROIs and saved image files.
 </p>
 
 
-<div id="orgab3abe8" class="figure">
+<div id="orgad3148c" class="figure">
 <p><img src="PhilaJ-overlay-cTool.gif" alt="PhilaJ-overlay-cTool.gif" align="center" width="800" />
 </p>
 </div>
@@ -1561,7 +1561,7 @@ provides a chance to change the tool settings before drawing the overlay:
 </p>
 
 
-<div id="org0696647" class="figure">
+<div id="org203a4e1" class="figure">
 <p><img src="PhilaJ-dialog-cTool-Options.gif" alt="PhilaJ-dialog-cTool-Options.gif" align="center" width="400" />
 </p>
 </div>
@@ -1582,7 +1582,7 @@ controlled by the following options: "<code>ROI Name Prefix</code>", <code>ROI N
 </p>
 
 
-<div id="org850f1ad" class="figure">
+<div id="org39e1f85" class="figure">
 <p><img src="PhilaJ-overlay-cToolPt.gif" alt="PhilaJ-overlay-cToolPt.gif" align="center" width="800" />
 </p>
 </div>
@@ -1598,7 +1598,7 @@ ROIs in the ROI Manager</code>" option selected before we clicked.  Note some co
 </p>
 
 
-<div id="org882f1c9" class="figure">
+<div id="orgfae6055" class="figure">
 <p><img src="PhilaJ-overlay-cToolBx.gif" alt="PhilaJ-overlay-cToolBx.gif" align="center" width="800" />
 </p>
 </div>
@@ -1608,12 +1608,12 @@ The size of the selection is determined by the tool options.  The precise locati
 option.  If it is set to "<code>pixels</code>" or "<code>thirkell</code>", then the rectangle will be precisely centered on the point clicked.  If it is set to "physical" and the
 region is bigger than 3mm, then the upper left corner of the selection will be on an even millimeter coordinate point.  This "rounding" of the upper left
 coordinate point allows us to communicate the location of the flaw image in even millimeter values.  If the option "<code>Save Box Images</code>" is selected, then a
-JPEG of the box will be saved.  The image name will, by default, contain the size and coordinates of the selection.  Here is a closeup shot of one of my
-albums showing a plate flaw &#x2013; at mm coordinates of (3, 7) on the position 83 stamp:
+JPEG of the box will be saved.  The image name will, by default, contain the size and coordinates of the selection.  Here is the JPEG for the previous
+selection:
 </p>
 
 
-<div id="org7d90cca" class="figure">
+<div id="orgbcee23a" class="figure">
 <p><img src="PhilaJ-eximg-cToolBox.gif" alt="PhilaJ-eximg-cToolBox.gif" align="center" width="400" />
 </p>
 </div>
@@ -1641,7 +1641,7 @@ overlays things like the fonts and colors may be adjusted.
 x
 </p>
 
-<div id="org508d22d" class="figure">
+<div id="org47bdeb5" class="figure">
 <p><img src="PhilaJ-overlay-posFinder.gif" alt="PhilaJ-overlay-posFinder.gif" align="center" width="800" />
 </p>
 </div>
@@ -1652,7 +1652,7 @@ an options dialog before drawing the overlay:
 </p>
 
 
-<div id="org9d8e0d7" class="figure">
+<div id="orgab3f059" class="figure">
 <p><img src="PhilaJ-dialog-posFinder-Options.gif" alt="PhilaJ-dialog-posFinder-Options.gif" align="center" width="400" />
 </p>
 </div>
@@ -1665,7 +1665,7 @@ position finder coordinates.  In the following image, the first measurement resu
 </p>
 
 
-<div id="org48d7a3a" class="figure">
+<div id="orga8f521d" class="figure">
 <p><img src="PhilaJ-overlay-posFinderPtROI.gif" alt="PhilaJ-overlay-posFinderPtROI.gif" align="center" width="800" />
 </p>
 </div>
@@ -1686,7 +1686,7 @@ This tool will prompt the user to make two line selections, and then report some
 </p>
 
 
-<div id="org8ecf872" class="figure">
+<div id="orgd5f1a73" class="figure">
 <p><img src="PhilaJ-meas-edges.gif" alt="PhilaJ-meas-edges.gif" align="center" width="400" />
 </p>
 </div>
@@ -1699,7 +1699,7 @@ pop up and the edges used are highlighted on the image.
 </p>
 
 
-<div id="orgf34eef1" class="figure">
+<div id="org31d9864" class="figure">
 <p><img src="PhilaJ-meas-coil.gif" alt="PhilaJ-meas-coil.gif" align="center" width="800" />
 </p>
 </div>
@@ -1716,7 +1716,7 @@ this newly created grill ROI will be placed in the ROI manager.
 </p>
 
 
-<div id="org574ef50" class="figure">
+<div id="org684a3c9" class="figure">
 <p><img src="PhilaJ-overlay-grill.gif" alt="PhilaJ-overlay-grill.gif" align="center" width="800" />
 </p>
 </div>
@@ -1733,7 +1733,7 @@ show a grill type selection dialog:
 </p>
 
 
-<div id="org54f1637" class="figure">
+<div id="org49424ac" class="figure">
 <p><img src="PhilaJ-dialog-grill-Type.gif" alt="PhilaJ-dialog-grill-Type.gif" align="center" width="400" />
 </p>
 </div>
@@ -1743,7 +1743,7 @@ This dialog will be followed by the grill options dialog, the same dialog you ge
 </p>
 
 
-<div id="org9c767cc" class="figure">
+<div id="org37d387b" class="figure">
 <p><img src="PhilaJ-dialog-grill-Options.gif" alt="PhilaJ-dialog-grill-Options.gif" align="center" width="400" />
 </p>
 </div>
@@ -1755,7 +1755,7 @@ around with these options.
 </p>
 
 
-<div id="org337931b" class="figure">
+<div id="org9e7f604" class="figure">
 <p><img src="PhilaJ-dialog-grill-Options2.gif" alt="PhilaJ-dialog-grill-Options2.gif" align="center" width="400" />
 </p>
 </div>
@@ -1778,7 +1778,7 @@ dialog will appear:
 </p>
 
 
-<div id="orgc7b56dd" class="figure">
+<div id="orgabd5d4e" class="figure">
 <p><img src="PhilaJ-dialog-sheetSep-Options.gif" alt="PhilaJ-dialog-sheetSep-Options.gif" align="center" width="400" />
 </p>
 </div>
@@ -1806,7 +1806,7 @@ below).
 </p>
 
 
-<div id="org12029a8" class="figure">
+<div id="org70cd920" class="figure">
 <p><img src="PhilaJ-sheetSplitROI.gif" alt="PhilaJ-sheetSplitROI.gif" align="center" width="800" />
 </p>
 </div>
@@ -1819,7 +1819,7 @@ ImageJ image stack.  Here is what a good set of cut lines look like:
 </p>
 
 
-<div id="orge3121c4" class="figure">
+<div id="orga9956a5" class="figure">
 <p><img src="PhilaJ-sheetSplitResult.gif" alt="PhilaJ-sheetSplitResult.gif" align="center" width="800" />
 </p>
 </div>
@@ -1849,7 +1849,7 @@ with a dialog box:
 </p>
 
 
-<div id="orgbd19b7a" class="figure">
+<div id="orgf5fd4bf" class="figure">
 <p><img src="PhilaJ-dialog-bultDroi-Options.gif" alt="PhilaJ-dialog-bultDroi-Options.gif" align="center" width="400" />
 </p>
 </div>
@@ -1865,7 +1865,7 @@ After the dialog box, the tool will ask the user to identify the upper left stam
 </p>
 
 
-<div id="orgc042741" class="figure">
+<div id="orgdad026e" class="figure">
 <p><img src="PhilaJ-bultDroi-LU.gif" alt="PhilaJ-bultDroi-LU.gif" align="center" width="800" />
 </p>
 </div>
@@ -1875,7 +1875,7 @@ Next the tool will ask the user to identify the lower right stamp design like so
 </p>
 
 
-<div id="orgda94892" class="figure">
+<div id="org70db94f" class="figure">
 <p><img src="PhilaJ-bultDroi-RL.gif" alt="PhilaJ-bultDroi-RL.gif" align="center" width="800" />
 </p>
 </div>
@@ -1885,7 +1885,7 @@ The generated design ROIs will then be displayed, and the user will be ask if th
 </p>
 
 
-<div id="orge1ff506" class="figure">
+<div id="org4b29ef2" class="figure">
 <p><img src="PhilaJ-bultDroi-res.gif" alt="PhilaJ-bultDroi-res.gif" align="center" width="800" />
 </p>
 </div>
@@ -1895,7 +1895,7 @@ If the user instructs PhilaJ to save the ROIs, then ROIs will be created and sav
 </p>
 
 
-<div id="org9d889c8" class="figure">
+<div id="org950da6a" class="figure">
 <p><img src="PhilaJ-bultDroi-ROIs.gif" alt="PhilaJ-bultDroi-ROIs.gif" align="center" width="400" />
 </p>
 </div>
@@ -1977,7 +1977,7 @@ the two deign frames.
 </p>
 
 
-<div id="orgea4c5c9" class="figure">
+<div id="orgd7ca724" class="figure">
 <p><img src="PhilaJ-meas-offset.gif" alt="PhilaJ-meas-offset.gif" align="center" width="800px" />
 </p>
 </div>
@@ -2221,7 +2221,7 @@ perforation measurement to four digits.
 </p>
 
 
-<div id="org230feb4" class="figure">
+<div id="org0dc29c8" class="figure">
 <p><img src="PhilaJ-data-usKSP.gif" alt="PhilaJ-data-usKSP.gif" align="center" width="400" />
 </p>
 </div>
@@ -2231,7 +2231,7 @@ The <a href="#phil-data"><code>Grill Table</code></a> menu item will display a t
 </p>
 
 
-<div id="org248c0e0" class="figure">
+<div id="orgfb381af" class="figure">
 <p><img src="PhilaJ-data-usGrills.gif" alt="PhilaJ-data-usGrills.gif" align="center" width="800" />
 </p>
 </div>
@@ -2271,7 +2271,7 @@ prepopulated.  The results window provides standard perforation and Kiusalas uni
 </p>
 
 
-<div id="orgf98db88" class="figure">
+<div id="org1c285eb" class="figure">
 <p><img src="PhilaJ-compute-d2p.gif" alt="PhilaJ-compute-d2p.gif" align="center" width="400" />
 </p>
 </div>
@@ -2289,7 +2289,7 @@ expressed as pixel size in \(\mu\mathrm{m}\) and other images of the same specim
 </p>
 
 
-<div id="org6968e9e" class="figure">
+<div id="org8de9717" class="figure">
 <p><img src="PhilaJ-scale-report.gif" alt="PhilaJ-scale-report.gif" align="center" width="400" />
 </p>
 </div>
@@ -2441,8 +2441,8 @@ know what they should be, then please contact me!</dd>
 </div>
 </div>
 
-<div id="outline-container-org4a41724" class="outline-3">
-<h3 id="org4a41724"><span class="section-number-3">4.9.</span> A Note About The Thirkell Position Finder</h3>
+<div id="outline-container-org4e5d571" class="outline-3">
+<h3 id="org4e5d571"><span class="section-number-3">4.9.</span> A Note About The Thirkell Position Finder</h3>
 <div class="outline-text-3" id="text-4-9">
 <p>
 The <a href="#pos-finder"><code>Position Finder</code></a> tool provides a minimal level of support for the way the Thirkell Position Finder is used by experts (the addition of
@@ -2458,7 +2458,7 @@ communicate a location except for a couple cases. Consider the following clip fr
 </p>
 
 
-<div id="org118fb4c" class="figure">
+<div id="org5c6b782" class="figure">
 <p><img src="speckOnEdge.jpg" alt="speckOnEdge.jpg" align="center" width="400" />
 </p>
 </div>
@@ -2638,8 +2638,8 @@ ROIs play a central role in PhilaJ (and in ImageJ in general).  PhilaJ has adopt
 </table>
 </div>
 
-<div id="outline-container-orga3c39cc" class="outline-4">
-<h4 id="orga3c39cc"><span class="section-number-4">4.10.1.</span> Notation</h4>
+<div id="outline-container-orga9ed849" class="outline-4">
+<h4 id="orga9ed849"><span class="section-number-4">4.10.1.</span> Notation</h4>
 <div class="outline-text-4" id="text-4-10-1">
 <ul class="org-ul">
 <li>Items in square brackets <b>are not</b> required, but items in angle brackets <b>are</b> required.
@@ -2704,8 +2704,8 @@ ROIs play a central role in PhilaJ (and in ImageJ in general).  PhilaJ has adopt
 </div>
 </div>
 
-<div id="outline-container-orga648f8e" class="outline-4">
-<h4 id="orga648f8e"><span class="section-number-4">4.10.3.</span> Some Component Recommendations</h4>
+<div id="outline-container-orgedce10b" class="outline-4">
+<h4 id="orgedce10b"><span class="section-number-4">4.10.3.</span> Some Component Recommendations</h4>
 <div class="outline-text-4" id="text-4-10-3">
 <ul class="org-ul">
 <li>For perforation ROIs (<code>pfHole&lt;NN&gt;&lt;MM&gt;_&lt;SFX&gt;</code> &amp; <code>pfLine&lt;NN&gt;_&lt;SFX&gt;</code>)
@@ -2755,8 +2755,8 @@ would be named "<code>overprintHR_UL-red</code>".</li>
 </div>
 </div>
 
-<div id="outline-container-org8783aa6" class="outline-4">
-<h4 id="org8783aa6"><span class="section-number-4">4.10.5.</span> How ROIs are Used</h4>
+<div id="outline-container-org16be878" class="outline-4">
+<h4 id="org16be878"><span class="section-number-4">4.10.5.</span> How ROIs are Used</h4>
 <div class="outline-text-4" id="text-4-10-5">
 <ul class="org-ul">
 <li>Some macros will look in the ROI manager for specific ROI names or name patterns, and use them if they are found.
@@ -2833,11 +2833,11 @@ The remainder of this section documents the "<code>RPI_tools</code>" user interf
 </p>
 </div>
 
-<div id="outline-container-orge49bbdd" class="outline-3">
-<h3 id="orge49bbdd"><span class="section-number-3">5.1.</span> Activate RPI-Tools</h3>
+<div id="outline-container-orgc4e2674" class="outline-3">
+<h3 id="orgc4e2674"><span class="section-number-3">5.1.</span> Activate RPI-Tools</h3>
 <div class="outline-text-3" id="text-5-1">
 
-<div id="org3840505" class="figure">
+<div id="orgac0dfbc" class="figure">
 <p><img src="RPI_Tools-toolsetmenu.gif" alt="RPI_Tools-toolsetmenu.gif" align="center" width="800" />
 </p>
 </div>
@@ -2847,15 +2847,15 @@ Once activated, it will add four buttons to the toolbar:
 </p>
 
 
-<div id="org47bc0a4" class="figure">
+<div id="orgef36480" class="figure">
 <p><img src="RPI_Tools-toolsetbuttons.gif" alt="RPI_Tools-toolsetbuttons.gif" align="center" width="800" />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org6fc18c5" class="outline-3">
-<h3 id="org6fc18c5"><span class="section-number-3">5.2.</span> Button Functions</h3>
+<div id="outline-container-orgdd4d59e" class="outline-3">
+<h3 id="orgdd4d59e"><span class="section-number-3">5.2.</span> Button Functions</h3>
 <div class="outline-text-3" id="text-5-2">
 </div>
 <div id="outline-container-rpi-capture" class="outline-4">
@@ -2875,7 +2875,7 @@ Once activated, it will add four buttons to the toolbar:
 </dl>
 
 
-<div id="orgc56ac63" class="figure">
+<div id="org2607d7c" class="figure">
 <p><img src="RPI_Tools-dialog-settings.gif" alt="RPI_Tools-dialog-settings.gif" align="center" width="400px" />
 </p>
 </div>
@@ -2909,7 +2909,7 @@ If "Change Settings Before Capture" is set, then a simplified settings dialog bo
 </p>
 
 
-<div id="orgc69ad28" class="figure">
+<div id="orgc6081db" class="figure">
 <p><img src="RPI_Tools-dialog-settings-v.gif" alt="RPI_Tools-dialog-settings-v.gif" align="center" width="400px" />
 </p>
 </div>
@@ -2924,7 +2924,7 @@ If "Change Settings Before Capture" is set, then a simplified settings dialog bo
 </dl>
 
 
-<div id="orgf82cd1c" class="figure">
+<div id="org74ba394" class="figure">
 <p><img src="RPI_Tools-dialog-loadOld.gif" alt="RPI_Tools-dialog-loadOld.gif" align="center" width="400px" />
 </p>
 </div>
@@ -2947,7 +2947,7 @@ the fact.</li>
 </dl>
 
 
-<div id="org0b74eb8" class="figure">
+<div id="orga7b1f0a" class="figure">
 <p><img src="RPI_Tools-dialog-setscale.gif" alt="RPI_Tools-dialog-setscale.gif" align="center" width="400px" />
 </p>
 </div>
@@ -2956,8 +2956,8 @@ the fact.</li>
 </div>
 </div>
 
-<div id="outline-container-org64f537b" class="outline-2">
-<h2 id="org64f537b"><span class="section-number-2">6.</span> EOF</h2>
+<div id="outline-container-org66632f7" class="outline-2">
+<h2 id="org66632f7"><span class="section-number-2">6.</span> EOF</h2>
 <div class="outline-text-2" id="text-6">
 <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
 <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />

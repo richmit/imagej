@@ -729,8 +729,8 @@ The size of the selection is determined by the tool options.  The precise locati
 option.  If it is set to "=pixels=" or "=thirkell=", then the rectangle will be precisely centered on the point clicked.  If it is set to "physical" and the
 region is bigger than 3mm, then the upper left corner of the selection will be on an even millimeter coordinate point.  This "rounding" of the upper left
 coordinate point allows us to communicate the location of the flaw image in even millimeter values.  If the option "=Save Box Images=" is selected, then a
-JPEG of the box will be saved.  The image name will, by default, contain the size and coordinates of the selection.  Here is a closeup shot of one of my
-albums showing a plate flaw -- at mm coordinates of (3, 7) on the position 83 stamp:
+JPEG of the box will be saved.  The image name will, by default, contain the size and coordinates of the selection.  Here is the JPEG for the previous
+selection:
 
 #+ATTR_HTML: :align center :width 400
 file:PhilaJ-eximg-cToolBox.gif
