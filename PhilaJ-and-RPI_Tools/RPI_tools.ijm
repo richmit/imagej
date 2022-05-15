@@ -42,130 +42,140 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-var gbl_OLT_colors    = newArray("black", "blue", "green", "red", "yellow", "white"); // Option List:
-var gbl_OLT_lineWidth = newArray("1", "3", "5", "11", "15", "25", "35");              // Option List:
-var gbl_OLT_lnUnits   = newArray("mm", "mil", "cm", "inch");                          // Option List:
-var gbl_OLT_numPerf   = newArray("5", "10", "15", "20", "25");                        // Option List:
-var gbl_OLT_p2mdiv    = newArray("0.1", "0.25", "0.5");                               // Option List:
-var gbl_OLT_pfGrdCnt  = newArray("AUTO", "10", "20", "30", "40", "50");               // Option List:
-var gbl_OLT_pfUnits   = newArray("mm", "mil", "perfs/2cm");                           // Option List:
-var gbl_OLT_pviewScl  = newArray("1", "2", "4", "8");                                 // Option List: Microscope preview scale
-var gbl_OLT_letters   = newArray("A", "B", "C", "D", "E", "F", "G", "H", "I",         // Letter sequence -- mostly for lables
-                                 "J", "K", "L", "M", "N", "O", "P", "Q", "R",
-                                 "S", "T", "U", "V", "W", "X", "Y", "Z", "a",
-                                 "b", "c", "d", "e", "f", "g", "h", "i", "j",
-                                 "k", "l", "m", "n", "o", "p", "q", "r", "s",
-                                 "t", "u", "v", "w", "x", "y", "z");
-var gbl_OLT_fontMag  = newArray("25%", "50%", "75%", "100%", "150%", "200%", "300%"); // Option List: Font size magnfication
-var gbl_OLT_saveUnit = newArray("physical", "pixels", "thirkell");                    // Option list: Coordinate unit labels
 
-var gbl_1ds_Dmm       = 25.4;                 // 1D Scale: Known distance in mm
-var gbl_1ds_Dpx       = 2400;                 // 1D Scale: Known distance in Pixels
-var gbl_2ds_gbl       = false;                // 1D Scale: Set scale globally
-var gbl_2ds_gbl       = false;                // 2D Scale: Set scale globally
-var gbl_2ds_hDmm      =   50.000;             // 2D Scale: Horizontal distance in mm
-var gbl_2ds_hDpx      = 4745.150;             // 2D Scale: Horizontal distance in Pixels
-var gbl_2ds_vDpx      = 4721.014;             // 2D Scale: Vertical distance in Pixels
-var gbl_2ds_vDvv      =   50.000;             // 2D Scale: Vertical distance in mm
-var gbl_ALL_color1    = "yellow";             // Multi-Tool Option:
-var gbl_ALL_color2    = "green";              // Multi-Tool Option:
-var gbl_ALL_debug     = false;                // Multi-Tool Option: Debuging messages
-var gbl_ALL_doScl     = true;                 // Multi-Tool Option: Set scale after RPI capture/load
-var gbl_ALL_fMag      = "100%";               // Multi-Tool Option: Font size magnification
-var gbl_ALL_fillDots  = true;                 // Multi-Tool Option: Fill dots in gauges (specialized & dynamic)
-var gbl_ALL_font      = "";                   // Multi-Tool Option: The font used across all tools
-var gbl_ALL_lastPhOvr = "";                   // Multi-Tool Option: Last PhilaJ Overlay drawn
-var gbl_ALL_lineWidth = "3";                  // Multi-Tool Option:
-var gbl_ALL_numPerf   = "15";                 // Multi-Tool Option: Number of perf holes or lines on gauge overlays -- note it is a string
-var gbl_ALL_perfOrder = false;                // Multi-Tool Option: Ordering of perf sizes top to bottom
-var gbl_cer_minTal    = 25.0;                 // Coil Edge Report: minimum paper height -- coilEdgeReport
-var gbl_cer_minWid    = 22.5;                 // Coil Edge Report: minimum paper width -- coilEdgeReport
-var gbl_cer_nParThr   =  0.5;                 // Coil Edge Report: Near Parallel Threshold -- coilEdgeReport
-var gbl_cer_parThr    =  0.1;                 // Coil Edge Report: Parallel Threshold -- coilEdgeReport
-var gbl_cer_type      = "Vertical";           // Coil Edge Report: Coil Format -- coilEdgeReport
-var gbl_csg_file      = getDirectory("home"); // File Based Specialized Perforation Gauge Overlay:
-var gbl_d2p_holes     = 15;                   // Distance to Perforation: hole count
-var gbl_d2p_len       = 20;                   // Distance to Perforation: length
-var gbl_d2p_units     = "mm";                 // Dynamic Perforation Gauge: Units used for measurement
-var gbl_dyn_HUDdo     = true;                 // Dynamic Perforation Gauge: Show the perf HUD all the time
-var gbl_dyn_HUDpx     = NaN;                  // Dynamic Perforation Gauge: X coordinate (in pixels) for perf HUD (NaN means image center)
-var gbl_dyn_HUDpy     = NaN;                  // Dynamic Perforation Gauge: Y coordinate (in pixels) for perf HUD (NaN means image center)
-var gbl_dyn_autoRep   = false;                // Dynamic Perforation Gauge: Show dynamic report dialog all the time
-var gbl_dyn_dotSz     = 1;                    // Dynamic Perforation Gauge: Size of dots
-var gbl_dyn_dotSzMn   = 0.5;                  // Dynamic Perforation Gauge: Minimum size of dots
-var gbl_dyn_dotSzMx   = 1.5;                  // Dynamic Perforation Gauge: Maximum size of dots
-var gbl_dyn_nuGap     = 1.5;                  // Dynamic Perforation Gauge: Size of perf gap for newly drawn gauges
-var gbl_dyn_numPerf   = 15;                   // Dynamic Perforation Gauge: Number fo perf holes. Note it is a number, and we do not use gbl_ALL_numPerf
-var gbl_dyn_rimt      = false;                // Dynamic Perforation Gauge: Put results in results table or in new window
-var gbl_dyn_roiTag    = "";                   // Dynamic Perforation Gauge: ROI prefix to use for ROI bound ROIs
-var gbl_dyn_roiMgrU   = "NONE";               // Dynamic Perforation Gauge: How ROI manager is used
-var gbl_grl_ROI       = "";                   // Grill Template: The ROI name used to draw grill
-var gbl_grl_ROIx      = 0;                    // Grill Template: The upper left x coordinate of ROI used to draw grill
-var gbl_grl_ROIy      = 0;                    // Grill Template: The upper left y coordinate of ROI used to draw grill
-var gbl_grl_doMGB     = false;                // Grill Template:
-var gbl_grl_doOut     = true;                 // Grill Template:
-var gbl_grl_doPbox    = true;                 // Grill Template:
-var gbl_grl_doPcross  = false;                // Grill Template:
-var gbl_grl_doPridge  = true;                 // Grill Template:
-var gbl_grl_numH      = 14;                   // Grill Template: Number of grill points horizontally
-var gbl_grl_numV      = 17;                   // Grill Template: Number of grill points vertically
-var gbl_grl_ptype     = "";                   // Grill Template: Previously selected grill type
-var gbl_grl_type      = "E";                  // Grill Template: Selected grill type
-var gbl_l2l_len       = 1;                    // Length Conversion Tool: Length to convert
-var gbl_l2l_units     = "inch";               // Length Conversion Tool: Units to convert from
-var gbl_lil_group     = "";                   // Load Last RPI Image: group name
-var gbl_lil_which     = "Last";               // Load Last RPI Image: Which ones (first, last, etc...)
-var gbl_nst_mFrc      = false;                // Instanta Perforation Gauge Overlay:
-var gbl_nst_mdiv      = "0.25";               // Instanta Perforation Gauge Overlay:
-var gbl_nst_pMax      = 14;                   // Instanta Perforation Gauge Overlay:
-var gbl_nst_pMin      = 9;                    // Instanta Perforation Gauge Overlay:
-var gbl_pcv_inv       = 0;                    // Perforation unit conversion: value to convert
-var gbl_pic_anno      = "";                   // RPI Image Capture: File annotation for RPI captured images
-var gbl_pic_doSet     = true;                 // RPI Image Capture: Change settings before RPI capture
-var gbl_pic_group     = "";                   // RPI Image Capture: File group name for RPI captured images
-var gbl_pic_ifmt      = "jpg";                // RPI Image Capture: Image Format for RPI captured images
-var gbl_pic_loadem    = true;                 // RPI Image Capture: Load image after capture
-var gbl_pic_pviewDo   = true;                 // RPI Image Capture: Video preview before RPI capture
-var gbl_pic_pviewScl  = "4";                  // RPI Image Capture: RPI Capture Preview Scale (1/n)
-var gbl_pic_repeat    = false;                // RPI Image Capture: Repeated RPI capture mode
-var gbl_pic_res       = "100%";               // RPI Image Capture: Image Size for RPI captured images
-var gbl_pic_useCam    = true;                 // RPI Image Capture: Use the camera or fake it
-var gbl_mmc_origX     = NaN;                  // Millimeter Coordinates Overlay: x coordinate of the upper left origin.  NaN means center.
-var gbl_mmc_origY     = NaN;                  // Millimeter Coordinates Overlay: y coordinate of the upper left origin.  NaN means center.
-var gbl_mmc_boxW      = 3;                    // Millimeter Coordinates Overlay: Height of selection box (in mm)
-var gbl_mmc_boxH      = 3;                    // Millimeter Coordinates Overlay: Width of selection box (in mm)
-var gbl_mmc_saveJPG   = false;                // Millimeter Coordinates Overlay: Save as JPEGs
-var gbl_mmc_saveUnit  = gbl_OLT_saveUnit[0];  // Millimeter Coordinates Overlay: Units for coordinates in saved JPEG file names
-var gbl_mmc_pntGuides = true;                 // Millimeter Coordinates Overlay: Draw guides from *point* ROI to axis
-var gbl_mmc_boxGuides = false;                // Millimeter Coordinates Overlay: Draw guides from *box* ROI to axis
-var gbl_pos_gridSize  = 3;                    // Position Finder Overlay:
-var gbl_pos_numGrids  = "AUTO";               // Position Finder Overlay:
-var gbl_pos_origX     = 0;                    // Position Finder Overlay: x coordinate of the upper left origin of grid in pixels
-var gbl_pos_origY     = 0;                    // Position Finder Overlay: y coordinate of the upper left origin of grid in pixels
-var gbl_r2d_targDPI   = 2400;                 // Resize To DPI:
-var gbl_rho_angle     = 0;                    // Rotate to Horizontal: Angle to rotate
-var gbl_spl_gName     = "Single Line Custom"; // Specialized Perforation Gauge Overlay:
-var gbl_spl_perfDiams = newArray(0);          // Specialized Perforation Gauge Overlay:
-var gbl_spl_perfGaps  = newArray(0);          // Specialized Perforation Gauge Overlay:
-var gbl_spl_perfLabs  = newArray(0);          // Specialized Perforation Gauge Overlay:
-var gbl_spl_useDots   = true;                 // Specialized Perforation Gauge Overlay:
-var gbl_ssm_aux       = "0.32";               // Scale RPI Image: Microscope Aux Lens
-var gbl_ssm_cam       = "RPI";                // Scale RPI Image: Camera
-var gbl_ssm_gbl       = false;                // Scale RPI Image: When setting RPI image scale, make it global
-var gbl_ssm_res       = false;                // Scale RPI Image: RPI Adjust for Resolution when scaleing images
-var gbl_ssm_scope     = "Leica S8API";        // Scale RPI Image: Microscope Model
-var gbl_ssm_vobj      = "0.32";               // Scale RPI Image: Microscope Video Objective
-var gbl_ssm_zoom      = "1.00";               // Scale RPI Image: Microscope Zoom
-var gbl_ssp_gapu      = "perfs/2cm";          // Single Line Specialized Perforation Gauge Overlay:
-var gbl_ssp_gapv      = 12;                   // Single Line Specialized Perforation Gauge Overlay:
-var gbl_ssp_lab       = "";                   // Single Line Specialized Perforation Gauge Overlay:
-var gbl_ssp_sizu      = "mm";                 // Single Line Specialized Perforation Gauge Overlay:
-var gbl_ssp_sizv      = 1;                    // Single Line Specialized Perforation Gauge Overlay:
-var gbl_sus_cols      = 10;                   // Slice Up Sheet: Number of columns in the block -- used to seporate
-var gbl_sus_rows      = 10;                   // Slice Up Sheet: Number of rows in the block -- used to seporate
-var gbl_sus_scols     = 10;                   // Slice Up Sheet: Number of columns full sheet -- used to number stamps
-var gbl_sus_1pos      = 1;                    // Slice Up Sheet: Number of columns full sheet -- used to number stamps
-var gbl_vid_pviewScl  = "4";                  // RPI Live Video Preview: Live RPI Video Scale (1/n)
+var gbl_OLT_mmcRoiPfx  = newArray("mmc%%", "pf", "fault");                                   // Option List: mm Coordinate Tool ROI Prefix 
+var gbl_OLT_mmcRoiCrd  = newArray("Pixels", "No Coordinates");                               // Option List: mm Coordinate Tool ROI Coordinates
+var gbl_OLT_mmcRoiBxSz = newArray("Width & Height", "Just Width", "Just Height", "No Size"); // Option List: mm Coordinate Tool ROI box size
+var gbl_OLT_colors     = newArray("black", "blue", "green", "red", "yellow", "white");       // Option List:
+var gbl_OLT_lineWidth  = newArray("1", "3", "5", "11", "15", "25", "35");                    // Option List:
+var gbl_OLT_lnUnits    = newArray("mm", "mil", "cm", "inch");                                // Option List:
+var gbl_OLT_numPerf    = newArray("5", "10", "15", "20", "25");                              // Option List:
+var gbl_OLT_p2mdiv     = newArray("0.1", "0.25", "0.5");                                     // Option List:
+var gbl_OLT_pfGrdCnt   = newArray("AUTO", "10", "20", "30", "40", "50");                     // Option List:
+var gbl_OLT_pfUnits    = newArray("mm", "mil", "perfs/2cm");                                 // Option List:
+var gbl_OLT_pviewScl   = newArray("1", "2", "4", "8");                                       // Option List: Microscope preview scale
+var gbl_OLT_letters    = newArray("A", "B", "C", "D", "E", "F", "G", "H", "I",               // Letter sequence -- mostly for lables
+                                  "J", "K", "L", "M", "N", "O", "P", "Q", "R",               
+                                  "S", "T", "U", "V", "W", "X", "Y", "Z", "a",               
+                                  "b", "c", "d", "e", "f", "g", "h", "i", "j",               
+                                  "k", "l", "m", "n", "o", "p", "q", "r", "s",               
+                                  "t", "u", "v", "w", "x", "y", "z");                        
+var gbl_OLT_fontMag    = newArray("25%", "50%", "75%", "100%", "150%", "200%", "300%");      // Option List: Font size magnfication
+var gbl_OLT_jpegCord   = newArray("physical", "pixels", "thirkell");                         // Option list: Coordinate unit labels
+
+var gbl_1ds_Dmm       = 25.4;                  // 1D Scale: Known distance in mm
+var gbl_1ds_Dpx       = 2400;                  // 1D Scale: Known distance in Pixels
+var gbl_2ds_gbl       = false;                 // 1D Scale: Set scale globally
+var gbl_2ds_gbl       = false;                 // 2D Scale: Set scale globally
+var gbl_2ds_hDmm      =   50.000;              // 2D Scale: Horizontal distance in mm
+var gbl_2ds_hDpx      = 4745.150;              // 2D Scale: Horizontal distance in Pixels
+var gbl_2ds_vDpx      = 4721.014;              // 2D Scale: Vertical distance in Pixels
+var gbl_2ds_vDvv      =   50.000;              // 2D Scale: Vertical distance in mm
+var gbl_ALL_color1    = "yellow";              // Multi-Tool Option:
+var gbl_ALL_color2    = "green";               // Multi-Tool Option:
+var gbl_ALL_debug     = false;                 // Multi-Tool Option: Debuging messages
+var gbl_ALL_doScl     = true;                  // Multi-Tool Option: Set scale after RPI capture/load
+var gbl_ALL_fMag      = "100%";                // Multi-Tool Option: Font size magnification
+var gbl_ALL_fillDots  = true;                  // Multi-Tool Option: Fill dots in gauges (specialized & dynamic)
+var gbl_ALL_font      = "";                    // Multi-Tool Option: The font used across all tools
+var gbl_ALL_lastPhOvr = "";                    // Multi-Tool Option: Last PhilaJ Overlay drawn
+var gbl_ALL_lineWidth = "3";                   // Multi-Tool Option:
+var gbl_ALL_numPerf   = "15";                  // Multi-Tool Option: Number of perf holes or lines on gauge overlays -- note it is a string
+var gbl_ALL_perfOrder = false;                 // Multi-Tool Option: Ordering of perf sizes top to bottom
+var gbl_cer_minTal    = 25.0;                  // Coil Edge Report: minimum paper height -- coilEdgeReport
+var gbl_cer_minWid    = 22.5;                  // Coil Edge Report: minimum paper width -- coilEdgeReport
+var gbl_cer_nParThr   =  0.5;                  // Coil Edge Report: Near Parallel Threshold -- coilEdgeReport
+var gbl_cer_parThr    =  0.1;                  // Coil Edge Report: Parallel Threshold -- coilEdgeReport
+var gbl_cer_type      = "Vertical";            // Coil Edge Report: Coil Format -- coilEdgeReport
+var gbl_csg_file      = getDirectory("home");  // File Based Specialized Perforation Gauge Overlay:
+var gbl_d2p_holes     = 15;                    // Distance to Perforation: hole count
+var gbl_d2p_len       = 20;                    // Distance to Perforation: length
+var gbl_d2p_units     = "mm";                  // Dynamic Perforation Gauge: Units used for measurement
+var gbl_dyn_HUDdo     = true;                  // Dynamic Perforation Gauge: Show the perf HUD all the time
+var gbl_dyn_HUDpx     = NaN;                   // Dynamic Perforation Gauge: X coordinate (in pixels) for perf HUD (NaN means image center)
+var gbl_dyn_HUDpy     = NaN;                   // Dynamic Perforation Gauge: Y coordinate (in pixels) for perf HUD (NaN means image center)
+var gbl_dyn_autoRep   = false;                 // Dynamic Perforation Gauge: Show dynamic report dialog all the time
+var gbl_dyn_dotSz     = 1;                     // Dynamic Perforation Gauge: Size of dots
+var gbl_dyn_dotSzMn   = 0.5;                   // Dynamic Perforation Gauge: Minimum size of dots
+var gbl_dyn_dotSzMx   = 1.5;                   // Dynamic Perforation Gauge: Maximum size of dots
+var gbl_dyn_nuGap     = 1.5;                   // Dynamic Perforation Gauge: Size of perf gap for newly drawn gauges
+var gbl_dyn_numPerf   = 15;                    // Dynamic Perforation Gauge: Number fo perf holes. Note it is a number, and we do not use gbl_ALL_numPerf
+var gbl_dyn_rimt      = false;                 // Dynamic Perforation Gauge: Put results in results table or in new window
+var gbl_dyn_roiTag    = "";                    // Dynamic Perforation Gauge: ROI prefix to use for ROI bound ROIs
+var gbl_dyn_roiMgrU   = "NONE";                // Dynamic Perforation Gauge: How ROI manager is used
+var gbl_grl_ROI       = "";                    // Grill Template: The ROI name used to draw grill
+var gbl_grl_ROIx      = 0;                     // Grill Template: The upper left x coordinate of ROI used to draw grill
+var gbl_grl_ROIy      = 0;                     // Grill Template: The upper left y coordinate of ROI used to draw grill
+var gbl_grl_doMGB     = false;                 // Grill Template:
+var gbl_grl_doOut     = true;                  // Grill Template:
+var gbl_grl_doPbox    = true;                  // Grill Template:
+var gbl_grl_doPcross  = false;                 // Grill Template:
+var gbl_grl_doPridge  = true;                  // Grill Template:
+var gbl_grl_numH      = 14;                    // Grill Template: Number of grill points horizontally
+var gbl_grl_numV      = 17;                    // Grill Template: Number of grill points vertically
+var gbl_grl_ptype     = "";                    // Grill Template: Previously selected grill type
+var gbl_grl_type      = "E";                   // Grill Template: Selected grill type
+var gbl_l2l_len       = 1;                     // Length Conversion Tool: Length to convert
+var gbl_l2l_units     = "inch";                // Length Conversion Tool: Units to convert from
+var gbl_lil_group     = "";                    // Load Last RPI Image: group name
+var gbl_lil_which     = "Last";                // Load Last RPI Image: Which ones (first, last, etc...)
+var gbl_nst_mFrc      = false;                 // Instanta Perforation Gauge Overlay:
+var gbl_nst_mdiv      = "0.25";                // Instanta Perforation Gauge Overlay:
+var gbl_nst_pMax      = 14;                    // Instanta Perforation Gauge Overlay:
+var gbl_nst_pMin      = 9;                     // Instanta Perforation Gauge Overlay:
+var gbl_pcv_inv       = 0;                     // Perforation unit conversion: value to convert
+var gbl_pic_anno      = "";                    // RPI Image Capture: File annotation for RPI captured images
+var gbl_pic_doSet     = true;                  // RPI Image Capture: Change settings before RPI capture
+var gbl_pic_group     = "";                    // RPI Image Capture: File group name for RPI captured images
+var gbl_pic_ifmt      = "jpg";                 // RPI Image Capture: Image Format for RPI captured images
+var gbl_pic_loadem    = true;                  // RPI Image Capture: Load image after capture
+var gbl_pic_pviewDo   = true;                  // RPI Image Capture: Video preview before RPI capture
+var gbl_pic_pviewScl  = "4";                   // RPI Image Capture: RPI Capture Preview Scale (1/n)
+var gbl_pic_repeat    = false;                 // RPI Image Capture: Repeated RPI capture mode
+var gbl_pic_res       = "100%";                // RPI Image Capture: Image Size for RPI captured images
+var gbl_pic_useCam    = true;                  // RPI Image Capture: Use the camera or fake it
+var gbl_mmc_origX     = NaN;                   // Millimeter Coordinates Overlay: x coordinate of the upper left origin.  NaN means center.
+var gbl_mmc_origY     = NaN;                   // Millimeter Coordinates Overlay: y coordinate of the upper left origin.  NaN means center.
+var gbl_mmc_boxW      = 3;                     // Millimeter Coordinates Overlay: Height of selection box (in mm)
+var gbl_mmc_boxH      = 3;                     // Millimeter Coordinates Overlay: Width of selection box (in mm)
+var gbl_mmc_saveROIp  = false;                 // Millimeter Coordinates Overlay: Save constructed point ROIs in ROI Manager
+var gbl_mmc_saveROIb  = false;                 // Millimeter Coordinates Overlay: Save constructed box ROIs in ROI Manager
+var gbl_mmc_roiPfx    = gbl_OLT_mmcRoiPfx[0];  // Millimeter Coordinates Overlay: Constructed ROI name: Prefix
+var gbl_mmc_roiCord   = gbl_OLT_mmcRoiCrd[0];  // Millimeter Coordinates Overlay: Constructed ROI name: Coordinate format
+var gbl_mmc_roiBxSz   = gbl_OLT_mmcRoiBxSz[0]; // Millimeter Coordinates Overlay: Constructed ROI name: Box size format
+var gbl_mmc_roiSID    = "";                    // Millimeter Coordinates Overlay: Constructed ROI name: SID
+var gbl_mmc_saveJPG   = false;                 // Millimeter Coordinates Overlay: Save as JPEGs
+var gbl_mmc_jpegCord  = gbl_OLT_jpegCord[0];   // Millimeter Coordinates Overlay: Units for coordinates in names (JPEG files & ROIs)
+var gbl_mmc_pntGuides = true;                  // Millimeter Coordinates Overlay: Draw guides from *point* ROI to axis
+var gbl_mmc_boxGuides = false;                 // Millimeter Coordinates Overlay: Draw guides from *box* ROI to axis
+var gbl_pos_gridSize  = 3;                     // Position Finder Overlay:
+var gbl_pos_numGrids  = "AUTO";                // Position Finder Overlay:
+var gbl_pos_origX     = 0;                     // Position Finder Overlay: x coordinate of the upper left origin of grid in pixels
+var gbl_pos_origY     = 0;                     // Position Finder Overlay: y coordinate of the upper left origin of grid in pixels
+var gbl_r2d_targDPI   = 2400;                  // Resize To DPI:
+var gbl_rho_angle     = 0;                     // Rotate to Horizontal: Angle to rotate
+var gbl_spl_gName     = "Single Line Custom";  // Specialized Perforation Gauge Overlay:
+var gbl_spl_perfDiams = newArray(0);           // Specialized Perforation Gauge Overlay:
+var gbl_spl_perfGaps  = newArray(0);           // Specialized Perforation Gauge Overlay:
+var gbl_spl_perfLabs  = newArray(0);           // Specialized Perforation Gauge Overlay:
+var gbl_spl_useDots   = true;                  // Specialized Perforation Gauge Overlay:
+var gbl_ssm_aux       = "0.32";                // Scale RPI Image: Microscope Aux Lens
+var gbl_ssm_cam       = "RPI";                 // Scale RPI Image: Camera
+var gbl_ssm_gbl       = false;                 // Scale RPI Image: When setting RPI image scale, make it global
+var gbl_ssm_res       = false;                 // Scale RPI Image: RPI Adjust for Resolution when scaleing images
+var gbl_ssm_scope     = "Leica S8API";         // Scale RPI Image: Microscope Model
+var gbl_ssm_vobj      = "0.32";                // Scale RPI Image: Microscope Video Objective
+var gbl_ssm_zoom      = "1.00";                // Scale RPI Image: Microscope Zoom
+var gbl_ssp_gapu      = "perfs/2cm";           // Single Line Specialized Perforation Gauge Overlay:
+var gbl_ssp_gapv      = 12;                    // Single Line Specialized Perforation Gauge Overlay:
+var gbl_ssp_lab       = "";                    // Single Line Specialized Perforation Gauge Overlay:
+var gbl_ssp_sizu      = "mm";                  // Single Line Specialized Perforation Gauge Overlay:
+var gbl_ssp_sizv      = 1;                     // Single Line Specialized Perforation Gauge Overlay:
+var gbl_sus_cols      = 10;                    // Slice Up Sheet: Number of columns in the block -- used to seporate
+var gbl_sus_rows      = 10;                    // Slice Up Sheet: Number of rows in the block -- used to seporate
+var gbl_sus_scols     = 10;                    // Slice Up Sheet: Number of columns full sheet -- used to number stamps
+var gbl_sus_1pos      = 1;                     // Slice Up Sheet: Number of columns full sheet -- used to number stamps
+var gbl_vid_pviewScl  = "4";                   // RPI Live Video Preview: Live RPI Video Scale (1/n)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -918,17 +928,26 @@ function mmCoordOptions() {
     gbl_mmc_origY = getHeight/2;
 
   Dialog.create("PhilaJ: Millimeter Coordinate Tool Options");
-  Dialog.addChoice("color1:", gbl_OLT_colors,                      gbl_ALL_color1);
-  Dialog.addChoice("color2:", gbl_OLT_colors,                      gbl_ALL_color2);  // Not used today, but may use it for negative axis
-  Dialog.addChoice("Line Width:", gbl_OLT_lineWidth,               gbl_ALL_lineWidth);
-  Dialog.addNumber("Origin X:",                                    gbl_mmc_origX, 0, 7, "Pixels");
-  Dialog.addNumber("Origin Y:",                                    gbl_mmc_origY, 0, 7, "Pixels");
-  Dialog.addNumber("Box Width",                                    gbl_mmc_boxW, 2, 7, "mm");
-  Dialog.addNumber("Box Height",                                   gbl_mmc_boxH, 2, 7, "mm");
-  Dialog.addChoice("Image Coordinates in JPEGs", gbl_OLT_saveUnit, gbl_mmc_saveUnit);
-  Dialog.addCheckbox("Save Box Images?",                           gbl_mmc_saveJPG);
-  Dialog.addCheckbox("Draw Point ROI Axis Guides",                 gbl_mmc_pntGuides);
-  Dialog.addCheckbox("Draw Box ROI Axis Guides",                   gbl_mmc_boxGuides);
+  Dialog.addChoice("color1:", gbl_OLT_colors,                   gbl_ALL_color1);
+  Dialog.addChoice("color2:", gbl_OLT_colors,                   gbl_ALL_color2);  // Not used today, but may use it for negative axis
+  Dialog.addChoice("Line Width:", gbl_OLT_lineWidth,            gbl_ALL_lineWidth);
+  Dialog.addNumber("Origin X:",                                 gbl_mmc_origX, 0, 7, "Pixels");
+  Dialog.addNumber("Origin Y:",                                 gbl_mmc_origY, 0, 7, "Pixels");
+  Dialog.addNumber("Box Width",                                 gbl_mmc_boxW, 2, 7, "mm");
+  Dialog.addNumber("Box Height",                                gbl_mmc_boxH, 2, 7, "mm");
+  Dialog.setInsets(25,20,0);
+  Dialog.addCheckbox("Save point ROIs in ROI Manager?",         gbl_mmc_saveROIp);
+  Dialog.addCheckbox("Save box ROIs in ROI Manager?",           gbl_mmc_saveROIb);
+  Dialog.addChoice("ROI Name Prefix:", gbl_OLT_mmcRoiPfx,       gbl_mmc_roiPfx);
+  Dialog.addChoice("ROI Name Coords:", gbl_OLT_mmcRoiCrd,       gbl_mmc_roiCord);
+  Dialog.addChoice("ROI Name Box Size:", gbl_OLT_mmcRoiBxSz,    gbl_mmc_roiBxSz);
+  Dialog.addString("ROI Name SID:",                             gbl_mmc_roiSID, 10);
+  Dialog.setInsets(25,20,0);
+  Dialog.addCheckbox("Save Box JPEGs?",                         gbl_mmc_saveJPG);
+  Dialog.addChoice("Coordinates in JPEGs", gbl_OLT_jpegCord,    gbl_mmc_jpegCord);
+  Dialog.setInsets(25,20,0);
+  Dialog.addCheckbox("Draw Point ROI Axis Guides",              gbl_mmc_pntGuides);
+  Dialog.addCheckbox("Draw Box ROI Axis Guides",                gbl_mmc_boxGuides);
   Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#coord-tool");
   Dialog.show();
 
@@ -939,8 +958,14 @@ function mmCoordOptions() {
   gbl_mmc_origY     = Dialog.getNumber();
   gbl_mmc_boxW      = Dialog.getNumber();
   gbl_mmc_boxH      = Dialog.getNumber();
-  gbl_mmc_saveUnit  = Dialog.getChoice();
+  gbl_mmc_saveROIp  = Dialog.getCheckbox();
+  gbl_mmc_saveROIb  = Dialog.getCheckbox();
+  gbl_mmc_roiPfx    = Dialog.getChoice();
+  gbl_mmc_roiCord   = Dialog.getChoice();
+  gbl_mmc_roiBxSz   = Dialog.getChoice();
+  gbl_mmc_roiSID    = Dialog.getString();
   gbl_mmc_saveJPG   = Dialog.getCheckbox();
+  gbl_mmc_jpegCord  = Dialog.getChoice();
   gbl_mmc_pntGuides = Dialog.getCheckbox();
   gbl_mmc_boxGuides = Dialog.getCheckbox();
 
@@ -961,7 +986,13 @@ function mmCoordAction() {
 
   if (selectionType >= 0) {  
     if ( !(startsWith(Roi.getName, "mmc"))) {
-      if (getBoolean("Set Coordinate Origion to Current ROI?")) {
+      if (getBoolean("Set Coordinate Origin to Current ROI?")) {
+        theROIname = Roi.getName;
+        theSIDstr  = roiNameToAnnoOneWithDelim(theROIname);
+        if ((lengthOf(theSIDstr) > 1) && (indexOf(theSIDstr, "_") == 0)) {
+          theSIDstr = substring(theSIDstr, 1);
+          gbl_mmc_roiSID = theSIDstr;
+        }
         Roi.getBounds(gbl_mmc_origX, gbl_mmc_origY, tmpW, tmpH);
       }
     }
@@ -987,6 +1018,60 @@ function mmCoordAction() {
   run("Select None");
 
   setTool(16);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Construct a Generic ROI Name
+function makeGenericROIname(thePrefix, coordFmt, sizeFmt, theSID, theSFX) {
+  selTypeStr = "";
+  if (selectionType < 0) 
+    showMessage("PROGRAM_ERROR(makeGenericROIname): Function used incorrectly");
+  else if (selectionType == 0) 
+    selTypeStr = "Bx";
+  else if (selectionType == 5) 
+    selTypeStr = "Ln";
+  else if (selectionType == 10) 
+    selTypeStr = "Pt";
+  else if (is("area"))
+    selTypeStr = "Ar";
+  else if (is("area"))
+    selTypeStr = "Uk";
+
+  theROIname = "";
+  if (lengthOf(selTypeStr) > 0) {
+
+    Roi.getBounds(selX, selY, selW, selH);
+    numHexDigits = lengthOf(toHex(maxOf(getWidth, getHeight)));
+
+    macIdx = indexOf(thePrefix, "%%");
+    if(macIdx >= 0) 
+      theROIname = theROIname + substring(thePrefix, 0, macIdx) + selTypeStr;
+    else
+      theROIname = theROIname + thePrefix;
+
+    if(indexOf(coordFmt, "Pix") >= 0) {
+      theROIname = theROIname + IJ.pad(toHex(selX), numHexDigits) + IJ.pad(toHex(selY), numHexDigits);
+    }
+
+    if (is("area")) {
+      if(indexOf(sizeFmt, "Width") >= 0) {
+        theROIname = theROIname + IJ.pad(toHex(selW), numHexDigits);
+      }
+      if(indexOf(gbl_mmc_roiBxSz, "Height") >= 0) {
+        theROIname = theROIname + IJ.pad(toHex(selH), numHexDigits);
+      }
+    }
+
+    if (lengthOf(theSID) > 0) {
+      theROIname = theROIname + "_" + theSID;
+    }
+
+    if (lengthOf(theSFX) > 0) {
+      theROIname = theROIname + "-" + theSFX;
+    }
+  }
+
+  return theROIname;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1028,7 +1113,10 @@ function mmCoordClicks() {
           //run("Select None");
         } else { // Not a shift click
           makePoint(firstX, firstY);
-          Roi.setName("mmcPoint");
+          theROIname = makeGenericROIname(gbl_mmc_roiPfx, gbl_mmc_roiCord, gbl_mmc_roiBxSz, gbl_mmc_roiSID, "");
+          Roi.setName(theROIname);
+          if(gbl_mmc_saveROIp) 
+            roiManagerAddOrUpdateROI(theROIname, false) ;
           run("Measure");
           relX = firstX - gbl_mmc_origX;
           relY = firstY - gbl_mmc_origY;
@@ -1036,13 +1124,13 @@ function mmCoordClicks() {
           setResult('relX', nResults-1, relX);
           setResult('relY', nResults-1, relY);
           updateResults();
-          if (firstEventContrP && ((gbl_mmc_saveUnit != "Thirkell") || ((relX >= 0) && (relY >= 0)))) { // It was a control click (for Thirkell we a click location with positive coordinates)
+          if (firstEventContrP && ((gbl_mmc_jpegCord != "Thirkell") || ((relX >= 0) && (relY >= 0)))) { // It was a control click (for Thirkell we a click location with positive coordinates)
             selWidth  = gbl_mmc_boxW;
             selHeight = gbl_mmc_boxH;
             toUnscaled(selWidth, selHeight);
             selX = firstX - selWidth / 2;
             selY = firstY - selHeight / 2;
-            if ((gbl_mmc_saveUnit == "physical") && (gbl_mmc_boxW >= 3) && (gbl_mmc_boxH >= 3)) { // If mm and boxes are big enough, then round coordinates of upper left corner to integer
+            if ((gbl_mmc_jpegCord == "physical") && (gbl_mmc_boxW >= 3) && (gbl_mmc_boxH >= 3)) { // If mm and boxes are big enough, then round coordinates of upper left corner to integer
               toScaled(selX, selY);   // Convert to mm
               tmpX = gbl_mmc_origX;
               tmpY = gbl_mmc_origY;
@@ -1052,7 +1140,10 @@ function mmCoordClicks() {
               toUnscaled(selX, selY); // Convert back to pixels
             }
             makeRectangle(selX, selY, selWidth, selHeight);
-            Roi.setName("mmcBox");
+            theROIname = makeGenericROIname(gbl_mmc_roiPfx, gbl_mmc_roiCord, gbl_mmc_roiBxSz, gbl_mmc_roiSID, "");
+            Roi.setName(theROIname);
+            if(gbl_mmc_saveROIb) 
+              roiManagerAddOrUpdateROI(theROIname, false) ;
             run("Measure");
             relX = selX - gbl_mmc_origX;
             relY = selY - gbl_mmc_origY;
@@ -1068,14 +1159,14 @@ function mmCoordClicks() {
                        selX,          selY+selHeight, 
                        selX,          selY, 
                        selX,          gbl_mmc_origY);
-              Roi.setName("mmcBoxGuide");
+              Roi.setName("mmcBxGuide");
             }
             if (gbl_mmc_saveJPG)
-              selectionToJpg(true, gbl_mmc_origX, gbl_mmc_origY, 3, gbl_mmc_saveUnit);
+              selectionToJpg(true, gbl_mmc_origX, gbl_mmc_origY, 3, gbl_mmc_jpegCord);
           } else {
             if (gbl_mmc_pntGuides) {
               makeLine(gbl_mmc_origX, firstY, firstX, firstY, firstX, gbl_mmc_origY);
-              Roi.setName("mmcPointGuide");
+              Roi.setName("mmcPtGuide");
             }
           }
         }
@@ -1316,7 +1407,7 @@ function dynamicPerfMeasureROI(force_rimt) {
   colr       = dpsi[9];
 
   if ((length < 0) || (dotSize < 0) || (numDots < 0)) {
-   //  MJR TODO NOTE <2022-04-21T14:58:28-0500> dynamicPerfMeasureROI: This error could happen if an ROI exists -- just a line with no dots.  Fix this logic.
+    // MJR TODO NOTE <2022-04-21T14:58:28-0500> dynamicPerfMeasureROI: This error could happen if an ROI exists -- just a line with no dots.  Fix this logic.
     exit("<html>"
          +"<font size=+1>"
          +"ERROR(dynamicPerfMeasureAllROIs):<br>"
@@ -3263,7 +3354,7 @@ function setScaleFromDPI(inHDPI, inVDPI) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Set the scale from a scale ROI.  Return true if scale was set.
 // Scale ROIs can be a line or rectangle.  For line ROIs pixels are assumed square, and for rectangle ROIs pixels
-// TODO: Rework this so that we don't loose the current selection when it runs...
+// MJR TODO NOTE <2022-05-15T14:20:19-0500> base-code.ijm: Rework this so that we don't loose the current selection when it runs...
 function setScaleFromROI(showScaleSetWarning, showFailWarning) {
   if (gbl_ALL_debug)
     print("DEBUG(setScaleFromROI): Function Entry");
@@ -4410,6 +4501,7 @@ function floatEqualish(x, y) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Takes an integer and returns a zero padded string
+// MJR TODO NOTE <2022-05-15T14:20:37-0500> base-code.ijm: This is built in!!  Switch to IJ.pad(anInt, width)
 function intToZeroPadString(anInt, width) {
   if (gbl_ALL_debug)
     print("DEBUG(intToZeroPadString): Function Entry: ", anInt, width);
@@ -5372,7 +5464,7 @@ function convertLengthUI() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Convert length measurement units.  Returns NaN if unit is unknown or input value was NaN!
 function convertLengthToMM(value, units) {
-// TODO: Add support for micrometers using getInfo("micrometer.abbreviation")
+  // MJR TODO NOTE <2022-05-15T14:20:51-0500> base-code.ijm: Add support for micrometers using getInfo("micrometer.abbreviation")
   if (units=="mm")
     return (value);
   else {
