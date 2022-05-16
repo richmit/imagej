@@ -43,8 +43,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-var gbl_OLT_mmcRoiPfx  = newArray("mmc%%", "pf", "fault");                                   // Option List: mm Coordinate Tool ROI Prefix 
-var gbl_OLT_mmcRoiCrd  = newArray("Pixels", "No Coordinates");                               // Option List: mm Coordinate Tool ROI Coordinates
+var gbl_OLT_mmcRoiPfx  = newArray("mmc%T", "pf", "fault");                                   // Option List: mm Coordinate Tool ROI Prefix 
+var gbl_OLT_mmcRoiCrd  = newArray("X & Y", "Just X", "Just Y", "No Coordinates");            // Option List: mm Coordinate Tool ROI Coordinates
 var gbl_OLT_mmcRoiBxSz = newArray("Width & Height", "Just Width", "Just Height", "No Size"); // Option List: mm Coordinate Tool ROI box size
 var gbl_OLT_colors     = newArray("black", "blue", "green", "red", "yellow", "white");       // Option List:
 var gbl_OLT_lineWidth  = newArray("1", "3", "5", "11", "15", "25", "35");                    // Option List:
@@ -61,7 +61,6 @@ var gbl_OLT_letters    = newArray("A", "B", "C", "D", "E", "F", "G", "H", "I",  
                                   "k", "l", "m", "n", "o", "p", "q", "r", "s",               
                                   "t", "u", "v", "w", "x", "y", "z");                        
 var gbl_OLT_fontMag    = newArray("25%", "50%", "75%", "100%", "150%", "200%", "300%");      // Option List: Font size magnfication
-var gbl_OLT_jpegCord   = newArray("physical", "pixels", "thirkell");                         // Option list: Coordinate unit labels
 
 var gbl_1ds_Dmm       = 25.4;                  // 1D Scale: Known distance in mm
 var gbl_1ds_Dpx       = 2400;                  // 1D Scale: Known distance in Pixels
@@ -140,12 +139,11 @@ var gbl_mmc_boxW      = 3;                     // Millimeter Coordinates Overlay
 var gbl_mmc_boxH      = 3;                     // Millimeter Coordinates Overlay: Width of selection box (in mm)
 var gbl_mmc_saveROIp  = false;                 // Millimeter Coordinates Overlay: Save constructed point ROIs in ROI Manager
 var gbl_mmc_saveROIb  = false;                 // Millimeter Coordinates Overlay: Save constructed box ROIs in ROI Manager
+var gbl_mmc_saveJPG   = false;                 // Millimeter Coordinates Overlay: Create a subimage from box selections and save it
 var gbl_mmc_roiPfx    = gbl_OLT_mmcRoiPfx[0];  // Millimeter Coordinates Overlay: Constructed ROI name: Prefix
 var gbl_mmc_roiCord   = gbl_OLT_mmcRoiCrd[0];  // Millimeter Coordinates Overlay: Constructed ROI name: Coordinate format
 var gbl_mmc_roiBxSz   = gbl_OLT_mmcRoiBxSz[0]; // Millimeter Coordinates Overlay: Constructed ROI name: Box size format
 var gbl_mmc_roiSID    = "";                    // Millimeter Coordinates Overlay: Constructed ROI name: SID
-var gbl_mmc_saveJPG   = false;                 // Millimeter Coordinates Overlay: Save as JPEGs
-var gbl_mmc_jpegCord  = gbl_OLT_jpegCord[0];   // Millimeter Coordinates Overlay: Units for coordinates in names (JPEG files & ROIs)
 var gbl_mmc_pntGuides = true;                  // Millimeter Coordinates Overlay: Draw guides from *point* ROI to axis
 var gbl_mmc_boxGuides = false;                 // Millimeter Coordinates Overlay: Draw guides from *box* ROI to axis
 var gbl_pos_gridSize  = 3;                     // Position Finder Overlay:
@@ -910,6 +908,58 @@ function roiNameToAnnoTwoWithDelim(name) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Construct a Generic ROI Name
+function roiNameGenerate(thePrefix, coordFmt, sizeFmt, theSID, theSFX) {
+  if (gbl_ALL_debug)
+    print("DEBUG(roiNameGenerate): Function Entry: ", thePrefix, coordFmt, sizeFmt, theSID, theSFX);
+  exitIfNoImages("roiNameGenerate");
+
+  selTypeStr = "";
+  if (selectionType < 0) 
+    showMessage("PROGRAM_ERROR(roiNameGenerate): Function used incorrectly");
+  else if (selectionType == 0) 
+    selTypeStr = "Bx";
+  else if (selectionType == 5) 
+    selTypeStr = "Ln";
+  else if (selectionType == 10) 
+    selTypeStr = "Pt";
+  else if (is("area"))
+    selTypeStr = "Ar";
+  else if (is("area"))
+    selTypeStr = "Uk";
+
+  theROIname = "";
+  if (lengthOf(selTypeStr) > 0) {
+
+    Roi.getBounds(selX, selY, selW, selH);
+    numHexDigits = lengthOf(toHex(maxOf(getWidth, getHeight)));
+
+    theROIname += replace(thePrefix, "%T", selTypeStr); // Expand type
+
+    if(indexOf(coordFmt, "X") >= 0) 
+      theROIname = theROIname + IJ.pad(toHex(selX), numHexDigits);
+
+    if(indexOf(coordFmt, "Y") >= 0) 
+      theROIname = theROIname + IJ.pad(toHex(selY), numHexDigits);
+
+    if (is("area")) {
+      if(indexOf(sizeFmt, "Width") >= 0) 
+        theROIname = theROIname + IJ.pad(toHex(selW), numHexDigits);
+      if(indexOf(gbl_mmc_roiBxSz, "Height") >= 0) 
+        theROIname = theROIname + IJ.pad(toHex(selH), numHexDigits);
+    }
+
+    if (lengthOf(theSID) > 0) 
+      theROIname = theROIname + "_" + theSID;
+
+    if (lengthOf(theSFX) > 0) 
+      theROIname = theROIname + "-" + theSFX;
+  }
+
+  return theROIname;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// Millimeter Coordinate Tool
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -936,15 +986,13 @@ function mmCoordOptions() {
   Dialog.addNumber("Box Width",                                 gbl_mmc_boxW, 2, 7, "mm");
   Dialog.addNumber("Box Height",                                gbl_mmc_boxH, 2, 7, "mm");
   Dialog.setInsets(25,20,0);
+  Dialog.addCheckbox("Save Box JPEGs?",                         gbl_mmc_saveJPG);
   Dialog.addCheckbox("Save point ROIs in ROI Manager?",         gbl_mmc_saveROIp);
   Dialog.addCheckbox("Save box ROIs in ROI Manager?",           gbl_mmc_saveROIb);
   Dialog.addChoice("ROI Name Prefix:", gbl_OLT_mmcRoiPfx,       gbl_mmc_roiPfx);
   Dialog.addChoice("ROI Name Coords:", gbl_OLT_mmcRoiCrd,       gbl_mmc_roiCord);
   Dialog.addChoice("ROI Name Box Size:", gbl_OLT_mmcRoiBxSz,    gbl_mmc_roiBxSz);
   Dialog.addString("ROI Name SID:",                             gbl_mmc_roiSID, 10);
-  Dialog.setInsets(25,20,0);
-  Dialog.addCheckbox("Save Box JPEGs?",                         gbl_mmc_saveJPG);
-  Dialog.addChoice("Coordinates in JPEGs", gbl_OLT_jpegCord,    gbl_mmc_jpegCord);
   Dialog.setInsets(25,20,0);
   Dialog.addCheckbox("Draw Point ROI Axis Guides",              gbl_mmc_pntGuides);
   Dialog.addCheckbox("Draw Box ROI Axis Guides",                gbl_mmc_boxGuides);
@@ -958,14 +1006,13 @@ function mmCoordOptions() {
   gbl_mmc_origY     = Dialog.getNumber();
   gbl_mmc_boxW      = Dialog.getNumber();
   gbl_mmc_boxH      = Dialog.getNumber();
+  gbl_mmc_saveJPG   = Dialog.getCheckbox();
   gbl_mmc_saveROIp  = Dialog.getCheckbox();
   gbl_mmc_saveROIb  = Dialog.getCheckbox();
   gbl_mmc_roiPfx    = Dialog.getChoice();
   gbl_mmc_roiCord   = Dialog.getChoice();
   gbl_mmc_roiBxSz   = Dialog.getChoice();
   gbl_mmc_roiSID    = Dialog.getString();
-  gbl_mmc_saveJPG   = Dialog.getCheckbox();
-  gbl_mmc_jpegCord  = Dialog.getChoice();
   gbl_mmc_pntGuides = Dialog.getCheckbox();
   gbl_mmc_boxGuides = Dialog.getCheckbox();
 
@@ -1021,60 +1068,6 @@ function mmCoordAction() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Construct a Generic ROI Name
-function makeGenericROIname(thePrefix, coordFmt, sizeFmt, theSID, theSFX) {
-  selTypeStr = "";
-  if (selectionType < 0) 
-    showMessage("PROGRAM_ERROR(makeGenericROIname): Function used incorrectly");
-  else if (selectionType == 0) 
-    selTypeStr = "Bx";
-  else if (selectionType == 5) 
-    selTypeStr = "Ln";
-  else if (selectionType == 10) 
-    selTypeStr = "Pt";
-  else if (is("area"))
-    selTypeStr = "Ar";
-  else if (is("area"))
-    selTypeStr = "Uk";
-
-  theROIname = "";
-  if (lengthOf(selTypeStr) > 0) {
-
-    Roi.getBounds(selX, selY, selW, selH);
-    numHexDigits = lengthOf(toHex(maxOf(getWidth, getHeight)));
-
-    macIdx = indexOf(thePrefix, "%%");
-    if(macIdx >= 0) 
-      theROIname = theROIname + substring(thePrefix, 0, macIdx) + selTypeStr;
-    else
-      theROIname = theROIname + thePrefix;
-
-    if(indexOf(coordFmt, "Pix") >= 0) {
-      theROIname = theROIname + IJ.pad(toHex(selX), numHexDigits) + IJ.pad(toHex(selY), numHexDigits);
-    }
-
-    if (is("area")) {
-      if(indexOf(sizeFmt, "Width") >= 0) {
-        theROIname = theROIname + IJ.pad(toHex(selW), numHexDigits);
-      }
-      if(indexOf(gbl_mmc_roiBxSz, "Height") >= 0) {
-        theROIname = theROIname + IJ.pad(toHex(selH), numHexDigits);
-      }
-    }
-
-    if (lengthOf(theSID) > 0) {
-      theROIname = theROIname + "_" + theSID;
-    }
-
-    if (lengthOf(theSFX) > 0) {
-      theROIname = theROIname + "-" + theSFX;
-    }
-  }
-
-  return theROIname;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Process clicks for
 function mmCoordClicks() {
   if (gbl_ALL_debug)
@@ -1113,7 +1106,7 @@ function mmCoordClicks() {
           //run("Select None");
         } else { // Not a shift click
           makePoint(firstX, firstY);
-          theROIname = makeGenericROIname(gbl_mmc_roiPfx, gbl_mmc_roiCord, gbl_mmc_roiBxSz, gbl_mmc_roiSID, "");
+          theROIname = roiNameGenerate(gbl_mmc_roiPfx, gbl_mmc_roiCord, gbl_mmc_roiBxSz, gbl_mmc_roiSID, "");
           Roi.setName(theROIname);
           if(gbl_mmc_saveROIp) 
             roiManagerAddOrUpdateROI(theROIname, false) ;
@@ -1124,13 +1117,13 @@ function mmCoordClicks() {
           setResult('relX', nResults-1, relX);
           setResult('relY', nResults-1, relY);
           updateResults();
-          if (firstEventContrP && ((gbl_mmc_jpegCord != "Thirkell") || ((relX >= 0) && (relY >= 0)))) { // It was a control click (for Thirkell we a click location with positive coordinates)
+          if (firstEventContrP) { // It was a control click 
             selWidth  = gbl_mmc_boxW;
             selHeight = gbl_mmc_boxH;
             toUnscaled(selWidth, selHeight);
             selX = firstX - selWidth / 2;
             selY = firstY - selHeight / 2;
-            if ((gbl_mmc_jpegCord == "physical") && (gbl_mmc_boxW >= 3) && (gbl_mmc_boxH >= 3)) { // If mm and boxes are big enough, then round coordinates of upper left corner to integer
+            if ((gbl_mmc_boxW >= 3) && (gbl_mmc_boxH >= 3)) { // if the boxes are bigger than 3mm, then shift the box to integer cooridnates
               toScaled(selX, selY);   // Convert to mm
               tmpX = gbl_mmc_origX;
               tmpY = gbl_mmc_origY;
@@ -1140,7 +1133,7 @@ function mmCoordClicks() {
               toUnscaled(selX, selY); // Convert back to pixels
             }
             makeRectangle(selX, selY, selWidth, selHeight);
-            theROIname = makeGenericROIname(gbl_mmc_roiPfx, gbl_mmc_roiCord, gbl_mmc_roiBxSz, gbl_mmc_roiSID, "");
+            theROIname = roiNameGenerate(gbl_mmc_roiPfx, gbl_mmc_roiCord, gbl_mmc_roiBxSz, gbl_mmc_roiSID, "");
             Roi.setName(theROIname);
             if(gbl_mmc_saveROIb) 
               roiManagerAddOrUpdateROI(theROIname, false) ;
@@ -1151,6 +1144,8 @@ function mmCoordClicks() {
             setResult('relX', nResults-1, relX);
             setResult('relY', nResults-1, relY);
             updateResults();
+            if (gbl_mmc_saveJPG)
+              selectionToJpg(false, true, false, true, "Physical Coordinates", "Save JPEG");
             if (gbl_mmc_boxGuides) {
               makeLine(gbl_mmc_origX, selY,
                        selX,          selY, 
@@ -1161,8 +1156,6 @@ function mmCoordClicks() {
                        selX,          gbl_mmc_origY);
               Roi.setName("mmcBxGuide");
             }
-            if (gbl_mmc_saveJPG)
-              selectionToJpg(true, gbl_mmc_origX, gbl_mmc_origY, 3, gbl_mmc_jpegCord);
           } else {
             if (gbl_mmc_pntGuides) {
               makeLine(gbl_mmc_origX, firstY, firstX, firstY, firstX, gbl_mmc_origY);
@@ -4951,48 +4944,6 @@ function clearOverlay() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Copy bounding box for current selection, and create new image with copied data.  Set scale for new image to the source image scale.  Tries to give the
-// new image a sensable name (something like ROI_from_file or from_file)
-function selectionToImage() {
-  if (gbl_ALL_debug)
-    print("DEBUG(selectionToImage): Function Entry");
-  exitIfNoImages("selectionToImage");
-
-  if (selectionType < 0)
-    exit("<html>"
-         +"<font size=+1>"
-         +"ERROR(selectionToImage):<br>"
-         +"&nbsp; No active selection found!" + "<br>"
-         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#sub-image'>the user manual</a> for more information."
-         +"</font>");
-
-  srcImageTitle = getTitle();
-  srcROIname    = Roi.getName;
-
-  run("To Bounding Box");
-  run("Copy");
-
-  checkImageScalePhil(false, false);
-  getPixelSize(pixelLengthUnit, pixelWidth, pixelHeight);
-
-  run("Internal Clipboard");
-
-  if ( !(is("global scale"))) {
-    if ( (startsWith(pixelLengthUnit, "pixel")) || (pixelHeight == 1)) {
-      showMessage("PhilaJ: selectionToImage", "Warning: Unable to determine scale for new image!");
-    } else {
-      run("Set Scale...", " known=" + d2s(pixelWidth, 10) + " unit=mm distance=1 pixel=" + d2s(pixelWidth/pixelHeight, 10));
-    }
-  }
-
-  newTitle = srcROIname;
-  if (lengthOf(newTitle) > 0)
-    newTitle = newTitle + "_";
-  newTitle = newTitle + "from_" + srcImageTitle;
-  rename(newTitle);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Rotate an image so that the current line selection is horizontal.  If no selection, then invert the last rotatetion done by this function.
 function rotateToHorizontal() {
   if (gbl_ALL_debug)
@@ -5516,16 +5467,29 @@ function notesSidecarLoad() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// New jpeg name: FILENAME_TAG.jpg  The form of the TAG is defaulted to: WIDTHxHEIGHTsXsY -- it may be changed via a popup dialog just before the save dialog.
-//                                                                                   ^ ^
-//                                                                                   | |
-//                                                                                   +-=--- These s characters represent the sign for X & Y (i.e. + or -).
-//        The X & Y represent the offset from (origX, origY) -- measured to the right and down.
-//        If physUnits is false, then this will be in pixels.  Otherwise it is the image's physical units (millimeters for most PhilaJ images)
+// Create a new image from selection.  Optionally automatically save image to a JPEG file (and optionally close the new image).  If the source image has an
+// image scale, then it will be copied to the new image.  New image name: FILENAME_TAG.  The TAG may take several forms.
 //
-function selectionToJpg(saveIt, origX, origY, gridSize, cUnits) {
+//   * Coordinate in pixels or physical units: [WIDTHxHEIGHT][s]XsY[_SID]
+//                                             ^             ^  ^^^ ^
+//                                             |             |  ||| |
+//                                             |             |  ||| +--- a SID (Stamp ID) pulled from the ROI name
+//                                             |             |  ||+------- Y Coordinate of upper left point of ROI bounding box
+//                                             |             |  |+------ Sign of Y (+ or -) |  
+//                                             |             |  +---------- X Coordinate of upper left point of ROI bounding box
+//                                             |             +-------- Sign of X (i.e. + or -).  It will be missing if Size is missing and X is positive
+//                                             +-------------------- Size of region bounding box
+//   * Thirkell: [WIDTHxHEIGHT+]THIRKELL[_SID]
+//                              ^ 
+//                              | 
+//                              +-- Thirkell coordinates as produced by philPosFinderCoord
+//   * ROI name
+//   * ROI SID
+//   * ROI annotation
+//   * Empty -- i.e. the TAG and preceding underscore are completely missing
+function selectionToJpg(warnIfImageUnscaled, warnIfRoundBad, coordIncludeSize, coordIncludeSID, imageNameAnnoType, autoAct) {
   if (gbl_ALL_debug)
-    print("DEBUG(selectionToJpg): Function Entry: ", saveIt, origX, origY, gridSize, cUnits);
+    print("DEBUG(selectionToJpg): Function Entry: ", warnIfImageUnscaled, warnIfRoundBad, coordIncludeSize, coordIncludeSID, imageNameAnnoType, autoAct);
   exitIfNoImages("selectionToJpg");
 
   if (selectionType < 0)
@@ -5537,6 +5501,9 @@ function selectionToJpg(saveIt, origX, origY, gridSize, cUnits) {
          +"</font>");
 
   imageFileName = getInfo("image.filename");
+
+  selName = Roi.getName;
+  selType = selectionType;
 
   run("To Bounding Box");
   Roi.getBounds(selX, selY, selWidth, selHeight);
@@ -5551,40 +5518,142 @@ function selectionToJpg(saveIt, origX, origY, gridSize, cUnits) {
 
   run("Copy");
 
-  if (cUnits == "Thirkell") {
-    fileNameTag = toString(selWidth, 0) + "x" + toString(selHeight, 0) + "+" + philPosFinderCoord(selX+selWidth/2, selY+selHeight/2, true, origX, origY, gridSize);
-  } else {
-    selX -= origX;
-    selY -= origY;
-    if (cUnits == "physical") {
-      toScaled(selX, selY);
-      toScaled(selWidth, selHeight);
-    }
-    selX      = round(selX);
-    selY      = round(selY);
-    selWidth  = round(selWidth);
-    selHeight = round(selHeight);
-    selX = toString(selX, 0);
-    if ( !(startsWith(selX, "-")))
-      selX = "+" + selX;
-    selY = toString(selY, 0);
-    if ( !(startsWith(selY, "-")))
-      selY = "+" + selY;
-    fileNameTag = toString(selWidth, 0) + "x" + toString(selHeight, 0) + selX + selY;
-  }
+  checkImageScalePhil(false, false);
+  imgScaled = isImageScaled();
+  getPixelSize(pixelLengthUnit, pixelWidth, pixelHeight);
 
-  Dialog.create("PhilaJ: File name tag");
-  Dialog.addString("Tag:", fileNameTag, 20);
+  // Figure out the origion
+  origX = 0;
+  origY = 0;
+  gridSize = 1;
+  overlayType = getOverlayCapPointName();
+  if (overlayType == "philPosFinderAction") {
+    origX    = gbl_pos_origX;
+    origY    = gbl_pos_origY;
+    gridSize = gbl_pos_gridSize;
+  } else if (overlayType == "mmCoordAction") {
+    origX    = gbl_mmc_origX;
+    origY    = gbl_mmc_origY;
+    gridSize = 3;
+  } 
+  run("Select None");
+  makeRectangle(selX, selY, selWidth, selHeight);
+
+  imageNameBase = File.getNameWithoutExtension(imageFileName);
+  imageNameAnnoTypes = newArray();
+  roiSstr = "";
+  if (imgScaled)                                                                                // If the image is scaled, add "Physical Coordinates"
+    imageNameAnnoTypes = Array.concat(imageNameAnnoTypes, newArray("Physical Coordinates"));
+  imageNameAnnoTypes = Array.concat(imageNameAnnoTypes, newArray("Pixel Coordinates"));         // Always add "Pixel Coordinates". 
+  if (imgScaled && (selX > origX) && (selY > origY))                                            // If coordinates would be positive, then add Thirkell to the list
+    imageNameAnnoTypes = Array.concat(imageNameAnnoTypes, newArray("Thirkell"));
+  if (lengthOf(selName) > 0) {                                                                  // If we have a selection name, then add it to the list
+    imageNameAnnoTypes = Array.concat(imageNameAnnoTypes, newArray("ROI Name: " + selName));
+    roiSstr = roiNameToAnnoOneWithDelim(selName);
+    if ((lengthOf(roiSstr) > 1) && (indexOf(roiSstr, "_") == 0)) {
+      roiSstr = substring(roiSstr, 1);
+      imageNameAnnoTypes = Array.concat(imageNameAnnoTypes, newArray("ROI SID: " + roiSstr));   // If we have a selection name with SID, then add it to the list
+    } else {
+      roiSstr = ""
+    }
+    roiAstr = roiNameToAnnoWithDelim(selName);
+    if (lengthOf(roiAstr) > 1) {
+      roiAstr = substring(roiAstr, 1);
+      if(roiAstr != roiSstr)
+        imageNameAnnoTypes = Array.concat(imageNameAnnoTypes, newArray("ROI ANO: " + roiAstr)); // If we have a selection name with SID, then add it to the list
+    }
+  }
+  imageNameAnnoTypes = Array.concat(imageNameAnnoTypes, newArray("None"));                      // Always add "None". 
+  if (indexOfInArray(imageNameAnnoTypes, imageNameAnnoType) < 0)
+    imageNameAnnoType = imageNameAnnoTypes[0];
+  autoActs = newArray("None", "Save JPEG", "Save JPEG & Close Image");
+  if (indexOfInArray(autoActs, autoAct) < 0)
+    autoAct = autoActs[0];
+
+  Dialog.create("Selection To Jpg");
+  Dialog.addString("Base Image Name:", imageNameBase, 30);
+  Dialog.addRadioButtonGroup("Additional Image Name Annotation", imageNameAnnoTypes, lengthOf(imageNameAnnoTypes), 1, imageNameAnnoType);
+  Dialog.addCheckbox("Include width & height in coordinates?", coordIncludeSize)
+  Dialog.addCheckbox("Include SID in coordinates?", coordIncludeSID)
+  Dialog.addRadioButtonGroup("Automatic Save Actions", autoActs, lengthOf(autoActs), 1, autoAct);
   Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#sub-image");
   Dialog.show();
-  fileNameTag = Dialog.getString();
+  
+  imageNameBase      = Dialog.getString;
+  imageNameAnnoType  = Dialog.getRadioButton;
+  coordIncludeSize   =  Dialog.getCheckbox;
+  coordIncludeSID    = Dialog.getCheckbox;
+  autoAct            = Dialog.getRadioButton;
+
+  imageNameAnno = "";
+  if (indexOf(imageNameAnnoType, "ROI Name:") >= 0) {
+	imageNameAnno = selName;
+  } else if (indexOf(imageNameAnnoType, "ROI SID") >= 0) {
+    imageNameAnno = roiSstr;
+  } else if (indexOf(imageNameAnnoType, "ROI ANO") >= 0) {
+    imageNameAnno = roiAstr;
+  } else if (indexOf(imageNameAnnoType, "None") >= 0) {
+    imageNameAnno = "";
+  } else {
+    if (indexOf(imageNameAnnoType, "Thirkell") >= 0) {
+      if(coordIncludeSize)
+        imageNameAnno += toString(selWidth, 0) + "x" + toString(selHeight, 0) + "+";
+      imageNameAnno += philPosFinderCoord(selX+selWidth/2, selY+selHeight/2, false, origX, origY, gridSize);
+    } else {
+      tmpX      = selX;
+      tmpY      = selY;
+      tmpWidth  = selWidth;
+      tmpHeight = selHeight;
+
+      tmpX -= origX;
+      tmpY -= origY;
+      if (indexOf(imageNameAnnoType, "Physical") >= 0) {
+        toScaled(tmpX, tmpY);
+        toScaled(tmpWidth, tmpHeight);
+      }
+
+      if ((abs(tmpX - round(tmpX)) > 0.1) || (abs(tmpY - round(tmpY)) > 0.1) || (abs(tmpWidth - round(tmpWidth)) > 0.1) || (abs(tmpHeight - round(tmpHeight)) > 0.1))
+        showMessage("PhilaJ: selectionToJpg", "WARNING: Loss of precesion when coordinate components rounded for image name!");
+      tmpX      = round(tmpX);
+      tmpY      = round(tmpY);
+      tmpWidth  = round(tmpWidth);
+      tmpHeight = round(tmpHeight);
+      tmpX = toString(tmpX, 0);
+      if (coordIncludeSize && !(startsWith(tmpX, "-")))
+        tmpX = "+" + tmpX;
+      tmpY = toString(tmpY, 0);
+      if ( !(startsWith(tmpY, "-")))
+        tmpY = "+" + tmpY;
+      if(coordIncludeSize)
+        imageNameAnno += toString(tmpWidth, 0) + "x" + toString(tmpHeight, 0);
+      imageNameAnno += tmpX + tmpY;
+    }
+    if ((coordIncludeSID) && (lengthOf(roiSstr) > 0))
+      imageNameAnno += "_" + roiSstr;
+  }
 
   run("Internal Clipboard");
 
-  rename(File.getNameWithoutExtension(imageFileName) + "_" + fileNameTag);
+  imageName = imageNameBase;
+  if (lengthOf(imageNameAnno) > 0)
+    imageName += "_" + imageNameAnno;
+  rename(imageName);
 
-  if (saveIt) {
+  if (indexOf(autoAct, "JPEG") >= 0)
     run("Jpeg...");
+
+  if (indexOf(autoAct, "Close") >= 0) {
     close();
+  } else {
+    if (imgScaled) {
+      if ( !(is("global scale"))) {
+        if ( (startsWith(pixelLengthUnit, "pixel")) || (pixelHeight == 1)) {
+          showMessage("PhilaJ: selectionToJpg", "Warning: Unable to determine scale for new image!");
+        } else {
+          run("Set Scale...", " known=" + d2s(pixelWidth, 10) + " unit=mm distance=1 pixel=" + d2s(pixelWidth/pixelHeight, 10));
+        }
+      }
+    }
   }
 }
+

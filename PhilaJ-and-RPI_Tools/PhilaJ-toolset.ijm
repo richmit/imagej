@@ -97,7 +97,7 @@ macro "Restore/Toggle PhilaJ Overlay [g]" {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 macro "Selection to JPEG [J]" {
-  selectionToJpg(true, 0, 0, 1, "pixels");
+  selectionToJpg(false, true, true, false, "Pixel Coordinates", "Save JPEG & Close Image");
 }
 
 // Letters I may use in the future: p
@@ -252,7 +252,7 @@ macro "PhilaJ Scale Menu Tool - C000 L19f9 L171b Lf7fb L888a L585a Lb8ba " {
   else if (cmd=="resize image to target DPI")
     resizeToDPI(-1);
   else if (cmd=="Set Scale from DPI file name")
-    setScaleFromFileName(true, true);
+    setScaleFromFileName(false, true);
   else if (cmd=="Set Scale for Stereo Microscope Photograph")
     setScaleForMicrograph(false);
   else if (cmd=="Set Scale via standard ImageJ dialog")
@@ -349,9 +349,9 @@ macro "PhilaJ Load Image Menu Tool - C000 L000f L0fff Lfff3 Lf363 L6340 L4000" {
   else if (cmd=="Close Image, PhilaJ, & Related Windows")
     closeAllPhilaJWindows(true, true);
   else if (cmd=="Selection to image (with scale)")
-    selectionToImage();
+    selectionToJpg(false, true, true, false, "Pixel Coordinates", "None");
   else if (cmd=="Selection to JPEG")
-    selectionToJpg(true, 0, 0, 1, "pixels");
+    selectionToJpg(false, true, true, false, "Pixel Coordinates", "Save JPEG & Close Image");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

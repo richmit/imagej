@@ -723,14 +723,14 @@ having the same name. In addition to having measurement window entries, we also 
 ROIs in the ROI Manager=" option selected before we clicked.  Note some combinations of naming options can lead to the two ROIs having the same name.
 
 #+ATTR_HTML: :align center :width 800
-file:PhilaJ-overlay-cToolBx.gif
+[[file:PhilaJ-overlay-cToolBx.gif][file:PhilaJ-overlay-cToolBx.gif]]
 
 The size of the selection is determined by the tool options.  The precise location of the selection is influenced by the "=Image Coordinates in JPEGs="
 option.  If it is set to "=pixels=" or "=thirkell=", then the rectangle will be precisely centered on the point clicked.  If it is set to "physical" and the
 region is bigger than 3mm, then the upper left corner of the selection will be on an even millimeter coordinate point.  This "rounding" of the upper left
 coordinate point allows us to communicate the location of the flaw image in even millimeter values.  If the option "=Save Box Images=" is selected, then a
-JPEG of the box will be saved.  The image name will, by default, contain the size and coordinates of the selection.  Here is the JPEG for the previous
-selection:
+JPEG of the box will be saved (For more information see the section: [[#sub-image][Making Images From Selections]]).  The image name will, by default, contain
+the size and coordinates of the selection.  Here is the JPEG for the previous selection:
 
 #+ATTR_HTML: :align center :width 400
 file:PhilaJ-eximg-cToolBox.gif
@@ -931,14 +931,34 @@ Please read the section [[#capture-and-scale][Capturing and adjusting properly s
 :CUSTOM_ID: sub-image
 :END:
 
-ImageJ is perfectly capable of creating new images from a selection with "=duplicate=" command or more explicitly via three steps: 1) "=Edit -> Selection ->
-To Bounding Box=", 2) "=Edit -> Copy=", 3) "=File -> New -> Internal Clipboard=".  PhilaJ provides two ways to do something similar.
+ImageJ is perfectly capable of creating new images from a selection with "=duplicate=" command (bound to the "=d=" key). When run with an existing ROI, the
+"=duplicate=" command essentially performs three steps: 1) "=Edit -> Selection -> To Bounding Box=", 2) "=Edit -> Copy=", 3) "=File -> New -> Internal
+Clipboard=".  PhilaJ provides two ways to do something similar.
 
-The first is [[#sub-image][=Selection to image (with scale)=]] which simply automates the three steps above *and* then copies the source image scale to the
-new image.  The second is [[#sub-image][=Selection to JPEG=]], also bound to the uppercase =[J]= key. This one is a bit more specialized.  It is intended to
-immediately save a JPEG of the new image to disk leaving no new image open in ImageJ.  The name for the new JPEG will automatically be annotated with the
-coordinates and size of the region from which it was clipped.  This feature is used by the [[#coord-tool][=Coordinate Tool=]] when making box selections --
-which is mostly how I use it in practice.
+The first is [[#sub-image][=Selection to image (with scale)=]] which creates a new image from the current ROI's bounding box, *and* then copies the source
+image scale to the new image (if the source had one).  The second is [[#sub-image][=Selection to JPEG=]], also bound to the uppercase =[J]= key. This one is a
+bit more specialized.  It is intended to immediately save a JPEG of the new image to disk leaving no new image open in ImageJ.  
+
+Both  [[#sub-image][=Selection to image (with scale)=]] and  [[#sub-image][=Selection to JPEG=]] use the same underlying system to create a name for
+the new image.  The name may contain several components:
+
+  - The base name for the source image
+  - Coordinates of the bounding box (upper left-hand corner) in pixels, physical units (millimeters), or Thirkell notation.
+  - Size (width, height, or both) of the bounding box in pixels or physical units.
+  - =SID= for the ROI.
+  - Name of the ROI.
+
+What gets included is controlled by the dialog:
+
+#+ATTR_HTML: :align center :width 400
+file:PhilaJ-dialog-selectionToJPG.gif
+
+Note the options available in the "=Additional Image Name Annotation=" section will dynamically vary depending on the situation.  For example if the image has
+no scale, then the options for "=Pixel Coordinates=" & "=Thirkell=" won't be available.  In a similar way the options "=ROI Name=" & "=ROI SID=" will not be
+shown if the ROI has no name.  Also note the defaults for some options can be set by the calling method.  For example, when called from the
+[[#coord-tool][=Coordinate Tool=]] the default value for the "=Include width & height in coordinates?=" option will be unchecked.  As another example, the
+primary difference between the [[#sub-image][=Selection to image (with scale)=]] and [[#sub-image][=Selection to JPEG=]] is the default value for the
+"=Automatic Save Actions=" option.
 
 *** Overlay/ROI Measure
 :PROPERTIES:
