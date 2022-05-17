@@ -508,11 +508,8 @@ function roiManagerAddOrUpdateROI(name, overwriteWarn) {
   }
 
   name = Roi.getName;
-
   oldIndexes = roiManagerIndexOfAll(name);
-
   setKeyDown("none"); // The ALT key can show as down if we used ALT-TAB to switch to the dialog just before clicking OK
-
   roiManager("add");
 
   if (oldIndexes.length > 0) {
@@ -5058,7 +5055,7 @@ function sliceUpBlock() {
   gbl_ALL_fMag      = Dialog.getChoice();
 
   if ((gbl_sus_cols <= 0) || (gbl_sus_rows <= 0))
-        exit("<html>"
+    exit("<html>"
          +"<font size=+1>"
          +"ERROR(sliceUpBlock):<br>"
          +"&nbsp; Values for rows and columns must both be positive whole numbers!" + "<br>"
@@ -5066,7 +5063,7 @@ function sliceUpBlock() {
          +"</font>");
 
   if ((gbl_sus_1pos > 0) && (gbl_sus_scols < gbl_sus_cols))
-        exit("<html>"
+    exit("<html>"
          +"<font size=+1>"
          +"ERROR(sliceUpBlock):<br>"
          +"&nbsp; The sheet must not have fewer columns than the block!!" + "<br>"
@@ -5190,7 +5187,7 @@ function makeBlockDesignROI()  {
   gbl_ALL_fMag      = Dialog.getChoice();
 
   if ((gbl_sus_cols <= 0) || (gbl_sus_rows <= 0))
-        exit("<html>"
+    exit("<html>"
          +"<font size=+1>"
          +"ERROR(makeBlockDesignROI):<br>"
          +"&nbsp; Values for rows and columns must both be positive whole numbers!" + "<br>"
@@ -5198,7 +5195,7 @@ function makeBlockDesignROI()  {
          +"</font>");
 
   if ((gbl_sus_1pos > 0) && (gbl_sus_scols < gbl_sus_cols))
-        exit("<html>"
+    exit("<html>"
          +"<font size=+1>"
          +"ERROR(makeBlockDesignROI):<br>"
          +"&nbsp; The sheet must not have fewer columns than the block!!" + "<br>"
@@ -5227,7 +5224,7 @@ function makeBlockDesignROI()  {
   gapHeight = (yRL - yLU) / (gbl_sus_rows - 1);
 
   if ((gapWidth <= 0) && (gapHeight <= 0))
-        exit("<html>"
+    exit("<html>"
          +"<font size=+1>"
          +"ERROR(makeBlockDesignROI):<br>"
          +"&nbsp; Invalid ROIs!" + "<br>"
@@ -5260,14 +5257,14 @@ function makeBlockDesignROI()  {
       for(xi=0; xi<gbl_sus_cols; xi++) {
         xc = xLU + xi * gapWidth;
         yc = yLU + yi * gapHeight;
-		makeRectangle(xc, yc, medWidth, medHeight);
+        makeRectangle(xc, yc, medWidth, medHeight);
         if (gbl_sus_1pos > 0) 
           roiManagerAddOrUpdateROI("design_p" + (xi+gbl_sus_1pos+yi*gbl_sus_scols), false); 
         else
           roiManagerAddOrUpdateROI("design_"  + (i+1), false); 
         i++;
-	  }
-	}
+      }
+    }
   }
   clearOverlay(); 
 }
@@ -5554,7 +5551,7 @@ function selectionToJpg(warnIfImageUnscaled, warnIfRoundBad, coordIncludeSize, c
       roiSstr = substring(roiSstr, 1);
       imageNameAnnoTypes = Array.concat(imageNameAnnoTypes, newArray("ROI SID: " + roiSstr));   // If we have a selection name with SID, then add it to the list
     } else {
-      roiSstr = ""
+      roiSstr = "";
     }
     roiAstr = roiNameToAnnoWithDelim(selName);
     if (lengthOf(roiAstr) > 1) {
@@ -5573,8 +5570,8 @@ function selectionToJpg(warnIfImageUnscaled, warnIfRoundBad, coordIncludeSize, c
   Dialog.create("Selection To Jpg");
   Dialog.addString("Base Image Name:", imageNameBase, 30);
   Dialog.addRadioButtonGroup("Additional Image Name Annotation", imageNameAnnoTypes, lengthOf(imageNameAnnoTypes), 1, imageNameAnnoType);
-  Dialog.addCheckbox("Include width & height in coordinates?", coordIncludeSize)
-  Dialog.addCheckbox("Include SID in coordinates?", coordIncludeSID)
+  Dialog.addCheckbox("Include width & height in coordinates?", coordIncludeSize);
+  Dialog.addCheckbox("Include SID in coordinates?", coordIncludeSID);
   Dialog.addRadioButtonGroup("Automatic Save Actions", autoActs, lengthOf(autoActs), 1, autoAct);
   Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#sub-image");
   Dialog.show();
