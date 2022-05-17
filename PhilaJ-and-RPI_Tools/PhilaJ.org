@@ -960,6 +960,10 @@ shown if the ROI has no name.  Also note the defaults for some options can be se
 primary difference between the [[#sub-image][=Selection to image (with scale)=]] and [[#sub-image][=Selection to JPEG=]] is the default value for the
 "=Automatic Save Actions=" option.
 
+Note both [[#sub-image][=Selection to image (with scale)=]] and [[#sub-image][=Selection to JPEG=]] behave differently if called while the
+[[#pos-finder][=Position Finder=]] or [[#coord-tool][=Coordinate Tool=]] overlays are active.  In this case the coordinates are relative to the origin of the
+coordinate system.
+
 *** Overlay/ROI Measure
 :PROPERTIES:
 :CUSTOM_ID: overlay-measure
