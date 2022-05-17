@@ -75,7 +75,7 @@ philatelic image processing procedures.
     - Standard grill characteristics are all pre-programmed:
   - Split up an image of a sheet into a stack of individual stamps
   - Thirkell-type position finder (automatically positioned over the design ROI)
-  - Millimeter Coordinate Tool (a modern, digital take on the Thirkell). 
+  - Millimeter Coordinate Tool (a modern, digital take on the Thirkell).
   - Tools to document plate flaws with coordinates and thumbnail images.
   - Full support for my DIY Microscope camera is included (live video, captures, measurements)
   - Sophisticated, and automatic management of physical image scales
@@ -118,7 +118,7 @@ have tried to sort the list from highest priority to lowest:
     - Mostly I care about rectangular stamps only
     - It would be nice to detect the holes directly -- perhaps a multi-point, affinity-descent method to find the hole bottoms?
   - Compute perforations automatically (Hard)
-    - Via Fourier transform 
+    - Via Fourier transform
     - Via custom line graph analysis
   - Automatic grill identification from individual grill points (Hard)
     - Use up/down data provided by user to guide algorithm
@@ -190,7 +190,7 @@ said, I think the tutorial linked above is all you really need to get started wi
 From this point on, this document assumes you are using the Fiji distribution of ImageJ.  If you have not yet installed it, then do so now:
 https://imagej.net/software/fiji/
 
-I recommend that you install it someplace in your user directory.  
+I recommend that you install it someplace in your user directory.
 
 ** Installing PhilaJ
 
@@ -214,12 +214,12 @@ ImageJ's default measurement settings are not ideal for PhilaJ, so we need to ch
 ImageJ menu:
 
 #+ATTR_HTML: :align center :width 800px
-file:PhilaJ-setup-measure-menu.gif
+[[file:PhilaJ-setup-measure-menu.gif][file:PhilaJ-setup-measure-menu.gif]]
 
 The following dialog box will appear:
 
 #+ATTR_HTML: :align center :width 400px
-file:PhilaJ-setup-measure-dialog.gif
+[[file:PhilaJ-setup-measure-dialog.gif][file:PhilaJ-setup-measure-dialog.gif]]
 
 It is important to select the three highlighted options:
  - Area
@@ -241,17 +241,17 @@ Why are these options important?
 The PhilaJ toolset is activated via the toolset menu:
 
 #+ATTR_HTML: :align center :width 800px
-file:PhilaJ-toolbar-b4m-anno.gif
+[[file:PhilaJ-toolbar-b4m-anno.gif][file:PhilaJ-toolbar-b4m-anno.gif]]
 
 Then the PhilaJ macro set is selected:
 
 #+ATTR_HTML: :align center :width 800px
-file:PhilaJ-toolbar-tbm-anno.gif
+[[file:PhilaJ-toolbar-tbm-anno.gif][file:PhilaJ-toolbar-tbm-anno.gif]]
 
 Once activated, it will add a few buttons to the toolbar:
 
 #+ATTR_HTML: :align center :width 800px
-file:PhilaJ-toolbar-pmi-anno.gif
+[[file:PhilaJ-toolbar-pmi-anno.gif][file:PhilaJ-toolbar-pmi-anno.gif]]
 
 In addition to the buttons, a few keyboard shortcuts will now be activated!
 
@@ -279,7 +279,7 @@ In addition to the buttons, a few keyboard shortcuts will now be activated!
 :CUSTOM_ID: tool-set-buttons
 :END:
 
-file:PhilaJ-philaj-buttons.gif
+[[file:PhilaJ-philaj-buttons.gif][file:PhilaJ-philaj-buttons.gif]]
 
 *** Overlay Menu (images & annotations drawn over the stamp image in a nondestructive way)
 
@@ -413,7 +413,7 @@ file:PhilaJ-philaj-buttons.gif
    - [[#phil-rotate][=Rotate 90 Degrees Right=]]
    - ---
    - [[#sep-block][=Separate stamp multiple=]]
-   - [[#block-d-roi][=Make Design ROIs for Multiple=]] 
+   - [[#block-d-roi][=Make Design ROIs for Multiple=]]
    - ---
    - [[#phil-units][=Convert Distance to Perforation Measurement=]]
    - [[#phil-units][=Convert Kiusalas to Perforations per 2cm=]]
@@ -431,7 +431,7 @@ file:PhilaJ-philaj-buttons.gif
 :END:
 
 #+ATTR_HTML: :align center :width 800
-file:PhilaJ-overlay-dynamicPerf.gif
+[[file:PhilaJ-overlay-dynamicPerf.gif][file:PhilaJ-overlay-dynamicPerf.gif]]
 
 The dynamic perforation gauge is a fully interactive, digital perforation gauge capable of making very precise measurements of both perforations and hole
 size.  With physical perforation gauges one finds the gauge row that most closely matches the perforation holes.  The dynamic gauge only has one row of
@@ -443,14 +443,14 @@ When using the [[#dynamic-perf-gauge][=Dynamic Perforation Gauge Options=]] menu
 drawn.
 
 #+ATTR_HTML: :align center :width 400
-file:PhilaJ-dialog-dynamicPerf-Options.gif
+[[file:PhilaJ-dialog-dynamicPerf-Options.gif][file:PhilaJ-dialog-dynamicPerf-Options.gif]]
 
 When using the [[#dynamic-perf-gauge][=Dynamic Perforation Gauge Presets=]] menu item, the dialog below will appear.  These presets will set the initial hole
 size & spacing.  Immediately after the preset dialog, the options dialog will be displayed just as if the [[#dynamic-perf-gauge][=Dynamic Perforation Gauge
 Options=]] had been used.
 
 #+ATTR_HTML: :align center :width 400
-file:PhilaJ-dialog-dynamicPerf-Presets.gif
+[[file:PhilaJ-dialog-dynamicPerf-Presets.gif][file:PhilaJ-dialog-dynamicPerf-Presets.gif]]
 
 The initial placement of the overlay may be controlled by an active line ROI when [[#dynamic-perf-gauge][=Dynamic Perforation Gauge=]] or
 [[#dynamic-perf-gauge][=Dynamic Perforation Gauge Options=]] is used -- but not [[#dynamic-perf-gauge][=Dynamic Perforation Gauge Presets=]].
@@ -494,7 +494,7 @@ In summary:
  | =[M]=              | N/A     | Get a perforation report          |
 
 Once the gauge is adjusted to align with the stamp's perforation holes, a detailed perforation report may be generated via the
-[[#overlay-measure][=Overlay/ROI Measure=]] menu selection or by pressing the [[#keybindings][=[M]=]] key -- note that is an upper case "M".  
+[[#overlay-measure][=Overlay/ROI Measure=]] menu selection or by pressing the [[#keybindings][=[M]=]] key -- note that is an upper case "M".
 
 The report will be in a popup (just like the live measurement popup) if the option "=Results in measure table=" is not selected, otherwise it will be in the
 ImageJ measurement results window.  If the "=ROI Manager Use=" option is set to anything other than "=NONE=", then ROIs describing the perforation gauge will
@@ -526,10 +526,10 @@ one activates the gauges and then moves it around to line up the gauge on the pe
  - "Specialist-Style" -- rows of dots like the Kiusalas gauges
 
 #+ATTR_HTML: :align center :width 800
-file:PhilaJ-overlay-instaPerf1.gif
+[[file:PhilaJ-overlay-instaPerf1.gif][file:PhilaJ-overlay-instaPerf1.gif]]
 
 #+ATTR_HTML: :align center :width 800
-file:PhilaJ-overlay-spl.gif
+[[file:PhilaJ-overlay-spl.gif][file:PhilaJ-overlay-spl.gif]]
 
 These tools are found in the overlay menu. [[#static-perf-gauge][=Instanta-Style Perforation Gauge=]] & [[#static-perf-gauge][=Specialized Perforation
 Gauge=]] will draw the gauge immediately using the most recent, or default, settings.  If you wish to change settings first, then the
@@ -537,10 +537,10 @@ Gauge=]] will draw the gauge immediately using the most recent, or default, sett
 settings dialog before drawing the overlay.
 
 #+ATTR_HTML: :align center :width 400
-file:PhilaJ-dialog-instaPerf-Options.gif
+[[file:PhilaJ-dialog-instaPerf-Options.gif][file:PhilaJ-dialog-instaPerf-Options.gif]]
 
 #+ATTR_HTML: :align center :width 400
-file:PhilaJ-dialog-splPerf-Options.gif
+[[file:PhilaJ-dialog-splPerf-Options.gif][file:PhilaJ-dialog-splPerf-Options.gif]]
 
 One "moves" the gauge around via the [[#tool-set-buttons-interact][=PhilaJ Overlay Interaction Tool=]] -- the button just to the right of the overlay menu
 button.  Simply click and drag while the [[#tool-set-buttons-interact][=PhilaJ Overlay Interaction Tool=]] is active to move the gauge around.
@@ -552,10 +552,10 @@ have measured the horizontal perforations and wish to measure the vertical ones,
 
 Unlike physical gauges, these gauges can be customized in various ways.  First the graphical presentation (colors, line widths, etc...) can all be customized
 to make them more readable.  Secondly, they can be customized geometrically as well.  The Instanta-Style gauges can have the overall range adjusted and the
-graduations (1/10, 1/4, 1/2) adjusted.  Note that by reducing the range one can obtain very accurate measurements with the Instanta-Style gauge.  
+graduations (1/10, 1/4, 1/2) adjusted.  Note that by reducing the range one can obtain very accurate measurements with the Instanta-Style gauge.
 
 #+ATTR_HTML: :align center :width 800
-file:PhilaJ-overlay-instaPerf2.gif
+[[file:PhilaJ-overlay-instaPerf2.gif][file:PhilaJ-overlay-instaPerf2.gif]]
 
 The specialist-style options dialog provides a drop down of several gauges (Kiusalas, traditional Kiusalas, Bari Wolf, etc...).  The end user can add to this
 list by saving CSV files describing new gauges (see: [[#custom-spec-gauge][=Install New Specialized Gauge=]]).
@@ -571,7 +571,7 @@ Perforation Gauge Presets=]] menu options.
 :CUSTOM_ID: custom-spec-gauge
 :END:
 
-Then menu option [[#custom-spec-gauge][=Install New Specialized Gauge=]] in the overlay menu allows one to install new specialized gauges.  
+Then menu option [[#custom-spec-gauge][=Install New Specialized Gauge=]] in the overlay menu allows one to install new specialized gauges.
 
 New gauges are described via a CSV file -- which you can make with a text editor or Excel.  These files contain three columns:
  - Gaps -- the center to center distance between perf holes (in millimeters)
@@ -614,7 +614,7 @@ See the section [[#spec-gauge-list][Available Specialist gauges and presets]] fo
 :CUSTOM_ID: centering-measurements
 :END:
 
-PhilaJ can be used to make various centering & paper measurements.  
+PhilaJ can be used to make various centering & paper measurements.
 
 These tools require the design and/or paper edges to be identified via ROIs.  When running one of these measurement tools, they look in the ROI manager for an
 appropriately named ROI first.  If a single usable ROI is found, then it is used.  If multiple appropriate ROIs are found, then the user is ask to select the
@@ -630,7 +630,7 @@ to centering & margins.  The centering report requires both a paper and a design
 ROI of maximal size between one edge of the paper ROI and the design.  They are denoted in yellow in the image below.
 
 #+ATTR_HTML: :align center :width 800px
-file:PhilaJ-meas-centeringRep.gif
+[[file:PhilaJ-meas-centeringRep.gif][file:PhilaJ-meas-centeringRep.gif]]
 
 **** Centering Metrics
 
@@ -692,13 +692,13 @@ corner of the design bounding box.  In addition, the [[#coord-tool][=Coordinate 
 ROIs and saved image files.
 
 #+ATTR_HTML: :align center :width 800
-file:PhilaJ-overlay-cTool.gif
+[[file:PhilaJ-overlay-cTool.gif][file:PhilaJ-overlay-cTool.gif]]
 
 The coordinate tool may be started up via the [[#coord-tool][=Coordinate Tool=]] or [[#coord-tool][=Coordinate Tool Options=]] menu selections.  The second
 provides a chance to change the tool settings before drawing the overlay:
 
 #+ATTR_HTML: :align center :width 400
-file:PhilaJ-dialog-cTool-Options.gif
+[[file:PhilaJ-dialog-cTool-Options.gif][file:PhilaJ-dialog-cTool-Options.gif]]
 
 If an ROI is active when the tool is started up, then a popup will ask if the coordinate origin should be set to the upper left hand corner of the current
 ROI's bounding box.  If this ROI has an =SID=, then it will be stored in the "ROI Name SID" field of the options dialog.  Unlike the [[#pos-finder][=Position
@@ -712,7 +712,7 @@ option "=Draw Point ROI Axis Guides=" is selected in the options dialog.  Also n
 controlled by the following options: "=ROI Name Prefix=", =ROI Name Coords=", "=ROI Name Box Size=", and "=ROI Name SID=".
 
 #+ATTR_HTML: :align center :width 800
-file:PhilaJ-overlay-cToolPt.gif
+[[file:PhilaJ-overlay-cToolPt.gif][file:PhilaJ-overlay-cToolPt.gif]]
 
 One additional feature is the ability to quickly make rectangular selections and even save them to disk.  My primary use case for this feature is to document
 plate flaw locations and make tiny JPEGs for inclusion into my albums.  These rectangular selections are made just like the point selections already
@@ -733,7 +733,7 @@ JPEG of the box will be saved (For more information see the section: [[#sub-imag
 the size and coordinates of the selection.  Here is the JPEG for the previous selection:
 
 #+ATTR_HTML: :align center :width 400
-file:PhilaJ-eximg-cToolBox.gif
+[[file:PhilaJ-eximg-cToolBox.gif][file:PhilaJ-eximg-cToolBox.gif]]
 
 Note the "thirkell" option for units will put the Thirkell coordinates of the point clicked in the JPEG file name.  These coordinates are based on the origin
 of the [[#coord-tool][=Coordinate Tool=]] and a 3mm grid size.  Note the region may be set larger or smaller if desired, but the coordinates will always be
@@ -752,13 +752,13 @@ found, then it is used.  Otherwise the user is prompted to create one (it will b
 overlays things like the fonts and colors may be adjusted.
 x
 #+ATTR_HTML: :align center :width 800
-file:PhilaJ-overlay-posFinder.gif
+[[file:PhilaJ-overlay-posFinder.gif][file:PhilaJ-overlay-posFinder.gif]]
 
 This tool is started via the [[#pos-finder][=Position Finder=]] or [[#pos-finder][=Position Finder Options=]] menu selections with the second option showing
 an options dialog before drawing the overlay:
 
 #+ATTR_HTML: :align center :width 400
-file:PhilaJ-dialog-posFinder-Options.gif
+[[file:PhilaJ-dialog-posFinder-Options.gif][file:PhilaJ-dialog-posFinder-Options.gif]]
 
 Like many PhilaJ overlays, this one may be interacted with via the [[#tool-set-buttons-interact][=PhilaJ Overlay Interaction Tool=]].  If the image is clicked
 on, then the coordinates of the point clicked will be added to the measurement results window.  If an ROI is defined, and the [[#overlay-measure][=Overlay/ROI
@@ -766,7 +766,7 @@ Measure=]] command is used, via the uppercase [[#keybindings][=[M]=]] key, then 
 position finder coordinates.  In the following image, the first measurement result line is for a clicked pint and the second is for the highlighted ROI.
 
 #+ATTR_HTML: :align center :width 800
-file:PhilaJ-overlay-posFinderPtROI.gif
+[[file:PhilaJ-overlay-posFinderPtROI.gif][file:PhilaJ-overlay-posFinderPtROI.gif]]
 
 I find this tool most useful when referring to literature that uses the Thirkell position finder.  For practical plate flaw locations, I tend to use the
 [[#coord-tool][=Coordinate Tool=]] more useful.
@@ -780,7 +780,7 @@ provides a generic tool to measure the angle and distance between arbitrary edge
 This tool will prompt the user to make two line selections, and then report some statistics in a popup:
 
 #+ATTR_HTML: :align center :width 400
-file:PhilaJ-meas-edges.gif
+[[file:PhilaJ-meas-edges.gif][file:PhilaJ-meas-edges.gif]]
 
 It also provides a more specialized tool for US coil stamps in the [[#measure-edges][=Coil Edge Check=]] menu item.  This tool will make use of ROIs stored in
 the ROI Manager with names like =coilEdgeB=, =coilEdgeL=, =coilEdgeR=, and =coilEdgeT=.  If no ROIs are found, then the user will be prompted to make line
@@ -788,7 +788,7 @@ selections, and the tool will save off these selections in the ROI Manager with 
 pop up and the edges used are highlighted on the image.
 
 #+ATTR_HTML: :align center :width 800
-file:PhilaJ-meas-coil.gif
+[[file:PhilaJ-meas-coil.gif][file:PhilaJ-meas-coil.gif]]
 *** Grill Tool
 :PROPERTIES:
 :CUSTOM_ID: grill-tool
@@ -800,7 +800,7 @@ then it is used to place the grill template over the stamp image.  If none are f
 this newly created grill ROI will be placed in the ROI manager.
 
 #+ATTR_HTML: :align center :width 800
-file:PhilaJ-overlay-grill.gif
+[[file:PhilaJ-overlay-grill.gif][file:PhilaJ-overlay-grill.gif]]
 
 I find it easier to identify a handful of grill points on the edges of a grill than to identify the grill boundary sometimes. The intent is that the "=grill="
 ROI be a rectangle outline of the grill, while the "=grillPts=" ROI is a multi-point ROI identifying grill points.
@@ -810,19 +810,19 @@ When invoked via the "=Grill=" menu selection, the overlay is immediately drawn 
 show a grill type selection dialog:
 
 #+ATTR_HTML: :align center :width 400
-file:PhilaJ-dialog-grill-Type.gif
+[[file:PhilaJ-dialog-grill-Type.gif][file:PhilaJ-dialog-grill-Type.gif]]
 
 This dialog will be followed by the grill options dialog, the same dialog you get when you use the [[#grill-tool][=Grill Options=]] menu selection:
 
 #+ATTR_HTML: :align center :width 400
-file:PhilaJ-dialog-grill-Options.gif
+[[file:PhilaJ-dialog-grill-Options.gif][file:PhilaJ-dialog-grill-Options.gif]]
 
 It is typical to toggle through a grill or two in order to find the one that fits best.  Note the options dialog contains the usual customization options like
 line color and width, but it also contains several options regarding what parts of the grill template are drawn.  For difficult grills it is worth playing
 around with these options.
 
 #+ATTR_HTML: :align center :width 400
-file:PhilaJ-dialog-grill-Options2.gif
+[[file:PhilaJ-dialog-grill-Options2.gif][file:PhilaJ-dialog-grill-Options2.gif]]
 
 The [[#tool-set-buttons-interact][=PhilaJ Overlay Interaction Tool=]] allows one to drag the grill template around on the screen, but you must update the
 "=grill=" or "=grillPts=" ROI to make the grill appear in the new location for future invocations of the grill tool.  This may be easily done via the
@@ -838,7 +838,7 @@ The [[#sep-block][=Separate stamp multiple=]] menu option breaks up images of st
 dialog will appear:
 
 #+ATTR_HTML: :align center :width 400
-file:PhilaJ-dialog-sheetSep-Options.gif
+[[file:PhilaJ-dialog-sheetSep-Options.gif][file:PhilaJ-dialog-sheetSep-Options.gif]]
 
 The first two requested numbers define the block size, and are used later by PhilaJ to separate the sheet into stamps.  The second two values
 are used to label the stamp images with the position number from the original sheet from which the block came:
@@ -855,7 +855,7 @@ After the dialog, the tool will ask the user to define a "block ROI".  This ROI 
 below).
 
 #+ATTR_HTML: :align center :width 800
-file:PhilaJ-sheetSplitROI.gif
+[[file:PhilaJ-sheetSplitROI.gif][file:PhilaJ-sheetSplitROI.gif]]
 
 The tool will then split the block into stamp sized rectangles with boundaries between stamps.  Sometimes these boundaries miss because the original ROI was
 improperly positioned.  For this reason, the tool will ask the user if the cut lines are acceptable.  If they are not, then the user is requested to adjust
@@ -863,7 +863,7 @@ the block ROI.  This process repeats until the user accepts the cut lines.  Then
 ImageJ image stack.  Here is what a good set of cut lines look like:
 
 #+ATTR_HTML: :align center :width 800
-file:PhilaJ-sheetSplitResult.gif
+[[file:PhilaJ-sheetSplitResult.gif][file:PhilaJ-sheetSplitResult.gif]]
 
 Note that this final block ROI will be saved in the ROI manager with the name "=multipleOuterSep=".
 
@@ -884,7 +884,7 @@ ROIs usually need to be individually adjusted, but this is much less work than c
 with a dialog box:
 
 #+ATTR_HTML: :align center :width 400
-file:PhilaJ-dialog-bultDroi-Options.gif
+[[file:PhilaJ-dialog-bultDroi-Options.gif][file:PhilaJ-dialog-bultDroi-Options.gif]]
 
 For the most part, this dialog like the [[#sep-block][=Separate stamp multiple=]] tool. The use of "=-1=" for the sheet position will cause the resulting ROI
 names to be "=design_#= instead of "=design_p#=" -- i.e. the =SID= won't be prefixed by a "=p=".  This is related to recommended =SID= values documented in
@@ -893,22 +893,22 @@ the section [[#roi-name-components][About ROI Name Components]].
 After the dialog box, the tool will ask the user to identify the upper left stamp design like so:
 
 #+ATTR_HTML: :align center :width 800
-file:PhilaJ-bultDroi-LU.gif
+[[file:PhilaJ-bultDroi-LU.gif][file:PhilaJ-bultDroi-LU.gif]]
 
 Next the tool will ask the user to identify the lower right stamp design like so:
 
 #+ATTR_HTML: :align center :width 800
-file:PhilaJ-bultDroi-RL.gif
+[[file:PhilaJ-bultDroi-RL.gif][file:PhilaJ-bultDroi-RL.gif]]
 
 The generated design ROIs will then be displayed, and the user will be ask if the ROIs should be saved in the ROI manager:
 
 #+ATTR_HTML: :align center :width 800
-file:PhilaJ-bultDroi-res.gif
+[[file:PhilaJ-bultDroi-res.gif][file:PhilaJ-bultDroi-res.gif]]
 
 If the user instructs PhilaJ to save the ROIs, then ROIs will be created and saved in the ROI manager:
 
 #+ATTR_HTML: :align center :width 400
-file:PhilaJ-bultDroi-ROIs.gif
+[[file:PhilaJ-bultDroi-ROIs.gif][file:PhilaJ-bultDroi-ROIs.gif]]
 
 *** Image Rotation
 :PROPERTIES:
@@ -923,7 +923,7 @@ The [[#phil-rotate][=Rotate 90 Degrees Right=]] menu option's function is pretty
 
 Both of these rotation commands will clear the current overlay.  To redraw it, hit the [[#keybindings][=[g]=]] key.
 
-Note that image rotation can make future linear measurements impossible.  
+Note that image rotation can make future linear measurements impossible.
 Please read the section [[#capture-and-scale][Capturing and adjusting properly scaled images]].
 
 *** Making Images From Selections
@@ -937,7 +937,7 @@ Clipboard=".  PhilaJ provides two ways to do something similar.
 
 The first is [[#sub-image][=Selection to image (with scale)=]] which creates a new image from the current ROI's bounding box, *and* then copies the source
 image scale to the new image (if the source had one).  The second is [[#sub-image][=Selection to JPEG=]], also bound to the uppercase =[J]= key. This one is a
-bit more specialized.  It is intended to immediately save a JPEG of the new image to disk leaving no new image open in ImageJ.  
+bit more specialized.  It is intended to immediately save a JPEG of the new image to disk leaving no new image open in ImageJ.
 
 Both  [[#sub-image][=Selection to image (with scale)=]] and  [[#sub-image][=Selection to JPEG=]] use the same underlying system to create a name for
 the new image.  The name may contain several components:
@@ -951,7 +951,7 @@ the new image.  The name may contain several components:
 What gets included is controlled by the dialog:
 
 #+ATTR_HTML: :align center :width 400
-file:PhilaJ-dialog-selectionToJPG.gif
+[[file:PhilaJ-dialog-selectionToJPG.gif][file:PhilaJ-dialog-selectionToJPG.gif]]
 
 Note the options available in the "=Additional Image Name Annotation=" section will dynamically vary depending on the situation.  For example if the image has
 no scale, then the options for "=Pixel Coordinates=" & "=Thirkell=" won't be available.  In a similar way the options "=ROI Name=" & "=ROI SID=" will not be
@@ -987,7 +987,7 @@ example, consider the following image.  The popup in the middle is what you get 
 the two deign frames.
 
 #+ATTR_HTML: :align center :width 800px
-file:PhilaJ-meas-offset.gif
+[[file:PhilaJ-meas-offset.gif][file:PhilaJ-meas-offset.gif]]
 
 Note the offsets are measured in terms of the distance between the upper left of each ROI's [[#bb-hr-roi][bounding box]].
 
@@ -1000,8 +1000,8 @@ The PhilaJ [[#load-save-magic][=Load image & ROI sidecar.  Attempt to set Scale.
 sequence of actions: first an image is loaded, then ROIs are loaded via [[#roi-sidecars][=Load ROIs from PhilaJ sidecar file=]], and then PhilaJ attempts
 to set the image scale using the following sequence of steps (stopping when one of them works):
 
-   - If ImageJ set the scale automatically, then PhilaJ will attempt to covert the scale to millimeters 
-     via [[#set-scale-convert][=Convert image scale units to mm=]].  This most commonly occurs when ImageJ uses an embedded TIFF DPI tag 
+   - If ImageJ set the scale automatically, then PhilaJ will attempt to covert the scale to millimeters
+     via [[#set-scale-convert][=Convert image scale units to mm=]].  This most commonly occurs when ImageJ uses an embedded TIFF DPI tag
      created automatically by a document scanner.
    - Next it attempts to use [[#set-scale-filename][=Set scale from DPI file name=]]
    - Next it attempts to use [[#scale-roi][=Set scale from scale ROI=]]
@@ -1033,7 +1033,7 @@ We can save and load sidecar files for the currently active image with the menu 
 :END:
 
 Similar to [[#roi-sidecars][=ROI Sidecars=]], PhilaJ can load a text file associated with an image via the [[#note-sidecars][=Load Notes from PhilaJ sidecar
-file=]] menu entry.  
+file=]] menu entry.
 
 Note sidecars are not as integrated into PhilaJ as are [[#roi-sidecars][=ROI Sidecars=]].  These files are not automatically loaded by
 [[#load-save-magic][=Load image & ROI sidecar.  Attempt to set Scale.=]].  They are also not automatically saved by [[#load-save-magic][=Save image & ROI
@@ -1049,7 +1049,7 @@ example, if an image scale was specified in DPI via an embedded TIFF tag, this w
 length units in philately:
 
   - mils -- thousandths of an inch
-  - inches 
+  - inches
   - centimeters
   - meters
   - micrometers
@@ -1120,7 +1120,7 @@ addition, this menu provides four other interfaces to the same command that migh
 Note the default distance in millimeters for all of these options is $50\,\mathrm{mm}$ because I use $50\,\mathrm{mm}$ glass scales graduated to
 $\frac{1}{10}\,\mathrm{mm}$ for both my scanner and microscope.
 
-*** Set scale via DPI 
+*** Set scale via DPI
 :PROPERTIES:
 :CUSTOM_ID: set-scale-dpi
 :END:
@@ -1164,12 +1164,12 @@ The [[#phil-data][=Kiusalas Table=]] menu item will display a table of US Kiusal
 perforation measurement to four digits.
 
 #+ATTR_HTML: :align center :width 400
-file:PhilaJ-data-usKSP.gif
+[[file:PhilaJ-data-usKSP.gif][file:PhilaJ-data-usKSP.gif]]
 
-The [[#phil-data][=Grill Table=]] menu item will display a table of US grill characteristics. 
+The [[#phil-data][=Grill Table=]] menu item will display a table of US grill characteristics.
 
 #+ATTR_HTML: :align center :width 800
-file:PhilaJ-data-usGrills.gif
+[[file:PhilaJ-data-usGrills.gif][file:PhilaJ-data-usGrills.gif]]
 
 *** Philatelic Unit Conversions
 :PROPERTIES:
@@ -1196,7 +1196,7 @@ that line ROI happens to be one that was previously created by the [[#dynamic-pe
 prepopulated.  The results window provides standard perforation and Kiusalas units.
 
 #+ATTR_HTML: :align center :width 400
-file:PhilaJ-compute-d2p.gif
+[[file:PhilaJ-compute-d2p.gif][file:PhilaJ-compute-d2p.gif]]
 
 *** Scale Report
 :PROPERTIES:
@@ -1209,7 +1209,7 @@ may be working in PPMM.  Another common scenario is having some images captured 
 expressed as pixel size in $\mu\mathrm{m}$ and other images of the same specimen from a document scanner calibrated in DPI.
 
 #+ATTR_HTML: :align center :width 400
-file:PhilaJ-scale-report.gif
+[[file:PhilaJ-scale-report.gif][file:PhilaJ-scale-report.gif]]
 
 *** Bulk Processing Images
 :PROPERTIES:
@@ -1217,7 +1217,7 @@ file:PhilaJ-scale-report.gif
 :END:
 
 Philatelists frequently have a great many scans or captures to deal with.  Be it a marathon album scanning session or a detailed analysis of a single,
-valuable specimen.  
+valuable specimen.
 
 PhilaJ provides a semi-automated method to scale for square pixels, rotate, crop, save, and create a thumbnail file.  I say semi-automated in that as PhilaJ
 processes each image the end user is required to draw a line for a rotation to horizontal and draw a rectangle for the final crop.  This routine is accessed
@@ -1311,7 +1311,7 @@ functions for the task: [[#scale-image-scale][=Shrink image to make pixels squar
 
  - Updated Kiusalas Perforation Gauge :: I have a high degree of confidence in this gauge, and think I have both the frequency & hole sizes correct. This one
    includeds a row for 72.5.
- - Traditional Kiusalas Perforation :: I have a high degree of confidence in this gauge, and think I have both the frequency & hole sizes correct. 
+ - Traditional Kiusalas Perforation :: I have a high degree of confidence in this gauge, and think I have both the frequency & hole sizes correct.
  - Liberty Issue Perforation Gauge :: Right now the gaps are the nearest Kiusalas value, and the hole sizes are based on values from articles.  Unfortunately
    this isn't quite right.  The hole sizes vary a bit between wet vs dry printings and the gaps between the large & small hole varieties is a tiny bit
    different.  So be careful when using it.  I hope to someday make a better gauge based on measurements of my extensive Liberty collection.
@@ -1319,7 +1319,7 @@ functions for the task: [[#scale-image-scale][=Shrink image to make pixels squar
    this issue, but the gauge is pretty good at this point.
  - Canadian Kiusalas Perforation Gauge :: The gaps are correct, but the hole diameters on this gauge are completely wrong -- I just set them to 1mm.  If you
    know what they should be, then please contact me!
- - AMG AM Post :: This gauge is based on a *very small* set of measurements of these issues, and needs more work.  
+ - AMG AM Post :: This gauge is based on a *very small* set of measurements of these issues, and needs more work.
 
 ** A Note About The Thirkell Position Finder
 
@@ -1384,7 +1384,7 @@ ROIs play a central role in PhilaJ (and in ImageJ in general).  PhilaJ has adopt
 *** Notation
 
   - Items in square brackets *are not* required, but items in angle brackets *are* required.
-    - Example 1: =pfLine<NN>_<SFX>= 
+    - Example 1: =pfLine<NN>_<SFX>=
       - GOOD: =pfLine12_foo=
       - BAD:  =pfLine_foo=, =pfLine12=, & =pfLine=
     - Example 2: =design[_<SID>][-<SFX>]=
@@ -1408,7 +1408,7 @@ ROIs play a central role in PhilaJ (and in ImageJ in general).  PhilaJ has adopt
      - Must not contain a dash ("=-=")
    - Recommendations
      - Sheets & if you know the sheet position: Use =pN= -- the "=p=" is for position, and "=N=" is the number.
-     - Blocks: Integers starting with 1 at the upper left and going left to right & top to bottom.  
+     - Blocks: Integers starting with 1 at the upper left and going left to right & top to bottom.
      - For large multiples, zero pad the integer so the SID integers are all the same width and thus sort correctly
      - For pairs use =L= (Left) & =R= (Right) or =T= (Top) & =B= (Bottom)
  - =<SFX>= - Used to differentiate an ROI from others with the same name
@@ -1428,7 +1428,7 @@ ROIs play a central role in PhilaJ (and in ImageJ in general).  PhilaJ has adopt
    - For vertical strips: =L= (Left), =R= (Right), =R1= (Column 1), etc...
    - For blocks/sheets: =R1= (Row 1), =C1= (Column 1), etc...
  - =pt_<TAG>_<N>=
-   - For grill points set the =TAG= to =grill=.  
+   - For grill points set the =TAG= to =grill=.
    - For design coordinates use =d= or =design=.  For multiples use =design_<SID>= -- i.e. the design ROI for each stamp.
    - For imperf souvenir sheets use =edges=
 
@@ -1482,26 +1482,26 @@ ROIs play a central role in PhilaJ (and in ImageJ in general).  PhilaJ has adopt
    - =mmcPtGuide=                      - Constructed by the coordinate tool -- drawn guides for points
  - Some macros will use the current selection name & update the ROI manager with the current selection:
    - =design[_<SID>][-<SFX>]=           - Design & centering measurements -- =centeringReport()= & =measureDesign()=
-   - =paper[_<SID>]=                    - Paper & centering measurements -- =centeringReport()= & =measurePaper()= 
+   - =paper[_<SID>]=                    - Paper & centering measurements -- =centeringReport()= & =measurePaper()=
    - =grill[_<SID>][-<SFX>]=            - Used to draw grill templates & to measure a grill
    - =grillPts[_<SID>][-<SFX>]=         - Used to draw grill templates
  - Some macros will use the current selection name & extract extra data for computations
    - =<PFX>_<NN>_perfs=                 - Used by =computePerfsFromDistance()= & =drawDynPfOnLine()=
  - Some ROIs are not currently used by any macro
-   - =pf_<SFX>=           
-   - =fault_<SFX>=        
-   - =wmark_<SFX>=        
-   - =pn_<N>=             
-   - =idFact_<SFX>=       
-   - =pmark_<SFX>=        
-   - =overprint[BB/HL]_<SID/SFX>=  
+   - =pf_<SFX>=
+   - =fault_<SFX>=
+   - =wmark_<SFX>=
+   - =pn_<N>=
+   - =idFact_<SFX>=
+   - =pmark_<SFX>=
+   - =overprint[BB/HL]_<SID/SFX>=
 
 * RPI Tools
 :PROPERTIES:
 :CUSTOM_ID: rpi-tools
 :END:
 
-"=RPI_Tools=" is nothing more than a version of ="PhilaJ"= with an alternative, stripped down user interface that only exposes the 
+"=RPI_Tools=" is nothing more than a version of ="PhilaJ"= with an alternative, stripped down user interface that only exposes the
 [[https://richmit.github.io/microscope/leicaS8apo.html#rpi-camera][Raspberry Pi HQ microscope camera functionality]].
 
 The remainder of this section documents the "=RPI_tools=" user interface.
@@ -1509,12 +1509,12 @@ The remainder of this section documents the "=RPI_tools=" user interface.
 ** Activate RPI-Tools
 
 #+ATTR_HTML: :align center :width 800
-file:RPI_Tools-toolsetmenu.gif
+[[file:RPI_Tools-toolsetmenu.gif][file:RPI_Tools-toolsetmenu.gif]]
 
 Once activated, it will add four buttons to the toolbar:
 
 #+ATTR_HTML: :align center :width 800
-file:RPI_Tools-toolsetbuttons.gif
+[[file:RPI_Tools-toolsetbuttons.gif][file:RPI_Tools-toolsetbuttons.gif]]
 
 ** Button Functions
 
@@ -1523,7 +1523,7 @@ file:RPI_Tools-toolsetbuttons.gif
 :CUSTOM_ID: rpi-capture
 :END:
 
- - file:RPI_Tools-toolsetbutton-capture.gif :: 
+ - file:RPI_Tools-toolsetbutton-capture.gif ::
    Capture, save, and open an image from the camera.  Images are stored in the same location, and with the same file name conventions, used by =piSnap.sh=.
 
 *** Configure RPI Microscope Camera
@@ -1531,13 +1531,13 @@ file:RPI_Tools-toolsetbuttons.gif
 :CUSTOM_ID: rpi-settings
 :END:
 
- - file:RPI_Tools-toolsetbutton-settings.gif  :: Change some configuration options 
+ - file:RPI_Tools-toolsetbutton-settings.gif  :: Change some configuration options
 
 #+ATTR_HTML: :align center :width 400px
-file:RPI_Tools-dialog-settings.gif
+[[file:RPI_Tools-dialog-settings.gif][file:RPI_Tools-dialog-settings.gif]]
 
-   - Specify a group for the captured image filenames.  
-   - Specify an annotation for the captured image filenames.  
+   - Specify a group for the captured image filenames.
+   - Specify an annotation for the captured image filenames.
    - Set captured image format (jpg or png)
    - Set captured image scale (100% or 50%)
    - Set the scale factor for capture preview
@@ -1554,41 +1554,41 @@ file:RPI_Tools-dialog-settings.gif
 :CUSTOM_ID: rpi-preview
 :END:
 
- - file:RPI_Tools-toolsetbutton-video.gif :: 
+ - file:RPI_Tools-toolsetbutton-video.gif ::
    Live video feed from camera.  Note the scale setting for the live video feed is different from the capture preview scale.
 
 If "Change Settings Before Capture" is set, then a simplified settings dialog box will appear before the video feed window.
 
 #+ATTR_HTML: :align center :width 400px
-file:RPI_Tools-dialog-settings-v.gif
+[[file:RPI_Tools-dialog-settings-v.gif][file:RPI_Tools-dialog-settings-v.gif]]
 
 *** Load Previous RPI Microscope Camera Captures
 :PROPERTIES:
 :CUSTOM_ID: rpi-load
 :END:
 
- - file:RPI_Tools-toolsetbutton-load.gif :: 
-   Load previous capture(s) from camera using the ImageJ/Fiji macro above or the =piSnap.sh= script.  
+ - file:RPI_Tools-toolsetbutton-load.gif ::
+   Load previous capture(s) from camera using the ImageJ/Fiji macro above or the =piSnap.sh= script.
 
 #+ATTR_HTML: :align center :width 400px
-file:RPI_Tools-dialog-loadOld.gif
+[[file:RPI_Tools-dialog-loadOld.gif][file:RPI_Tools-dialog-loadOld.gif]]
 
 *** Set Scale for Stereo Microscope Photograph
 :PROPERTIES:
 :CUSTOM_ID: scale-rpi
 :END:
 
- - file:RPI_Tools-toolsetbutton-scale.gif :: 
+ - file:RPI_Tools-toolsetbutton-scale.gif ::
    Set image scale based upon microscope settings.  This script contains hardwired settings for my specific microscope and lenses, and may require
    modification for your microscope.
 
    - The choice of microscope enables a calibration correction factor in the final computation
    - The "Adjust for Resolution" option adjusts the scale if the number of horizontal pixels in the image differs from the horizontal resolution of the
      sensor.  Most commonly this use used when the sensor is used in 2x2 mode yielding smaller image.  This option also works if the image is resized after
-     the fact.  
+     the fact.
 
 #+ATTR_HTML: :align center :width 400px
-file:RPI_Tools-dialog-setscale.gif
+[[file:RPI_Tools-dialog-setscale.gif][file:RPI_Tools-dialog-setscale.gif]]
 
 * EOF
 
