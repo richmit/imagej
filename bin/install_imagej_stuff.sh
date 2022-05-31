@@ -48,13 +48,14 @@ while test -n "$1"; do
     DO_IJLIBS='Y';     
   fi
   if [[ "$CARG" != -* ]]; then
-    WORKING_PATH=${CARG/%\/*/}
+    WORKING_PATH=$CARG
     CARG='-'
   fi
 
   if [ "$CARG" != '-' ]; then
     echo "make_imagej_stuff.sh [opt] [path]               "
     echo "  Options:                                      "
+    echo "    -d      Debug                               "
     echo "    -b      Build ImageJ toolsets               "
     echo "    -t      Install ImageJ toolsets             "
     echo "    -s      Install ImageJ scripts              "
