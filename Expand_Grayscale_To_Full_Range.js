@@ -1,5 +1,5 @@
 // -*- Mode:javascript; Coding:us-ascii-unix; fill-column:158 -*-
-// THING=IJSCRIPT INSTALL_DIR=MJR OWNER=MJR
+// THING=IJSCRIPT INSTALL_DIR=MJR/Filter OWNER=MJR
 
 // Expand grayscale image display range to image limits, and adjust pixel values to full range.  
 // The default "full range" is set to -1+2^depth for 8/16-bit images, and 1.0 for 32-bit ones.
@@ -7,6 +7,7 @@
 // Can apply to current slice or an entire stack.
 // Operation can be preformed in-place replacing image data, or the results can be placed in a new image/stack.
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function maximizeRange(ip, maxChanTarget) {
   var stats = ip.getStatistics();
   var maxPixVal = stats.max;
@@ -22,7 +23,7 @@ function maximizeRange(ip, maxChanTarget) {
     ip.multiply(maxChanTarget/pixRange);
 }
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function main() {
   if (Packages.ij.WindowManager.getWindowCount() <= 0) {
     Packages.ij.IJ.showMessage("ERROR(Expand_Grayscale_To_Full_Range.js): No images are open!");
@@ -58,7 +59,6 @@ function main() {
     var haveManySlices = false;
   maxChanTarget = dialogObj.getNextNumber();
 
-
   if (haveManySlices) {
     if (newImage)
       srcImg = srcImg.duplicate();
@@ -87,6 +87,7 @@ function main() {
   srcImg.updateAndRepaintWindow();
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 var startSecond = Date.now();
 mainResult = main();
 print("INFO(Expand_Grayscale_To_Full_Range.js): Complete! (" + ((Date.now()-startSecond)/1000.0) + " sec)");

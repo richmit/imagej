@@ -1,30 +1,65 @@
+// -*- Mode:Java; Coding:us-ascii-unix; fill-column:158 -*-
+/**************************************************************************************************************************************************************/
+/**
+ @file      Convert_RGB_To_All_Color_Components.java
+ @author    Mitch Richling <https://www.mitchr.me>
+ @date      2022-05-31
+ @version   VERSION
+ @brief     @EOL
+ @keywords  imagej
+ @std       Java 8
+ @see       
+ @copyright 
+  @parblock
+  Copyright (c) 2022, Mitchell Jay Richling <https://www.mitchr.me> All rights reserved.
+
+  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+  1. Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.
+
+  2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation
+     and/or other materials provided with the distribution.
+
+  3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software
+     without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+  OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+  DAMAGE.
+  @endparblock
+ @filedetails   
+  Like Convert_RGB_To_Color_Components, but:
+     1) Always produces a 32-bit, floating point image stack
+     2) Has no user interface -- it always creates all channels
+     3) It is written in Java, and is about 60x faster than the javascript version
+  
+     How to install in Fiji...
+     - Compile by running ImageJ (not Fiji), and evaluating the following macro:
+     run("Install... ", "install=C:/Users/richmit/Documents/world/my_prog/imagej/Convert_RGB_To_All_Color_Components.java save=C:/Users/richmit/PF/ImageJ/plugins/MJR/Convert_RGB_To_All_Color_Components.java");
+     - Put files in place
+     # Get into this directory
+     cd ~/world/my_prog/imagej/
+     # Copy class files back
+     cp c:/Users/richmit/PF/ImageJ/plugins/MJR/Convert_RGB_To_All_Color_Components*.class ./
+     # Make jar file
+     fastjar cvf Convert_RGB_To_All_Color_Components.jar Convert_RGB_To_All_Color_Components*.class
+     # Remove old files in Fiji
+     rm c:/Users/richmit/PF/Fiji.app/plugins/MJR/Convert_RGB_To_All_Color_Components*
+     # Copy in new jar
+     cp Convert_RGB_To_All_Color_Components.jar c:/Users/richmit/PF/Fiji.app/plugins/MJR/
+*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 import ij.*;
 import ij.plugin.filter.PlugInFilter;
 import ij.process.*;
 import ij.gui.*;
 import java.awt.*;
 
-/* Like Convert_RGB_To_Color_Components, but:
-   1) Always produces a 32-bit, floating point image stack
-   2) Has no user interface -- it always creates all channels
-   3) It is written in Java, and is about 60x faster than the javascript version
-
-   How to install in Fiji...
-   - Compile by running ImageJ (not Fiji), and evaluating the following macro:
-   run("Install... ", "install=C:/Users/richmit/Documents/world/my_prog/imagej/Convert_RGB_To_All_Color_Components.java save=C:/Users/richmit/PF/ImageJ/plugins/MJR/Convert_RGB_To_All_Color_Components.java");
-   - Put files in place
-   # Get into this directory
-   cd ~/world/my_prog/imagej/
-   # Copy class files back
-   cp c:/Users/richmit/PF/ImageJ/plugins/MJR/Convert_RGB_To_All_Color_Components*.class ./
-   # Make jar file
-   fastjar cvf Convert_RGB_To_All_Color_Components.jar Convert_RGB_To_All_Color_Components*.class
-   # Remove old files in Fiji
-   rm c:/Users/richmit/PF/Fiji.app/plugins/MJR/Convert_RGB_To_All_Color_Components*
-   # Copy in new jar
-   cp Convert_RGB_To_All_Color_Components.jar c:/Users/richmit/PF/Fiji.app/plugins/MJR/
-*/
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 public class Convert_RGB_To_All_Color_Components implements PlugInFilter{
 
     enum cchans {

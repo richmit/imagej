@@ -1,13 +1,40 @@
 // -*- Mode:javascript; Coding:us-ascii-unix; fill-column:158 -*-
-// THING=IJSCRIPT INSTALL_DIR=MJR OWNER=MJR
+// THING=IJSCRIPT INSTALL_DIR=MJR/Color_Accumulator OWNER=MJR
+/**************************************************************************************************************************************************************/
+/**
+ @file      Color_Accumulator_ROI.js
+ @author    Mitch Richling <https://www.mitchr.me>
+ @keywords  imagej fiji java
+ @std       Nashorn ECMAScript_5.1
+ @see       https://richmit.github.io/imagej/Color_Accumulator.html#TOOL-ColorAccumulatorROI
+ @copyright 
+  @parblock
+  Copyright (c) 2022, Mitchell Jay Richling <https://www.mitchr.me> All rights reserved.
 
-//
-// See: https://richmit.github.io/imagej/Color_Accumulator.html#TOOL-ColorAccumulatorROI
-//
+  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
+  1. Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.
+
+  2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation
+     and/or other materials provided with the distribution.
+
+  3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software
+     without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+  OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+  DAMAGE.
+  @endparblock
+***************************************************************************************************************************************************************/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 var mjrLibLoad = true;
 load(Packages.ij.IJ.getDirectory("plugins") + "MJR_LIB" + java.io.File.separator + "About_Color_Accumulator.js");
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 var startSecond = Date.now();
 mainResult = colorAccumulatorROI();
 print("INFO(Color Accumulator ROI): Complete! (" + ((Date.now()-startSecond)/1000.0) + " sec)");
