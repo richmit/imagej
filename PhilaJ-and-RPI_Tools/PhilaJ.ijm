@@ -174,6 +174,10 @@ var gbl_sus_rows      = 10;                    // Slice Up Sheet: Number of rows
 var gbl_sus_scols     = 10;                    // Slice Up Sheet: Number of columns full sheet -- used to number stamps
 var gbl_sus_1pos      = 1;                     // Slice Up Sheet: Number of columns full sheet -- used to number stamps
 var gbl_vid_pviewScl  = "4";                   // RPI Live Video Preview: Live RPI Video Scale (1/n)
+var gbl_sfp_hdpi      = 2410;                  // Scan processing: input Horz DPI
+var gbl_sfp_vdpi      = 2398;                  // Scan processing: input Vert DPI
+var gbl_sfp_tdpi      =  300;                  // Scan processing: input thumbnail DPI
+var gbl_sfp_repro      = false;                 // Scan processing: reprocess files that have already been processed
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1384,6 +1388,8 @@ function dynamicPerfMeasureROI(force_rimt) {
   exitIfNoImages("dynamicPerfMeasureROI");
   checkImageScalePhil(false, true);
 
+  Overlay.remove;
+
   rimt = force_rimt || gbl_dyn_rimt;
 
   roiManagerActivate("pfLine[0-9][0-9](_.+)?", "(pfLine[0-9][0-9](_.+)?|pfHole[0-9][0-9][0-9][0-9](_.+)?)");
@@ -1425,6 +1431,7 @@ function dynamicPerfMeasureAllROIs() {
     print("DEBUG(dynamicPerfMeasureAllROIs): Function Entry");
   exitIfNoImages("dynamicPerfMeasureAllROIs");
   checkImageScalePhil(false, true);
+  Overlay.remove;
   roiList = roiManagerMatchingNames("pfLine[0-9][0-9](_.+)?");
   if (roiList.length > 0) {
     for(i=0; i<roiList.length; i++) {
@@ -3408,12 +3415,12 @@ function convertImageScaleUnits(showScaleSetWarning, showFailWarning) {
     }
   }
 }
-
+    
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Set Scale based on filename.  Return true if we set the DPI.  foo_2400dpi.jpg    foo_2390hdpi_2400vdpi.jpg
 function setScaleFromFileName(showScaleSetWarning, showFailWarning) {
   if (gbl_ALL_debug)
-    print("DEBUG(setScaleFromFileName): Function Entry: ", showFailWarning);
+    print("DEBUG(setScaleFromFileName): Function Entry: ", showScaleSetWarning, showFailWarning);
   exitIfNoImages("setScaleFromFileName");
   fileName = getInfo("image.filename");
   fileNameParts = split(toUpperCase(fileName), "_");
@@ -3439,7 +3446,6 @@ function setScaleFromFileName(showScaleSetWarning, showFailWarning) {
       }
     }
   }
-
   if ((lengthOf(dpiAll)>0) && (maxOf(lengthOf(dpiH), lengthOf(dpiV))==0)) {
     tmp = parseFloat(dpiAll);
     if (tmp > 0) {
@@ -5283,51 +5289,88 @@ function processScanDirectory() {
     filesToProc = Array.filter(filesToProc, "(\\.(tif)$)");
     if (filesToProc.length > 0) {
       Dialog.create("PhilaJ: Batch Scan Processing");
-      Dialog.addNumber("Incoming Horz DPI:", 2410, 0, 6, "DPI");
-      Dialog.addNumber("Incoming Vert DPI:", 2398, 0, 6, "DPI");
-      Dialog.addNumber("Thumbnail DPI",       300, 0, 6, "DPI");
+      Dialog.addNumber("Incoming Horz DPI:", gbl_sfp_hdpi, 0, 6, "DPI");
+      Dialog.addNumber("Incoming Vert DPI:", gbl_sfp_vdpi, 0, 6, "DPI");
+      Dialog.addNumber("Thumbnail DPI",      gbl_sfp_tdpi, 0, 6, "DPI");
+      Dialog.addCheckbox("Reprocess files",  false);
       Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#bulk-processing");
       Dialog.show();
-      inHdpi  = Dialog.getNumber();
-      inVdpi  = Dialog.getNumber();
-      thmbDPI = Dialog.getNumber();
-      fullString = "_" + minOf(inHdpi, inVdpi) + "dpi.png";
-      thmbString = "_" + thmbDPI               + "dpi.png";
+      gbl_sfp_hdpi  = Dialog.getNumber();
+      gbl_sfp_vdpi  = Dialog.getNumber();
+      gbl_sfp_tdpi  = Dialog.getNumber();
+      gbl_sfp_repro = Dialog.getCheckbox();
       for(i=0; i<filesToProc.length; i++) {
         currentFile = pathJoin(newArray(dirToProc, filesToProc[i]));
-        newBigFileName = replace(currentFile, ".tif", fullString);
-        newThmFileName = replace(currentFile, ".tif", thmbString);
-        if ( !(File.exists(newBigFileName)) || !(File.exists(newThmFileName))) {
-          showStatus("Loading File: " + currentFile);
-          open(currentFile);
-          IID = getImageID();
-          setScaleFromDPI(inHdpi, inVdpi);
-          if ( !(floatEqualish(inHdpi, inVdpi))) {
-            showStatus("Squaring image");
-            shrinkImageToMakeSquarePixels();
-          }
-          selectImage(IID);
-          waitForUserToMakeSelection("processScanDirectory", "Make a line selection to rotate horiz", 5);
-          showStatus("Rotate To Horizontal");
-          rotateToHorizontal();
-          selectImage(IID);
-          waitForUserToMakeSelection("processScanDirectory", "Make a rectangle selection to crop", 0);
-          showStatus("Crop");
-          run("Crop");
-          showStatus("Saving PNG");
-          saveAs("PNG", newBigFileName);
-          showStatus("Resize For Thumbnail");
-          resizeToDPI(300);
-          showStatus("Saving Thumbnail");
-          saveAs("PNG", newThmFileName);
-          selectImage(IID);
-          close();
-          showStatus("Looking For More Files");
-        }
+        processScanFile(currentFile);
       }
     }
   }
   showMessage("PhilaJ: processScanDirectory", "Complete");
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Process a TIFF file resutling from a scan
+function processScanFile(filename) {
+  if (gbl_ALL_debug)
+    print("DEBUG(processScanFile): Function Entry: ", filename);
+  if (filename == "") {
+    Dialog.create("PhilaJ: Process Scan File");
+    Dialog.addNumber("Incoming Horz DPI:", gbl_sfp_hdpi, 0, 6, "DPI");
+    Dialog.addNumber("Incoming Vert DPI:", gbl_sfp_vdpi, 0, 6, "DPI");
+    Dialog.addNumber("Thumbnail DPI",      gbl_sfp_tdpi, 0, 6, "DPI");
+    Dialog.addCheckbox("Reprocess files",  false);
+    Dialog.addFile("File to process:", getDir("file"));
+
+// c:\Users\richmit\Documents\graphics\phil\bw\bw_p1s1r1c2.tif
+
+    Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#bulk-processing");
+    Dialog.show();
+    gbl_sfp_hdpi  = Dialog.getNumber();
+    gbl_sfp_vdpi  = Dialog.getNumber();
+    gbl_sfp_tdpi  = Dialog.getNumber();
+    gbl_sfp_repro = Dialog.getCheckbox();
+    filename      = Dialog.getString();
+  }
+  if (endsWith(filename, ".tif")) {
+    fullString = "_" + minOf(gbl_sfp_hdpi, gbl_sfp_vdpi) + "dpi.png";
+    thmbString = "_" + gbl_sfp_tdpi                      + "dpi.png";
+    newBigFileName = replace(filename, ".tif", fullString);
+    newThmFileName = replace(filename, ".tif", thmbString);
+    if ( gbl_sfp_repro || !(File.exists(newBigFileName)) || !(File.exists(newThmFileName))) {
+      showStatus("Loading File: " + filename);
+      open(filename);
+      IID = getImageID();
+      setScaleFromDPI(gbl_sfp_hdpi, gbl_sfp_vdpi);
+      if ( !(floatEqualish(gbl_sfp_hdpi, gbl_sfp_vdpi))) {
+        showStatus("Squaring image");
+        shrinkImageToMakeSquarePixels();
+      }
+      selectImage(IID);
+      waitForUserToMakeSelection("processScanFile", "Make a line selection to rotate horiz", 5);
+      showStatus("Rotate To Horizontal");
+      rotateToHorizontal();
+      selectImage(IID);
+      waitForUserToMakeSelection("processScanFile", "Make a rectangle selection to crop", 0);
+      showStatus("Crop");
+      run("Crop");
+      showStatus("Saving PNG");
+      saveAs("PNG", newBigFileName);
+      showStatus("Resize For Thumbnail");
+      resizeToDPI(300);
+      showStatus("Saving Thumbnail");
+      saveAs("PNG", newThmFileName);
+      selectImage(IID);
+      close();
+      showStatus("Looking For More Files");
+    }
+  } else {
+    exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(processScanFile):<br>"
+         +"&nbsp; File must have .tif extension!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#bulk-processing'>the user manual</a> for more information."
+         +"</font>");
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -5927,6 +5970,7 @@ var gbl_menu_load = newMenu("PhilaJ Load Image Menu Tool",
                                      "Close PhilaJ & Related Windows",
                                      "Close Image, PhilaJ, & Related Windows",
                                      "---",
+                                     "Process a single scan",
                                      "Process a directory of scans",
                                      "Selection to image (with scale)",
                                      "Selection to JPEG"
@@ -5965,6 +6009,8 @@ macro "PhilaJ Load Image Menu Tool - C000 L000f L0fff Lfff3 Lf363 L6340 L4000" {
     roiManagerSidecarSave(true, true);
   else if (cmd=="Load Notes from PhilaJ sidecar file")
     notesSidecarLoad();
+  else if (cmd=="Process a single scan")
+    processScanFile("");
   else if (cmd=="Process a directory of scans")
     processScanDirectory();
   else if (cmd=="Close PhilaJ Windows")

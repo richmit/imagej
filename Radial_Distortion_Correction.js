@@ -1,6 +1,6 @@
 // -*- Mode:javascript; Coding:us-ascii-unix; fill-column:158 -*-
 // THING=IJSCRIPT INSTALL_DIR=MJR/Transform OWNER=MJR
-/**************************************************************************************************************************************************************/
+/*******************************************************************************************************************************************************.H.S.**/
 /**
  @file      Radial_Distortion_Correction.js
  @author    Mitch Richling <https://www.mitchr.me>
@@ -28,7 +28,7 @@
   LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
   DAMAGE.
   @endparblock
-***************************************************************************************************************************************************************/
+********************************************************************************************************************************************************.H.E.**/
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Correct lens distortion via the model used by Hugin (https://hugin.sourceforge.io/) and Imagemagick's "-distort barrel".  You can use Hugin to compute the

@@ -302,6 +302,7 @@ var gbl_menu_load = newMenu("PhilaJ Load Image Menu Tool",
                                      "Close PhilaJ & Related Windows",
                                      "Close Image, PhilaJ, & Related Windows",
                                      "---",
+                                     "Process a single scan",
                                      "Process a directory of scans",
                                      "Selection to image (with scale)",
                                      "Selection to JPEG"
@@ -340,6 +341,8 @@ macro "PhilaJ Load Image Menu Tool - C000 L000f L0fff Lfff3 Lf363 L6340 L4000" {
     roiManagerSidecarSave(true, true);
   else if (cmd=="Load Notes from PhilaJ sidecar file")
     notesSidecarLoad();
+  else if (cmd=="Process a single scan")
+    processScanFile("");
   else if (cmd=="Process a directory of scans")
     processScanDirectory();
   else if (cmd=="Close PhilaJ Windows")

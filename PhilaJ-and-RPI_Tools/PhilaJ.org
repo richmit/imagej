@@ -385,6 +385,7 @@ In addition to the buttons, a few keyboard shortcuts will now be activated!
    - [[#cleaning-up-windows-n-files][=Close PhilaJ & Related Windows=]]
    - [[#cleaning-up-windows-n-files][=Close Image, PhilaJ, & Related Windows=]]
    - ---
+   - [[#bulk-processing][=Process a single scan=]]
    - [[#bulk-processing][=Process a directory of scans=]]
    - [[#sub-image][=Selection to image (with scale)=]]
    - [[#sub-image][=Selection to JPEG=]]
