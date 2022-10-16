@@ -176,8 +176,9 @@ var gbl_sus_1pos      = 1;                     // Slice Up Sheet: Number of colu
 var gbl_vid_pviewScl  = "4";                   // RPI Live Video Preview: Live RPI Video Scale (1/n)
 var gbl_sfp_hdpi      = 2410;                  // Scan processing: input Horz DPI
 var gbl_sfp_vdpi      = 2398;                  // Scan processing: input Vert DPI
-var gbl_sfp_tdpi      =  300;                  // Scan processing: input thumbnail DPI
-var gbl_sfp_repro      = false;                 // Scan processing: reprocess files that have already been processed
+var gbl_sfp_pdpi      = 300;                   // Scan processing: input preview DPI
+var gbl_sfp_tdpi      = 90;                    // Scan processing: input thumbnail DPI
+var gbl_sfp_repro     = false;                 // Scan processing: reprocess files that have already been processed
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -5291,12 +5292,14 @@ function processScanDirectory() {
       Dialog.create("PhilaJ: Batch Scan Processing");
       Dialog.addNumber("Incoming Horz DPI:", gbl_sfp_hdpi, 0, 6, "DPI");
       Dialog.addNumber("Incoming Vert DPI:", gbl_sfp_vdpi, 0, 6, "DPI");
+      Dialog.addNumber("Preview DPI",        gbl_sfp_pdpi, 0, 6, "DPI");
       Dialog.addNumber("Thumbnail DPI",      gbl_sfp_tdpi, 0, 6, "DPI");
       Dialog.addCheckbox("Reprocess files",  false);
       Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#bulk-processing");
       Dialog.show();
       gbl_sfp_hdpi  = Dialog.getNumber();
       gbl_sfp_vdpi  = Dialog.getNumber();
+      gbl_sfp_pdpi  = Dialog.getNumber();
       gbl_sfp_tdpi  = Dialog.getNumber();
       gbl_sfp_repro = Dialog.getCheckbox();
       for(i=0; i<filesToProc.length; i++) {
@@ -5317,24 +5320,25 @@ function processScanFile(filename) {
     Dialog.create("PhilaJ: Process Scan File");
     Dialog.addNumber("Incoming Horz DPI:", gbl_sfp_hdpi, 0, 6, "DPI");
     Dialog.addNumber("Incoming Vert DPI:", gbl_sfp_vdpi, 0, 6, "DPI");
+    Dialog.addNumber("Preview DPI",        gbl_sfp_pdpi, 0, 6, "DPI");
     Dialog.addNumber("Thumbnail DPI",      gbl_sfp_tdpi, 0, 6, "DPI");
-    Dialog.addCheckbox("Reprocess files",  false);
+    Dialog.addCheckbox("Reprocess files",  true);
     Dialog.addFile("File to process:", getDir("file"));
-
-// c:\Users\richmit\Documents\graphics\phil\bw\bw_p1s1r1c2.tif
-
     Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#bulk-processing");
     Dialog.show();
     gbl_sfp_hdpi  = Dialog.getNumber();
     gbl_sfp_vdpi  = Dialog.getNumber();
+    gbl_sfp_pdpi  = Dialog.getNumber();
     gbl_sfp_tdpi  = Dialog.getNumber();
     gbl_sfp_repro = Dialog.getCheckbox();
     filename      = Dialog.getString();
   }
   if (endsWith(filename, ".tif")) {
     fullString = "_" + minOf(gbl_sfp_hdpi, gbl_sfp_vdpi) + "dpi.png";
+    pvueString = "_" + gbl_sfp_pdpi                      + "dpi.png";
     thmbString = "_" + gbl_sfp_tdpi                      + "dpi.png";
     newBigFileName = replace(filename, ".tif", fullString);
+    newPreFileName = replace(filename, ".tif", pvueString);
     newThmFileName = replace(filename, ".tif", thmbString);
     if ( gbl_sfp_repro || !(File.exists(newBigFileName)) || !(File.exists(newThmFileName))) {
       showStatus("Loading File: " + filename);
@@ -5355,10 +5359,17 @@ function processScanFile(filename) {
       run("Crop");
       showStatus("Saving PNG");
       saveAs("PNG", newBigFileName);
+
+      showStatus("Resize For Preview");
+      resizeToDPI(gbl_sfp_pdpi);
+      showStatus("Saving Preview");
+      saveAs("PNG", newPreFileName);
+
       showStatus("Resize For Thumbnail");
-      resizeToDPI(300);
+      resizeToDPI(gbl_sfp_tdpi);
       showStatus("Saving Thumbnail");
       saveAs("PNG", newThmFileName);
+
       selectImage(IID);
       close();
       showStatus("Looking For More Files");
