@@ -67,6 +67,7 @@ var gbl_OLT_letters    = newArray("A", "B", "C", "D", "E", "F", "G", "H", "I",  
                                   "t", "u", "v", "w", "x", "y", "z");                        
 var gbl_OLT_fontMag    = newArray("25%", "50%", "75%", "100%", "150%", "200%", "300%");      // Option List: Font size magnfication
 
+var gbl_rpv_aSave      = false;                 // ROI Preview Image: Save the image immediatly
 var gbl_rpv_roiPfx     = gbl_OLT_roiPfx[0];     // ROI Preview Image: The types of ROIs to annotate
 var gbl_1ds_Dmm        = 25.4;                  // 1D Scale: Known distance in mm
 var gbl_1ds_Dpx        = 2400;                  // 1D Scale: Known distance in Pixels
@@ -6039,27 +6040,51 @@ function polygonPointReport() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Used to get points for making stamp ROI descriptions.
-function makeRoiPreviewImage() {
+function makeRoiAnnotatedImage() {
   if (gbl_ALL_debug)
-    print("DEBUG(makeRoiPreviewImage(): Function Entry");
-  exitIfNoImages("makeRoiPreviewImage()");
+    print("DEBUG(makeRoiAnnotatedImage(): Function Entry");
+  exitIfNoImages("makeRoiAnnotatedImage()");
   checkImageScalePhil(false, true);
 
-  Dialog.create("PhilaJ: Create Plate Flaw Preview Image");
+  Dialog.create("PhilaJ: Create ROI Annotated Image");
   Dialog.addChoice("color1:", gbl_OLT_colors,          gbl_ALL_color1);
   Dialog.addChoice("Line Width 2:", gbl_OLT_lineWidth, gbl_ALL_lineWidth2);
   Dialog.addChoice("ROIs:", gbl_OLT_roiPfx,            gbl_rpv_roiPfx);
+  Dialog.addCheckbox("Save image & create Preview/thumbnail?",  gbl_rpv_aSave);
   Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#make-roianno-preview");
   Dialog.show();
 
   gbl_ALL_color1     = Dialog.getChoice();
   gbl_ALL_lineWidth2 = Dialog.getChoice();
   gbl_rpv_roiPfx     = Dialog.getChoice();
+  gbl_rpv_aSave      = Dialog.getCheckbox();
 
   lineWidth = parseInt(gbl_ALL_lineWidth2); 
 
+  // All the following is just to get a nice image name
+  imageTitleString = getInfo("image.title");
+  splitIdx = replace(imageTitleString, "_[0-9.]+dpi.*$", "");
+  splitIdx = splitIdx.length; // See if we have a DPI string
+  if (splitIdx != imageTitleString.length) {
+    tmpLeft = substring(imageTitleString, 0, splitIdx);
+    tmpRight = substring(imageTitleString, splitIdx);
+    imageTitleString = tmpLeft + "-" + gbl_rpv_roiPfx + "s" + tmpRight;
+  } else {
+    splitIdx = lastIndexOf(imageTitleString, ".");
+    if (splitIdx > 0) {
+      tmpLeft = substring(imageTitleString, 0, splitIdx);
+      tmpRight = substring(imageTitleString, splitIdx);
+      imageTitleString = tmpLeft + "-" + gbl_rpv_roiPfx + "s" + tmpRight;
+    }
+  }
+
   Overlay.remove;
   roiList = roiManagerMatchingNames("^" + gbl_rpv_roiPfx + ".*");
+  if (roiList.length == 0) {
+    roiManagerSidecarLoad("No " + gbl_rpv_roiPfx + " ROIs found!", "Clear existing ROIs before loading ROIs from disk?");
+    roiList = roiManagerMatchingNames("^" + gbl_rpv_roiPfx + ".*");
+  }
+
   if (roiList.length > 0) {
     for(i=0; i<roiList.length; i++) {
       roiManagerSelectFirstROI(roiList[i]);
@@ -6074,28 +6099,15 @@ function makeRoiPreviewImage() {
     Overlay.remove;
     selectImage(PIID);
     run("Select None");
-    // All the following is just to rename the plate flaw preview...
-    imageTitleString = getInfo("image.title");
-    imageTitleString = replace(imageTitleString, "\-1.png$", ".png");  //Zap -1 bit    
-    splitIdx = replace(imageTitleString, "_[0-9.]+dpi.*$", "");
-    splitIdx = splitIdx.length; // See if we have a DPI string
-    if (splitIdx != imageTitleString.length) {
-      tmpLeft = substring(imageTitleString, 0, splitIdx);
-      tmpRight = substring(imageTitleString, splitIdx);
-      imageTitleString = tmpLeft + "-" + gbl_rpv_roiPfx + "s" + tmpRight;
-    } else {
-      splitIdx = lastIndexOf(imageTitleString, ".");
-      if (splitIdx > 0) {
-        tmpLeft = substring(imageTitleString, 0, splitIdx);
-        tmpRight = substring(imageTitleString, splitIdx);
-        imageTitleString = tmpLeft + "-" + gbl_rpv_roiPfx + "s" + tmpRight;
-      }
-    }
     rename(imageTitleString);
+    if (gbl_rpv_aSave) {
+      saveAs("PNG");
+      makePreviewAndThumbnailImage(true);
+    }
   } else {
     exit("<html>"
          +"<font size=+1>"
-         +"ERROR(makeRoiPreviewImage):<br>"
+         +"ERROR(makeRoiAnnotatedImage):<br>"
          +"&nbsp; No ROIs found in ROI Manager!" + "<br>"
          +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#make-roianno-preview'>the user manual</a> for more information."
          +"</font>");
@@ -6632,7 +6644,7 @@ var gbl_menu_load = newMenu("PhilaJ Load Image Menu Tool",
                                      "Create Preview & Thumbnail Images",
                                      "Stamp Crop w/ Previous Settings",
                                      "Stamp Crop w/ New Settings",
-                                     "Create ROI Annotated Preview Image"));
+                                     "Create ROI Annotated Image"));
 
 macro "PhilaJ Load Image Menu Tool - C000 L000f L0fff Lfff3 Lf363 L6340 L4000" {
   cmd = getArgument();
@@ -6687,8 +6699,8 @@ macro "PhilaJ Load Image Menu Tool - C000 L000f L0fff Lfff3 Lf363 L6340 L4000" {
     stampCrop(false);
   else if (cmd=="Stamp Crop w/ New Settings")
     stampCrop(true);
-  else if (cmd=="Create ROI Annotated Preview Image")
-    makeRoiPreviewImage();
+  else if (cmd=="Create ROI Annotated Image")
+    makeRoiAnnotatedImage();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -321,7 +321,7 @@ var gbl_menu_load = newMenu("PhilaJ Load Image Menu Tool",
                                      "Create Preview & Thumbnail Images",
                                      "Stamp Crop w/ Previous Settings",
                                      "Stamp Crop w/ New Settings",
-                                     "Create ROI Annotated Preview Image"));
+                                     "Create ROI Annotated Image"));
 
 macro "PhilaJ Load Image Menu Tool - C000 L000f L0fff Lfff3 Lf363 L6340 L4000" {
   cmd = getArgument();
@@ -376,8 +376,8 @@ macro "PhilaJ Load Image Menu Tool - C000 L000f L0fff Lfff3 Lf363 L6340 L4000" {
     stampCrop(false);
   else if (cmd=="Stamp Crop w/ New Settings")
     stampCrop(true);
-  else if (cmd=="Create ROI Annotated Preview Image")
-    makeRoiPreviewImage();
+  else if (cmd=="Create ROI Annotated Image")
+    makeRoiAnnotatedImage();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

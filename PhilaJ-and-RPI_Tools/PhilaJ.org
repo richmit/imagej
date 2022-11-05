@@ -395,7 +395,7 @@ In addition to the buttons, a few keyboard shortcuts will now be activated!
    - [[#make-preview][=Create Preview & Thumbnail Images=]]
    - [[#stamp-crop][=Stamp Crop w/ Previous Settings=]]
    - [[#stamp-crop][=Stamp Crop w/ New Settings=]]
-   - [[#make-roianno-preview][=Create ROI Annotated Preview Image=]]
+   - [[#make-roianno-preview][=Create ROI Annotated Image=]]
 
 
 *** Everything Else Menu
@@ -1290,12 +1290,12 @@ this is best described in the comments in the configuration file:
 The configuration file is called "=stampCropRules.csv=", and is located in the [[#config-files][PhilaJ Configuration Directory]].  If the file is missing,
 then the crop tool will only have the "=rectangle=" and "=Rectangle + 1mm margins=" rules available.
 
-*** Create ROI Annotated Preview Image
+*** Create ROI Annotated Image
 :PROPERTIES:
 :CUSTOM_ID: make-roianno-preview
 :END:
 
-The [[#make-roianno-preview][=Create ROI Annotated Preview Image=]] menu item will create an image with each ROI drawn -- right now plate flaw and fault
+The [[#make-roianno-preview][=Create ROI Annotated Image=]] menu item will create an image with each ROI drawn -- right now plate flaw and fault
 ROIs are supported.  This is accomplished by searching the ROI Manager for ROIs with names staring with "=pflaw=", adding them to the overlay, and then
 flattening the image.  Some effort is made to intelligently place the string "=_pflaws=" in the new image title to make saving the image less annoying.  Note
 that plate flaw ROIs may be created manually or with the assistance of the [[#coord-tool][=Coordinate Tool=]].  Note that if you intend use
