@@ -1,0 +1,27 @@
+# Crop Rules
+#
+# This is a CSV file (Comma Separated Value) used to describe PhilaJ "crop rules".  Crop rules define a method for cropping
+# an image in PhilaJ.  In this file each line defines a rule.  The first column of each line is a "name" for the crop rule.
+# This name will appear in the menus presented by PhilaJ.  The next item is the type of crop rule.  At the moment only two
+# types exist:
+#
+#         1) margins
+#         1) margins+box
+#
+# The "margins" type rules are followed by four numbers: Left Margin, Top Margin, Right Margin, & Bottom Margin.  These
+# values are in millimeters!  This kind of rule prompts the user to make a selection, then pads the selection's bounding
+# box with the specified margins, and crops the image.  This is a handy way to crop stamp images -- draw a rectangle about
+# on the edges, and then let PhilaJ add 1mm padding to the crop.  That way we get nice, uniform margins on our scans and
+# it's less fiddly to get them right.
+#
+# The "margins+box" type rules are followed by six numbers.  The first four are the same as with "margin" type rules: Left
+# Margin, Top Margin, Right Margin, & Bottom Margin.  The remaining two are: Box Width and Box Height. These values are in
+# millimeters!  This kind of rule prompts the user to identify the location for the upper left corner of the "box", then it
+# crops the image using the box and margins.  For example this allows the user to crop a stamp to the design while only
+# needing to click on one point -- the design's top left corner.
+#
+# Lines starting with a # are comments.
+#
+Rectangle + 5mm margins,margins,5.000,5.000,5.000,5.000
+Bari Wolf Design + 1mm,margins+box,1.000,1.000,1.000,1.000,23.409,27.466
+AMG BEP Design + 1mm,margins+box,1.000,1.000,1.000,1.000,19.511,22.319

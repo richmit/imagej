@@ -1,0 +1,27 @@
+# Stamp ROI Rules
+#
+# The idea is to define handy rules that can automatically create ROIs (i.e. selections in ImageJ) given a
+# reference point.  Usually that reference point is the upper left design frame corner.  This file is a CSV with
+# each line describing a single rule.  The first column is the "name" of the rule.  This name is what appears in
+# the menus presented by PhilaJ.  The second column is an ROI name.  This will be used to name the ROI after it is
+# created -- so you could hit "T" to add it to the ROI Manager and have a nice name.  The remainder of the items on
+# the line describe a set of selections that will be joined together (as if they were drawn with the "shift" key
+# down.  Each selection is a semicolon separated list of parameters: Selection type (rectangle or polygon), and a
+# list of numbers to define the selection.  The numbers are all in millimeters, and are offset by the "reference
+# point".  For a rectangle the parameters are x, y, width, and height.  For a polygon, the list is of variable size
+# and consists of x & y coordinates for the vertexes.
+#
+# Lines starting with # are comments
+#
+Bari Wolf Design (full),design-full,rectangle;0.000;0.000;23.070;27.540
+Bari Wolf Design (frame),design-frame,rectangle;0.000;0.000;23.070;26.544
+Bari Wolf Color Sample (wolf),color-wolf,polygon;15.740;13.240;17.816;15.465;17.752;14.660;16.037;12.838,polygon;8.686;15.041;8.347;17.710;8.791;17.647;9.130;14.871
+Bari Wolf Color Sample (burlage),color-burlage,polygon;17.964;6.186;17.880;7.203;18.769;7.923;18.981;7.648;18.113;7.076;18.155;6.207
+BEP AM Post Design,design,rectangle;0.000;0.000;19.511;22.319
+
+
+
+
+
+
+

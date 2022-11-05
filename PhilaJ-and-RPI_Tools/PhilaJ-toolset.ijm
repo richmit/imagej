@@ -50,6 +50,13 @@ setOption("DisablePopupMenu", true);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// Free keys: 6, 7, 8
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+macro "Switch to PhilaJ Selection Wiat Dialog [0]" {
+  switchToSelectionWaitDialog();
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 macro "Toggle Zoom 100% @ Cursor [5]" {
   toggleZoom100();
@@ -73,6 +80,11 @@ macro "Rotate 90 Degrees Left [1]" {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 macro "Load image with associated ROIs & set scale from DPI in filename [o]" {
   openImageWithSidecarAndSetScale();
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+macro "Close Image, PhilaJ, & Related Windows [W]" {
+  closeAllPhilaJWindows(true, true);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -305,8 +317,11 @@ var gbl_menu_load = newMenu("PhilaJ Load Image Menu Tool",
                                      "Process a single scan",
                                      "Process a directory of scans",
                                      "Selection to image (with scale)",
-                                     "Selection to JPEG"
-                                    ));
+                                     "Selection to JPEG",
+                                     "Create Preview & Thumbnail Images",
+                                     "Stamp Crop w/ Previous Settings",
+                                     "Stamp Crop w/ New Settings",
+                                     "Create ROI Annotated Preview Image"));
 
 macro "PhilaJ Load Image Menu Tool - C000 L000f L0fff Lfff3 Lf363 L6340 L4000" {
   cmd = getArgument();
@@ -355,6 +370,14 @@ macro "PhilaJ Load Image Menu Tool - C000 L000f L0fff Lfff3 Lf363 L6340 L4000" {
     selectionToJpg(false, true, true, false, "Pixel Coordinates", "None");
   else if (cmd=="Selection to JPEG")
     selectionToJpg(false, true, true, false, "Pixel Coordinates", "Save JPEG & Close Image");
+  else if (cmd=="Create Preview & Thumbnail Images")
+    makePreviewAndThumbnailImage(true);
+  else if (cmd=="Stamp Crop w/ Previous Settings")
+    stampCrop(false);
+  else if (cmd=="Stamp Crop w/ New Settings")
+    stampCrop(true);
+  else if (cmd=="Create ROI Annotated Preview Image")
+    makeRoiPreviewImage();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -363,6 +386,7 @@ var gbl_menu_compute = newMenu("PhilaJ Main Menu Tool",
                                         "Bulk ROI Rename",
                                         "Clean up ROI list",
                                         "Delete centering report ROIs",
+                                        "Create Special Stamp ROI",
                                         "---",
                                         "Measure Design",
                                         "Measure Paper",
@@ -387,8 +411,10 @@ var gbl_menu_compute = newMenu("PhilaJ Main Menu Tool",
                                         "Convert length to millimeters",
                                         "---",
                                         "Kiusalas Table",
-                                        "Grill Table"
-                                        // "PhilaJ Help"
+                                        "Grill Table",
+                                        "---",
+                                        "Measure Color",
+                                        "Compare Two Colors"
                                        ));
 
 macro "PhilaJ Main Menu Tool - C000 T0b14P T6e14J" {
@@ -429,6 +455,8 @@ macro "PhilaJ Main Menu Tool - C000 T0b14P T6e14J" {
     roiManagerCleanup();
   else if (cmd=="Delete centering report ROIs")
     deleteCenteringReportROIs();
+  else if (cmd=="Create Special Stamp ROI")
+    makeStampROI(true);
   else if (cmd=="Rotate Line to Horizontal")
     rotateToHorizontal();
   else if (cmd=="Rotate 90 degrees")
@@ -439,4 +467,8 @@ macro "PhilaJ Main Menu Tool - C000 T0b14P T6e14J" {
     makeBlockDesignROI();
   else if (cmd=="Grill Table")
     grillDataLookup("ALL", "ALL");
+  else if (cmd=="Measure Color")
+    measureColor(true);
+  else if (cmd=="Compare Two Colors")
+    compareColors();
 }

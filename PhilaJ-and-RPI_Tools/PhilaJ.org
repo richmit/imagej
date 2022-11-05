@@ -39,6 +39,9 @@ Copyright {{{time(%Y)}}} Mitch Richling. All rights reserved.
 #        #         #         #         #         #         #         #         #         #         #         #         #         #         #         #       | #
 
 * Introduction
+:PROPERTIES:
+:CUSTOM_ID: introduction
+:END:
 
 PhilaJ is software to assist with philatelic image analysis. It is built on top of the popular scientific image analysis package
 [[https://imagej.net/][ImageJ/Fiji]].
@@ -389,6 +392,11 @@ In addition to the buttons, a few keyboard shortcuts will now be activated!
    - [[#bulk-processing][=Process a directory of scans=]]
    - [[#sub-image][=Selection to image (with scale)=]]
    - [[#sub-image][=Selection to JPEG=]]
+   - [[#make-preview][=Create Preview & Thumbnail Images=]]
+   - [[#stamp-crop][=Stamp Crop w/ Previous Settings=]]
+   - [[#stamp-crop][=Stamp Crop w/ New Settings=]]
+   - [[#make-roianno-preview][=Create ROI Annotated Preview Image=]]
+
 
 *** Everything Else Menu
 
@@ -398,6 +406,7 @@ In addition to the buttons, a few keyboard shortcuts will now be activated!
    - [[#roi-name-tools][=Bulk ROI Rename=]]
    - [[#roi-cleanup][=Clean up ROI list=]]
    - [[#centering-measurements][=Delete centering report ROIs=]]
+   - [[#make-stamp-roi][=Create Special Stamp ROI=]]
    - ---
    - [[#centering-measurements][=Measure Design=]]
    - [[#centering-measurements][=Measure Paper=]]
@@ -423,7 +432,9 @@ In addition to the buttons, a few keyboard shortcuts will now be activated!
    - ---
    - [[#phil-data][=Kiusalas Table=]]
    - [[#phil-data][=Grill Table=]]
-   - =PhilaJ Help=
+   - ---
+   - [[#measure-color][=Measure Color=]]
+   - [[#measure-color][=Compare Two Colors=]]
 
 ** PhilaJ Tools
 *** Dynamic perforation gauge
@@ -580,30 +591,16 @@ New gauges are described via a CSV file -- which you can make with a text editor
  - Preset -- If "Y" then the line will be included presets for the one line specialized gauges and the dynamic perforation gauge.
  - Labels -- a bit of text to identify each row of perforations
 
-Here is an example of a custom gauge CSV file:
+Here is an example of a custom gauge for the Bari Wolf issue (this file shipps with PhilaJ):
 
-#+begin_src text
-   # Lines that start with a # are ignored -- they are comments
-   #         gap,         hole,P,Labels
-   2.03850000000,0.95000000000,N,Sm  9.8
-   2.03300000000,0.95000000000,N,Sm  9.9
-   2.03300000000,1.10000000000,N,Lg  9.9
-   1.90988461538,1.10000000000,N,Lg 10.5
-   1.81983621474,1.10000000000,N,Lg 11.0
-   1.77257821501,1.10000000000,N,Lg 11.3
-#+end_src
+#+INCLUDE: SpecializedGauges/Bari_Wolf_AMG.csv src text
 
-The [[#custom-spec-gauge][=Install New Specialized Gauge=]] menu option simply queries the user for a CSV file name, an copies it into the following
-directory:
+The CSV files live in the "=perfs=" folder inside your PhilaJ configuration file directory.
 
-      =~/.philaj/perfs=
-
-The "=~=" means your home directory.  On my windows machine, that expands to "=C:\Users\richmit\.philaj\perfs=".  On Linux and a mac, that expands to
-"=/home/richmit/.philaj/perfs=".  Note the "=richmit=" part is my username.
-
-You don't need to use the [[#custom-spec-gauge][=Install New Specialized Gauge=]] menu option -- you can copy them in via the command line or a file
-explorer-like tool if you wish.  All that matters is that they are in the correct place.  Once they are installed, the new gauges will show up in the
-specialized perforation options dialog.
+The [[#custom-spec-gauge][=Install New Specialized Gauge=]] menu option simply queries the user for a CSV file name, an copies it into the
+[[#config-files][PhilaJ Configuration Directory]].  You don't need to use the [[#custom-spec-gauge][=Install New Specialized Gauge=]] menu option -- you can
+copy them in via the command line or a file explorer-like tool if you wish.  All that matters is that they are in the correct place.  Once they are installed,
+the new gauges will show up in the specialized perforation options dialog -- no need to restart ImageJ.
 
 Note the filenames are used much like ImageJ macro files.  For example, a file named "=AM_Post_BEP.csv=" will result in a menu option named "=AM Post BEP=" --
 i.e. the underscores are turned into spaces and the extension is removed.
@@ -681,6 +678,22 @@ All three measurement tools discussed in this section construct [[#bb-hr-roi][bo
 ROIs.  These ROIs may be deleted with the [[#centering-measurements][=Delete centering report ROIs=]] menu option.  Note only ROIs with an associated ROI in
 the ROI manager are deleted.  That is to say "=fooBB=" will only be deleted if a "=foo=" ROI exists.  The idea is to only delete bounding box ROIs which may
 be recreated.
+
+
+*** Create Special Stamp ROI
+:PROPERTIES:
+:CUSTOM_ID: make-stamp-roi
+:END:
+
+The [[#make-stamp-roi][=Create Special Stamp ROI=]] menu option automates the creation of some useful ROIs given a reference point on a stamp.  For example,
+by identifying the upper left corner of the design frame, the system can automatically create a design ROI.  Of course the sizes of and locations of such ROIs
+will differ by issue, and so the system is driven by a user extendable list of rules for how to make ROIs.  Here is the configuration file that ships with
+PhilaJ:
+
+#+INCLUDE: "dot-philaj/stampROIRules.csv" src txt
+
+The configuration file is called "=stampROIRules.csv=", and is located in the [[#config-files][PhilaJ Configuration Directory]].  If the file is missing, then
+the ROI tool will have no rules, and generate an error message.
 
 *** Coordinate Tool
 :PROPERTIES:
@@ -965,6 +978,14 @@ Note both [[#sub-image][=Selection to image (with scale)=]] and [[#sub-image][=S
 [[#pos-finder][=Position Finder=]] or [[#coord-tool][=Coordinate Tool=]] overlays are active.  In this case the coordinates are relative to the origin of the
 coordinate system.
 
+*** Create Preview & Thumbnail Images
+:PROPERTIES:
+:CUSTOM_ID: make-preview
+:END:
+
+The [[#make-preview][=Create Preview & Thumbnail Images=]] menu option creates smaller copies of an image for use in web pages.  This is the saem operation
+preformed by the [[#bulk-processing][=Process a directory of scans=]] menu otpoin, but broken out for ad-hoc use.
+
 *** Overlay/ROI Measure
 :PROPERTIES:
 :CUSTOM_ID: overlay-measure
@@ -1176,6 +1197,28 @@ The [[#phil-data][=Grill Table=]] menu item will display a table of US grill cha
 #+ATTR_HTML: :align center :width 800
 [[file:PhilaJ-data-usGrills.gif][file:PhilaJ-data-usGrills.gif]]
 
+*** Measure Color
+:PROPERTIES:
+:CUSTOM_ID: measure-color
+:END:
+
+The [[#measure-color][=Measure Color=]] menu option is used to produce a report regarding the colors of the currently selected pixels.  The traditional
+Red/Blue/Green scheme of describing digital colors is *not* used by PhilaJ.  Instead the [[https://en.wikipedia.org/wiki/CIELAB_color_space][CIELAB color
+space]] is used for all PhilaJ color computations and reporting.  With CIELAB colors are described via three quantize: $L$, $A$, & $B$.  In addition, two
+useful quantities may be computed from these: $C$ & $H$.  The most important quantity is $H$, known as the Hue angle, as it is a good, single number
+representing the "shade" of a color.  I have been pretty successful using this number to identify some difficult stamp shade varieties.  
+
+When activated, [[#measure-color][=Measure Color=]] menu option can produce reports in two windows:
+  - A statistical summary of the colors (max, min, mean, and standard deviation for all five variables: $L$, $A$, $B$, $C$ & $H$)
+  - A histogram of the $H$ channel.  
+
+The report windows will include the name of the ROI measured!
+
+If the menu option is used on another selection or with another image, then new histogram and statistics windows will be created allowing the user to compare
+colors.  Note the [[#measure-color][=Compare Two Colors=]] menu option provides some automation and additional computation for comparing colors.
+
+# TODO: Add example reports and an image of a color-sample region.  Add dialog.
+
 *** Philatelic Unit Conversions
 :PROPERTIES:
 :CUSTOM_ID: phil-units
@@ -1233,6 +1276,34 @@ not make image size adjustments to square the pixels before they rotate the imag
 adjusting properly scaled images]] for more).  That said, if you are just doing a bulk album scan, then these tools are well worth the time to acquire and learn
 how to use.
 
+*** Stamp Crop
+:PROPERTIES:
+:CUSTOM_ID: stamp-crop
+:END:
+
+The [[#stamp-crop][=Stamp Crop w/ Previous Settings=]] & [[#stamp-crop][=Stamp Crop w/ New Settings=]] menu items assist in making more uniform, and
+repeatable image crops.  The system is driven by a user extensible set of "crop rules" that define the way an image is cropped under user control.  Most of
+this is best described in the comments in the configuration file:
+
+#+INCLUDE: "dot-philaj/stampCropRules.csv" src txt
+
+The configuration file is called "=stampCropRules.csv=", and is located in the [[#config-files][PhilaJ Configuration Directory]].  If the file is missing,
+then the crop tool will only have the "=rectangle=" and "=Rectangle + 1mm margins=" rules available.
+
+*** Create ROI Annotated Preview Image
+:PROPERTIES:
+:CUSTOM_ID: make-roianno-preview
+:END:
+
+The [[#make-roianno-preview][=Create ROI Annotated Preview Image=]] menu item will create an image with each ROI drawn -- right now plate flaw and fault
+ROIs are supported.  This is accomplished by searching the ROI Manager for ROIs with names staring with "=pflaw=", adding them to the overlay, and then
+flattening the image.  Some effort is made to intelligently place the string "=_pflaws=" in the new image title to make saving the image less annoying.  Note
+that plate flaw ROIs may be created manually or with the assistance of the [[#coord-tool][=Coordinate Tool=]].  Note that if you intend use
+[[#make-preview][=Create Preview & Thumbnail Images=]] on the resulting image, it is best to set the line width high enough that the ROIs are still visible
+when shrunk down to thumbnail size.
+
+# TODO: Add an example image!!
+
 *** Cleanup Windows and Files
 :PROPERTIES:
 :CUSTOM_ID: cleaning-up-windows-n-files
@@ -1277,6 +1348,26 @@ The menu option [[#roi-cleanup][=Clean up ROI list=]] preforms several actions:
  - Pop up a window with a report of all the changes.
 
 I suggest saving the ROI Manager contents first.  That way you can undo the cleanup.
+
+** PhilaJ Configuration Files
+:PROPERTIES:
+:CUSTOM_ID: config-files
+:END:
+
+PhilaJ is customized via various configuration files that are all located within the PhilaJ config folder.  This folder is located in your "home directory":
+
+      =~/.philaj/=
+
+The "=~=" means your home directory.  On my windows machine, that expands to "=C:\Users\richmit\.philaj\perfs=".  On Linux and a mac, that expands to
+"=/home/richmit/.philaj/perfs=".  Note the "=richmit=" part is my username.
+
+This directory can contain three things:
+
+  - "=perfs="              :: a directory containing [[#custom-spec-gauge][=Custom Specialized Gauges=]].
+  - "=stampCropRules.csv=" :: A file containing [[#stamp-crop][Stamp Crop Rules]]
+  - "=stampROIRules.csv="  :: A file containing [[#make-stamp-roi][Special Stamp ROI Rules]]
+
+Example configuration files may be found in the PhilaJ distribution inside the "=dot-philaj=" directory.
 
 ** Capturing and adjusting properly scaled images
 :PROPERTIES:
@@ -1361,30 +1452,34 @@ Note: This entire section can be ignored by most PhilaJ users...
 ROIs play a central role in PhilaJ (and in ImageJ in general).  PhilaJ has adopted standard names for several commonly philatelic use cases.
 
 #+ATTR_HTML: :border 2 solid #ccc :frame hsides :align center
-| ROI                                      | Type      | Description                                             |
-|------------------------------------------+-----------+---------------------------------------------------------|
-| =coilEdge<B/L/R/T>=                      | Line      | Straight edge of a coil stamp                           |
-| =design[_<SID>][-<SFX>]=                 | Any area  | Design boundaries.                                      |
-| =fault[_<SID>][-<SFX>]=                  | Any       | Fault locations                                         |
-| =grillPts[_<SID>][-<SFX>]=               | Points    | Identifies grill points                                 |
-| =grill[_<SID>][-<SFX>]=                  | Rectangle | Grill boundaries.                                       |
-| =idFact[_<SID>][-<SFX>]=                 | Any       | Identifying factors -- like a plate artifact            |
-| =margin<B/L/R/T>[_<SID>][-<SFX>]=        | Rectangle | Bottom/Left/Right/Top stamp margin                      |
-| =outside_edges=                          | Any Area  | Outer paper boundaries                                  |
-| =overprint[_<SID>][-<SFX>]=              | Any area  | Overlay                                                 |
-| =paper[_<SID>]=                          | Any area  | Paper boundaries inside perforations.                   |
-| =pfHole<NN><MM>_<SFX>=                   | Circle    | Perforation hole associated with =pfLine<NN>_<SFX>=.    |
-| =pfLine<NN>_<SFX>=                       | Line      | Line of perforations.  =<NN>= is the perforation count. |
-| =pf[_<SID>][-<SFX>]=                     | Any       | Plate flaw locations                                    |
-| =pmark[_<SID>][-<SFX>]=                  | Any area  | Postmark                                                |
-| =pn_<N>=                                 | Rectangle | Rectangle bounding the plate number                     |
-| =scale_<X>mm=                            | Rectangle | Used to set image scale (=<X>= is the scale)            |
-| =multipleOuterSep=                       | Rectangle | Multiple outer separation boundary                      |
-| =stampBdry[_<SID>]=                      | Any Area  | Outer paper boundaries of a single stamp                |
-| =wmark[_<SID>][-<SFX>]=                  | Any area  | Watermarks                                              |
-| =<pf/fault/mmcPt>[<X><Y>][_SID]=         | Point     | Points created by coordinate tool.                      |
-| =<pf/fault/mmcBx>[<X><Y>][<W><H>][_SID]= | Rectangle | Boxes created by coordinate tool.                       |
-|------------------------------------------+-----------+---------------------------------------------------------|
+| ROI                               | Type      | Description                                             |
+|-----------------------------------+-----------+---------------------------------------------------------|
+| =coilEdge<B/L/R/T>=               | Line      | Straight edge of a coil stamp                           |
+| =design[_<SID>][-<SFX>]=          | Any area  | Design boundaries.                                      |
+| =grillPts[_<SID>][-<SFX>]=        | Points    | Identifies grill points                                 |
+| =grill[_<SID>][-<SFX>]=           | Rectangle | Grill boundaries.                                       |
+| =idFact[_<SID>][-<SFX>]=          | Any       | Identifying factors -- like a plate artifact            |
+| =margin<B/L/R/T>[_<SID>][-<SFX>]= | Rectangle | Bottom/Left/Right/Top stamp margin                      |
+| =outside_edges=                   | Any Area  | Outer paper boundaries                                  |
+| =overprint[_<SID>][-<SFX>]=       | Any area  | Overlay                                                 |
+| =paper[_<SID>]=                   | Any area  | Paper boundaries inside perforations.                   |
+| =pfHole<NN><MM>_<SFX>=            | Circle    | Perforation hole associated with =pfLine<NN>_<SFX>=.    |
+| =pfLine<NN>_<SFX>=                | Line      | Line of perforations.  =<NN>= is the perforation count. |
+| =pmark[_<SID>][-<SFX>]=           | Any area  | Postmark                                                |
+| =pn_<N>=                          | Rectangle | Rectangle bounding the plate number                     |
+| =scale_<X>mm=                     | Rectangle | Used to set image scale (=<X>= is the scale)            |
+| =multipleOuterSep=                | Rectangle | Multiple outer separation boundary                      |
+| =stampBdry[_<SID>]=               | Any Area  | Outer paper boundaries of a single stamp                |
+| =wmark[_<SID>][-<SFX>]=           | Any area  | Watermarks                                              |
+| =pflaw[_<SID>][-<SFX>]=           | Any       | Plate flaw locations                                    |
+| =pfflawBx[<X><Y>][<W><H>][_SID]=  | Rectangle | Plate flaw Boxes created by coordinate tool.            |
+| =pflawPt[<X><Y>][_SID]=           | Point     | Plate flaw Points created by coordinate tool.           |
+| =fault[_<SID>][-<SFX>]=           | Any       | Fault locations                                         |
+| =fault[<X><Y>][<W><H>][_SID]=     | Rectangle | Fault location Boxes created by coordinate tool.        |
+| =fault[<X><Y>][_SID]=             | Point     | Fault location Points created by coordinate tool.       |
+| =mmcBx[<X><Y>][<W><H>][_SID]=     | Rectangle | Boxes created by coordinate tool.                       |
+| =mmcPt[<X><Y>][_SID]=             | Point     | Points created by coordinate tool.                      |
+|-----------------------------------+-----------+---------------------------------------------------------|
 
 *** Notation
 

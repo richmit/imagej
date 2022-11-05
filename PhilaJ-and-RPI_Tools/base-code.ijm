@@ -42,8 +42,13 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+var gbl_OLT_cropRules  = newArray("Rectangle",                                               // Option List: stampCrop built-in methods
+                                  "Rectangle + 1mm margins");
+var gbl_OLT_sclNutTfm  = newArray("NONE",                                                    // Option List: Scale Preserving Transformations
+                                  "Rotate 90 Degrees Right", "Rotate 90 Degrees Left");       
 
-var gbl_OLT_mmcRoiPfx  = newArray("mmc%T", "pf", "fault");                                   // Option List: mm Coordinate Tool ROI Prefix 
+var gbl_OLT_roiPfx     = newArray("pflaw", "fault");                                         // Option List: ROI types to look for
+var gbl_OLT_mmcRoiPfx  = newArray("mmc%T", "pflaw%T", "fault");                              // Option List: mm Coordinate Tool ROI Prefix 
 var gbl_OLT_mmcRoiCrd  = newArray("X & Y", "Just X", "Just Y", "No Coordinates");            // Option List: mm Coordinate Tool ROI Coordinates
 var gbl_OLT_mmcRoiBxSz = newArray("Width & Height", "Just Width", "Just Height", "No Size"); // Option List: mm Coordinate Tool ROI box size
 var gbl_OLT_colors     = newArray("black", "blue", "green", "red", "yellow", "white");       // Option List:
@@ -62,123 +67,135 @@ var gbl_OLT_letters    = newArray("A", "B", "C", "D", "E", "F", "G", "H", "I",  
                                   "t", "u", "v", "w", "x", "y", "z");                        
 var gbl_OLT_fontMag    = newArray("25%", "50%", "75%", "100%", "150%", "200%", "300%");      // Option List: Font size magnfication
 
-var gbl_1ds_Dmm       = 25.4;                  // 1D Scale: Known distance in mm
-var gbl_1ds_Dpx       = 2400;                  // 1D Scale: Known distance in Pixels
-var gbl_2ds_gbl       = false;                 // 1D Scale: Set scale globally
-var gbl_2ds_gbl       = false;                 // 2D Scale: Set scale globally
-var gbl_2ds_hDmm      =   50.000;              // 2D Scale: Horizontal distance in mm
-var gbl_2ds_hDpx      = 4745.150;              // 2D Scale: Horizontal distance in Pixels
-var gbl_2ds_vDpx      = 4721.014;              // 2D Scale: Vertical distance in Pixels
-var gbl_2ds_vDvv      =   50.000;              // 2D Scale: Vertical distance in mm
-var gbl_ALL_color1    = "yellow";              // Multi-Tool Option:
-var gbl_ALL_color2    = "green";               // Multi-Tool Option:
-var gbl_ALL_debug     = false;                 // Multi-Tool Option: Debuging messages
-var gbl_ALL_doScl     = true;                  // Multi-Tool Option: Set scale after RPI capture/load
-var gbl_ALL_fMag      = "100%";                // Multi-Tool Option: Font size magnification
-var gbl_ALL_fillDots  = true;                  // Multi-Tool Option: Fill dots in gauges (specialized & dynamic)
-var gbl_ALL_font      = "";                    // Multi-Tool Option: The font used across all tools
-var gbl_ALL_lastPhOvr = "";                    // Multi-Tool Option: Last PhilaJ Overlay drawn
-var gbl_ALL_lineWidth = "3";                   // Multi-Tool Option:
-var gbl_ALL_numPerf   = "15";                  // Multi-Tool Option: Number of perf holes or lines on gauge overlays -- note it is a string
-var gbl_ALL_perfOrder = false;                 // Multi-Tool Option: Ordering of perf sizes top to bottom
-var gbl_cer_minTal    = 25.0;                  // Coil Edge Report: minimum paper height -- coilEdgeReport
-var gbl_cer_minWid    = 22.5;                  // Coil Edge Report: minimum paper width -- coilEdgeReport
-var gbl_cer_nParThr   =  0.5;                  // Coil Edge Report: Near Parallel Threshold -- coilEdgeReport
-var gbl_cer_parThr    =  0.1;                  // Coil Edge Report: Parallel Threshold -- coilEdgeReport
-var gbl_cer_type      = "Vertical";            // Coil Edge Report: Coil Format -- coilEdgeReport
-var gbl_csg_file      = getDirectory("home");  // File Based Specialized Perforation Gauge Overlay:
-var gbl_d2p_holes     = 15;                    // Distance to Perforation: hole count
-var gbl_d2p_len       = 20;                    // Distance to Perforation: length
-var gbl_d2p_units     = "mm";                  // Dynamic Perforation Gauge: Units used for measurement
-var gbl_dyn_HUDdo     = true;                  // Dynamic Perforation Gauge: Show the perf HUD all the time
-var gbl_dyn_HUDpx     = NaN;                   // Dynamic Perforation Gauge: X coordinate (in pixels) for perf HUD (NaN means image center)
-var gbl_dyn_HUDpy     = NaN;                   // Dynamic Perforation Gauge: Y coordinate (in pixels) for perf HUD (NaN means image center)
-var gbl_dyn_autoRep   = false;                 // Dynamic Perforation Gauge: Show dynamic report dialog all the time
-var gbl_dyn_dotSz     = 1;                     // Dynamic Perforation Gauge: Size of dots
-var gbl_dyn_dotSzMn   = 0.5;                   // Dynamic Perforation Gauge: Minimum size of dots
-var gbl_dyn_dotSzMx   = 1.5;                   // Dynamic Perforation Gauge: Maximum size of dots
-var gbl_dyn_nuGap     = 1.5;                   // Dynamic Perforation Gauge: Size of perf gap for newly drawn gauges
-var gbl_dyn_numPerf   = 15;                    // Dynamic Perforation Gauge: Number fo perf holes. Note it is a number, and we do not use gbl_ALL_numPerf
-var gbl_dyn_rimt      = false;                 // Dynamic Perforation Gauge: Put results in results table or in new window
-var gbl_dyn_roiTag    = "";                    // Dynamic Perforation Gauge: ROI prefix to use for ROI bound ROIs
-var gbl_dyn_roiMgrU   = "NONE";                // Dynamic Perforation Gauge: How ROI manager is used
-var gbl_grl_ROI       = "";                    // Grill Template: The ROI name used to draw grill
-var gbl_grl_ROIx      = 0;                     // Grill Template: The upper left x coordinate of ROI used to draw grill
-var gbl_grl_ROIy      = 0;                     // Grill Template: The upper left y coordinate of ROI used to draw grill
-var gbl_grl_doMGB     = false;                 // Grill Template:
-var gbl_grl_doOut     = true;                  // Grill Template:
-var gbl_grl_doPbox    = true;                  // Grill Template:
-var gbl_grl_doPcross  = false;                 // Grill Template:
-var gbl_grl_doPridge  = true;                  // Grill Template:
-var gbl_grl_numH      = 14;                    // Grill Template: Number of grill points horizontally
-var gbl_grl_numV      = 17;                    // Grill Template: Number of grill points vertically
-var gbl_grl_ptype     = "";                    // Grill Template: Previously selected grill type
-var gbl_grl_type      = "E";                   // Grill Template: Selected grill type
-var gbl_l2l_len       = 1;                     // Length Conversion Tool: Length to convert
-var gbl_l2l_units     = "inch";                // Length Conversion Tool: Units to convert from
-var gbl_lil_group     = "";                    // Load Last RPI Image: group name
-var gbl_lil_which     = "Last";                // Load Last RPI Image: Which ones (first, last, etc...)
-var gbl_nst_mFrc      = false;                 // Instanta Perforation Gauge Overlay:
-var gbl_nst_mdiv      = "0.25";                // Instanta Perforation Gauge Overlay:
-var gbl_nst_pMax      = 14;                    // Instanta Perforation Gauge Overlay:
-var gbl_nst_pMin      = 9;                     // Instanta Perforation Gauge Overlay:
-var gbl_pcv_inv       = 0;                     // Perforation unit conversion: value to convert
-var gbl_pic_anno      = "";                    // RPI Image Capture: File annotation for RPI captured images
-var gbl_pic_doSet     = true;                  // RPI Image Capture: Change settings before RPI capture
-var gbl_pic_group     = "";                    // RPI Image Capture: File group name for RPI captured images
-var gbl_pic_ifmt      = "jpg";                 // RPI Image Capture: Image Format for RPI captured images
-var gbl_pic_loadem    = true;                  // RPI Image Capture: Load image after capture
-var gbl_pic_pviewDo   = true;                  // RPI Image Capture: Video preview before RPI capture
-var gbl_pic_pviewScl  = "4";                   // RPI Image Capture: RPI Capture Preview Scale (1/n)
-var gbl_pic_repeat    = false;                 // RPI Image Capture: Repeated RPI capture mode
-var gbl_pic_res       = "100%";                // RPI Image Capture: Image Size for RPI captured images
-var gbl_pic_useCam    = true;                  // RPI Image Capture: Use the camera or fake it
-var gbl_mmc_origX     = NaN;                   // Millimeter Coordinates Overlay: x coordinate of the upper left origin.  NaN means center.
-var gbl_mmc_origY     = NaN;                   // Millimeter Coordinates Overlay: y coordinate of the upper left origin.  NaN means center.
-var gbl_mmc_boxW      = 3;                     // Millimeter Coordinates Overlay: Height of selection box (in mm)
-var gbl_mmc_boxH      = 3;                     // Millimeter Coordinates Overlay: Width of selection box (in mm)
-var gbl_mmc_saveROIp  = false;                 // Millimeter Coordinates Overlay: Save constructed point ROIs in ROI Manager
-var gbl_mmc_saveROIb  = false;                 // Millimeter Coordinates Overlay: Save constructed box ROIs in ROI Manager
-var gbl_mmc_saveJPG   = false;                 // Millimeter Coordinates Overlay: Create a subimage from box selections and save it
-var gbl_mmc_roiPfx    = gbl_OLT_mmcRoiPfx[0];  // Millimeter Coordinates Overlay: Constructed ROI name: Prefix
-var gbl_mmc_roiCord   = gbl_OLT_mmcRoiCrd[0];  // Millimeter Coordinates Overlay: Constructed ROI name: Coordinate format
-var gbl_mmc_roiBxSz   = gbl_OLT_mmcRoiBxSz[0]; // Millimeter Coordinates Overlay: Constructed ROI name: Box size format
-var gbl_mmc_roiSID    = "";                    // Millimeter Coordinates Overlay: Constructed ROI name: SID
-var gbl_mmc_pntGuides = true;                  // Millimeter Coordinates Overlay: Draw guides from *point* ROI to axis
-var gbl_mmc_boxGuides = false;                 // Millimeter Coordinates Overlay: Draw guides from *box* ROI to axis
-var gbl_pos_gridSize  = 3;                     // Position Finder Overlay:
-var gbl_pos_numGrids  = "AUTO";                // Position Finder Overlay:
-var gbl_pos_origX     = 0;                     // Position Finder Overlay: x coordinate of the upper left origin of grid in pixels
-var gbl_pos_origY     = 0;                     // Position Finder Overlay: y coordinate of the upper left origin of grid in pixels
-var gbl_r2d_targDPI   = 2400;                  // Resize To DPI:
-var gbl_rho_angle     = 0;                     // Rotate to Horizontal: Angle to rotate
-var gbl_spl_gName     = "Single Line Custom";  // Specialized Perforation Gauge Overlay:
-var gbl_spl_perfDiams = newArray(0);           // Specialized Perforation Gauge Overlay:
-var gbl_spl_perfGaps  = newArray(0);           // Specialized Perforation Gauge Overlay:
-var gbl_spl_perfLabs  = newArray(0);           // Specialized Perforation Gauge Overlay:
-var gbl_spl_useDots   = true;                  // Specialized Perforation Gauge Overlay:
-var gbl_ssm_aux       = "0.32";                // Scale RPI Image: Microscope Aux Lens
-var gbl_ssm_cam       = "RPI";                 // Scale RPI Image: Camera
-var gbl_ssm_gbl       = false;                 // Scale RPI Image: When setting RPI image scale, make it global
-var gbl_ssm_res       = false;                 // Scale RPI Image: RPI Adjust for Resolution when scaleing images
-var gbl_ssm_scope     = "Leica S8API";         // Scale RPI Image: Microscope Model
-var gbl_ssm_vobj      = "0.32";                // Scale RPI Image: Microscope Video Objective
-var gbl_ssm_zoom      = "1.00";                // Scale RPI Image: Microscope Zoom
-var gbl_ssp_gapu      = "perfs/2cm";           // Single Line Specialized Perforation Gauge Overlay:
-var gbl_ssp_gapv      = 12;                    // Single Line Specialized Perforation Gauge Overlay:
-var gbl_ssp_lab       = "";                    // Single Line Specialized Perforation Gauge Overlay:
-var gbl_ssp_sizu      = "mm";                  // Single Line Specialized Perforation Gauge Overlay:
-var gbl_ssp_sizv      = 1;                     // Single Line Specialized Perforation Gauge Overlay:
-var gbl_sus_cols      = 10;                    // Slice Up Sheet: Number of columns in the block -- used to seporate
-var gbl_sus_rows      = 10;                    // Slice Up Sheet: Number of rows in the block -- used to seporate
-var gbl_sus_scols     = 10;                    // Slice Up Sheet: Number of columns full sheet -- used to number stamps
-var gbl_sus_1pos      = 1;                     // Slice Up Sheet: Number of columns full sheet -- used to number stamps
-var gbl_vid_pviewScl  = "4";                   // RPI Live Video Preview: Live RPI Video Scale (1/n)
-var gbl_sfp_hdpi      = 2410;                  // Scan processing: input Horz DPI
-var gbl_sfp_vdpi      = 2398;                  // Scan processing: input Vert DPI
-var gbl_sfp_pdpi      = 300;                   // Scan processing: input preview DPI
-var gbl_sfp_tdpi      = 90;                    // Scan processing: input thumbnail DPI
-var gbl_sfp_repro     = false;                 // Scan processing: reprocess files that have already been processed
+var gbl_rpv_roiPfx     = gbl_OLT_roiPfx[0];     // ROI Preview Image: The types of ROIs to annotate
+var gbl_1ds_Dmm        = 25.4;                  // 1D Scale: Known distance in mm
+var gbl_1ds_Dpx        = 2400;                  // 1D Scale: Known distance in Pixels
+var gbl_2ds_gbl        = false;                 // 1D Scale: Set scale globally
+var gbl_2ds_gbl        = false;                 // 2D Scale: Set scale globally
+var gbl_2ds_hDmm       =   50.000;              // 2D Scale: Horizontal distance in mm
+var gbl_2ds_hDpx       = 4745.150;              // 2D Scale: Horizontal distance in Pixels
+var gbl_2ds_vDpx       = 4721.014;              // 2D Scale: Vertical distance in Pixels
+var gbl_2ds_vDvv       =   50.000;              // 2D Scale: Vertical distance in mm
+var gbl_ALL_color1     = "yellow";              // Multi-Tool Option:
+var gbl_ALL_color2     = "green";               // Multi-Tool Option:
+var gbl_ALL_debug      = false;                 // Multi-Tool Option: Debuging messages
+var gbl_ALL_doScl      = true;                  // Multi-Tool Option: Set scale after RPI capture/load
+var gbl_ALL_fMag       = "100%";                // Multi-Tool Option: Font size magnification
+var gbl_ALL_fillDots   = true;                  // Multi-Tool Option: Fill dots in gauges (specialized & dynamic)
+var gbl_ALL_font       = "";                    // Multi-Tool Option: The font used across all tools
+var gbl_ALL_lastPhOvr  = "";                    // Multi-Tool Option: Last PhilaJ Overlay drawn
+var gbl_ALL_lineWidth1  = "3";                   // Multi-Tool Option:
+var gbl_ALL_lineWidth2 = "15";                 // Multi-Tool Option: Line width -- used for bold lines
+var gbl_ALL_numPerf    = "15";                  // Multi-Tool Option: Number of perf holes or lines on gauge overlays -- note it is a string
+var gbl_ALL_perfOrder  = false;                 // Multi-Tool Option: Ordering of perf sizes top to bottom
+var gbl_cer_minTal     = 25.0;                  // Coil Edge Report: minimum paper height -- coilEdgeReport
+var gbl_cer_minWid     = 22.5;                  // Coil Edge Report: minimum paper width -- coilEdgeReport
+var gbl_cer_nParThr    =  0.5;                  // Coil Edge Report: Near Parallel Threshold -- coilEdgeReport
+var gbl_cer_parThr     =  0.1;                  // Coil Edge Report: Parallel Threshold -- coilEdgeReport
+var gbl_cer_type       = "Vertical";            // Coil Edge Report: Coil Format -- coilEdgeReport
+var gbl_csg_file       = getDirectory("home");  // File Based Specialized Perforation Gauge Overlay:
+var gbl_d2p_holes      = 15;                    // Distance to Perforation: hole count
+var gbl_d2p_len        = 20;                    // Distance to Perforation: length
+var gbl_d2p_units      = "mm";                  // Dynamic Perforation Gauge: Units used for measurement
+var gbl_dyn_HUDdo      = true;                  // Dynamic Perforation Gauge: Show the perf HUD all the time
+var gbl_dyn_HUDpx      = NaN;                   // Dynamic Perforation Gauge: X coordinate (in pixels) for perf HUD (NaN means image center)
+var gbl_dyn_HUDpy      = NaN;                   // Dynamic Perforation Gauge: Y coordinate (in pixels) for perf HUD (NaN means image center)
+var gbl_dyn_autoRep    = false;                 // Dynamic Perforation Gauge: Show dynamic report dialog all the time
+var gbl_dyn_dotSz      = 1;                     // Dynamic Perforation Gauge: Size of dots
+var gbl_dyn_dotSzMn    = 0.5;                   // Dynamic Perforation Gauge: Minimum size of dots
+var gbl_dyn_dotSzMx    = 1.5;                   // Dynamic Perforation Gauge: Maximum size of dots
+var gbl_dyn_nuGap      = 1.5;                   // Dynamic Perforation Gauge: Size of perf gap for newly drawn gauges
+var gbl_dyn_numPerf    = 15;                    // Dynamic Perforation Gauge: Number fo perf holes. Note it is a number, and we do not use gbl_ALL_numPerf
+var gbl_dyn_rimt       = false;                 // Dynamic Perforation Gauge: Put results in results table or in new window
+var gbl_dyn_roiMgrU    = "NONE";                // Dynamic Perforation Gauge: How ROI manager is used
+var gbl_dyn_roiTag     = "";                    // Dynamic Perforation Gauge: ROI prefix to use for ROI bound ROIs
+var gbl_grl_ROI        = "";                    // Grill Template: The ROI name used to draw grill
+var gbl_grl_ROIx       = 0;                     // Grill Template: The upper left x coordinate of ROI used to draw grill
+var gbl_grl_ROIy       = 0;                     // Grill Template: The upper left y coordinate of ROI used to draw grill
+var gbl_grl_doMGB      = false;                 // Grill Template:
+var gbl_grl_doOut      = true;                  // Grill Template:
+var gbl_grl_doPbox     = true;                  // Grill Template:
+var gbl_grl_doPcross   = false;                 // Grill Template:
+var gbl_grl_doPridge   = true;                  // Grill Template:
+var gbl_grl_numH       = 14;                    // Grill Template: Number of grill points horizontally
+var gbl_grl_numV       = 17;                    // Grill Template: Number of grill points vertically
+var gbl_grl_ptype      = "";                    // Grill Template: Previously selected grill type
+var gbl_grl_type       = "E";                   // Grill Template: Selected grill type
+var gbl_l2l_len        = 1;                     // Length Conversion Tool: Length to convert
+var gbl_l2l_units      = "inch";                // Length Conversion Tool: Units to convert from
+var gbl_lil_group      = "";                    // Load Last RPI Image: group name
+var gbl_lil_which      = "Last";                // Load Last RPI Image: Which ones (first, last, etc...)
+var gbl_mct_doHist     = true;                  // Color Measure: Draw the histogram
+var gbl_mct_doStat     = true;                  // Color Measure: Do statstical summary
+var gbl_mct_hst360     = true;                  // Color Measure: Use full range
+var gbl_mct_hstClr     = true;                  // Color Measure: Use sample color for fill color
+var gbl_mct_hstVar     = "H";                   // Color Measure: The variable for the histogram
+var gbl_mct_hstWid     = 1;                     // Color Measure: Width of histogram bins
+var gbl_mmc_boxGuides  = false;                 // Millimeter Coordinates Overlay: Draw guides from *box* ROI to axis
+var gbl_mmc_boxH       = 3;                     // Millimeter Coordinates Overlay: Width of selection box (in mm)
+var gbl_mmc_boxW       = 3;                     // Millimeter Coordinates Overlay: Height of selection box (in mm)
+var gbl_mmc_origX      = NaN;                   // Millimeter Coordinates Overlay: x coordinate of the upper left origin.  NaN means center.
+var gbl_mmc_origY      = NaN;                   // Millimeter Coordinates Overlay: y coordinate of the upper left origin.  NaN means center.
+var gbl_mmc_pntGuides  = true;                  // Millimeter Coordinates Overlay: Draw guides from *point* ROI to axis
+var gbl_mmc_roiBxSz    = gbl_OLT_mmcRoiBxSz[0]; // Millimeter Coordinates Overlay: Constructed ROI name: Box size format
+var gbl_mmc_roiCord    = gbl_OLT_mmcRoiCrd[0];  // Millimeter Coordinates Overlay: Constructed ROI name: Coordinate format
+var gbl_mmc_roiPfx     = gbl_OLT_mmcRoiPfx[0];  // Millimeter Coordinates Overlay: Constructed ROI name: Prefix
+var gbl_mmc_roiSID     = "";                    // Millimeter Coordinates Overlay: Constructed ROI name: SID
+var gbl_mmc_saveJPG    = false;                 // Millimeter Coordinates Overlay: Create a subimage from box selections and save it
+var gbl_mmc_saveROIb   = false;                 // Millimeter Coordinates Overlay: Save constructed box ROIs in ROI Manager
+var gbl_mmc_saveROIp   = false;                 // Millimeter Coordinates Overlay: Save constructed point ROIs in ROI Manager
+var gbl_msr_rule       = "";                    // Make Stamp ROI: The rule to use
+var gbl_msr_useSqr     = true;                  // Make Stamp ROI: Use rectangles instead of points
+var gbl_nst_mFrc       = false;                 // Instanta Perforation Gauge Overlay:
+var gbl_nst_mdiv       = "0.25";                // Instanta Perforation Gauge Overlay:
+var gbl_nst_pMax       = 14;                    // Instanta Perforation Gauge Overlay:
+var gbl_nst_pMin       = 9;                     // Instanta Perforation Gauge Overlay:
+var gbl_pcv_inv        = 0;                     // Perforation unit conversion: value to convert
+var gbl_pic_anno       = "";                    // RPI Image Capture: File annotation for RPI captured images
+var gbl_pic_doSet      = true;                  // RPI Image Capture: Change settings before RPI capture
+var gbl_pic_group      = "";                    // RPI Image Capture: File group name for RPI captured images
+var gbl_pic_ifmt       = "jpg";                 // RPI Image Capture: Image Format for RPI captured images
+var gbl_pic_loadem     = true;                  // RPI Image Capture: Load image after capture
+var gbl_pic_pviewDo    = true;                  // RPI Image Capture: Video preview before RPI capture
+var gbl_pic_pviewScl   = "4";                   // RPI Image Capture: RPI Capture Preview Scale (1/n)
+var gbl_pic_repeat     = false;                 // RPI Image Capture: Repeated RPI capture mode
+var gbl_pic_res        = "100%";                // RPI Image Capture: Image Size for RPI captured images
+var gbl_pic_useCam     = true;                  // RPI Image Capture: Use the camera or fake it
+var gbl_pos_gridSize   = 3;                     // Position Finder Overlay:
+var gbl_pos_numGrids   = "AUTO";                // Position Finder Overlay:
+var gbl_pos_origX      = 0;                     // Position Finder Overlay: x coordinate of the upper left origin of grid in pixels
+var gbl_pos_origY      = 0;                     // Position Finder Overlay: y coordinate of the upper left origin of grid in pixels
+var gbl_r2d_targDPI    = 2400;                  // Resize To DPI:
+var gbl_rho_angle      = 0;                     // Rotate to Horizontal: Angle to rotate
+var gbl_scr_rule       = gbl_OLT_cropRules[0];  // Stamp Crop: The rule to use
+var gbl_sfp_hdpi       = 2410;                  // Scan processing: input Horz DPI
+var gbl_sfp_itfm       = "NONE";                // Scan processing: initial trasnform to apply to image before image resize
+var gbl_sfp_pdpi       = 300;                   // Scan processing: input preview DPI
+var gbl_sfp_repro      = false;                 // Scan processing: reprocess files that have already been processed
+var gbl_sfp_tdpi       = 90;                    // Scan processing: input thumbnail DPI
+var gbl_sfp_vdpi       = 2398;                  // Scan processing: input Vert DPI
+var gbl_spl_gName      = "Single Line Custom";  // Specialized Perforation Gauge Overlay:
+var gbl_spl_perfDiams  = newArray(0);           // Specialized Perforation Gauge Overlay:
+var gbl_spl_perfGaps   = newArray(0);           // Specialized Perforation Gauge Overlay:
+var gbl_spl_perfLabs   = newArray(0);           // Specialized Perforation Gauge Overlay:
+var gbl_spl_useDots    = true;                  // Specialized Perforation Gauge Overlay:
+var gbl_ssm_aux        = "0.32";                // Scale RPI Image: Microscope Aux Lens
+var gbl_ssm_cam        = "RPI";                 // Scale RPI Image: Camera
+var gbl_ssm_gbl        = false;                 // Scale RPI Image: When setting RPI image scale, make it global
+var gbl_ssm_res        = false;                 // Scale RPI Image: RPI Adjust for Resolution when scaleing images
+var gbl_ssm_scope      = "Leica S8API";         // Scale RPI Image: Microscope Model
+var gbl_ssm_vobj       = "0.32";                // Scale RPI Image: Microscope Video Objective
+var gbl_ssm_zoom       = "1.00";                // Scale RPI Image: Microscope Zoom
+var gbl_ssp_gapu       = "perfs/2cm";           // Single Line Specialized Perforation Gauge Overlay:
+var gbl_ssp_gapv       = 12;                    // Single Line Specialized Perforation Gauge Overlay:
+var gbl_ssp_lab        = "";                    // Single Line Specialized Perforation Gauge Overlay:
+var gbl_ssp_sizu       = "mm";                  // Single Line Specialized Perforation Gauge Overlay:
+var gbl_ssp_sizv       = 1;                     // Single Line Specialized Perforation Gauge Overlay:
+var gbl_sus_1pos       = 1;                     // Slice Up Sheet: Number of columns full sheet -- used to number stamps
+var gbl_sus_cols       = 10;                    // Slice Up Sheet: Number of columns in the block -- used to seporate
+var gbl_sus_rows       = 10;                    // Slice Up Sheet: Number of rows in the block -- used to seporate
+var gbl_sus_scols      = 10;                    // Slice Up Sheet: Number of columns full sheet -- used to number stamps
+var gbl_vid_pviewScl   = "4";                   // RPI Live Video Preview: Live RPI Video Scale (1/n)
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -224,13 +241,13 @@ function setFontHeight(targetHeight, inPixels) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Keep showing a non-modal dialog box with a title/message till the user makes a selection.
-function waitForUserToMakeSelection(title, message, selType) {
+function waitForUserToMakeSelection(message, selType) {
   if (gbl_ALL_debug)
-    print("DEBUG(waitForUserToMakeSelection): Function Entry: ", title, message, selType);
+    print("DEBUG(waitForUserToMakeSelection): Function Entry: ", message, selType);
   if (selType < 0) {
     if (selectionType < 0) {
       do {
-        waitForUserWithCancel(title, message);
+        waitForUserWithCancel("PhilaJ: Waiting For Selection", message);
       } while (selectionType < 0);
     }
   } else {
@@ -245,7 +262,7 @@ function waitForUserToMakeSelection(title, message, selType) {
       do {
         if (daTool >= 0)
           setTool(daTool);
-        waitForUserWithCancel(title, message);
+        waitForUserWithCancel("PhilaJ: Waiting For Selection", message);
       } while (selectionType != selType);
     }
   }
@@ -982,7 +999,7 @@ function mmCoordOptions() {
   Dialog.create("PhilaJ: Millimeter Coordinate Tool Options");
   Dialog.addChoice("color1:", gbl_OLT_colors,                   gbl_ALL_color1);
   Dialog.addChoice("color2:", gbl_OLT_colors,                   gbl_ALL_color2);  // Not used today, but may use it for negative axis
-  Dialog.addChoice("Line Width:", gbl_OLT_lineWidth,            gbl_ALL_lineWidth);
+  Dialog.addChoice("Line Width 1:", gbl_OLT_lineWidth,          gbl_ALL_lineWidth1);
   Dialog.addNumber("Origin X:",                                 gbl_mmc_origX, 0, 7, "Pixels");
   Dialog.addNumber("Origin Y:",                                 gbl_mmc_origY, 0, 7, "Pixels");
   Dialog.addNumber("Box Width",                                 gbl_mmc_boxW, 2, 7, "mm");
@@ -1003,7 +1020,7 @@ function mmCoordOptions() {
 
   gbl_ALL_color1    = Dialog.getChoice();
   gbl_ALL_color2    = Dialog.getChoice();
-  gbl_ALL_lineWidth = Dialog.getChoice();
+  gbl_ALL_lineWidth1 = Dialog.getChoice();
   gbl_mmc_origX     = Dialog.getNumber();
   gbl_mmc_origY     = Dialog.getNumber();
   gbl_mmc_boxW      = Dialog.getNumber();
@@ -1030,7 +1047,7 @@ function mmCoordAction() {
   exitIfNoImages("mmCoordAction");
   checkImageScalePhil(false, true);
 
-  lineWidth = parseInt(gbl_ALL_lineWidth);
+  lineWidth = parseInt(gbl_ALL_lineWidth1);
   setLineWidth(lineWidth);
 
   if (selectionType >= 0) {  
@@ -1224,14 +1241,14 @@ function philPosFinderOptions() {
 
   fontChoiceList = getFavFontList();
   Dialog.create("PhilaJ: Position Finder");
-  Dialog.addChoice("color1:", gbl_OLT_colors,         gbl_ALL_color1);
-  Dialog.addChoice("color2:", gbl_OLT_colors,         gbl_ALL_color2);
-  Dialog.addNumber("Grid Size:",                      gbl_pos_gridSize, 0, 3, "mm");
+  Dialog.addChoice("color1:", gbl_OLT_colors,          gbl_ALL_color1);
+  Dialog.addChoice("color2:", gbl_OLT_colors,          gbl_ALL_color2);
+  Dialog.addNumber("Grid Size:",                       gbl_pos_gridSize, 0, 3, "mm");
   Dialog.addMessage("  The Thirkell uses 3mm");
-  Dialog.addChoice("Grid Count:", gbl_OLT_pfGrdCnt,   gbl_pos_numGrids);
-  Dialog.addChoice("Line Width:", gbl_OLT_lineWidth,  gbl_ALL_lineWidth);
-  Dialog.addChoice("Font:", fontChoiceList,           gbl_ALL_font);
-  Dialog.addChoice("Font Size:", gbl_OLT_fontMag,     gbl_ALL_fMag);
+  Dialog.addChoice("Grid Count:", gbl_OLT_pfGrdCnt,    gbl_pos_numGrids);
+  Dialog.addChoice("Line Width 1:", gbl_OLT_lineWidth, gbl_ALL_lineWidth1);
+  Dialog.addChoice("Font:", fontChoiceList,            gbl_ALL_font);
+  Dialog.addChoice("Font Size:", gbl_OLT_fontMag,      gbl_ALL_fMag);
   Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#pos-finder");
   Dialog.show();
 
@@ -1239,7 +1256,7 @@ function philPosFinderOptions() {
   gbl_ALL_color2    = Dialog.getChoice();
   gbl_pos_gridSize  = round(Dialog.getNumber());
   gbl_pos_numGrids  = Dialog.getChoice();
-  gbl_ALL_lineWidth = Dialog.getChoice();
+  gbl_ALL_lineWidth1 = Dialog.getChoice();
   gbl_ALL_font      = Dialog.getChoice();
   gbl_ALL_fMag      = Dialog.getChoice();
 
@@ -1269,7 +1286,7 @@ function philPosFinderAction() {
   toScaled(designWidth, designHeight);
   run("Select None");
 
-  lineWidth = parseInt(gbl_ALL_lineWidth);
+  lineWidth = parseInt(gbl_ALL_lineWidth1);
 
   numGrids = parseInt(gbl_pos_numGrids);
   if ( isNaN(numGrids) || (numGrids < 1)) {
@@ -1407,7 +1424,7 @@ function dynamicPerfMeasureROI(force_rimt) {
     // MJR TODO NOTE <2022-04-21T14:58:28-0500> dynamicPerfMeasureROI: This error could happen if an ROI exists -- just a line with no dots.  Fix this logic.
     exit("<html>"
          +"<font size=+1>"
-         +"ERROR(dynamicPerfMeasureAllROIs):<br>"
+         +"ERROR(dynamicPerfMeasureROI):<br>"
          +"&nbsp; No Dynamic Perf ROIs found in ROI Manager!" + "<br>"
          +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#reuse-dynamic-perf-roi'>the user manual</a> for more information."
          +"</font>");
@@ -1478,7 +1495,7 @@ function dynamicPerfOptions(queryForPreset) {
   Dialog.addChoice("color1:", gbl_OLT_colors,                                                                gbl_ALL_color1);
   Dialog.addNumber("Dot Count:",                                                                             gbl_dyn_numPerf, 0, 6, "");
   Dialog.addNumber("Dot Size:",                                                                              gbl_dyn_dotSz, 3, 6, "mm");
-  Dialog.addChoice("Line Width:", gbl_OLT_lineWidth,                                                         gbl_ALL_lineWidth);
+  Dialog.addChoice("Line Width 1:", gbl_OLT_lineWidth,                                                       gbl_ALL_lineWidth1);
   Dialog.addChoice("Font:", fontChoiceList,                                                                  gbl_ALL_font);
   Dialog.addChoice("Font Size:", gbl_OLT_fontMag,                                                            gbl_ALL_fMag);
   Dialog.addChoice("ROI Manager Use", newArray("NONE", "JUST LINE", "LINE & END PERFS", "LINE & ALL PERFS"), gbl_dyn_roiMgrU);
@@ -1493,7 +1510,7 @@ function dynamicPerfOptions(queryForPreset) {
   gbl_ALL_color1    = Dialog.getChoice();
   gbl_dyn_numPerf   = round(minOf(50, maxOf(2, Dialog.getNumber())));
   gbl_dyn_dotSz     = minOf(maxOf(Dialog.getNumber(), gbl_dyn_dotSzMn), gbl_dyn_dotSzMx);
-  gbl_ALL_lineWidth = Dialog.getChoice();
+  gbl_ALL_lineWidth1 = Dialog.getChoice();
   old_font          = gbl_ALL_font;
   gbl_ALL_font      = Dialog.getChoice();
   old_fMag          = gbl_ALL_fMag;
@@ -1700,7 +1717,7 @@ function dynamicPerfMeasure() {
   }
 
   if (gbl_dyn_rimt || (gbl_dyn_roiMgrU != "NONE")) {
-    makeLine(dxF, dyF, dxO, dyO, parseInt(gbl_ALL_lineWidth));
+    makeLine(dxF, dyF, dxO, dyO, parseInt(gbl_ALL_lineWidth1));
     Roi.setStrokeColor(gbl_ALL_color1);
     if (gbl_dyn_roiMgrU != "NONE")
       roiManagerAddOrUpdateROI("pfLine" + intToZeroPadString(numPerf, 2) + "_" + roiTag, false);
@@ -1869,7 +1886,7 @@ function dynamicPerfDraw(firstDotX, firstDotY, firstDotIndex, otherDotX, otherDo
   toUnscaled(dotSzX, dotSzY);
 
   setColor(gbl_ALL_color1);
-  lineWidth = parseInt(gbl_ALL_lineWidth)-1; // We use -1 to get an even number because we divide it by two later and don't want rounding errors
+  lineWidth = parseInt(gbl_ALL_lineWidth1)-1; // We use -1 to get an even number because we divide it by two later and don't want rounding errors
   setLineWidth(lineWidth);
 
   xDelta = otherDotX - firstDotX;
@@ -2050,22 +2067,22 @@ function specializedGaugeOptions() {
   fontChoiceList = getFavFontList();
   gaugeChoiceList = specializedGaugeGetList();
   Dialog.create("PhilaJ: Specialized Gauge");
-  Dialog.addChoice("Gauge:", gaugeChoiceList,        gbl_spl_gName);
-  Dialog.addChoice("color1:", gbl_OLT_colors,        gbl_ALL_color1);
-  Dialog.addChoice("Marker Count:", gbl_OLT_numPerf, gbl_ALL_numPerf);
-  Dialog.addChoice("Line Width:", gbl_OLT_lineWidth, gbl_ALL_lineWidth);
-  Dialog.addChoice("Font:", fontChoiceList,          gbl_ALL_font);
-  Dialog.addChoice("Font Size:", gbl_OLT_fontMag,    gbl_ALL_fMag);
-  Dialog.addCheckbox("Fill Dots",                    gbl_ALL_fillDots);
-  Dialog.addCheckbox("Use Dots",                     gbl_spl_useDots);
-  Dialog.addCheckbox("Reverse Order",                gbl_ALL_perfOrder);
+  Dialog.addChoice("Gauge:", gaugeChoiceList,          gbl_spl_gName);
+  Dialog.addChoice("color1:", gbl_OLT_colors,          gbl_ALL_color1);
+  Dialog.addChoice("Marker Count:", gbl_OLT_numPerf,   gbl_ALL_numPerf);
+  Dialog.addChoice("Line Width 1:", gbl_OLT_lineWidth, gbl_ALL_lineWidth1);
+  Dialog.addChoice("Font:", fontChoiceList,            gbl_ALL_font);
+  Dialog.addChoice("Font Size:", gbl_OLT_fontMag,      gbl_ALL_fMag);
+  Dialog.addCheckbox("Fill Dots",                      gbl_ALL_fillDots);
+  Dialog.addCheckbox("Use Dots",                       gbl_spl_useDots);
+  Dialog.addCheckbox("Reverse Order",                  gbl_ALL_perfOrder);
   Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#static-perf-gauge");
   Dialog.show();
 
   gbl_spl_gName     = Dialog.getChoice();
   gbl_ALL_color1    = Dialog.getChoice();
   gbl_ALL_numPerf   = Dialog.getChoice();
-  gbl_ALL_lineWidth = Dialog.getChoice();
+  gbl_ALL_lineWidth1 = Dialog.getChoice();
   gbl_ALL_font      = Dialog.getChoice();
   gbl_ALL_fMag      = Dialog.getChoice();
   gbl_ALL_fillDots  = Dialog.getCheckbox();
@@ -2212,7 +2229,7 @@ function specializedGaugeAction() {
     if (gbl_ALL_fillDots && gbl_spl_useDots)
       lineWidth = 0;
     else
-      lineWidth = parseInt(gbl_ALL_lineWidth);
+      lineWidth = parseInt(gbl_ALL_lineWidth1);
 
     minFontSz = maxOf(2.5, 2*arrayMaxValue(gbl_spl_perfDiams));
     setFontHeight(minFontSz, false);
@@ -2880,7 +2897,7 @@ function philGrillOptions(grillToUse) {
     Dialog.addSlider("Points Vertical:", minV, maxV,   gbl_grl_numV);
   Dialog.addChoice("color1:", gbl_OLT_colors,          gbl_ALL_color1);
   Dialog.addChoice("color2:", gbl_OLT_colors,          gbl_ALL_color2);
-  Dialog.addChoice("Line Width:", gbl_OLT_lineWidth,   gbl_ALL_lineWidth);
+  Dialog.addChoice("Line Width 1:", gbl_OLT_lineWidth, gbl_ALL_lineWidth1);
   Dialog.addChoice("Font:", fontChoiceList,            gbl_ALL_font);
   Dialog.addChoice("Font Size:", gbl_OLT_fontMag,      gbl_ALL_fMag);
   Dialog.addCheckbox("Draw Point Boxes",               gbl_grl_doPbox);
@@ -2897,7 +2914,7 @@ function philGrillOptions(grillToUse) {
     gbl_grl_numV = Dialog.getNumber();
   gbl_ALL_color1    = Dialog.getChoice();
   gbl_ALL_color2    = Dialog.getChoice();
-  gbl_ALL_lineWidth = Dialog.getChoice();
+  gbl_ALL_lineWidth1 = Dialog.getChoice();
   gbl_ALL_font      = Dialog.getChoice();
   gbl_ALL_fMag      = Dialog.getChoice();
   gbl_grl_doPbox    = Dialog.getCheckbox();
@@ -2987,7 +3004,7 @@ function philGrillAction() {
 
   setFontHeight(5, false);
   fontHeight = getValue("font.height");
-  setLineWidth(parseInt(gbl_ALL_lineWidth));
+  setLineWidth(parseInt(gbl_ALL_lineWidth1));
 
   toUnscaled(boxW, boxH);
 
@@ -3957,17 +3974,17 @@ function instaPerfGaugeOptions() {
 
   fontChoiceList = getFavFontList();
   Dialog.create("PhilaJ: Perforation Meter");
-  Dialog.addNumber("Min:",                           gbl_nst_pMin, 0, 4, "perfs/2cm");
-  Dialog.addNumber("Max:",                           gbl_nst_pMax, 0, 4, "perfs/2cm");
-  Dialog.addChoice("Minor Div:", gbl_OLT_p2mdiv,     gbl_nst_mdiv);
-  Dialog.addChoice("color1:", gbl_OLT_colors,        gbl_ALL_color1);
-  Dialog.addChoice("color2:", gbl_OLT_colors,        gbl_ALL_color2);
-  Dialog.addChoice("Perfs:", gbl_OLT_numPerf,        gbl_ALL_numPerf);
-  Dialog.addChoice("Line Width:", gbl_OLT_lineWidth, gbl_ALL_lineWidth);
-  Dialog.addChoice("Font:", fontChoiceList,          gbl_ALL_font);
-  Dialog.addChoice("Font Size:", gbl_OLT_fontMag,    gbl_ALL_fMag);
-  Dialog.addCheckbox("Force Minor Div",              gbl_nst_mFrc);
-  Dialog.addCheckbox("Reverse Order",                gbl_ALL_perfOrder);
+  Dialog.addNumber("Min:",                             gbl_nst_pMin, 0, 4, "perfs/2cm");
+  Dialog.addNumber("Max:",                             gbl_nst_pMax, 0, 4, "perfs/2cm");
+  Dialog.addChoice("Minor Div:", gbl_OLT_p2mdiv,       gbl_nst_mdiv);
+  Dialog.addChoice("color1:", gbl_OLT_colors,          gbl_ALL_color1);
+  Dialog.addChoice("color2:", gbl_OLT_colors,          gbl_ALL_color2);
+  Dialog.addChoice("Perfs:", gbl_OLT_numPerf,          gbl_ALL_numPerf);
+  Dialog.addChoice("Line Width 1:", gbl_OLT_lineWidth, gbl_ALL_lineWidth1);
+  Dialog.addChoice("Font:", fontChoiceList,            gbl_ALL_font);
+  Dialog.addChoice("Font Size:", gbl_OLT_fontMag,      gbl_ALL_fMag);
+  Dialog.addCheckbox("Force Minor Div",                gbl_nst_mFrc);
+  Dialog.addCheckbox("Reverse Order",                  gbl_ALL_perfOrder);
   Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#static-perf-gauge");
   Dialog.show();
 
@@ -3977,7 +3994,7 @@ function instaPerfGaugeOptions() {
   gbl_ALL_color1    = Dialog.getChoice();
   gbl_ALL_color2    = Dialog.getChoice();
   gbl_ALL_numPerf   = parseInt(Dialog.getChoice());
-  gbl_ALL_lineWidth = Dialog.getChoice();
+  gbl_ALL_lineWidth1 = Dialog.getChoice();
   gbl_ALL_font      = Dialog.getChoice();
   gbl_ALL_fMag      = Dialog.getChoice();
   gbl_nst_mFrc      = Dialog.getCheckbox();
@@ -4022,7 +4039,7 @@ function instaPerfGaugeAction() {
 
   nPfLines = parseInt(gbl_ALL_numPerf);
 
-  lineWidth = parseInt(gbl_ALL_lineWidth);
+  lineWidth = parseInt(gbl_ALL_lineWidth1);
 
   gaugeULyi = maxy / 10;
   gaugeULy  = toScaledY(gaugeULyi);
@@ -4573,10 +4590,10 @@ function measureEdgeAngle() {
   exitIfNoImages("measureEdgeAngle");
   checkImageScalePhil(false, false);
   plu = getImageScaleUnits("WARN");
-  waitForUserToMakeSelection("measureEdgeAngle", "Indicate first edge with line selection", 5);
+  waitForUserToMakeSelection("Indicate first edge with line selection", 5);
   getLine(x1, y1, x2, y2, lineWidth);
   run("Select None");
-  waitForUserToMakeSelection("measureEdgeAngle", "Indicate second edge with line selection", 5);
+  waitForUserToMakeSelection("Indicate second edge with line selection", 5);
   getLine(x3, y3, x4, y4, lineWidth);
   run("Select None");
   toScaled(x1, y1);
@@ -5043,11 +5060,11 @@ function sliceUpBlock() {
   Dialog.addNumber("Number of Columns Full Sheet:", gbl_sus_scols, 0, 6, "");
   Dialog.setInsets(5, 0, 0);
   Dialog.addMessage("Overlay Graphical Characterstics");
-  Dialog.addChoice("color1:", gbl_OLT_colors,        gbl_ALL_color1);
-  Dialog.addChoice("color2:", gbl_OLT_colors,        gbl_ALL_color2);
-  Dialog.addChoice("Line Width:", gbl_OLT_lineWidth, gbl_ALL_lineWidth);
-  Dialog.addChoice("Font:", fontChoiceList,          gbl_ALL_font);
-  Dialog.addChoice("Font Size:", gbl_OLT_fontMag,    gbl_ALL_fMag);
+  Dialog.addChoice("color1:", gbl_OLT_colors,          gbl_ALL_color1);
+  Dialog.addChoice("color2:", gbl_OLT_colors,          gbl_ALL_color2);
+  Dialog.addChoice("Line Width 1:", gbl_OLT_lineWidth, gbl_ALL_lineWidth1);
+  Dialog.addChoice("Font:", fontChoiceList,            gbl_ALL_font);
+  Dialog.addChoice("Font Size:", gbl_OLT_fontMag,      gbl_ALL_fMag);
   Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#sep-block");
   Dialog.show();
 
@@ -5057,7 +5074,7 @@ function sliceUpBlock() {
   gbl_sus_scols     = Dialog.getNumber();
   gbl_ALL_color1    = Dialog.getChoice();
   gbl_ALL_color2    = Dialog.getChoice();
-  gbl_ALL_lineWidth = Dialog.getChoice();
+  gbl_ALL_lineWidth1 = Dialog.getChoice();
   gbl_ALL_font      = Dialog.getChoice();
   gbl_ALL_fMag      = Dialog.getChoice();
 
@@ -5078,7 +5095,7 @@ function sliceUpBlock() {
          +"</font>");
 
 
-  lineWidth = parseInt(gbl_ALL_lineWidth); 
+  lineWidth = parseInt(gbl_ALL_lineWidth1); 
 
   IID = getImageID();
 
@@ -5090,7 +5107,7 @@ function sliceUpBlock() {
       clearOverlay(); 
       if (haveAnROI) {
         roiManagerActivate("multipleOuterSep", "multipleOuterSep");
-        waitForUserWithCancel("PhilaJ: sliceUpBlock", "Please adjust the block ROI");
+        waitForUserWithCancel("PhilaJ: Waiting For Selection", "Please adjust the block ROI");
         roiManagerAddOrUpdateROI("multipleOuterSep", false); 
       } else {
         roiManagerActivateOrCreate("multipleOuterSep", "Identify outer block seporations", "Identify outer block seporations", true, "multipleOuterSep");
@@ -5177,10 +5194,10 @@ function makeBlockDesignROI()  {
   Dialog.addNumber("Number of Columns Full Sheet:", gbl_sus_scols, 0, 6, "");
   Dialog.setInsets(5, 0, 0);
   Dialog.addMessage("Overlay Graphical Characterstics");
-  Dialog.addChoice("color1:", gbl_OLT_colors,        gbl_ALL_color1);
-  Dialog.addChoice("Line Width:", gbl_OLT_lineWidth, gbl_ALL_lineWidth);
-  Dialog.addChoice("Font:", fontChoiceList,          gbl_ALL_font);
-  Dialog.addChoice("Font Size:", gbl_OLT_fontMag,    gbl_ALL_fMag);
+  Dialog.addChoice("color1:", gbl_OLT_colors,          gbl_ALL_color1);
+  Dialog.addChoice("Line Width 1:", gbl_OLT_lineWidth, gbl_ALL_lineWidth1);
+  Dialog.addChoice("Font:", fontChoiceList,            gbl_ALL_font);
+  Dialog.addChoice("Font Size:", gbl_OLT_fontMag,      gbl_ALL_fMag);
   Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#block-d-roi");
   Dialog.show();
 
@@ -5189,7 +5206,7 @@ function makeBlockDesignROI()  {
   gbl_sus_1pos      = floor(Dialog.getNumber());
   gbl_sus_scols     = floor(Dialog.getNumber());
   gbl_ALL_color1    = Dialog.getChoice();
-  gbl_ALL_lineWidth = Dialog.getChoice();
+  gbl_ALL_lineWidth1 = Dialog.getChoice();
   gbl_ALL_font      = Dialog.getChoice();
   gbl_ALL_fMag      = Dialog.getChoice();
 
@@ -5209,21 +5226,21 @@ function makeBlockDesignROI()  {
          +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#block-d-roi'>the user manual</a> for more information."
          +"</font>");
 
-  lineWidth = parseInt(gbl_ALL_lineWidth); 
+  lineWidth = parseInt(gbl_ALL_lineWidth1); 
 
   IID = getImageID();
 
   clearOverlay(); 
   do {
     setTool(0);
-    waitForUserWithCancel("PhilaJ: makeBlockDesignROI", "Define Upper Left Design ROI");
+    waitForUserWithCancel("PhilaJ: Waiting For Selection", "Define Upper Left Design ROI");
   } while (selectionType != 0);   
   Roi.getBounds(xLU, yLU, widthLU, heightLU);
 
   run("Select None");
   do {
     setTool(0);
-    waitForUserWithCancel("PhilaJ: makeBlockDesignROI", "Define Lower Right Design ROI");
+    waitForUserWithCancel("PhilaJ: Waiting For Selection", "Define Lower Right Design ROI");
   } while (selectionType != 0);   
   Roi.getBounds(xRL, yRL, widthRL, heightRL);
 
@@ -5277,6 +5294,30 @@ function makeBlockDesignROI()  {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function getScanFileOptions() {
+  if (gbl_ALL_debug)
+    print("DEBUG(getScanFileOptions): Function Entry");
+  cropRuleNames = getCropMenuList();
+  Dialog.create("PhilaJ: Batch Scan Processing");
+  Dialog.addNumber("Incoming Horz DPI:",                         gbl_sfp_hdpi, 0, 6, "DPI");
+  Dialog.addNumber("Incoming Vert DPI:",                         gbl_sfp_vdpi, 0, 6, "DPI");
+  Dialog.addNumber("Preview DPI",                                gbl_sfp_pdpi, 0, 6, "DPI");
+  Dialog.addNumber("Thumbnail DPI",                              gbl_sfp_tdpi, 0, 6, "DPI");
+  Dialog.addChoice("Initial Transformation:", gbl_OLT_sclNutTfm, gbl_sfp_itfm);
+  Dialog.addChoice("Crop Rule", cropRuleNames,                   gbl_scr_rule);
+  Dialog.addCheckbox("Reprocess files",                          gbl_sfp_repro);
+  Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#bulk-processing");
+  Dialog.show();
+  gbl_sfp_hdpi  = Dialog.getNumber();
+  gbl_sfp_vdpi  = Dialog.getNumber();
+  gbl_sfp_pdpi  = Dialog.getNumber();
+  gbl_sfp_tdpi  = Dialog.getNumber();
+  gbl_sfp_itfm  = Dialog.getChoice();
+  gbl_scr_rule  = Dialog.getChoice();
+  gbl_sfp_repro = Dialog.getCheckbox();
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // This is *VERY* specific to my scanner processing flow.  It queries for a direcotry, finds all *.tif files without
 // corrisponding *.png files (a _<X>dpi.png & _<Y>dpi.png).  It loads each file, sets the scale, scales the image to
 // have square pixles if X!=Y, prompts for a line to rotate the image horizontal, prompts for a crop rectangle, then
@@ -5289,19 +5330,7 @@ function processScanDirectory() {
   if (filesToProc.length > 0) {
     filesToProc = Array.filter(filesToProc, "(\\.(tif)$)");
     if (filesToProc.length > 0) {
-      Dialog.create("PhilaJ: Batch Scan Processing");
-      Dialog.addNumber("Incoming Horz DPI:", gbl_sfp_hdpi, 0, 6, "DPI");
-      Dialog.addNumber("Incoming Vert DPI:", gbl_sfp_vdpi, 0, 6, "DPI");
-      Dialog.addNumber("Preview DPI",        gbl_sfp_pdpi, 0, 6, "DPI");
-      Dialog.addNumber("Thumbnail DPI",      gbl_sfp_tdpi, 0, 6, "DPI");
-      Dialog.addCheckbox("Reprocess files",  false);
-      Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#bulk-processing");
-      Dialog.show();
-      gbl_sfp_hdpi  = Dialog.getNumber();
-      gbl_sfp_vdpi  = Dialog.getNumber();
-      gbl_sfp_pdpi  = Dialog.getNumber();
-      gbl_sfp_tdpi  = Dialog.getNumber();
-      gbl_sfp_repro = Dialog.getCheckbox();
+      getScanFileOptions();
       for(i=0; i<filesToProc.length; i++) {
         currentFile = pathJoin(newArray(dirToProc, filesToProc[i]));
         processScanFile(currentFile);
@@ -5316,60 +5345,44 @@ function processScanDirectory() {
 function processScanFile(filename) {
   if (gbl_ALL_debug)
     print("DEBUG(processScanFile): Function Entry: ", filename);
+  warnAboutExisting = false;
   if (filename == "") {
-    Dialog.create("PhilaJ: Process Scan File");
-    Dialog.addNumber("Incoming Horz DPI:", gbl_sfp_hdpi, 0, 6, "DPI");
-    Dialog.addNumber("Incoming Vert DPI:", gbl_sfp_vdpi, 0, 6, "DPI");
-    Dialog.addNumber("Preview DPI",        gbl_sfp_pdpi, 0, 6, "DPI");
-    Dialog.addNumber("Thumbnail DPI",      gbl_sfp_tdpi, 0, 6, "DPI");
-    Dialog.addCheckbox("Reprocess files",  true);
-    Dialog.addFile("File to process:", getDir("file"));
-    Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#bulk-processing");
-    Dialog.show();
-    gbl_sfp_hdpi  = Dialog.getNumber();
-    gbl_sfp_vdpi  = Dialog.getNumber();
-    gbl_sfp_pdpi  = Dialog.getNumber();
-    gbl_sfp_tdpi  = Dialog.getNumber();
-    gbl_sfp_repro = Dialog.getCheckbox();
-    filename      = Dialog.getString();
+    warnAboutExisting = true;
+    filename = File.openDialog("Select file to process");
+    getScanFileOptions();
   }
   if (endsWith(filename, ".tif")) {
     fullString = "_" + minOf(gbl_sfp_hdpi, gbl_sfp_vdpi) + "dpi.png";
-    pvueString = "_" + gbl_sfp_pdpi                      + "dpi.png";
-    thmbString = "_" + gbl_sfp_tdpi                      + "dpi.png";
     newBigFileName = replace(filename, ".tif", fullString);
-    newPreFileName = replace(filename, ".tif", pvueString);
-    newThmFileName = replace(filename, ".tif", thmbString);
-    if ( gbl_sfp_repro || !(File.exists(newBigFileName)) || !(File.exists(newThmFileName))) {
+    if ( gbl_sfp_repro || !(File.exists(newBigFileName))) {
       showStatus("Loading File: " + filename);
       open(filename);
       IID = getImageID();
+      if (gbl_sfp_itfm != "NONE")
+        run(gbl_sfp_itfm);
       setScaleFromDPI(gbl_sfp_hdpi, gbl_sfp_vdpi);
       if ( !(floatEqualish(gbl_sfp_hdpi, gbl_sfp_vdpi))) {
         showStatus("Squaring image");
         shrinkImageToMakeSquarePixels();
       }
       selectImage(IID);
-      waitForUserToMakeSelection("processScanFile", "Make a line selection to rotate horiz", 5);
+      waitForUserToMakeSelection("Make a line selection to rotate horiz", 5);
       showStatus("Rotate To Horizontal");
       rotateToHorizontal();
       selectImage(IID);
-      waitForUserToMakeSelection("processScanFile", "Make a rectangle selection to crop", 0);
-      showStatus("Crop");
-      run("Crop");
+      stampCrop(false);
       showStatus("Saving PNG");
       saveAs("PNG", newBigFileName);
-      showStatus("Resize For Preview");
-      resizeToDPI(gbl_sfp_pdpi);
-      showStatus("Saving Preview");
-      saveAs("PNG", newPreFileName);
-      showStatus("Resize For Thumbnail");
-      resizeToDPI(gbl_sfp_tdpi);
-      showStatus("Saving Thumbnail");
-      saveAs("PNG", newThmFileName);
-      selectImage(IID);
-      close();
-      showStatus("Looking For More Files");
+      makePreviewAndThumbnailImage(false);
+      showStatus("");
+    } else {
+      if (warnAboutExisting)
+        exit("<html>"
+             +"<font size=+1>"
+             +"ERROR(processScanFile):<br>"
+             +"&nbsp; The selected file has already been processed ('Reprocess files' not checked)." + "<br>"
+             +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#bulk-processing'>the user manual</a> for more information."
+             +"</font>");
     }
   } else {
     exit("<html>"
@@ -5392,19 +5405,14 @@ function closeAllPhilaJWindows(closeBuiltInWindows, closeImages) {
     close("Results");
     close("Roi Manager");
   }
-  close("PhilaJ: Centering Report");
-  close("PhilaJ: Coil Edge Report");
-  close("PhilaJ: Edge Angle Report");
-  close("PhilaJ: Grill Data");
-  close("PhilaJ: KSP");
-  close("PhilaJ: Length Conversion");
-  close("PhilaJ: Perforation Report");
-  close("PhilaJ: ROI Offset Report");
-  close("PhilaJ: Scale Report");
-  close("PhilaJ: Scale Report: After resizeToDPI");
-  close("PhilaJ: Scale Report: After shrinkImageToMakeSquarePixels");
-  close("PhilaJ: Scale Report: Before resizeToDPI");
-  close("PhilaJ: Scale Report: Before shrinkImageToMakeSquarePixels");
+  windows = getList("window.titles");
+  for(i=0; i<windows.length; i++) 
+	if (startsWith(windows[i], "PhilaJ:"))
+      close(windows[i]);
+  windows = getList("image.titles");
+  for(i=0; i<windows.length; i++) 
+	if (startsWith(windows[i], "PhilaJ:"))
+      close(windows[i]);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -5415,10 +5423,10 @@ function roiOffset() {
   exitIfNoImages("roiOffset");
   checkImageScalePhil(false, false);
   plu = getImageScaleUnits("WARN");
-  waitForUserToMakeSelection("roiOffset", "Indicate first ROI", -1);
+  waitForUserToMakeSelection("Indicate first ROI", -1);
   Roi.getBounds(x1, y1, width1, height1);
   run("Select None");
-  waitForUserToMakeSelection("roiOffset", "Indicate second ROI", -1);
+  waitForUserToMakeSelection("Indicate second ROI", -1);
   Roi.getBounds(x2, y2, width2, height2);
   run("Select None");
   toScaled(x1, y1);
@@ -5629,7 +5637,7 @@ function selectionToJpg(warnIfImageUnscaled, warnIfRoundBad, coordIncludeSize, c
   
   imageNameBase      = Dialog.getString;
   imageNameAnnoType  = Dialog.getRadioButton;
-  coordIncludeSize   =  Dialog.getCheckbox;
+  coordIncludeSize   = Dialog.getCheckbox;
   coordIncludeSID    = Dialog.getCheckbox;
   autoAct            = Dialog.getRadioButton;
 
@@ -5705,3 +5713,630 @@ function selectionToJpg(warnIfImageUnscaled, warnIfRoundBad, coordIncludeSize, c
   }
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function makePreviewAndThumbnailImage(queryUser) {
+  if (gbl_ALL_debug)
+    print("DEBUG(makePreviewAndThumbnailImage): Function Entry: ", queryUser);
+  exitIfNoImages("makePreviewAndThumbnailImage");
+  checkImageScalePhil(false, true);
+
+  if (queryUser) {
+    Dialog.create("PhilaJ: Create Preview & Thumbnail");
+    Dialog.addNumber("Preview DPI",      gbl_sfp_pdpi, 0, 6, "DPI");
+    Dialog.addNumber("Thumbnail DPI",    gbl_sfp_tdpi, 0, 6, "DPI");
+    Dialog.addCheckbox("Replace files",  gbl_sfp_repro);
+    Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#make-preview");
+    Dialog.show();
+    gbl_sfp_pdpi  = Dialog.getNumber();
+    gbl_sfp_tdpi  = Dialog.getNumber();
+    gbl_sfp_repro = Dialog.getCheckbox();
+  }
+
+  imageFileName = getInfo("image.filename");
+  imageDirName  = getInfo("image.directory");
+  imageFQPath   = pathJoin(newArray(imageDirName, imageFileName));
+  imageFQPath = replace(imageFQPath, "_[0-9.]+dpi", "_0dpi");
+  if (indexOf(imageFQPath, "_0dpi") < 0) {
+    tmp = lastIndexOf(imageFQPath, ".");
+    if(tmp > 0) {
+      imageFQPath = substring(imageFQPath, 0, tmp);
+      imageFQPath = imageFQPath + "_0dpi.png";
+    } else {
+      imageFQPath = imageFQPath + "_0dpi.png";
+    }
+  }
+  if (queryUser)
+    run("Duplicate...", "title=" + imageFileName);
+  IID = getImageID();
+
+  preDpiString = "_" + gbl_sfp_pdpi + "dpi";
+  tmbDpiString = "_" + gbl_sfp_tdpi + "dpi";
+  newPreFileName = replace(imageFQPath, "_0dpi", preDpiString);
+  newTmbFileName = replace(imageFQPath, "_0dpi", tmbDpiString);
+
+  showStatus("Resize For Preview");
+  selectImage(IID);
+  resizeToDPI(gbl_sfp_pdpi);
+  selectImage(IID);
+  rename(newPreFileName);
+  showStatus("Saving Preview");
+  if ((indexOf(newPreFileName, preDpiString) < 0) || ( !(gbl_sfp_repro) && (File.exists(newPreFileName))))
+    saveAs("PNG");
+  else
+    saveAs("PNG", newPreFileName);    
+
+  showStatus("Resize For Thumbnail");
+  selectImage(IID);
+  resizeToDPI(gbl_sfp_tdpi);
+  selectImage(IID);
+  rename(newTmbFileName);
+  showStatus("Saving Thumbnail");
+  if ((indexOf(newTmbFileName, tmbDpiString) < 0) || ( !(gbl_sfp_repro) && (File.exists(newTmbFileName))))
+    saveAs("PNG");
+  else
+    saveAs("PNG", newTmbFileName);    
+
+  selectImage(IID);
+  close();
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function getCropMenuList() {
+  if (gbl_ALL_debug)
+    print("DEBUG(getCropMenuList): Function Entry");
+  
+  crFileFullPath = pathJoin(newArray(getDirectory("home"), ".philaj", "stampCropRules.csv"));
+
+  if (File.exists(crFileFullPath)) {
+    crFileContent = File.openAsString(crFileFullPath);
+    crFileLines   = split(crFileContent, "\n");
+    crFileLines   = Array.filter(crFileLines, "(^[^#].+$)");
+    if (crFileLines.length > 0) {
+      crRuleNames = newArray(crFileLines.length);
+      for(i=0; i<crFileLines.length; i++)
+        crRuleNames[i] = substring(crFileLines[i], 0, indexOf(crFileLines[i], ",")); // TODO: No error checking...
+      crMenuList = Array.concat(gbl_OLT_cropRules, crRuleNames);
+      return crMenuList;
+    } 
+  }
+  return gbl_OLT_cropRules;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function lookUpCropRule(cropRuleName) {
+  if (gbl_ALL_debug)
+    print("DEBUG(lookUpCropRule): Function Entry: ", cropRuleName);
+
+  if (cropRuleName == "rectangle") {
+    return "rectangle";
+  } else if (cropRuleName == "Rectangle + 1mm margins") {
+    return "margins,1.000,1.000,1.000,1.000";
+  } else {
+    crFileFullPath = pathJoin(newArray(getDirectory("home"), ".philaj", "stampCropRules.csv"));
+    if (File.exists(crFileFullPath)) {
+      crFileContent = File.openAsString(crFileFullPath);
+      crFileLines   = split(crFileContent, "\n");
+      if (crFileLines.length > 0) {
+        crRuleNames = newArray(crFileLines.length);
+        for(i=0; i<crFileLines.length; i++)
+          if (startsWith(crFileLines[i], cropRuleName + ","))
+            return substring(crFileLines[i], 1+indexOf(crFileLines[i], ",")); // TODO: No error checking...
+      } 
+    }
+    return "";
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function stampCrop(queryUser) {
+  if (gbl_ALL_debug)
+    print("DEBUG(stampCrop): Function Entry: ", queryUser);
+  exitIfNoImages("stampCrop");
+  checkImageScalePhil(false, true);
+  if (queryUser || (gbl_scr_rule == "")) {
+    Dialog.create("PhilaJ: Stamp Crop");
+    cropRuleNames = getCropMenuList();
+    Dialog.addChoice("Crop Rule", cropRuleNames, gbl_scr_rule);
+    Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#stamp-crop");
+    Dialog.show();
+    gbl_scr_rule  = Dialog.getChoice();
+  }
+  crCode = lookUpCropRule(gbl_scr_rule);
+
+  run("Select None");
+  if(startsWith(crCode, "margins+box,")) {
+    setTool(7);
+    waitForUserToMakeSelection("Identify upper left design corner", -1);
+    Roi.getBounds(selX, selY, selWidth, selHeight);
+  } else {
+    setTool(0);
+    waitForUserToMakeSelection("Identify an ROI for crop", -1);
+    Roi.getBounds(selX, selY, selWidth, selHeight);
+  }
+
+  if(crCode == "rectangle") {
+    makeRectangle(selX, selY, selWidth, selHeight);
+    showStatus("Crop");
+    run("Crop");
+  } else {
+    cropCodeParts = split(crCode, ",");
+    floatArgs     = newArray(cropCodeParts.length-1);
+    for(i=0; i<floatArgs.length; i++) 
+      floatArgs[i] = parseFloat(cropCodeParts[i+1]);
+    for(i=0; i<floatArgs.length-1; i+=2) 
+      toUnscaled(floatArgs[i], floatArgs[i+1]);
+    x0 = selX-floatArgs[0];               // selX-leftMargin;       
+    y0 = selY-floatArgs[1];               // selY-topMargin;        
+    if(startsWith(crCode, "margins,")) {
+      W  = selWidth;      
+      H  = selHeight;     
+    } else {
+      W  = floatArgs[4];       // boxWidth
+      H  = floatArgs[5];       // boxHeight
+    }
+    W  = W + floatArgs[0]+floatArgs[2];       // basicWidth+ + rightMargin  + leftMargin;  
+    H  = H + floatArgs[1]+floatArgs[3];       // basicHeight + bottomMargin + topMargin;
+    // Extend canvas left/up if requried
+    if((x0<0)||(y0<0)) {
+      xt = Image.width  - minOf(0, x0);
+      yt = Image.height - minOf(0, y0);
+      run("Canvas Size...", "width=" + xt + " height=" + yt + " position=Bottom-Right zero");
+      x0 = maxOf(0, x0);
+      y0 = maxOf(0, y0);
+    }
+    // Extend canvas right/down if requried
+    xt = maxOf(W + x0, Image.width);
+    yt = maxOf(H + y0, Image.height);
+    if((xt>Image.width)||(yt>Image.height))
+      run("Canvas Size...", "width=" + xt + " height=" + yt + " position=Top-Left zero");
+    // Crop canvas.
+    makeRectangle(x0, y0, W, H);
+    run("Crop");
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function getStampROIMenuList() {
+  if (gbl_ALL_debug)
+    print("DEBUG(getStampROI): Function Entry");
+  dataFileFullPath = pathJoin(newArray(getDirectory("home"), ".philaj", "stampROIRules.csv"));
+  if (File.exists(dataFileFullPath)) {
+    dataFileContent = File.openAsString(dataFileFullPath);
+    dataFileLines   = split(dataFileContent, "\n");
+    dataFileLines   = Array.filter(dataFileLines, "(^[^#].+$)");
+    if (dataFileLines.length > 0) {
+      roiRuleNames = newArray(dataFileLines.length);
+      for(i=0; i<dataFileLines.length; i++)
+        roiRuleNames[i] = substring(dataFileLines[i], 0, indexOf(dataFileLines[i], ",")); // TODO: No error checking...
+      return roiRuleNames;
+    } 
+  } else {
+    exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(getStampROIMenuList):<br>"
+         +"&nbsp; No ROIs found in stampROIRules.csv file!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#make-stamp-roi'>the user manual</a> for more information."
+         +"</font>");
+  }
+  return newArray(0);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function lookUpStampROIRule(ROIRuleName) {
+  if (gbl_ALL_debug)
+    print("DEBUG(lookUpStampROIRule): Function Entry: ", ROIRuleName);
+
+  dataFileFullPath = pathJoin(newArray(getDirectory("home"), ".philaj", "stampROIRules.csv"));
+  if (File.exists(dataFileFullPath)) {
+    dataFileContent = File.openAsString(dataFileFullPath);
+    dataFileLines   = split(dataFileContent, "\n");
+    if (dataFileLines.length > 0) {
+      crRuleNames = newArray(dataFileLines.length);
+      for(i=0; i<dataFileLines.length; i++)
+        if (startsWith(dataFileLines[i], ROIRuleName + ","))
+          return substring(dataFileLines[i], 1+indexOf(dataFileLines[i], ",")); // TODO: No error checking...
+    }
+  }
+  return "";
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function makeStampROI(queryUser) {
+  if (gbl_ALL_debug)
+    print("DEBUG(makeStampROI): Function Entry: ", queryUser);
+  exitIfNoImages("makeStampROI");
+  checkImageScalePhil(false, true);
+
+  if (queryUser || (gbl_msr_rule == "")) {
+    Dialog.create("PhilaJ: Create Stamp ROI");
+    roiRuleNames = getStampROIMenuList();
+    Dialog.addChoice("ROI Rule", roiRuleNames, gbl_msr_rule);
+    Dialog.addCheckbox("Use rectangle to identify design corner", gbl_msr_useSqr);
+    Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#make-stamp-roi");
+    Dialog.show();
+    gbl_msr_rule = Dialog.getChoice();
+    gbl_msr_useSqr = Dialog.getCheckbox();
+  }
+  roiCode = lookUpStampROIRule(gbl_msr_rule);
+
+  selName = "";
+  if (selectionType >= 0)
+    selName = Roi.getName;
+  if ( !(startsWith(selName, "design")))
+    run("Select None");
+  if (gbl_msr_useSqr)
+    setTool(0);
+  else
+    setTool(7);
+  waitForUserToMakeSelection("Identify upper left design corner", -1);
+  Roi.getBounds(selX, selY, selWidth, selHeight);
+
+  newNameROI = substring(roiCode, 0, indexOf(roiCode, ","));
+  roiCode = substring(roiCode, 1+indexOf(roiCode, ","));
+  roiSelections = split(roiCode, ",");
+  for(selIdx=0; selIdx<roiSelections.length; selIdx++) {
+    if (selIdx!=0)
+      setKeyDown("shift");
+    selCodeBits = split(roiSelections[selIdx], ";");
+    floatArgs = newArray(selCodeBits.length-1);
+    for(i=0; i<floatArgs.length; i++) 
+      floatArgs[i] = parseFloat(selCodeBits[i+1]);
+    for(i=0; i<floatArgs.length-1; i+=2)
+      toUnscaled(floatArgs[i], floatArgs[i+1]);
+
+    if (startsWith(roiSelections[selIdx], "rectangle;")) {
+      makeRectangle(floatArgs[0]+selX, floatArgs[1]+selY, floatArgs[2], floatArgs[3]);
+      if (selIdx == (roiSelections.length - 1))
+        setTool(0);
+    } else if (startsWith(roiSelections[selIdx], "polygon;")) {
+      xpoints = newArray(floatArgs.length / 2);
+      ypoints = newArray(floatArgs.length / 2);
+      for(i=0; i<xpoints.length; i++) {
+        xpoints[i] = floatArgs[i*2]   + selX;
+        ypoints[i] = floatArgs[i*2+1] + selY;
+      }
+      makeSelection("polygon", xpoints, ypoints);
+      if (selIdx == (roiSelections.length - 1))
+        setTool(5);
+    } else {
+      setKeyDown("none");
+      exit("<html>"
+           +"<font size=+1>"
+           +"ERROR(makeStampROI):<br>"
+           +"&nbsp; Error detected in stampROIRules.csv file!" + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#make-stamp-roi'>the user manual</a> for more information."
+           +"</font>");
+    }
+    if (selIdx!=0)
+      setKeyDown("none");
+
+  }
+  Roi.setName(newNameROI);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Used to get points for making stamp ROI descriptions.
+function polygonPointReport() {
+  if (gbl_ALL_debug)
+    print("DEBUG(roiPointReport(): Function Entry");
+  exitIfNoImages("roiPointReport()");
+  checkImageScalePhil(false, true);
+  if (selectionType != 6)
+    exit("ERROR: Polygon Selection Required")
+      getSelectionCoordinates(xpoints, ypoints);
+  setTool(7);
+  waitForUser("Select Reference Point", "Select Reference Point");
+  Roi.getBounds(selX, selY, selWidth, selHeight);
+  for(i=0; i<xpoints.length; i++) {
+    xpoints[i] -= selX;
+    ypoints[i] -= selY;
+    toScaled(xpoints[i], ypoints[i]);
+  }
+  Array.show("polygon coordinates", xpoints, ypoints);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Used to get points for making stamp ROI descriptions.
+function makeRoiPreviewImage() {
+  if (gbl_ALL_debug)
+    print("DEBUG(makeRoiPreviewImage(): Function Entry");
+  exitIfNoImages("makeRoiPreviewImage()");
+  checkImageScalePhil(false, true);
+
+  Dialog.create("PhilaJ: Create Plate Flaw Preview Image");
+  Dialog.addChoice("color1:", gbl_OLT_colors,          gbl_ALL_color1);
+  Dialog.addChoice("Line Width 2:", gbl_OLT_lineWidth, gbl_ALL_lineWidth2);
+  Dialog.addChoice("ROIs:", gbl_OLT_roiPfx,            gbl_rpv_roiPfx);
+  Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#make-roianno-preview");
+  Dialog.show();
+
+  gbl_ALL_color1     = Dialog.getChoice();
+  gbl_ALL_lineWidth2 = Dialog.getChoice();
+  gbl_rpv_roiPfx     = Dialog.getChoice();
+
+  lineWidth = parseInt(gbl_ALL_lineWidth2); 
+
+  Overlay.remove;
+  roiList = roiManagerMatchingNames("^" + gbl_rpv_roiPfx + ".*");
+  if (roiList.length > 0) {
+    for(i=0; i<roiList.length; i++) {
+      roiManagerSelectFirstROI(roiList[i]);
+      if (is("area"))
+        Overlay.addSelection(gbl_ALL_color1, lineWidth);
+    }
+    run("Select None");
+    SIID = getImageID();
+    run("Flatten");
+    PIID = getImageID();
+    selectImage(SIID);
+    Overlay.remove;
+    selectImage(PIID);
+    run("Select None");
+    // All the following is just to rename the plate flaw preview...
+    imageTitleString = getInfo("image.title");
+    imageTitleString = replace(imageTitleString, "\-1.png$", ".png");  //Zap -1 bit    
+    splitIdx = replace(imageTitleString, "_[0-9.]+dpi.*$", "");
+    splitIdx = splitIdx.length; // See if we have a DPI string
+    if (splitIdx != imageTitleString.length) {
+      tmpLeft = substring(imageTitleString, 0, splitIdx);
+      tmpRight = substring(imageTitleString, splitIdx);
+      imageTitleString = tmpLeft + "-" + gbl_rpv_roiPfx + "s" + tmpRight;
+    } else {
+      splitIdx = lastIndexOf(imageTitleString, ".");
+      if (splitIdx > 0) {
+        tmpLeft = substring(imageTitleString, 0, splitIdx);
+        tmpRight = substring(imageTitleString, splitIdx);
+        imageTitleString = tmpLeft + "-" + gbl_rpv_roiPfx + "s" + tmpRight;
+      }
+    }
+    rename(imageTitleString);
+  } else {
+    exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(makeRoiPreviewImage):<br>"
+         +"&nbsp; No ROIs found in ROI Manager!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#make-roianno-preview'>the user manual</a> for more information."
+         +"</font>");
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function measureColor(queryUser) {
+  if (gbl_ALL_debug)
+    print("DEBUG(measureColor): Function Entry: ", queryUser);
+  exitIfNoImages("measureColor");
+  
+  if (bitDepth() != 24)
+    exit("<html>"
+         +"<font size=+1>"
+         +"ERROR(measureColor):<br>"
+         +"&nbsp; Color can only be measured for RGB images!" + "<br>"
+         +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#measure-color'>the user manual</a> for more information."
+         +"</font>");
+
+  if (queryUser || (selectionType < 0)) {
+    setTool(0);
+    waitForUserToMakeSelection("Select region to measure", -1);
+  }
+
+  Roi.getContainedPoints(xpoints, ypoints);
+  roiName = Roi.getName();
+
+  if (queryUser) {
+    Dialog.create("PhilaJ: Measure Color");
+    Dialog.addNumber("Histogram bin width",                                   gbl_mct_hstWid, 1, 5, "Degrees");
+    Dialog.addChoice("Histogram variable", newArray("L", "A", "B", "C", "H"), gbl_mct_hstVar)
+    Dialog.addCheckbox("Use fixed x-range for histogram?",                    gbl_mct_hst360);
+    Dialog.addCheckbox("Use average sample to fill histogram?",               gbl_mct_hstClr);
+    Dialog.addCheckbox("Report Histogram?",                                   gbl_mct_doHist);
+    Dialog.addCheckbox("Report Statistics?",                                  gbl_mct_doStat);
+    Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#measure-color");
+    Dialog.show();
+    gbl_mct_hstWid = Dialog.getNumber();
+    gbl_mct_hstVar = Dialog.getChoice();
+    gbl_mct_hst360 = Dialog.getCheckbox();
+    gbl_mct_hstClr = Dialog.getCheckbox();
+    gbl_mct_doHist = Dialog.getCheckbox();
+    gbl_mct_doStat = Dialog.getCheckbox();
+
+    if ( !(gbl_mct_doHist || gbl_mct_doStat)) 
+      exit("<html>"
+           +"<font size=+1>"
+           +"ERROR(measureColor):<br>"
+           +"&nbsp; Nothing to do (no histogram or statistics)!" + "<br>"
+           +"&nbsp; See <a href='https://richmit.github.io/imagej/PhilaJ.html#measure-color'>the user manual</a> for more information."
+           +"</font>");
+  }
+
+  datL = newArray(xpoints.length);
+  datA = newArray(xpoints.length);
+  datB = newArray(xpoints.length);
+  datC = newArray(xpoints.length);
+  datH = newArray(xpoints.length);
+
+  Rmean = 0;
+  Gmean = 0;
+  Bmean = 0;
+
+  for(i=0; i<xpoints.length; i++) {
+
+    if ((i%100)==0) {
+      showStatus("Measuring Color");
+      showProgress(i, xpoints.length);
+    }
+
+    pxValue = getPixel(xpoints[i], ypoints[i]);
+    pxR = (pxValue >> 16) & 0xff;
+    pxG = (pxValue >>  8) & 0xff;
+    pxB = (pxValue >>  0) & 0xff;	
+
+    Rmean += pxR;
+    Gmean += pxG;
+    Bmean += pxB;
+
+    rgb_R = pxR / 255.0;
+    rgb_G = pxG / 255.0;
+    rgb_B = pxB / 255.0;
+
+    if (rgb_R > 0.04045) { rgb_R = Math.pow((rgb_R + 0.055) / 1.055, 2.4); } else { rgb_R = rgb_R / 12.92; }
+    if (rgb_G > 0.04045) { rgb_G = Math.pow((rgb_G + 0.055) / 1.055, 2.4); } else { rgb_G = rgb_G / 12.92; }
+    if (rgb_B > 0.04045) { rgb_B = Math.pow((rgb_B + 0.055) / 1.055, 2.4); } else { rgb_B = rgb_B / 12.92; }
+
+    rgb_R *= 100.0;
+    rgb_G *= 100.0;
+    rgb_B *= 100.0;
+
+    xyz_X = (0.4124 * rgb_R + 0.3576 * rgb_G + 0.1805 * rgb_B);
+    xyz_Y = (0.2126 * rgb_R + 0.7152 * rgb_G + 0.0722 * rgb_B);
+    xyz_Z = (0.0193 * rgb_R + 0.1192 * rgb_G + 0.9505 * rgb_B);
+
+    xyz_X /= 95.0429;
+    xyz_Y /= 100.0;
+    xyz_Z /= 108.89;
+
+    if (xyz_X > 0.008856) { xyz_X = Math.pow(xyz_X, 1.0 / 3.0); } else { xyz_X = (7.787 * xyz_X) + (16.0 / 116.0); }
+    if (xyz_Y > 0.008856) { xyz_Y = Math.pow(xyz_Y, 1.0 / 3.0); } else { xyz_Y = (7.787 * xyz_Y) + (16.0 / 116.0); }
+    if (xyz_Z > 0.008856) { xyz_Z = Math.pow(xyz_Z, 1.0 / 3.0); } else { xyz_Z = (7.787 * xyz_Z) + (16.0 / 116.0); }
+
+    lab_L = (116.0 * xyz_Y) - 16.0;
+    lab_A = 500.0 * (xyz_X - xyz_Y);
+    lab_B = 200.0 * (xyz_Y - xyz_Z);
+
+    lch_C = Math.sqrt(Math.sqr(lab_A) + Math.sqr(lab_B));
+
+    lch_H = 0.0;
+    if ( Math.abs(lab_A) > 1.0e-5) {
+      lch_H = Math.atan2(lab_B, lab_A) * 180.0 / PI;
+      if (lch_H < 0.0)
+        lch_H += 360.0;
+    } 
+
+    datL[i] = lab_L;
+    datA[i] = lab_A;
+    datB[i] = lab_B;
+    datC[i] = lch_C;
+    datH[i] = lch_H;
+  }
+
+  numSamp = xpoints.length;
+
+  if (roiName != "")
+    roiName = " - " + roiName;
+
+  Array.getStatistics(datL, minL, maxL, meanL, stdDevL);
+  Array.getStatistics(datA, minA, maxA, meanA, stdDevA);
+  Array.getStatistics(datB, minB, maxB, meanB, stdDevB);
+  Array.getStatistics(datC, minC, maxC, meanC, stdDevC);
+  Array.getStatistics(datH, minH, maxH, meanH, stdDevH);
+
+  if (gbl_mct_doStat) {
+    Component = newArray(    "L",     "A",     "B",     "C",     "H");
+    Min       = newArray(   minL,    minA,    minB,    minC,    minH);
+    Max       = newArray(   maxL,    maxA,    maxB,    maxC,    maxH);
+    Mean      = newArray(  meanL,   meanA,   meanB,   meanC,   meanH);
+    StdDev    = newArray(stdDevL, stdDevA, stdDevB, stdDevC, stdDevH);
+    NumSamp   = newArray(numSamp, numSamp, numSamp, numSamp, numSamp);
+
+    statRepTitle = "PhilaJ: Color Report: Statistics" + roiName;
+    i=0;
+    curWindows = getList("window.titles");
+    while (indexOfInArray(curWindows, statRepTitle)>=0) {
+        i++;
+        statRepTitle = "Color Report" + roiName + " - " + i;
+      }
+
+    Array.show(statRepTitle, Component, Min, Max , Mean, StdDev, NumSamp);
+  }
+
+  if (gbl_mct_doHist) {
+    Rmean = round(Rmean / numSamp);
+    Gmean = round(Gmean / numSamp);
+    Bmean = round(Bmean / numSamp);
+
+    fillColor = "black";
+    if (gbl_mct_hstClr)
+      fillColor = "#" + IJ.pad(toHex(Rmean), 2) + IJ.pad(toHex(Gmean), 2) + IJ.pad(toHex(Bmean), 2);
+    if (gbl_mct_hstClr && (Rmean > 128) && (Gmean > 128) && (Bmean > 128)) {
+      lnColor = "white";
+      bgColor = "black"; 
+    } else {
+      lnColor = "black";
+      bgColor = "white";
+    } 
+
+    if      (gbl_mct_hstVar == "L")
+      Plot.create("PhilaJ: Color Report: Lightness Histogram"   + roiName, "L", "Count");
+    else if (gbl_mct_hstVar == "A")
+      Plot.create("PhilaJ: Color Report: Green-Red Histogram"   + roiName, "A", "Count");
+    else if (gbl_mct_hstVar == "B")
+      Plot.create("PhilaJ: Color Report: Blue-Yellow Histogram" + roiName, "B", "Count");
+    else if (gbl_mct_hstVar == "C")
+      Plot.create("PhilaJ: Color Report: Chroma Histogram"      + roiName, "C", "Count");
+    else if (gbl_mct_hstVar == "H")
+      Plot.create("PhilaJ: Color Report: Hue Histogram"         + roiName, "H", "Count");
+
+    Plot.setBackgroundColor(bgColor);
+    Plot.setColor(lnColor, fillColor);
+
+    if      (gbl_mct_hstVar == "L")
+      Plot.addHistogram(datL, gbl_mct_hstWid, 0);
+    else if (gbl_mct_hstVar == "A")
+      Plot.addHistogram(datA, gbl_mct_hstWid, 0);
+    else if (gbl_mct_hstVar == "B")
+      Plot.addHistogram(datB, gbl_mct_hstWid, 0);
+    else if (gbl_mct_hstVar == "C")
+      Plot.addHistogram(datC, gbl_mct_hstWid, 0);
+    else if (gbl_mct_hstVar == "H")
+      Plot.addHistogram(datH, gbl_mct_hstWid, 0);
+
+    if (gbl_mct_hst360) {
+      if      (gbl_mct_hstVar == "L")
+        Plot.setLimits(0, 100, NaN, NaN);
+      else if (gbl_mct_hstVar == "A")
+        Plot.setLimits(-128, 128, NaN, NaN);
+      else if (gbl_mct_hstVar == "B")
+        Plot.setLimits(-128, 128, NaN, NaN);
+      else if (gbl_mct_hstVar == "C")
+        Plot.setLimits(0, 200, NaN, NaN);
+      else if (gbl_mct_hstVar == "H")
+        Plot.setLimits(0, 360, NaN, NaN);
+    }
+    Plot.show()
+  }
+
+  results = newArray(meanL, meanA, meanB, meanC, meanH, stdDevL, stdDevA, stdDevB, stdDevC, stdDevH, numSamp);
+  return results;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function compareColors() {
+  IID = getImageID();
+  c1 = measureColor(true);
+  selectImage(IID);
+  run("Select None");
+  c2 = measureColor(false);
+
+  Component    = newArray(                    "L",                    "A",                     "B",                     "C",                     "H");
+  Mean_Delta   = newArray(  Math.abs(c1[0]-c2[0]),  Math.abs(c1[1]-c2[1]),   Math.abs(c1[2]-c2[2]),   Math.abs(c1[3]-c2[3]),   Math.abs(c1[4]-c2[4]));
+  StdDev_Bound = newArray(  Math.min(c1[5],c2[5]),  Math.min(c1[6],c2[6]),   Math.min(c1[7],c2[7]),   Math.min(c1[8],c2[8]),   Math.min(c1[9],c2[9]));
+  Close   = newArray(5);
+  for(i=0; i<Close.length; i++)
+    if (Mean_Delta[i] > StdDev_Bound[i]/2)
+      Close[i] = "Not Close";
+    else
+      Close[i] = "Close";
+
+  Array.show("PhilaJ: Color Comparison", Component, Mean_Delta, StdDev_Bound, Close);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function switchToSelectionWaitDialog() {
+  if (gbl_ALL_debug)
+    print("DEBUG(switchToSelectionWaitDialog): Function Entry");
+  windows = getList("window.titles");
+  for(i=0; i<windows.length; i++) 
+	if (startsWith(windows[i], "PhilaJ: Waiting For Selection"))
+      selectWindow(windows[i]);
+}
