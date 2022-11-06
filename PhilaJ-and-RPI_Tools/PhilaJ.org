@@ -205,11 +205,11 @@ directory is normally named "=macros/toolsets/=", and may be found inside the Fi
 
 If ImageJ was running when you copied the file, then you need to quite and restart it.
 
-*** Specialized Perforation Gauges
+*** Specialized Perforation Gauges, ROIs, etc...
 
-You will also want to install some specialized perforation gauges.  Several gauges are shipped as part of the PhilaJ distribution in the
-"=imagej/PhilaJ-and-RPI_Tools/SpecializedGauges=" directory.  For instructions on how to install these gauges see: [[#custom-spec-gauge][=Install New
-Specialized Gauge=]].
+PhilaJ uses several "dot" files to customize and extended behavior.  In the distribution you will find a directory called "=dot-philaj=" which contains the
+set of customization files I use.  If you are just starting out, then you can start with these files.  Copy them into the [[#config-files][PhilaJ
+Configuration Directory]].
 
 *** Settings
 
@@ -265,10 +265,15 @@ In addition to the buttons, a few keyboard shortcuts will now be activated!
 
 | Key                   | Action                                                                        |
 |-----------------------+-------------------------------------------------------------------------------|
+| =[0]= (top row digit) | Locate and bring to the front a waiting ROI dialog                            |
 | =[1]= (top row digit) | [[#phil-rotate][=Rotate Line to Horizontal=]] -- Also clears the overlay      |
 | =[2]= (top row digit) | [[#phil-rotate][=Rotate 90 Degrees Right=]] -- Also clears the overlay        |
 | =[3]= (top row digit) | Zoom To Selection                                                             |
 | =[5]= (top row digit) | Zoom 100% @ Cursor or if already zoomed at 100%, then switch to original zoom |
+| =[6]= (top row digit) | Reserved                                                                      |
+| =[7]= (top row digit) | Reserved                                                                      |
+| =[8]= (top row digit) | Reserved                                                                      |
+| =[9]= (top row digit) | Reserved                                                                      |
 | =[o]= (lowercase)     | [[#load-save-magic][=Load image & ROI sidecar.  Attempt to set Scale.=]]      |
 | =[s]= (lowercase)     | [[#load-save-magic][=Save image & ROI sidecar=]]                              |
 | =[S]= (Uppercase)     | [[#load-save-magic][=SaveAs image & ROI sidecar=]]                            |
@@ -276,6 +281,7 @@ In addition to the buttons, a few keyboard shortcuts will now be activated!
 | =[g]= (lowercase)     | Restore/Toggle PhilaJ Overlay                                                 |
 | =[p]= (lowercase)     | Reserved                                                                      |
 | =[M]= (lowercase)     | [[#overlay-measure][=Overlay/ROI Measure=]]                                   |
+| =[W]= (Uppercase)     | [[#cleaning-up-windows-n-files][=Close Image, PhilaJ, & Related Windows=]]    |
 
 ** Tool-set Buttons
 :PROPERTIES:
@@ -593,7 +599,7 @@ New gauges are described via a CSV file -- which you can make with a text editor
 
 Here is an example of a custom gauge for the Bari Wolf issue (this file shipps with PhilaJ):
 
-#+INCLUDE: SpecializedGauges/Bari_Wolf_AMG.csv src text
+#+INCLUDE: "dot-philaj/perfs/Bari_Wolf_AMG.csv" src text
 
 The CSV files live in the "=perfs=" folder inside your PhilaJ configuration file directory.
 
@@ -1360,6 +1366,8 @@ PhilaJ is customized via various configuration files that are all located within
 
 The "=~=" means your home directory.  On my windows machine, that expands to "=C:\Users\richmit\.philaj\perfs=".  On Linux and a mac, that expands to
 "=/home/richmit/.philaj/perfs=".  Note the "=richmit=" part is my username.
+
+When you first install Philaj, you may need to create this directory!
 
 This directory can contain three things:
 
