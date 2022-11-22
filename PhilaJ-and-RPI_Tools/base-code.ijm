@@ -1,4 +1,4 @@
-///  -*- Mode:C++; Coding:us-ascii-unix; fill-column:158 -*-
+//  -*- Mode:C++; Coding:us-ascii-unix; fill-column:158 -*-
 /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///  @file      PhilaJ.ijm
 ///  @author    Mitch Richling https://www.mitchr.me
@@ -42,11 +42,11 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+var gbl_OLT_colHistCh  = newArray("L", "A", "B", "C", "H", "J", "H or J");                   // Option List: color channel for histogram
 var gbl_OLT_cropRules  = newArray("Rectangle",                                               // Option List: stampCrop built-in methods
                                   "Rectangle + 1mm margins");
 var gbl_OLT_sclNutTfm  = newArray("NONE",                                                    // Option List: Scale Preserving Transformations
                                   "Rotate 90 Degrees Right", "Rotate 90 Degrees Left");       
-
 var gbl_OLT_roiPfx     = newArray("pflaw", "fault");                                         // Option List: ROI types to look for
 var gbl_OLT_mmcRoiPfx  = newArray("mmc%T", "pflaw%T", "fault");                              // Option List: mm Coordinate Tool ROI Prefix 
 var gbl_OLT_mmcRoiCrd  = newArray("X & Y", "Just X", "Just Y", "No Coordinates");            // Option List: mm Coordinate Tool ROI Coordinates
@@ -67,8 +67,6 @@ var gbl_OLT_letters    = newArray("A", "B", "C", "D", "E", "F", "G", "H", "I",  
                                   "t", "u", "v", "w", "x", "y", "z");                        
 var gbl_OLT_fontMag    = newArray("25%", "50%", "75%", "100%", "150%", "200%", "300%");      // Option List: Font size magnfication
 
-var gbl_rpv_aSave      = false;                 // ROI Preview Image: Save the image immediatly
-var gbl_rpv_roiPfx     = gbl_OLT_roiPfx[0];     // ROI Preview Image: The types of ROIs to annotate
 var gbl_1ds_Dmm        = 25.4;                  // 1D Scale: Known distance in mm
 var gbl_1ds_Dpx        = 2400;                  // 1D Scale: Known distance in Pixels
 var gbl_2ds_gbl        = false;                 // 1D Scale: Set scale globally
@@ -85,8 +83,8 @@ var gbl_ALL_fMag       = "100%";                // Multi-Tool Option: Font size 
 var gbl_ALL_fillDots   = true;                  // Multi-Tool Option: Fill dots in gauges (specialized & dynamic)
 var gbl_ALL_font       = "";                    // Multi-Tool Option: The font used across all tools
 var gbl_ALL_lastPhOvr  = "";                    // Multi-Tool Option: Last PhilaJ Overlay drawn
-var gbl_ALL_lineWidth1  = "3";                   // Multi-Tool Option:
-var gbl_ALL_lineWidth2 = "15";                 // Multi-Tool Option: Line width -- used for bold lines
+var gbl_ALL_lineWidth1  = "3";                  // Multi-Tool Option:
+var gbl_ALL_lineWidth2 = "15";                  // Multi-Tool Option: Line width -- used for bold lines
 var gbl_ALL_numPerf    = "15";                  // Multi-Tool Option: Number of perf holes or lines on gauge overlays -- note it is a string
 var gbl_ALL_perfOrder  = false;                 // Multi-Tool Option: Ordering of perf sizes top to bottom
 var gbl_cer_minTal     = 25.0;                  // Coil Edge Report: minimum paper height -- coilEdgeReport
@@ -130,7 +128,7 @@ var gbl_mct_doHist     = true;                  // Color Measure: Draw the histo
 var gbl_mct_doStat     = true;                  // Color Measure: Do statstical summary
 var gbl_mct_hst360     = true;                  // Color Measure: Use full range
 var gbl_mct_hstClr     = true;                  // Color Measure: Use sample color for fill color
-var gbl_mct_hstVar     = "H";                   // Color Measure: The variable for the histogram
+var gbl_mct_hstVar     = "H or J";              // Color Measure: The variable for the histogram
 var gbl_mct_hstWid     = 1;                     // Color Measure: Width of histogram bins
 var gbl_mmc_boxGuides  = false;                 // Millimeter Coordinates Overlay: Draw guides from *box* ROI to axis
 var gbl_mmc_boxH       = 3;                     // Millimeter Coordinates Overlay: Width of selection box (in mm)
@@ -168,7 +166,10 @@ var gbl_pos_origX      = 0;                     // Position Finder Overlay: x co
 var gbl_pos_origY      = 0;                     // Position Finder Overlay: y coordinate of the upper left origin of grid in pixels
 var gbl_r2d_targDPI    = 2400;                  // Resize To DPI:
 var gbl_rho_angle      = 0;                     // Rotate to Horizontal: Angle to rotate
-var gbl_scr_rule       = gbl_OLT_cropRules[0];  // Stamp Crop: The rule to use
+var gbl_rpv_aSave      = false;                 // ROI Preview Image: Save the image immediatly
+var gbl_rpv_roiPfx     = gbl_OLT_roiPfx[0];     // ROI Preview Image: The types of ROIs to annotate
+var gbl_scr_rule       = "";                    // Stamp Crop: The rule to use (set to "" so first time it runs, it will query user)
+var gbl_scr_useSqr     = true;                  // Stamp Crop: Use rectangles for identifying upper left corner
 var gbl_sfp_hdpi       = 2410;                  // Scan processing: input Horz DPI
 var gbl_sfp_itfm       = "NONE";                // Scan processing: initial trasnform to apply to image before image resize
 var gbl_sfp_pdpi       = 300;                   // Scan processing: input preview DPI
@@ -197,6 +198,10 @@ var gbl_sus_cols       = 10;                    // Slice Up Sheet: Number of col
 var gbl_sus_rows       = 10;                    // Slice Up Sheet: Number of rows in the block -- used to seporate
 var gbl_sus_scols      = 10;                    // Slice Up Sheet: Number of columns full sheet -- used to number stamps
 var gbl_vid_pviewScl   = "4";                   // RPI Live Video Preview: Live RPI Video Scale (1/n)
+var gbl_bap_fRegx      = "";                    // Batch Apply: regex for files
+var gbl_bap_func       = "stampCrop";           // Batch Apply: function to run
+var gbl_bap_save       = true;                  // Batch Apply: Save processed files and create preview/thumbnail
+var gbl_bap_tTag       = "";                    // Batch Apply: Tag to use for new image title
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -5839,15 +5844,26 @@ function stampCrop(queryUser) {
     Dialog.create("PhilaJ: Stamp Crop");
     cropRuleNames = getCropMenuList();
     Dialog.addChoice("Crop Rule", cropRuleNames, gbl_scr_rule);
+    Dialog.addCheckbox("Use rectangle to identify design corner", gbl_scr_useSqr);
     Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#stamp-crop");
     Dialog.show();
-    gbl_scr_rule  = Dialog.getChoice();
+    gbl_scr_rule   = Dialog.getChoice();
+    gbl_scr_useSqr = Dialog.getCheckbox();
   }
   crCode = lookUpCropRule(gbl_scr_rule);
 
-  run("Select None");
+  clearSelection = true;
+  if (selectionType >= 0)
+    if (getBoolean("Use current selection for crop?"))
+      clearSelection = false;
+  
+  if(clearSelection)
+    run("Select None");
   if(startsWith(crCode, "margins+box,")) {
-    setTool(7);
+    if (gbl_scr_useSqr)
+      setTool(0);
+    else
+      setTool(7);
     waitForUserToMakeSelection("Identify upper left design corner", -1);
     Roi.getBounds(selX, selY, selWidth, selHeight);
   } else {
@@ -5855,6 +5871,11 @@ function stampCrop(queryUser) {
     waitForUserToMakeSelection("Identify an ROI for crop", -1);
     Roi.getBounds(selX, selY, selWidth, selHeight);
   }
+
+  tagForSave = Roi.getName;
+  tagForSave = replace(tagForSave, "[_-].*$", "");
+  if (tagForSave == "")
+    tagForSave = "ROICROP";
 
   if(crCode == "rectangle") {
     makeRectangle(selX, selY, selWidth, selHeight);
@@ -6130,7 +6151,7 @@ function measureColor(queryUser) {
 
   if (queryUser || (selectionType < 0)) {
     setTool(0);
-    waitForUserToMakeSelection("Select region to measure", -1);
+    roiManagerActivateOrCreate("color", "Identify Region To Measure", "Selection region to measure", true, roiNameToMultiPattern("color"));
   }
 
   Roi.getContainedPoints(xpoints, ypoints);
@@ -6138,12 +6159,12 @@ function measureColor(queryUser) {
 
   if (queryUser) {
     Dialog.create("PhilaJ: Measure Color");
-    Dialog.addNumber("Histogram bin width",                                   gbl_mct_hstWid, 1, 5, "Degrees");
-    Dialog.addChoice("Histogram variable", newArray("L", "A", "B", "C", "H"), gbl_mct_hstVar)
-    Dialog.addCheckbox("Use fixed x-range for histogram?",                    gbl_mct_hst360);
-    Dialog.addCheckbox("Use average sample to fill histogram?",               gbl_mct_hstClr);
-    Dialog.addCheckbox("Report Histogram?",                                   gbl_mct_doHist);
-    Dialog.addCheckbox("Report Statistics?",                                  gbl_mct_doStat);
+    Dialog.addNumber("Histogram bin width",                      gbl_mct_hstWid, 1, 5, "Degrees");
+    Dialog.addChoice("Histogram variable", gbl_OLT_colHistCh,    gbl_mct_hstVar);
+    Dialog.addCheckbox("Use fixed x-range for histogram?",       gbl_mct_hst360);
+    Dialog.addCheckbox("Use average sample to fill histogram?",  gbl_mct_hstClr);
+    Dialog.addCheckbox("Report Histogram?",                      gbl_mct_doHist);
+    Dialog.addCheckbox("Report Statistics?",                     gbl_mct_doStat);
     Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#measure-color");
     Dialog.show();
     gbl_mct_hstWid = Dialog.getNumber();
@@ -6167,6 +6188,7 @@ function measureColor(queryUser) {
   datB = newArray(xpoints.length);
   datC = newArray(xpoints.length);
   datH = newArray(xpoints.length);
+  datJ = newArray(xpoints.length);
 
   Rmean = 0;
   Gmean = 0;
@@ -6230,6 +6252,10 @@ function measureColor(queryUser) {
     datB[i] = lab_B;
     datC[i] = lch_C;
     datH[i] = lch_H;
+    if (lch_H >= 180)
+      datJ[i] = lch_H - 360;
+    else
+      datJ[i] = lch_H;
   }
 
   numSamp = xpoints.length;
@@ -6242,14 +6268,15 @@ function measureColor(queryUser) {
   Array.getStatistics(datB, minB, maxB, meanB, stdDevB);
   Array.getStatistics(datC, minC, maxC, meanC, stdDevC);
   Array.getStatistics(datH, minH, maxH, meanH, stdDevH);
+  Array.getStatistics(datJ, minJ, maxJ, meanJ, stdDevJ);
 
   if (gbl_mct_doStat) {
-    Component = newArray(    "L",     "A",     "B",     "C",     "H");
-    Min       = newArray(   minL,    minA,    minB,    minC,    minH);
-    Max       = newArray(   maxL,    maxA,    maxB,    maxC,    maxH);
-    Mean      = newArray(  meanL,   meanA,   meanB,   meanC,   meanH);
-    StdDev    = newArray(stdDevL, stdDevA, stdDevB, stdDevC, stdDevH);
-    NumSamp   = newArray(numSamp, numSamp, numSamp, numSamp, numSamp);
+    Component = newArray(    "L",     "A",     "B",     "C",     "H",     "J");
+    Min       = newArray(   minL,    minA,    minB,    minC,    minH,    minJ);
+    Max       = newArray(   maxL,    maxA,    maxB,    maxC,    maxH,    maxJ);
+    Mean      = newArray(  meanL,   meanA,   meanB,   meanC,   meanH,   meanJ);
+    StdDev    = newArray(stdDevL, stdDevA, stdDevB, stdDevC, stdDevH, stdDevJ);
+    NumSamp   = newArray(numSamp, numSamp, numSamp, numSamp, numSamp, numSamp);
 
     statRepTitle = "PhilaJ: Color Report: Statistics" + roiName;
     i=0;
@@ -6278,47 +6305,61 @@ function measureColor(queryUser) {
       bgColor = "white";
     } 
 
-    if      (gbl_mct_hstVar == "L")
+    histVarToUse = gbl_mct_hstVar;
+    if (gbl_mct_hstVar == "H or J") {
+      if (stdDevH > stdDevJ)
+        histVarToUse = "J";
+      else
+        histVarToUse = "H";
+    }
+
+    if      (histVarToUse == "L")
       Plot.create("PhilaJ: Color Report: Lightness Histogram"   + roiName, "L", "Count");
-    else if (gbl_mct_hstVar == "A")
+    else if (histVarToUse == "A")
       Plot.create("PhilaJ: Color Report: Green-Red Histogram"   + roiName, "A", "Count");
-    else if (gbl_mct_hstVar == "B")
+    else if (histVarToUse == "B")
       Plot.create("PhilaJ: Color Report: Blue-Yellow Histogram" + roiName, "B", "Count");
-    else if (gbl_mct_hstVar == "C")
+    else if (histVarToUse == "C")
       Plot.create("PhilaJ: Color Report: Chroma Histogram"      + roiName, "C", "Count");
-    else if (gbl_mct_hstVar == "H")
+    else if (histVarToUse == "H")
       Plot.create("PhilaJ: Color Report: Hue Histogram"         + roiName, "H", "Count");
+    else if (histVarToUse == "J")
+      Plot.create("PhilaJ: Color Report: Jue Histogram"         + roiName, "J", "Count");
 
     Plot.setBackgroundColor(bgColor);
     Plot.setColor(lnColor, fillColor);
 
-    if      (gbl_mct_hstVar == "L")
+    if      (histVarToUse == "L")
       Plot.addHistogram(datL, gbl_mct_hstWid, 0);
-    else if (gbl_mct_hstVar == "A")
+    else if (histVarToUse == "A")
       Plot.addHistogram(datA, gbl_mct_hstWid, 0);
-    else if (gbl_mct_hstVar == "B")
+    else if (histVarToUse == "B")
       Plot.addHistogram(datB, gbl_mct_hstWid, 0);
-    else if (gbl_mct_hstVar == "C")
+    else if (histVarToUse == "C")
       Plot.addHistogram(datC, gbl_mct_hstWid, 0);
-    else if (gbl_mct_hstVar == "H")
+    else if (histVarToUse == "H")
       Plot.addHistogram(datH, gbl_mct_hstWid, 0);
+    else if (histVarToUse == "J")
+      Plot.addHistogram(datJ, gbl_mct_hstWid, 0);
 
     if (gbl_mct_hst360) {
-      if      (gbl_mct_hstVar == "L")
+      if      (histVarToUse == "L")
         Plot.setLimits(0, 100, NaN, NaN);
-      else if (gbl_mct_hstVar == "A")
+      else if (histVarToUse == "A")
         Plot.setLimits(-128, 128, NaN, NaN);
-      else if (gbl_mct_hstVar == "B")
+      else if (histVarToUse == "B")
         Plot.setLimits(-128, 128, NaN, NaN);
-      else if (gbl_mct_hstVar == "C")
+      else if (histVarToUse == "C")
         Plot.setLimits(0, 200, NaN, NaN);
-      else if (gbl_mct_hstVar == "H")
+      else if (histVarToUse == "H")
         Plot.setLimits(0, 360, NaN, NaN);
+      else if (histVarToUse == "J")
+        Plot.setLimits(-180, 180, NaN, NaN);
     }
     Plot.show()
   }
 
-  results = newArray(meanL, meanA, meanB, meanC, meanH, stdDevL, stdDevA, stdDevB, stdDevC, stdDevH, numSamp);
+  results = newArray(meanL, meanA, meanB, meanC, meanH, meanJ, stdDevL, stdDevA, stdDevB, stdDevC, stdDevH, stdDevJ, numSamp);
   return results;
 }
 
@@ -6328,12 +6369,17 @@ function compareColors() {
   c1 = measureColor(true);
   selectImage(IID);
   run("Select None");
+  colorROIs =  roiManagerMatchingNames("color.*");
+  if (colorROIs.length <= 1) {
+    setTool(0);
+    waitForUserToMakeSelection("Identify an ROI to measure", -1);
+  }
   c2 = measureColor(false);
 
-  Component    = newArray(                    "L",                    "A",                     "B",                     "C",                     "H");
-  Mean_Delta   = newArray(  Math.abs(c1[0]-c2[0]),  Math.abs(c1[1]-c2[1]),   Math.abs(c1[2]-c2[2]),   Math.abs(c1[3]-c2[3]),   Math.abs(c1[4]-c2[4]));
-  StdDev_Bound = newArray(  Math.min(c1[5],c2[5]),  Math.min(c1[6],c2[6]),   Math.min(c1[7],c2[7]),   Math.min(c1[8],c2[8]),   Math.min(c1[9],c2[9]));
-  Close   = newArray(5);
+  Component    = newArray(                    "L",                    "A",                     "B",                     "C",                     "H",                       "J");
+  Mean_Delta   = newArray(  Math.abs(c1[0]-c2[0]),  Math.abs(c1[1]-c2[1]),   Math.abs(c1[2]-c2[2]),   Math.abs(c1[3]-c2[3]),   Math.abs(c1[4]-c2[4]  ), Math.abs(c1[5]-c2[5])  );
+  StdDev_Bound = newArray(  Math.min(c1[6],c2[6]),  Math.min(c1[7],c2[7]),   Math.min(c1[8],c2[8]),   Math.min(c1[9],c2[9]),   Math.min(c1[10],c2[10]), Math.min(c1[11],c2[11]));
+  Close   = newArray(6);
   for(i=0; i<Close.length; i++)
     if (Mean_Delta[i] > StdDev_Bound[i]/2)
       Close[i] = "Not Close";
@@ -6352,3 +6398,87 @@ function switchToSelectionWaitDialog() {
 	if (startsWith(windows[i], "PhilaJ: Waiting For Selection"))
       selectWindow(windows[i]);
 }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function batchFunctionApply() {
+  if (gbl_ALL_debug)
+    print("DEBUG(batchFunctionApply): Function Entry");
+
+  Dialog.create("PhilaJ: Batch Apply");
+  Dialog.addString("File Regex:",                      gbl_bap_fRegx);
+  Dialog.addString("Title Tag:",                       gbl_bap_tTag);
+  Dialog.addChoice("Function:", newArray("stampCrop", "dynamicPerfMeasureAllROIs"), gbl_bap_func);
+  Dialog.addCheckbox("SaveAS + Preview & Thumbnail?",  gbl_bap_save);
+  //Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#batch-apply");
+  Dialog.show();
+  gbl_bap_fRegx = Dialog.getString();
+  gbl_bap_tTag  = Dialog.getString();
+  gbl_bap_func  = Dialog.getChoice();
+  gbl_bap_save  = Dialog.getCheckbox();
+
+  if (gbl_bap_tTag == "")
+    gbl_bap_tTag = "BATCH";
+  
+  dirToProc = getDirectory("Select a Directory");
+  filesToProc = getFileList(dirToProc);
+  if (filesToProc.length > 0) {
+    if (gbl_bap_fRegx != "")
+      filesToProc = Array.filter(filesToProc, "(" + gbl_bap_fRegx + ")");
+    if (filesToProc.length > 0) {
+      for(i=0; i<filesToProc.length; i++) {
+        currentFile = pathJoin(newArray(dirToProc, filesToProc[i]));
+        open(currentFile);
+        if (gbl_bap_save) {
+          // All the following is just to get a nice image name
+          imageTitleString = getInfo("image.title");
+          splitIdx = replace(imageTitleString, "_[0-9.]+dpi.*$", "");
+          splitIdx = splitIdx.length; // See if we have a DPI string
+          if (splitIdx != imageTitleString.length) {
+            tmpLeft = substring(imageTitleString, 0, splitIdx);
+            tmpRight = substring(imageTitleString, splitIdx);
+            imageTitleString = tmpLeft + "-" + gbl_bap_tTag + tmpRight;
+          } else {
+            splitIdx = lastIndexOf(imageTitleString, ".");
+            if (splitIdx > 0) {
+              tmpLeft = substring(imageTitleString, 0, splitIdx);
+              tmpRight = substring(imageTitleString, splitIdx);
+              imageTitleString = tmpLeft + "-" + gbl_bap_tTag + tmpRight;
+            }
+          }
+          rename(imageTitleString);
+        }
+        IID = getImageID();
+
+        roiManagerSidecarLoad("", "");
+        checkImageScalePhil(false, false);
+        if     (gbl_bap_func == "stampCrop") 
+          stampCrop(false);
+        else if(gbl_bap_func == "dynamicPerfMeasureAllROIs") 
+          dynamicPerfMeasureAllROIs();
+        else
+          exit("ERROR(batchFunctionApply): Internal error");
+
+        selectImage(IID);
+        if (gbl_bap_save) {
+          saveAs("PNG");
+          if (i == 0)
+            makePreviewAndThumbnailImage(true);
+          else
+            makePreviewAndThumbnailImage(false);
+        }
+        selectImage(IID);
+        close();
+        //closeAllPhilaJWindows(true, true);
+        closeAllPhilaJWindows(false, false);
+      }
+    }
+  }
+  showMessage("PhilaJ: batchFunctionApply", "Complete");
+}
+
+
+// bwIDsheet002p[0-9][0-9][0-9]-1_2398dpi.png
+//bwIDsgl[0-9][0-9][0-9]-1_2398dpi.png
+
+compareColors();

@@ -1210,13 +1210,17 @@ The [[#phil-data][=Grill Table=]] menu item will display a table of US grill cha
 
 The [[#measure-color][=Measure Color=]] menu option is used to produce a report regarding the colors of the currently selected pixels.  The traditional
 Red/Blue/Green scheme of describing digital colors is *not* used by PhilaJ.  Instead the [[https://en.wikipedia.org/wiki/CIELAB_color_space][CIELAB color
-space]] is used for all PhilaJ color computations and reporting.  With CIELAB colors are described via three quantize: $L$, $A$, & $B$.  In addition, two
-useful quantities may be computed from these: $C$ & $H$.  The most important quantity is $H$, known as the Hue angle, as it is a good, single number
-representing the "shade" of a color.  I have been pretty successful using this number to identify some difficult stamp shade varieties.  
+space]] is used for all PhilaJ color computations and reporting.  With CIELAB colors are described via three quantities: $L$, $A$, & $B$.  In addition, two
+useful quantities may be computed from these: $C$ & $H$.  The most important quantity is $H$, known as the /Hue Angle/, as it is a good, single number
+representing the "shade" of a color.  This is an /angle/ measured in degrees and always in the range $0$ to $360$.  I have been pretty successful using this
+number to identify some difficult stamp shade varieties.  PhilaJ also reports another angle, $J$, which I call "Jue" -- in Spanish the "J" is frequently
+pronounced as an "H". $J$ is simply $H$ centered at zero and ranging from $-180$ to $180$ -- logically it is equal to $H$; however, it is useful when
+measuring colors with a hue angle distribution that covers a range around zero.
 
 When activated, [[#measure-color][=Measure Color=]] menu option can produce reports in two windows:
   - A statistical summary of the colors (max, min, mean, and standard deviation for all five variables: $L$, $A$, $B$, $C$ & $H$)
-  - A histogram of the $H$ channel.  
+  - A histogram of the one of the channels.  By default the option is "=H or J=" which will pick the channel with the lowest standard deviation -- this is an
+    attempt to pick the "best" option between $H$ or $J$ that will deliver a nice Histogram.
 
 The report windows will include the name of the ROI measured!
 
