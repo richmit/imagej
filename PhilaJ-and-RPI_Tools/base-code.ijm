@@ -42,6 +42,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+var gbl_OLT_batFun     = newArray("stampCrop", "measureROIs");                               // Option List: Batch Functions
 var gbl_OLT_colHistCh  = newArray("L", "A", "B", "C", "H", "J", "H or J");                   // Option List: color channel for histogram
 var gbl_OLT_cropRules  = newArray("Rectangle",                                               // Option List: stampCrop built-in methods
                                   "Rectangle + 1mm margins");
@@ -87,6 +88,11 @@ var gbl_ALL_lineWidth1  = "3";                  // Multi-Tool Option:
 var gbl_ALL_lineWidth2 = "15";                  // Multi-Tool Option: Line width -- used for bold lines
 var gbl_ALL_numPerf    = "15";                  // Multi-Tool Option: Number of perf holes or lines on gauge overlays -- note it is a string
 var gbl_ALL_perfOrder  = false;                 // Multi-Tool Option: Ordering of perf sizes top to bottom
+var gbl_bap_fRegx      = "";                    // Batch Apply: regex for files
+var gbl_bap_func       = "stampCrop";           // Batch Apply: function to run
+var gbl_bap_save       = false;                 // Batch Apply: Save processed files and create preview/thumbnail
+var gbl_bap_tTag       = "";                    // Batch Apply: Tag to use for new image title
+var gbl_bmr_roiRex     = "design";              // Batch ROI Measure: ROI Regex
 var gbl_cer_minTal     = 25.0;                  // Coil Edge Report: minimum paper height -- coilEdgeReport
 var gbl_cer_minWid     = 22.5;                  // Coil Edge Report: minimum paper width -- coilEdgeReport
 var gbl_cer_nParThr    =  0.5;                  // Coil Edge Report: Near Parallel Threshold -- coilEdgeReport
@@ -198,10 +204,6 @@ var gbl_sus_cols       = 10;                    // Slice Up Sheet: Number of col
 var gbl_sus_rows       = 10;                    // Slice Up Sheet: Number of rows in the block -- used to seporate
 var gbl_sus_scols      = 10;                    // Slice Up Sheet: Number of columns full sheet -- used to number stamps
 var gbl_vid_pviewScl   = "4";                   // RPI Live Video Preview: Live RPI Video Scale (1/n)
-var gbl_bap_fRegx      = "";                    // Batch Apply: regex for files
-var gbl_bap_func       = "stampCrop";           // Batch Apply: function to run
-var gbl_bap_save       = true;                  // Batch Apply: Save processed files and create preview/thumbnail
-var gbl_bap_tTag       = "";                    // Batch Apply: Tag to use for new image title
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -6399,16 +6401,16 @@ function switchToSelectionWaitDialog() {
       selectWindow(windows[i]);
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function batchFunctionApply() {
   if (gbl_ALL_debug)
     print("DEBUG(batchFunctionApply): Function Entry");
 
   Dialog.create("PhilaJ: Batch Apply");
-  Dialog.addString("File Regex:",                      gbl_bap_fRegx);
-  Dialog.addString("Title Tag:",                       gbl_bap_tTag);
-  Dialog.addChoice("Function:", newArray("stampCrop", "dynamicPerfMeasureAllROIs"), gbl_bap_func);
+  Dialog.addString("File Regex:",               gbl_bap_fRegx);
+  Dialog.addString("Title Tag:",                gbl_bap_tTag);
+  Dialog.addChoice("Function:", gbl_OLT_batFun, gbl_bap_func);
+
   Dialog.addCheckbox("SaveAS + Preview & Thumbnail?",  gbl_bap_save);
   //Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#batch-apply");
   Dialog.show();
@@ -6452,10 +6454,14 @@ function batchFunctionApply() {
 
         roiManagerSidecarLoad("", "");
         checkImageScalePhil(false, false);
+        callArg = false;
+        if (i == 0)
+        callArg = true;
+                   
         if     (gbl_bap_func == "stampCrop") 
-          stampCrop(false);
-        else if(gbl_bap_func == "dynamicPerfMeasureAllROIs") 
-          dynamicPerfMeasureAllROIs();
+          stampCrop(callArg);
+        else if(gbl_bap_func == "measureROIs") 
+          measureROIs(callArg);
         else
           exit("ERROR(batchFunctionApply): Internal error");
 
@@ -6477,8 +6483,21 @@ function batchFunctionApply() {
   showMessage("PhilaJ: batchFunctionApply", "Complete");
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Measure ROIs in ROI Manager that match a regex.  Usefull for batchFunctionApply
+function measureROIs(queryUser) {
+  if (gbl_ALL_debug)
+    print("DEBUG(measureROIs): Function Entry: ", measureROIs);
+  exitIfNoImages("measureROIs");
+  
+  if (queryUser) {
+    Dialog.create("PhilaJ: Batch Measure ROIs");
+    Dialog.addString("ROI Regex:", gbl_bmr_roiRex);
+    Dialog.show();
+    gbl_bmr_roiRex = Dialog.getString();
+  }
 
-// bwIDsheet002p[0-9][0-9][0-9]-1_2398dpi.png
-//bwIDsgl[0-9][0-9][0-9]-1_2398dpi.png
-
-compareColors();
+  roiManagerSelectAllROIs(gbl_bmr_roiRex);
+  if (RoiManager.selected > 0)
+    roiManager("measure");
+}

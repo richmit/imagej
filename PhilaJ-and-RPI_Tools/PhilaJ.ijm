@@ -6359,7 +6359,7 @@ function measureColor(queryUser) {
     Plot.show()
   }
 
-  results = newArray(meanL, meanA, meanB, meanC, meanH, stdDevL, stdDevA, stdDevB, stdDevC, stdDevH, numSamp);
+  results = newArray(meanL, meanA, meanB, meanC, meanH, meanJ, stdDevL, stdDevA, stdDevB, stdDevC, stdDevH, stdDevJ, numSamp);
   return results;
 }
 
@@ -6376,10 +6376,10 @@ function compareColors() {
   }
   c2 = measureColor(false);
 
-  Component    = newArray(                    "L",                    "A",                     "B",                     "C",                     "H");
-  Mean_Delta   = newArray(  Math.abs(c1[0]-c2[0]),  Math.abs(c1[1]-c2[1]),   Math.abs(c1[2]-c2[2]),   Math.abs(c1[3]-c2[3]),   Math.abs(c1[4]-c2[4]));
-  StdDev_Bound = newArray(  Math.min(c1[5],c2[5]),  Math.min(c1[6],c2[6]),   Math.min(c1[7],c2[7]),   Math.min(c1[8],c2[8]),   Math.min(c1[9],c2[9]));
-  Close   = newArray(5);
+  Component    = newArray(                    "L",                    "A",                     "B",                     "C",                     "H",                       "J");
+  Mean_Delta   = newArray(  Math.abs(c1[0]-c2[0]),  Math.abs(c1[1]-c2[1]),   Math.abs(c1[2]-c2[2]),   Math.abs(c1[3]-c2[3]),   Math.abs(c1[4]-c2[4]  ), Math.abs(c1[5]-c2[5])  );
+  StdDev_Bound = newArray(  Math.min(c1[6],c2[6]),  Math.min(c1[7],c2[7]),   Math.min(c1[8],c2[8]),   Math.min(c1[9],c2[9]),   Math.min(c1[10],c2[10]), Math.min(c1[11],c2[11]));
+  Close   = newArray(6);
   for(i=0; i<Close.length; i++)
     if (Mean_Delta[i] > StdDev_Bound[i]/2)
       Close[i] = "Not Close";
@@ -6408,7 +6408,7 @@ function batchFunctionApply() {
   Dialog.create("PhilaJ: Batch Apply");
   Dialog.addString("File Regex:",                      gbl_bap_fRegx);
   Dialog.addString("Title Tag:",                       gbl_bap_tTag);
-  Dialog.addChoice("Function:", newArray("stampCrop", "dynamicPerfMeasureAllROIs"), gbl_bap_func);
+  Dialog.addChoice("Function:", newArray("stampCrop", "measureROIs"), gbl_bap_func);
   Dialog.addCheckbox("SaveAS + Preview & Thumbnail?",  gbl_bap_save);
   //Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#batch-apply");
   Dialog.show();
@@ -6452,10 +6452,14 @@ function batchFunctionApply() {
 
         roiManagerSidecarLoad("", "");
         checkImageScalePhil(false, false);
+        callArg = false;
+        if (i == 0)
+        callArg = true;
+                   
         if     (gbl_bap_func == "stampCrop") 
-          stampCrop(false);
-        else if(gbl_bap_func == "dynamicPerfMeasureAllROIs") 
-          dynamicPerfMeasureAllROIs();
+          stampCrop(callArg);
+        else if(gbl_bap_func == "measureROIs") 
+          measureROIs(callArg);
         else
           exit("ERROR(batchFunctionApply): Internal error");
 
@@ -6480,6 +6484,30 @@ function batchFunctionApply() {
 
 // bwIDsheet002p[0-9][0-9][0-9]-1_2398dpi.png
 //bwIDsgl[0-9][0-9][0-9]-1_2398dpi.png
+
+//compareColors();
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function measureROIs(queryUser) {
+  if (gbl_ALL_debug)
+    print("DEBUG(measureROIs): Function Entry: ", measureROIs);
+  exitIfNoImages("measureROIs");
+  
+  if (queryUser) {
+    Dialog.create("PhilaJ: Batch Measure ROIs");
+    Dialog.addString("ROI Regex:", gbl_bmr_roiRex);
+    Dialog.show();
+    gbl_bmr_roiRex = Dialog.getString();
+  }
+
+  roiManagerSelectAllROIs(gbl_bmr_roiRex);
+  if (RoiManager.selected > 0)
+    roiManager("measure");
+}
+
+// gbl_bap_fRegx = "bwIDsgl[0-9][0-9][0-9]-1_2398dpi.png";
+// gbl_bap_save = false;
+// batchFunctionApply();
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
