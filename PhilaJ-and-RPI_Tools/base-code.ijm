@@ -5753,8 +5753,10 @@ function makePreviewAndThumbnailImage(queryUser) {
       imageFQPath = imageFQPath + "_0dpi.png";
     }
   }
-  if (queryUser)
+  if (queryUser) {
+    run("Select None");  // so we duplicate the entire image
     run("Duplicate...", "title=" + imageFileName);
+  }
   IID = getImageID();
 
   preDpiString = "_" + gbl_sfp_pdpi + "dpi";
@@ -6487,7 +6489,7 @@ function batchFunctionApply() {
 // Measure ROIs in ROI Manager that match a regex.  Usefull for batchFunctionApply
 function measureROIs(queryUser) {
   if (gbl_ALL_debug)
-    print("DEBUG(measureROIs): Function Entry: ", measureROIs);
+    print("DEBUG(measureROIs): Function Entry: ", queryUser);
   exitIfNoImages("measureROIs");
   
   if (queryUser) {
@@ -6501,3 +6503,92 @@ function measureROIs(queryUser) {
   if (RoiManager.selected > 0)
     roiManager("measure");
 }
+
+// TODO: make batch version of the following:
+//  - makePreviewAndThumbnailImage
+//  - make thumbnail & preview
+//  - make stamp ROI
+//  - measure all perf ROIs
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Draw an overlay with the Bari Wolf Issue Horizontal Hex Watermark
+function drawWMarkBariWolfHHex(queryUser) {
+  if (gbl_ALL_debug)
+    print("DEBUG(drawWMarkBariWolfHHex): Function Entry: ", queryUser);
+  exitIfNoImages("drawWMarkBariWolfHHex");
+  checkImageScalePhil(false, true);
+
+  if (queryUser) {
+    Dialog.create("PhilaJ: Bari Wolf Horizontal Hex Watermark Overlay");
+    Dialog.addChoice("color1:", gbl_OLT_colors,          gbl_ALL_color1);
+    Dialog.addChoice("Line Width 1:", gbl_OLT_lineWidth, gbl_ALL_lineWidth1);
+    //Dialog.addHelp("https://richmit.github.io/imagej/PhilaJ.html#make-roianno-preview");
+    Dialog.show();
+
+    gbl_ALL_color1     = Dialog.getChoice();
+    gbl_ALL_lineWidth2 = Dialog.getChoice();
+  }
+
+  lineWidth = parseInt(gbl_ALL_lineWidth2); 
+
+  //      0     5
+  //   1           4
+  //      2     3
+  xpoints    = newArray(2.201, 0.000, 2.201, 6.054, 8.255, 6.054);
+  ypoints    = newArray(0.000, 2.667, 5.292, 5.292, 2.667, 0.000);
+  xpointsTmp = newArray(xpoints.length);
+  ypointsTmp = newArray(ypoints.length);
+
+  for(i=0; i<xpoints.length; i++) {
+    xpoints[i] = 1.09  * xpoints[i];
+    ypoints[i] = 1.025 * ypoints[i];
+  }
+
+  for(i=0; i<xpoints.length; i++)
+    toUnscaled(xpoints[i], ypoints[i]);
+
+  hexOX1 = xpoints[5] - xpoints[1];
+  hexOY1 = ypoints[2] - ypoints[0];
+  hexOX2 = xpoints[5] - xpoints[1];
+  hexOY2 = ypoints[1] - ypoints[0];
+
+  Overlay.remove();
+  numHex = 15;
+  for(xi=0; xi<numHex; xi++) {
+    for(i=0; i<xpoints.length; i++)
+      xpointsTmp[i] = xpoints[i] + xi*hexOX1*2;
+    for(yi=0; yi<numHex; yi++) {
+      for(i=0; i<ypoints.length; i++)
+        ypointsTmp[i] = ypoints[i] + yi*hexOY1;
+      makeSelection("polygon", xpointsTmp, ypointsTmp);
+      Overlay.addSelection(gbl_ALL_color1, lineWidth);
+    }
+    for(i=0; i<xpoints.length; i++)
+      xpointsTmp[i] = xpoints[i] + xi*hexOX1*2 + hexOX2;
+    for(yi=0; yi<numHex; yi++) {
+      for(i=0; i<xpoints.length; i++)
+        ypointsTmp[i] = ypoints[i] + yi*hexOY1 + hexOY2;
+      makeSelection("polygon", xpointsTmp, ypointsTmp);
+      Overlay.addSelection(gbl_ALL_color1, lineWidth);
+    }
+  }
+}
+
+// xpoints = newArray( 460.000,  408.000,  460.000,  551.000,  603.000,  551.000);
+// ypoints = newArray(1352.000, 1415.000, 1477.000, 1477.000, 1415.000, 1352.000);
+//
+// makeSelection("polygon", xpoints, ypoints);
+//
+// for(i=0; i<xpoints.length; i++)
+//   toScaled(xpoints[i], ypoints[i]);
+//
+//   xdelta = xpoints[1];
+//   ydelta = ypoints[0];
+// for(i=0; i<xpoints.length; i++) {
+//   xpoints[i] = xpoints[i] - xdelta;
+//   ypoints[i] = ypoints[i] - ydelta;
+// }
+//
+// Array.show(xpoints, ypoints)
+
+drawWMarkBariWolfHHex(true);
